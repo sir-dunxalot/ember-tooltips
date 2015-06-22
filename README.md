@@ -1,5 +1,7 @@
 # Ember-tooltips
 
+https://github.com/darsain/tooltip
+
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation

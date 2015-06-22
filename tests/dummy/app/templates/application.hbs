@@ -1,3 +1,127 @@
 <h2 id="title">Welcome to Ember.js</h2>
 
-{{outlet}}
+{{!-- {{outlet}} --}}
+
+<ul class="examples">
+
+  <li>
+    {{test-component
+      tooltipContent='This is a tooltip'
+      data-test='default'
+    }}
+  </li>
+
+  <li>
+    {{#test-component
+      tooltipClass='error'
+      tooltipContent='This is a tooltip'
+      data-test='error'
+    }}
+      Custom 'tooltip-error' class
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{test-component
+      tooltipContent='This is a tooltip'
+      tooltipPlace='top-right'
+      data-test='top-right'
+    }}
+  </li>
+
+  <li>
+    {{test-component
+      tooltipContent='This is a tooltip'
+      tooltipPlace='bottom'
+      data-test='bottom'
+    }}
+  </li>
+
+
+  <li>
+    {{test-component
+      tooltipContent='This is a tooltip'
+      tooltipPlace='left'
+      data-test='left'
+    }}
+  </li>
+
+  <li>
+    {{#test-component
+      tooltipContent='Slide in'
+      tooltipEffect='slide'
+      data-test='slide'
+    }}
+      Slide in
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#test-component
+      tooltipContent='Fade in'
+      tooltipEffect='fade'
+      data-test='fade'
+    }}
+      Fade in
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#test-component
+      tooltipContent='Grow in'
+      tooltipEffect='grow'
+      data-test='grow'
+    }}
+      Grow in
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#test-component
+      tooltipContent='No effect'
+      tooltipEffect=null
+      data-test='no-effect'
+    }}
+      No effect
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#link-to 'index'
+      tooltipContent='Showing on link to'
+      class='inline-block'
+      data-test='on-link-to'
+    }}
+      On link to
+    {{/link-to}}
+  </li>
+
+  <li>
+    {{#link-to 'index'
+      tooltipContent='Showing on link to to the right'
+      tooltipPlace='right'
+      class='inline-block'
+      data-test='on-link-to-right'
+    }}
+      On link to
+    {{/link-to}}
+  </li>
+
+  <li>
+    {{#link-to 'index'
+      tooltipContent='<span><i>This</i> <strong>is</strong> HTML</span>'
+      class='inline-block'
+      data-test='using-html'
+    }}
+      Using HTML
+    {{/link-to}}
+  </li>
+
+  <li>
+    {{view 'test-view'
+      tooltipContent='On generic view'
+      data-test='on-view'
+    }}
+  </li>
+
+</ul>
