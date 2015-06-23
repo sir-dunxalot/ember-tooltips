@@ -3,8 +3,10 @@ import { module, test } from 'qunit';
 
 module('Unit | Utility | render tooltip');
 
-// Replace this with your real tests.
-test('it works', function(assert) {
-  var result = renderTooltip();
-  assert.ok(result);
+test('It returns a Tooltip object', function(assert) {
+  const result = renderTooltip(document.createElement('div'));
+
+  assert.equal(result.constructor, window.Tooltip,
+    'The util should return the tooltip object created by new Tooltip');
+
 });

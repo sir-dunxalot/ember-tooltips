@@ -11,10 +11,12 @@ import Ember from 'ember';
 
 const Tooltip = window.Tooltip;
 
-export default function renderTooltip(domElement, options = {}) {
+export default function renderTooltip(domElement = {}, options = {}) {
   const typeClass = options.typeClass;
 
   let tooltip;
+
+  Ember.assert('You must pass a DOM element as the first argument to the renderTooltip util', !!domElement.tagName);
 
   if (typeClass) {
     options.typeClass = 'tooltip-' + typeClass;
