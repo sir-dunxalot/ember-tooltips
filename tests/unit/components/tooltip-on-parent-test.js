@@ -1,19 +1,36 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 
+let component;
+
 moduleForComponent('tooltip-on-parent', 'Unit | Component | tooltip on parent', {
-  // Specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar'],
-  unit: true
+  unit: true,
+
+  setup() {
+    component = this.subject();
+  },
 });
 
-test('it renders', function(assert) {
-  assert.expect(2);
+test('The component registers itself', function(assert) {
+  const parentView = Ember.View.create({
+    renderTooltip() {
+      assert.ok(true,
+        'The renderTooltip() method should be called on the parent view after render');
+    }
+  });
 
-  // Creates the component instance
-  var component = this.subject();
-  assert.equal(component._state, 'preRender');
+  assert.expect(4);
 
-  // Renders the component to the page
+  component.set('parentView', parentView);
+
+  assert.equal(component._state, 'preRender',
+    'Should create the component instance');
+
+  assert.ok(!!component.registerOnParent,
+    'The component should have a public registerOnParent method');
+
   this.render();
+
   assert.equal(component._state, 'inDOM');
+
 });
