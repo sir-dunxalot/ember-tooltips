@@ -1,3 +1,12 @@
+/**
+A utility to attach a tooltip to a DOM element.
+
+@submodule utils
+@method renderTooltip
+@param {Element} domElement The DOM element, not jQuery element, to attach the tooltip to
+@param {Object} options The tooltip options to render the tooltip with. For supported options, see the tooltipSupportedProperties array in the views initializer
+*/
+
 import Ember from 'ember';
 
 const Tooltip = window.Tooltip;

@@ -61,6 +61,9 @@ export function initialize(/* container, application */) {
     made publically available. In the above examples, the components handle calling
     this `renderTooltip()` method at the correct time.
 
+    Supported options are in the format tooltip{$capitalizedProperty} where
+    capitalizedProperty is each property, capitalized, in tooltipSupportedProperties.
+
     @method renderTooltip
     @param [maybeTooltipComponent] An optionally-passed component for a `{{tooltip-on-parent}}` class
     */
@@ -119,6 +122,10 @@ export function initialize(/* container, application */) {
 
     });
     ```
+
+    Supported options are in the format data-tooltip-{$dasherizedProperty} where
+    dasherizedProperty is each property, dasherized, in tooltipSupportedProperties.
+
 
     @method renderChildTooltips
     */
