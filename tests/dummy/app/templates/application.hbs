@@ -5,6 +5,18 @@
 <ul class="examples">
 
   <li>
+    {{#test-component
+      data-test='registering'
+      name='Dave'
+    }}
+      {{#tooltip-on-parent}}
+        It works, {{name}}!
+      {{/tooltip-on-parent}}
+      Rendered with component
+    {{/test-component}}
+  </li>
+
+  <li>
     {{test-component
       tooltipContent='This is a tooltip'
       data-test='default'

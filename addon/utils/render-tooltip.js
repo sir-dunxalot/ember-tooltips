@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 const Tooltip = window.Tooltip;
 
 export default function renderTooltip(domElement, options = {}) {

@@ -12,5 +12,6 @@ module.exports = {
     app.import('vendor/tooltip/tooltip.js');
     app.import('vendor/tooltip/tooltip.css');
     app.import('vendor/tooltip/tooltip-custom.css');
+
   }
 };
