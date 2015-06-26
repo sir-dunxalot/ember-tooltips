@@ -15,9 +15,23 @@ module('Acceptance | tooltip as component', {
 });
 
 test('Rendering tooltips set using {{tooltip-on-parent}}', function(assert) {
-  visit('/');
+  visit('/tooltip-as-component');
 
-  andThen(function() {
-    assert.ok(true);
+  assert.expect(18);
+
+  assertTooltipProperties(assert, 'in-component-and-block', {
+    content: 'Using a component in the template',
+    usingComponent: true,
   });
+
+  assertTooltipProperties(assert, 'in-component-and-block-htmlbars', {
+    content: '<a class="ember-view" href="/">Using HTMLBars</a>',
+    usingComponent: true,
+  });
+
+  assertTooltipProperties(assert, 'in-component-and-inline', {
+    content: 'Using a component in the template',
+    usingComponent: true,
+  });
+
 });

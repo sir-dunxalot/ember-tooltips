@@ -1,0 +1,32 @@
+<h2>Tooltip as Component</h2>
+
+<ul class="examples">
+
+  <li>
+    {{#test-component data-test='in-component-and-block'}}
+      {{#tooltip-on-parent}}
+        Using a component in the template
+      {{/tooltip-on-parent}}
+      Hover over me
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#test-component data-test='in-component-and-block-htmlbars'}}
+      {{#tooltip-on-parent}}
+        {{#link-to 'index'}}Using HTMLBars{{/link-to}}
+      {{/tooltip-on-parent}}
+      Hover over me
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#test-component data-test='in-component-and-inline'}}
+      {{tooltip-on-parent
+        content='Using a component in the template'
+      }}
+      Hover over me
+    {{/test-component}}
+  </li>
+
+</ul>

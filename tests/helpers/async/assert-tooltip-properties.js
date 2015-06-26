@@ -1,5 +1,16 @@
 import Ember from 'ember';
 
+function cleanWhitespace(jQueryElement) {
+  jQueryElement.contents().filter(function() {
+    this.innerHTML = $.trim(this.innerText);
+
+    return (this.nodeType == 3 && !/\S/.test(this.nodeValue));
+  }).remove();
+
+  return jQueryElement;
+}
+
+
 /* like click() but runs asyncrously allowing you to
 use it outside of an andThen function with the same
 stuff in the DOM */
@@ -14,6 +25,7 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
     const expectedPlace = properties.place || 'top';
     const expectedTypeClass = properties.typeClass || null;
     const typeOfContent = Ember.typeOf(expectedContent);
+    const usingComponent = properties.usingComponent || false;
 
     mouseOver(name);
 
@@ -30,7 +42,14 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
 
       /* Check content */
 
-      if (typeOfContent === 'string') {
+      if (usingComponent) {
+        const tooltipHtml = cleanWhitespace($(tooltip))[0];
+        const cleanTooltipHtml = tooltipHtml.innerHTML.replace(/id="[^"]*"/g, '').replace(/\s+/, ' ');
+
+        assert.equal($.trim(cleanTooltipHtml), expectedContent,
+          'The HTML content of the tooltip should be correct');
+
+      } else if (typeOfContent === 'string') {
 
         assert.equal(tooltip.textContent, expectedContent,
           'The text content of the tooltip should be correct');

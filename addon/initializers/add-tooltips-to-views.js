@@ -24,7 +24,7 @@ export function initialize(/* container, application */) {
     tooltipEffectClass: 'slide', // fade, grow, slide, null
     tooltipEvent: 'hover',
     tooltipPlace: 'top',
-    tooltipSpacing: 0,
+    tooltipSpacing: 10,
     tooltipTypeClass: null,
 
     /**
@@ -71,9 +71,19 @@ export function initialize(/* container, application */) {
     renderTooltip: Ember.on('didInsertElement', function(maybeTooltipComponent) {
       const componentWasPassed = Ember.typeOf(maybeTooltipComponent) === 'instance';
       const component = componentWasPassed ? maybeTooltipComponent : Ember.Object.create({});
-      const content = component.get('content') || component.get('element') || this.get('tooltipContent');
 
+      let content = this.get('tooltipContent');
       let tooltip, tooltipOptions;
+
+      if (componentWasPassed) {
+        const componentContent = component.get('content');
+
+        if (componentContent) {
+          content = componentContent
+        } else {
+          content = component.get('element').innerHTML;
+        }
+      }
 
       if (!content) {
         return;
