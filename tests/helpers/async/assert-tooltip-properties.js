@@ -24,7 +24,7 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       const style = tooltip.style;
 
       assert.ok(!!tooltip,
-        'The tooltip should be added to the DOM after hovering over the target');
+        'The tooltip should be added to the DOM after triggering mouseover on the target');
 
       /* Check auto - NO TEST */
 
@@ -93,9 +93,8 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
     /* Then check it has been removed */
 
     andThen(function() {
-      const tooltip = Ember.$('.tooltip');
 
-      assert.ok(!tooltip.length,
+      assert.ok(!Ember.$('.tooltip').length,
         'There should not be a tooltip in the DOM after triggering mouseout on the target element');
 
     });

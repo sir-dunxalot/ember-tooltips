@@ -4,14 +4,14 @@
 
   <li>
     {{test-component
-      tooltipContent='This is a tooltip'
+      tooltipContent='This is a tooltip on an inline component'
       data-test='on-inline-component'
     }}
   </li>
 
   <li>
     {{#test-component
-      tooltipContent='This is a tooltip'
+      tooltipContent='This is a tooltip on a block component'
       data-test='on-block-component'
     }}
       Custom 'tooltip-error' class
@@ -20,7 +20,7 @@
 
   <li>
     {{#link-to 'index'
-      tooltipContent='Showing on link to'
+      tooltipContent='This is a tooltip on a link-to helper'
       class='inline-block'
       data-test='on-link-to'
     }}
@@ -30,7 +30,7 @@
 
   <li>
     {{view 'test-view'
-      tooltipContent='On generic view'
+      tooltipContent='This is a tooltip on a view helper'
       data-test='on-view'
     }}
   </li>

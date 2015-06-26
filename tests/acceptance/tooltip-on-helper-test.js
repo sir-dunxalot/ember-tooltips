@@ -15,10 +15,25 @@ module('Acceptance | tooltip on helper', {
 });
 
 test('Rendering tooltips set on helpers', function(assert) {
-  let component;
+
+  assert.expect(24);
 
   visit('/tooltip-on-helper');
 
-  assertTooltipProperties(assert, 'on-inline-component');
+  assertTooltipProperties(assert, 'on-inline-component', {
+    content: 'This is a tooltip on an inline component',
+  });
+
+  assertTooltipProperties(assert, 'on-block-component', {
+    content: 'This is a tooltip on a block component',
+  });
+
+  assertTooltipProperties(assert, 'on-link-to', {
+    content: 'This is a tooltip on a link-to helper',
+  });
+
+  assertTooltipProperties(assert, 'on-view', {
+    content: 'This is a tooltip on a view helper'
+  });
 
 });
