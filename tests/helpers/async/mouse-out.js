@@ -13,17 +13,16 @@ export default Ember.Test.registerAsyncHelper('mouseOut',
     let elementExists = $element.length;
 
     triggerEvent(selector, 'mouseout');
-    triggerEvent(selector, 'mouseleave');
-    triggerEvent(selector, 'mouseoff');
-    triggerEvent(selector, 'blur');
 
     /* Wait until the element is removed to continue the tests */
 
-    $element.on('remove', function() {
-      elementExists = false;
+    Ember.$('.tooltip')[0].addEventListener('DOMNodeRemovedFromDocument', function() {
+      Ember.run(function() {
+        elementExists = false;
+      });
     });
 
-    return Ember.Test.registerWaiter(function() {
+    Ember.Test.registerWaiter(function() {
       return !elementExists;
     });
   }
