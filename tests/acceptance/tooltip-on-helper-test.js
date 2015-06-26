@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
-import startApp from 'ember-tooltips/tests/helpers/start-app';
+import startApp from '../helpers/start-app';
 
 var application;
 
@@ -14,10 +14,11 @@ module('Acceptance | tooltip on helper', {
   }
 });
 
-test('visiting /tooltip-on-helper', function(assert) {
+test('Rendering tooltips set on helpers', function(assert) {
+  let component;
+
   visit('/tooltip-on-helper');
 
-  andThen(function() {
-    assert.equal(currentURL(), '/tooltip-on-helper');
-  });
+  assertTooltipProperties('on-inline-component');
+
 });

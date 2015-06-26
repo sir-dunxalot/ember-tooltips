@@ -6,6 +6,9 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('tooltip-as-component');
+  this.route('tooltip-in-template');
+  this.route('tooltip-on-helper');
 });
 
 export default Router;

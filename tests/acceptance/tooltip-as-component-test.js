@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
-import startApp from 'ember-tooltips/tests/helpers/start-app';
+import startApp from '../helpers/start-app';
 
 var application;
 
@@ -14,10 +14,10 @@ module('Acceptance | tooltip as component', {
   }
 });
 
-test('visiting /tooltip-as-component', function(assert) {
-  visit('/tooltip-as-component');
+test('Rendering tooltips set using {{tooltip-on-parent}}', function(assert) {
+  visit('/');
 
   andThen(function() {
-    assert.equal(currentURL(), '/tooltip-as-component');
+    assert.ok(true);
   });
 });

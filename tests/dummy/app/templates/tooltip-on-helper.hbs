@@ -1,0 +1,38 @@
+<h2>Tooltip on helper</h2>
+
+<ul class="examples">
+
+  <li>
+    {{test-component
+      tooltipContent='This is a tooltip'
+      data-test='on-inline-component'
+    }}
+  </li>
+
+  <li>
+    {{#test-component
+      tooltipContent='This is a tooltip'
+      data-test='on-block-component'
+    }}
+      Custom 'tooltip-error' class
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#link-to 'index'
+      tooltipContent='Showing on link to'
+      class='inline-block'
+      data-test='on-link-to'
+    }}
+      On link to
+    {{/link-to}}
+  </li>
+
+  <li>
+    {{view 'test-view'
+      tooltipContent='On generic view'
+      data-test='on-view'
+    }}
+  </li>
+
+</ul>
