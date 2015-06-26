@@ -19,6 +19,6 @@ test('Rendering tooltips set on helpers', function(assert) {
 
   visit('/tooltip-on-helper');
 
-  assertTooltipProperties('on-inline-component');
+  assertTooltipProperties(assert, 'on-inline-component');
 
 });

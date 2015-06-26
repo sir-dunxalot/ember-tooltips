@@ -24,7 +24,7 @@ export function initialize(/* container, application */) {
     tooltipEffectClass: 'slide', // fade, grow, slide, null
     tooltipEvent: 'hover',
     tooltipPlace: 'top',
-    tooltipSpacing: null,
+    tooltipSpacing: 0,
     tooltipTypeClass: null,
 
     /**

@@ -23,7 +23,8 @@
     "currentPath",
     "currentRouteName",
     "inspect",
-    "hoverOver",
+    "mouseOut",
+    "mouseOver",
     "assertTooltipProperties"
   ],
   "node": false,

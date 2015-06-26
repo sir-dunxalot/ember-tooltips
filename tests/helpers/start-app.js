@@ -4,7 +4,8 @@ import Router from '../../router';
 import config from '../../config/environment';
 
 import assertTooltipProperties from './async/assert-tooltip-properties';
-import hoverOver from './async/hover-over';
+import mouseOut from './async/mouse-out';
+import mouseOver from './async/mouse-over';
 import inspect from './sync/inspect';
 
 export default function startApp(attrs) {

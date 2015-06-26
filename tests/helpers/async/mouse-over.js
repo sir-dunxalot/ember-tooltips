@@ -5,7 +5,7 @@ import selectorFor from '../selector-for';
 use it outside of an andThen function with the same
 stuff in the DOM */
 
-export default Ember.Test.registerAsyncHelper('hoverOver',
+export default Ember.Test.registerAsyncHelper('mouseOver',
   function(app, name) {
     triggerEvent(selectorFor(name), 'mouseover');
   }
