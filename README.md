@@ -17,7 +17,7 @@ Documentation for usage is below:
 - [Supported properties](#supported-properties)
 - [Using on helpers](#using-on-helpers)
 - [Using as a component](#using-as-a-component)
-- [using on HTML elements](#using-on-html-elements)
+- [Using on HTML elements](#using-on-html-elements)
 
 ### Supported Properties
 
@@ -32,7 +32,7 @@ This addon aims to maintain parity with all Tooltip library features. Current su
 
 Please note that, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`,tooltipEffectClass` or `tooltip-effect-class`. More info is in each section below.
 
-### On helper
+### Using on Helpers
 
 The most common way to use a tooltip is on a helper. Examples of such helpers are `{{#link-to}}`, `{{#some-component}}`, or `{{view 'table'}}`.
 
