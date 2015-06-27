@@ -31,15 +31,15 @@ This addon aims to maintain parity with all Tooltip library features. Current su
 - spacing (defaults to 10)
 - typeClass (can be any string. No default)
 
-Please note that, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`,tooltipEffectClass` or `tooltip-effect-class`. More info is in each section below.
+**Please note**, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`, `tooltipEffectClass` or `tooltip-effect-class`. More info is in each section below.
 
 ### Using on Helpers
 
 The most common way to use a tooltip is on a helper. Examples of such helpers are `{{#link-to}}`, `{{#some-component}}`, or `{{view 'table'}}`.
 
-All properties should be prefixed by `tooltip` and should be camelCased.
+All supported properties should be prefixed by `tooltip` and should be camelCased.
 
-Usage is simple:
+To add a tooltip to any component:
 
 ```hbs
 {{#some-component tooltipContent='This is the tooltip'}}
@@ -107,7 +107,7 @@ camelCased Options can still be passed to the component but they are not prefixe
 
 ### Using on HTML elements
 
-If you want to render a tooltip on an HTML element that isn't rendered by a Ember View then data attributes will be your solution.
+If you want to render a tooltip on an HTML element that isn't rendered by an Ember View then data attributes will be your solution.
 
 Please note, you must call the `renderChildTooltips()` method of the parent view in order to render the tooltips.
 
@@ -134,7 +134,7 @@ export default Ember.Component.extend({
 });
 ```
 
-Options can be set on the elements ad <strong>prefixed and dasherized</strong> attributes. For example:
+Options can be set on the element(s) as <strong>prefixed and dasherized</strong> attributes. For example:
 
 ```hbs
 {{#some-component}}
