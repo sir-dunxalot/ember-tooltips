@@ -4,7 +4,10 @@ import layout from '../templates/components/tooltip-on-parent';
 export default Ember.Component.extend({
   attributeBindings: ['style'],
   layout: layout,
-  style: 'display:none;',
+
+  style: Ember.computed(function() {
+    return Ember.String.htmlSafe('display:none;');
+  }),
 
   registerOnParent: Ember.on('didInsertElement', function() {
     const parentView = this.get('parentView');

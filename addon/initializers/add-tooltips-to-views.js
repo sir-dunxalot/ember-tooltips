@@ -3,7 +3,7 @@ import renderTooltip from 'ember-tooltips/utils/render-tooltip';
 
 export function initialize(/* container, application */) {
 
-  Ember.View.reopen({
+  const tooltipFunctionality = {
 
     /* The tooltip object */
 
@@ -165,7 +165,12 @@ export function initialize(/* container, application */) {
       });
     },
 
-  });
+  };
+
+  /* Add to View and Component for Ember 1.13 */
+
+  Ember.View.reopen(tooltipFunctionality);
+  Ember.Component.reopen(tooltipFunctionality);
 
 }
 

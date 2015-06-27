@@ -25,7 +25,7 @@ test('Rendering tooltips set using {{tooltip-on-parent}}', function(assert) {
   });
 
   assertTooltipProperties(assert, 'in-component-and-block-htmlbars', {
-    content: '<a class="ember-view" href="/">Using HTMLBars</a> in content',
+    content: '<a href="/" class="ember-view">Using HTMLBars</a> in content',
     usingComponent: true,
   });
 

@@ -16,7 +16,7 @@ module('Acceptance | tooltip on helper', {
 
 test('Rendering tooltips set on helpers', function(assert) {
 
-  assert.expect(24);
+  assert.expect(18);
 
   visit('/tooltip-on-helper');
 
@@ -30,10 +30,6 @@ test('Rendering tooltips set on helpers', function(assert) {
 
   assertTooltipProperties(assert, 'on-link-to', {
     content: 'This is a tooltip on a link-to helper',
-  });
-
-  assertTooltipProperties(assert, 'on-view', {
-    content: 'This is a tooltip on a view helper'
   });
 
 });
