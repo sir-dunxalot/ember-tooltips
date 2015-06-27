@@ -1,4 +1,5 @@
-# Ember-tooltips
+Ember-tooltips [![Build Status](https://travis-ci.org/sir-dunxalot/ember-tooltips.svg)](https://travis-ci.org/sir-dunxalot/ember-tooltips)
+======
 
 Render simple tooltips on components, views, HTML elements, and more using simple strings, HTMLBars, bound properties, and more.
 
