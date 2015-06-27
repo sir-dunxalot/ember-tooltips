@@ -12,7 +12,7 @@ moduleForComponent('tooltip-on-parent', 'Unit | Component | tooltip on parent', 
 });
 
 test('The component registers itself', function(assert) {
-  const parentView = Ember.View.create({
+  const parentView = Ember.Component.create({
     renderTooltip() {
       assert.ok(true,
         'The renderTooltip() method should be called on the parent view after render');
@@ -29,6 +29,9 @@ test('The component registers itself', function(assert) {
   assert.ok(!!component.registerOnParent,
     'The component should have a public registerOnParent method');
 
-  this.render();
+  /* Mock render instead of calling this.render() because we're
+  messing around with parent views */
+
+  component.trigger('didInsertElement');
 
 });
