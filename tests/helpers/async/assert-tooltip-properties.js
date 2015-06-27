@@ -45,9 +45,14 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       if (usingComponent) {
         const tooltipHtml = cleanWhitespace($(tooltip))[0];
         const cleanTooltipHtml = tooltipHtml.innerHTML.replace(/id="[^"]*"/g, '').replace(/\s+/, ' ');
+        const expectedTargetContent = properties.targetContent || 'Hover over me';
+        const target = inspect(name);
 
         assert.equal($.trim(cleanTooltipHtml), expectedContent,
           'The HTML content of the tooltip should be correct');
+
+        assert.equal(target.html().trim(), expectedTargetContent,
+          'The expected target content should contain just the expected text and not the {{tooltip-on-parent}} view');
 
       } else if (typeOfContent === 'string') {
 

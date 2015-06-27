@@ -25,3 +25,8 @@
 .tooltip-error {
   background-color: #e37f7f;
 }
+
+a {
+  color: #7aafd1;
+  text-shadow: none !important;
+}
