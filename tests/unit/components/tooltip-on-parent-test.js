@@ -19,7 +19,7 @@ test('The component registers itself', function(assert) {
     }
   });
 
-  assert.expect(4);
+  assert.expect(3);
 
   component.set('parentView', parentView);
 
@@ -30,7 +30,5 @@ test('The component registers itself', function(assert) {
     'The component should have a public registerOnParent method');
 
   this.render();
-
-  assert.equal(component._state, 'inDOM');
 
 });
