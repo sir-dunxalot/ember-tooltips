@@ -4,7 +4,7 @@ import startApp from '../helpers/start-app';
 
 var application;
 
-module('Acceptance | tooltip in template', {
+module('Acceptance | tooltip on element', {
   beforeEach: function() {
     application = startApp();
   },
@@ -15,9 +15,13 @@ module('Acceptance | tooltip in template', {
 });
 
 test('Rendering tooltips set on child DOM elements', function(assert) {
-  visit('/');
 
-  andThen(function() {
-    assert.ok(true);
+  assert.expect(6);
+
+  visit('/tooltip-on-element');
+
+  assertTooltipProperties(assert, 'on-element', {
+    content: 'This is set on a data attribute',
   });
+
 });

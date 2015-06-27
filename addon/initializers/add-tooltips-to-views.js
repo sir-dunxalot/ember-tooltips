@@ -79,7 +79,7 @@ export function initialize(/* container, application */) {
         const componentContent = component.get('content');
 
         if (componentContent) {
-          content = componentContent
+          content = componentContent;
         } else {
           content = component.get('element').innerHTML;
         }
@@ -141,7 +141,10 @@ export function initialize(/* container, application */) {
     */
 
     renderChildTooltips: function() {
+      const _this = this;
       const tooltipSupportedProperties = this.get('tooltipSupportedProperties');
+
+      tooltipSupportedProperties.push('content');
 
       Ember.run.scheduleOnce('render', this, function() {
         const tooltipOptions = {};
@@ -150,9 +153,11 @@ export function initialize(/* container, application */) {
           const $element = Ember.$(this);
 
           tooltipSupportedProperties.forEach(function(property) {
+            const capitalizedProperty = Ember.String.capitalize(property);
             const dasherizedProperty = Ember.String.dasherize(property);
+            const value = $element.data(`tooltip-${dasherizedProperty}`);
 
-            tooltipOptions[property] = $element.data(`tooltip-${dasherizedProperty}`);
+            tooltipOptions[property] = value || _this.get(`tooltip${capitalizedProperty}`);
           }, this);
 
           renderTooltip(this, tooltipOptions);

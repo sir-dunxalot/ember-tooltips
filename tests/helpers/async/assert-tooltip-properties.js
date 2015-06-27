@@ -4,7 +4,7 @@ function cleanWhitespace(jQueryElement) {
   jQueryElement.contents().filter(function() {
     this.innerHTML = $.trim(this.innerText);
 
-    return (this.nodeType == 3 && !/\S/.test(this.nodeValue));
+    return (this.nodeType === 3 && !/\S/.test(this.nodeValue));
   }).remove();
 
   return jQueryElement;
