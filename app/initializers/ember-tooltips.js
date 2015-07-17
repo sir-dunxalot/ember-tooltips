@@ -4,7 +4,7 @@ import Tooltips from '../mixins/components/tooltips';
 
 /* This is in the app tree so we can access ENV */
 
-export function initialize(container, application) {
+export function initialize() {
   const defaultOptions = {
     addTo: ['Component', 'View'],
     disableInitializer: true,
@@ -12,7 +12,7 @@ export function initialize(container, application) {
   const overridingOptions = ENV.tooltips || {};
   const options = Ember.merge(defaultOptions, overridingOptions);
 
-  /* TODO - Needs test coverage */
+  /* TODO - Needs test coverage for addTo */
 
   if (Ember.typeOf(options.addTo) === 'array') {
     options.addTo.forEach(function(className) {
