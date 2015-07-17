@@ -204,6 +204,20 @@ module.exports = function(environment) {
 };
 ```
 
+You can add the tooltip functionality to individual classes by importing the mixin to your class:
+
+```
+// app/components/big-button.js
+
+import Ember from 'ember';
+import TooltipsComponent from 'ember-tooltips/mixins/components/tooltips';
+
+export default Ember.Component.extend(
+  TooltipsComponent, {
+
+});
+```
+
 To set default values for [supported properties](#supported-properties) across your application, set the values in the mixin in your app tree:
 
 ```js
