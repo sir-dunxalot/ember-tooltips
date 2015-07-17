@@ -26,9 +26,8 @@ Documentation for usage is below:
 This addon aims to maintain parity with all Tooltip library features. Current supported properties are:
 
 - auto (true or false. Defaults to true)
-- content
 - effectClass (none, fade, slide, or grow. Defaults to slide)
-- event (currently just hover)
+- event (Any kind of [jQuery event](https://api.jquery.com/category/events/))
 - place (defaults to top)
 - spacing (defaults to 10)
 - typeClass (can be any string. No default)
