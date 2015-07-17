@@ -19,12 +19,14 @@ Documentation for usage is below:
 - [Using on helpers](#using-on-helpers)
 - [Using as a component](#using-as-a-component)
 - [Using on HTML elements](#using-on-html-elements)
+- [Customizing the mixin](#customizing-the-mixin)
 
 ### Supported Properties
 
 This addon aims to maintain parity with all Tooltip library features. Current supported properties are:
 
 - auto (true or false. Defaults to true)
+- content
 - effectClass (none, fade, slide, or grow. Defaults to slide)
 - event (currently just hover)
 - place (defaults to top)
@@ -162,6 +164,55 @@ export default Ember.Component.extend({
     this.renderChildTooltips(); // Voila!
   },
 
+});
+```
+
+### Customizing the Mixin
+
+By default the `ember-tooltips` mixin is added to all views and components. This mixin contains the helper methods to render tooltips.
+
+You can customize where the mixin is automatically added by overriding the `addTo` option in your `config/environment.js` file:
+
+```js
+module.exports = function(environment) {
+  var ENV = {
+
+    /* ... */
+
+    tooltips: {
+      addTo: ['View', 'Component'], // Ember.View, Ember.Component
+    }
+  }
+};
+```
+
+Each Option corresponds to a class on the Ember namespace. For example, `addTo: ['Input']` corresponds to `Ember.Input`.
+
+You can disable all reopening of classes by seting `addTo` to a falsy value or empty array:
+
+```js
+module.exports = function(environment) {
+  var ENV = {
+
+    /* ... */
+
+    tooltips: {
+      addTo: [], // The mixin is not added to anything
+    }
+  }
+};
+```
+
+To set default values for [supported properties](#supported-properties) across your application, set the values in the mixin in your app tree:
+
+```js
+// app/mixins/components/tooltips.js
+
+import EmberTooltipsMixin from 'ember-tooltips/mixins/components/tooltips';
+
+export default EmberTooltipsMixin.extend({
+  tooltipPlace: 'right',
+  tooltipSpacing: 20,
 });
 ```
 
