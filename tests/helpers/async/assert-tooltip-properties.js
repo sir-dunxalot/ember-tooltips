@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import selectorFor from '../selector-for';
 
 function cleanWhitespace(jQueryElement) {
   jQueryElement.contents().filter(function() {
@@ -22,12 +23,19 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
 
     const expectedContent = properties.content || 'This is a tooltip';
     const expectedEffectClass = properties.effectClass || 'slide';
+    const expectedEvent = properties.event || 'hover';
     const expectedPlace = properties.place || 'top';
     const expectedTypeClass = properties.typeClass || null;
     const typeOfContent = Ember.typeOf(expectedContent);
     const usingComponent = properties.usingComponent || false;
 
-    mouseOver(name);
+    /* Hover/click to attach the tooltip to the DOM */
+
+    if (expectedEvent === 'click') {
+      click(selectorFor(name));
+    } else if (expectedEvent === 'hover') {
+      mouseOver(name);
+    }
 
     andThen(function() {
       const tooltip = Ember.$('.tooltip')[0];
@@ -36,7 +44,7 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       const style = tooltip.style;
 
       assert.ok(!!tooltip,
-        'The tooltip should be added to the DOM after triggering mouseover on the target');
+        'The tooltip should be added to the DOM after triggering the show event on the target element');
 
       /* Check auto - NO TEST */
 
@@ -112,16 +120,24 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
 
     });
 
-    /* Unhover to the tooltip is detached from the DOM */
+    /* Unhover/click so the tooltip is detached from the DOM */
 
-    mouseOut(name);
+    if (expectedEvent === 'click') {
+      click(selectorFor(name));
+    } else if (expectedEvent === 'hover') {
+      mouseOut(name);
+    }
 
     /* Then check it has been removed */
 
     andThen(function() {
 
-      assert.ok(!Ember.$('.tooltip').length,
-        'There should not be a tooltip in the DOM after triggering mouseout on the target element');
+      Ember.run.later(this, function() {
+
+        assert.ok(!Ember.$('.tooltip').length,
+          'There should not be a tooltip in the DOM after triggering the hide event on the target element');
+
+      }, 200);
 
     });
 
