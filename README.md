@@ -19,6 +19,7 @@ Documentation for usage is below:
 - [Using on helpers](#using-on-helpers)
 - [Using as a component](#using-as-a-component)
 - [Using on HTML elements](#using-on-html-elements)
+- [Customizing the mixin](#customizing-the-mixin)
 
 ### Supported Properties
 
@@ -26,12 +27,14 @@ This addon aims to maintain parity with all Tooltip library features. Current su
 
 - auto (true or false. Defaults to true)
 - effectClass (none, fade, slide, or grow. Defaults to slide)
-- event (currently just hover)
+- event (any kind of [jQuery event](https://api.jquery.com/category/events/), defaults to hover)
 - place (defaults to top)
 - spacing (defaults to 10)
 - typeClass (can be any string. No default)
 
 **Please note**, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`, `tooltipEffectClass` or `tooltip-effect-class`. More info is in each section below.
+
+Default values can be set [on the `ember-tooltips` mixin](#customizing-the-mixin).
 
 ### Using on Helpers
 
@@ -162,6 +165,69 @@ export default Ember.Component.extend({
     this.renderChildTooltips(); // Voila!
   },
 
+});
+```
+
+### Customizing the Mixin
+
+By default the `ember-tooltips` mixin is added to all views and components. This mixin contains the helper methods to render tooltips.
+
+You can customize where the mixin is automatically added by overriding the `addTo` option in your `config/environment.js` file:
+
+```js
+module.exports = function(environment) {
+  var ENV = {
+
+    /* ... */
+
+    tooltips: {
+      addTo: ['View', 'Component'], // Ember.View, Ember.Component
+    }
+  }
+};
+```
+
+Each Option corresponds to a class on the Ember namespace. For example, `addTo: ['Input']` corresponds to `Ember.Input`.
+
+You can disable all reopening of classes by seting `addTo` to a falsy value or empty array:
+
+```js
+module.exports = function(environment) {
+  var ENV = {
+
+    /* ... */
+
+    tooltips: {
+      addTo: [], // The mixin is not added to anything
+    }
+  }
+};
+```
+
+You can add the tooltip functionality to individual classes by importing the mixin to your class:
+
+```
+// app/components/big-button.js
+
+import Ember from 'ember';
+import TooltipsComponent from 'ember-tooltips/mixins/components/tooltips';
+
+export default Ember.Component.extend(
+  TooltipsComponent, {
+
+});
+```
+
+To set default values for [supported properties](#supported-properties) across your application, set the values in the mixin in your app tree:
+
+```js
+// app/mixins/components/tooltips.js
+
+import EmberTooltipsMixin from 'ember-tooltips/mixins/components/tooltips';
+
+export default EmberTooltipsMixin.extend({
+  tooltipPlace: 'right',
+  tooltipSpacing: 20,
 });
 ```
 
