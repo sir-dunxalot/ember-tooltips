@@ -110,15 +110,15 @@ camelCased Options can still be passed to the component but they are not prefixe
 
 ### Using on HTML elements
 
-If you want to render a tooltip on an HTML element that isn't rendered by an Ember View then data attributes will be your solution.
+If you want to render a tooltip on an HTML element that isn't rendered by an Ember View then data attributes will be your solution. Be sure to include the `has-tooltip` class on each HTML element that contains a tooltip.
 
 Please note, you must call the `renderChildTooltips()` method of the parent view in order to render the tooltips.
 
 ```hbs
 {{#some-component}}
   <ul class="list">
-    <li tooltip-content="Dave is great">Dave</li>
-    <li tooltip-content="Mike is not great">Mike</li>
+    <li class="has-tooltip" data-tooltip-content="Dave is great">Dave</li>
+    <li class="has-tooltip" data-tooltip-content="Mike is not great">Mike</li>
   </ul>
 {{/some-component}}
 ```
@@ -143,9 +143,10 @@ Options can be set on the element(s) as <strong>prefixed and dasherized</strong>
 {{#some-component}}
   <div class="notification">
     <span
-      tooltip-content="This is bad!"
-      tooltip-effect-class="grow"
-      tooltip-type-class="tooltip-error">
+      class="has-tooltip"
+      data-tooltip-content="This is bad!"
+      data-tooltip-effect-class="grow"
+      data-tooltip-type-class="tooltip-error">
 
       Hover for more info
 
