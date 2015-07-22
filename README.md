@@ -224,9 +224,12 @@ To set default values for [supported properties](#supported-properties) across y
 ```js
 // app/mixins/components/tooltips.js
 
+import Ember from 'ember';
 import EmberTooltipsMixin from 'ember-tooltips/mixins/components/tooltips';
 
-export default EmberTooltipsMixin.extend({
+export default Ember.Mixin.create(
+  EmberTooltipsMixin, {
+  
   tooltipPlace: 'right',
   tooltipSpacing: 20,
 });
