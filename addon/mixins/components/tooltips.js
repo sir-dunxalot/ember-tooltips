@@ -29,7 +29,8 @@ export default Ember.Mixin.create({
     'event',
     'place',
     'spacing',
-    'typeClass'
+    'typeClass',
+    'open'
   ],
 
   /* Tooltip options - see http://darsa.in/tooltip/ */
@@ -144,6 +145,12 @@ export default Ember.Mixin.create({
 
     /* Bind observer if manual-triggering mode */
     if (tooltipOptions.event === 'manual') {
+      if (componentWasPassed) {
+        // Keep track of child tooltip component
+        this.set('tooltipChildComponent', component);
+        // Turn 'tooltipOpen' into a computed property, reading from child tooltip component's 'open' option
+        Ember.defineProperty(this, 'tooltipOpen', Ember.computed.reads('tooltipChildComponent.open'));
+      }
       Ember.addObserver(this, 'tooltipOpen', this, this.tooltipOpenDidChange);
       this.tooltipOpenDidChange();
     }
