@@ -7,7 +7,6 @@ import Tooltips from '../mixins/components/tooltips';
 export function initialize() {
   const defaultOptions = {
     addTo: ['Component', 'View'],
-    disableInitializer: true,
   };
   const overridingOptions = ENV.tooltips || {};
   const options = Ember.merge(defaultOptions, overridingOptions);
