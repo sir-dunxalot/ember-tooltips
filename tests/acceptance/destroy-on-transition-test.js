@@ -22,9 +22,7 @@ test('visiting /destroy-on-transition', function(assert) {
 
   visit('/destroy-on-transition');
 
-  click(selectorFor(tooltip));
-
-  andThen(function() {
+  andThenAfterRender(function() {
     assert.equal(currentURL(), '/destroy-on-transition',
       'Should be on correct route');
 
@@ -33,7 +31,11 @@ test('visiting /destroy-on-transition', function(assert) {
       event: 'click',
     });
 
-    click(selectorFor(tooltip));
+  });
+
+  click(selectorFor(tooltip));
+
+  andThenAfterRender(function() {
 
     assert.ok(inspect(tooltip).length,
       'The tooltip should be in the DOM');

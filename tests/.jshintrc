@@ -25,7 +25,8 @@
     "inspect",
     "mouseOut",
     "mouseOver",
-    "assertTooltipProperties"
+    "assertTooltipProperties",
+    "andThenAfterRender"
   ],
   "node": false,
   "browser": false,
