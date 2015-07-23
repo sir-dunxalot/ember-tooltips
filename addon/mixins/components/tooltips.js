@@ -144,6 +144,23 @@ export default Ember.Mixin.create({
   }),
 
   /**
+  Opens / closes tooltip based on value of 'tooltipOpen'.
+  Only used when event is 'manual'.
+
+  @method tooltipOpenDidChange
+  */
+
+  tooltipOpenDidChange: function() {
+    const tooltip = this.get('tooltip');
+
+    if (this.get('tooltipOpen')) {
+      tooltip.show();
+    } else {
+      tooltip.hide();
+    }
+  },
+
+  /**
   Call this method on any view to attach tooltips to all elements in its
   template that have a `.tooltip` class. Tooltip options are set using
   data attributes.
