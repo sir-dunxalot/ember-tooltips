@@ -41,6 +41,7 @@ export default Ember.Mixin.create({
   tooltipPlace: 'top',
   tooltipSpacing: 10,
   tooltipTypeClass: null,
+  tooltipOpen: null, // for manual-mode triggering
 
   /**
   Removes a tooltip from the DOM if the element it is attached
