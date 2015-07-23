@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import renderTooltip from 'ember-tooltips/utils/render-tooltip';
 
+const { on } = Ember;
+
 export default Ember.Mixin.create({
 
   /**
@@ -39,6 +41,21 @@ export default Ember.Mixin.create({
   tooltipPlace: 'top',
   tooltipSpacing: 10,
   tooltipTypeClass: null,
+
+  /**
+  Removes a tooltip from the DOM if the element it is attached
+  to is destroyed.
+
+  @method destroyTooltip
+  */
+
+  destroyTooltip: on('willDestroyElement', function() {
+    const tooltip = this.get('tooltip');
+
+    if (tooltip) {
+      tooltip.detach();
+    }
+  }),
 
   /**
   Adds a tooltip to the current view using the values of the tooltip
@@ -81,7 +98,7 @@ export default Ember.Mixin.create({
   @param [maybeTooltipComponent] An optionally-passed component for a `{{tooltip-on-parent}}` class
   */
 
-  renderTooltip: Ember.on('didInsertElement', function(maybeTooltipComponent) {
+  renderTooltip: on('didInsertElement', function(maybeTooltipComponent) {
     const componentWasPassed = Ember.typeOf(maybeTooltipComponent) === 'instance';
     const component = componentWasPassed ? maybeTooltipComponent : Ember.Object.create({});
 
