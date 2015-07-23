@@ -1,6 +1,6 @@
 {
   "name": "ember-tooltips",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Renders and positions plain text tooltips and HTMLBars tooltips on any Ember view or component",
   "directories": {
     "doc": "doc",
