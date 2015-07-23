@@ -37,7 +37,7 @@ export default Ember.Mixin.create({
   tooltipAuto: true,
   tooltipContent: null,
   tooltipEffectClass: 'slide', // fade, grow, slide, null
-  tooltipEvent: 'hover',
+  tooltipEvent: 'hover', // DOM event or "manual"
   tooltipPlace: 'top',
   tooltipSpacing: 10,
   tooltipTypeClass: null,
