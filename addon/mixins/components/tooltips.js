@@ -141,6 +141,12 @@ export default Ember.Mixin.create({
     tooltip = renderTooltip(this.get('element'), tooltipOptions);
 
     this.set('tooltip', tooltip);
+
+    /* Bind observer if manual-triggering mode */
+    if (tooltipOptions.event === 'manual') {
+      Ember.addObserver(this, 'tooltipOpen', this, this.tooltipOpenDidChange);
+      this.tooltipOpenDidChange();
+    }
   }),
 
   /**
