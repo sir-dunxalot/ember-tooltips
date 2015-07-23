@@ -27,10 +27,11 @@ This addon aims to maintain parity with all Tooltip library features. Current su
 
 - auto (true or false. Defaults to true)
 - effectClass (none, fade, slide, or grow. Defaults to slide)
-- event (any kind of [jQuery event](https://api.jquery.com/category/events/), defaults to hover)
+- event (any kind of [jQuery event](https://api.jquery.com/category/events/) or "manual", defaults to hover)
 - place (defaults to top)
 - spacing (defaults to 10)
 - typeClass (can be any string. No default)
+- open (true or false, when `event: 'manual'`. Defaults to null)
 
 **Please note**, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`, `tooltipEffectClass` or `tooltip-effect-class`. More info is in each section below.
 
@@ -78,6 +79,18 @@ Or with dynamic content:
     {{some-img-component src=picture.url}}
   {{/link-to}}
 {{/each}}
+```
+
+To manually set the tooltip's state:
+
+```hbs
+{{#some-component
+  tooltipContent='This tooltip is triggered manually via attribute'
+  tooltipEvent='manual'
+  tooltipOpen=showTooltip
+}}
+  I'll show a tooltip if you want me to...
+{{/some-component}}
 ```
 
 ### Using as a Component
