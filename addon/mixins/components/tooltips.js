@@ -58,6 +58,9 @@ export default Ember.Mixin.create({
       tooltip.effect(null); // Remove animation
       tooltip.detach();
     }
+
+    /* Remove observer, even if it was never added */
+    this.removeObserver('tooltipOpen', this, this.tooltipOpenDidChange);
   }),
 
   /**
