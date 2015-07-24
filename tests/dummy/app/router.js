@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('tooltip-as-component');
   this.route('tooltip-on-element');
   this.route('tooltip-on-helper');
+  this.route('tooltip-manual-trigger');
 });
 
 export default Router;
