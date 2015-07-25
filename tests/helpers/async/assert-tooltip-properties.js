@@ -34,7 +34,7 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       click(selectorFor(name));
     } else if (expectedEvent === 'hover') {
       mouseOver(name);
-    } else if (expectedEvent) {
+    } else if (expectedEvent === 'manual') {
       click(selectorFor(name) + ' + input[type="checkbox"]');
     }
 
@@ -127,7 +127,7 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       click(selectorFor(name));
     } else if (expectedEvent === 'hover') {
       mouseOut(name);
-    } else if (expectedEvent) {
+    } else if (expectedEvent === 'manual') {
       click(selectorFor(name) + ' + input[type="checkbox"]');
     }
 
