@@ -21,7 +21,6 @@ test('Rendering tooltips with event="manual" and provided "tooltipOpen" boolean'
 
   assertTooltipProperties(assert, 'manually-trigger', {
     content: 'This is a manually triggered tooltip',
-    usingComponent: false,
     event: 'manual'
   });
 
