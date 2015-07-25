@@ -154,7 +154,7 @@ export default Ember.Mixin.create({
         // Turn 'tooltipOpen' into a computed property, reading from child tooltip component's 'open' option
         Ember.defineProperty(this, 'tooltipOpen', Ember.computed.reads('tooltipChildComponent.open'));
       }
-      Ember.addObserver(this, 'tooltipOpen', this, this.tooltipOpenDidChange);
+      this.addObserver('tooltipOpen', this, this.tooltipOpenDidChange);
       this.tooltipOpenDidChange();
     }
   }),
