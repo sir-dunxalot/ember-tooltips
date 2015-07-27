@@ -26,6 +26,14 @@ export default function renderTooltip(domElement = {}, options = {}) {
     options.event = 'hover';
   }
 
+  if (options.duration && typeof options.duration === 'string') {
+    options.duration = parseInt(options.duration, 10);
+    if (isNaN(options.duration) || !isFinite(options.duration)) {
+      // Remove invalid parseInt results
+      options.duration = null;
+    }
+  }
+
   tooltip = new Tooltip(options.content, options);
 
   tooltip.attach(domElement);
