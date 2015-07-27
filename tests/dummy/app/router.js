@@ -11,6 +11,7 @@ Router.map(function() {
   this.route('tooltip-on-element');
   this.route('tooltip-on-helper');
   this.route('tooltip-manual-trigger');
+  this.route('tooltip-auto-close');
 });
 
 export default Router;

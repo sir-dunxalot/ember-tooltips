@@ -1,0 +1,50 @@
+<h2>Automatically Closing Tooltips</h2>
+
+<ul class="examples">
+
+  <li>
+    {{#test-component
+      tooltipContent='This shows on a click event, then hides'
+      tooltipEvent='click'
+      data-test='auto-close-basic'
+      tooltipDuration=2000
+    }}
+      Click me
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#test-component data-test='auto-close-component'}}
+      {{#tooltip-on-parent duration="1000" event="mouseenter"}}
+        Using a component with duration set
+      {{/tooltip-on-parent}}
+      Hover over me
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#test-calling-component}}
+      <div
+        class="has-tooltip inline-block"
+        data-test="auto-close-data"
+        data-tooltip-content="This is set on a data attribute"
+        data-tooltip-event="click"
+        data-tooltip-duration="1000"
+      >
+        Click me
+      </div>
+    {{/test-calling-component}}
+  </li>
+
+  <li>
+    {{input
+      type="text"
+      data-test="auto-close-input"
+      tooltipEvent="focus"
+      tooltipContent="Auto-closing tooltip on {{input}}"
+      tooltipDuration="1000"
+      placeholder="Focus field"
+    }}
+  </li>
+
+</ul>
