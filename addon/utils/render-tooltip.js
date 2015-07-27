@@ -32,7 +32,20 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   if (options.event !== 'manual') {
     Ember.$(domElement)[options.event](function() {
+      const willShow = tooltip.hidden;
+
       tooltip.toggle();
+
+      // Clean previously queued removal (if present)
+      Ember.run.cancel(tooltip._hideTimer);
+      if (willShow && options.duration) {
+        // Hide tooltip after specified duration
+        let hideTimer = Ember.run.later(function() {
+          tooltip.hide();
+        }, options.duration);
+        // Save timer id for cancelling
+        tooltip._hideTimer = hideTimer;
+      }
     });
   }
 
