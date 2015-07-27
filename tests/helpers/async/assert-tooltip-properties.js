@@ -124,8 +124,9 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
     });
 
     /* Unhover/click so the tooltip is detached from the DOM */
-
-    if (expectedEvent === 'click') {
+    if (name.match('auto-close')) {
+      // do nothing (just wait for close)
+    } else if (expectedEvent === 'click') {
       click(selectorFor(name));
     } else if (expectedEvent === 'hover') {
       mouseOut(name);
