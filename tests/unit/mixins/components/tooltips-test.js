@@ -20,6 +20,7 @@ test('The mixin adds the public properties', function(assert) {
     tooltipSupportedProperties: [
       'auto',
       'content',
+      'duration',
       'effectClass',
       'event',
       'place',
@@ -29,6 +30,7 @@ test('The mixin adds the public properties', function(assert) {
     ],
     tooltipAuto: true,
     tooltipContent: null,
+    tooltipDuration: null,
     tooltipEffectClass: 'slide', // fade, grow, slide, null
     tooltipEvent: 'hover',
     tooltipPlace: 'top',
@@ -37,7 +39,7 @@ test('The mixin adds the public properties', function(assert) {
     tooltipVisibility: null,
   };
 
-  assert.expect(10);
+  assert.expect(11);
 
   Ember.keys(expectedProperties).forEach(function(expectedProperty) {
     const expectedValue = expectedProperties[expectedProperty];
