@@ -34,6 +34,8 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       click(selectorFor(name));
     } else if (expectedEvent === 'hover') {
       mouseOver(name);
+    } else if (expectedEvent === 'manual') {
+      click(selectorFor(name) + ' + input[type="checkbox"]');
     }
 
     andThen(function() {
@@ -125,7 +127,10 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       click(selectorFor(name));
     } else if (expectedEvent === 'hover') {
       mouseOut(name);
+    } else if (expectedEvent === 'manual') {
+      click(selectorFor(name) + ' + input[type="checkbox"]');
     }
+
 
     /* Then check it has been removed */
 

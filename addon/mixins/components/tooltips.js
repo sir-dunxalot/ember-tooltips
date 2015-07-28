@@ -29,7 +29,8 @@ export default Ember.Mixin.create({
     'event',
     'place',
     'spacing',
-    'typeClass'
+    'typeClass',
+    'visibility'
   ],
 
   /* Tooltip options - see http://darsa.in/tooltip/ */
@@ -37,10 +38,11 @@ export default Ember.Mixin.create({
   tooltipAuto: true,
   tooltipContent: null,
   tooltipEffectClass: 'slide', // fade, grow, slide, null
-  tooltipEvent: 'hover',
+  tooltipEvent: 'hover', // DOM event or "manual"
   tooltipPlace: 'top',
   tooltipSpacing: 10,
   tooltipTypeClass: null,
+  tooltipVisibility: null, // for manual-mode triggering
 
   /**
   Removes a tooltip from the DOM if the element it is attached
@@ -56,6 +58,9 @@ export default Ember.Mixin.create({
       tooltip.effect(null); // Remove animation
       tooltip.detach();
     }
+
+    /* Remove observer, even if it was never added */
+    this.removeObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
   }),
 
   /**
@@ -140,7 +145,36 @@ export default Ember.Mixin.create({
     tooltip = renderTooltip(this.get('element'), tooltipOptions);
 
     this.set('tooltip', tooltip);
+
+    /* Bind observer if manual-triggering mode */
+    if (tooltipOptions.event === 'manual') {
+      if (componentWasPassed) {
+        // Keep track of child tooltip component
+        this.set('tooltipChildComponent', component);
+        // Turn 'tooltipVisibility' into a computed property, reading from child tooltip component's 'visibility' option
+        Ember.defineProperty(this, 'tooltipVisibility', Ember.computed.reads('tooltipChildComponent.visibility'));
+      }
+      this.addObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
+      this.tooltipVisibilityDidChange();
+    }
   }),
+
+  /**
+  Opens / closes tooltip based on value of 'tooltipVisibility'.
+  Only used when event is 'manual'.
+
+  @method tooltipVisibilityDidChange
+  */
+
+  tooltipVisibilityDidChange: function() {
+    const tooltip = this.get('tooltip');
+
+    if (this.get('tooltipVisibility')) {
+      tooltip.show();
+    } else {
+      tooltip.hide();
+    }
+  },
 
   /**
   Call this method on any view to attach tooltips to all elements in its

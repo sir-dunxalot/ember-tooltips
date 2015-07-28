@@ -1,0 +1,32 @@
+<h2>Tooltips triggered manually</h2>
+
+<ul class="examples">
+
+  <li>
+    {{#test-component
+      tooltipContent='This is a manually triggered tooltip'
+      tooltipEvent='manual'
+      tooltipVisibility=showTooltip
+      data-test='manually-trigger'
+    }}
+      Manual tooltip
+    {{/test-component}}
+
+    {{input type="checkbox" checked=showTooltip}} Show
+  </li>
+
+  <li>
+    {{#test-component data-test='manually-trigger-component'}}
+      {{#tooltip-on-parent
+        event='manual'
+        visibility=showComponentTooltip
+      }}
+        Manually triggering a component tooltip
+      {{/tooltip-on-parent}}
+      Manual tooltip as component
+    {{/test-component}}
+
+    {{input type="checkbox" checked=showComponentTooltip}} Show
+  </li>
+
+</ul>

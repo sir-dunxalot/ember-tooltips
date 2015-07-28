@@ -30,9 +30,11 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   tooltip.attach(domElement);
 
-  Ember.$(domElement)[options.event](function() {
-    tooltip.toggle();
-  });
+  if (options.event !== 'manual') {
+    Ember.$(domElement)[options.event](function() {
+      tooltip.toggle();
+    });
+  }
 
   return tooltip;
 }
