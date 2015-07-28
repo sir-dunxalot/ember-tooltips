@@ -6,7 +6,7 @@
     {{#test-component
       tooltipContent='This is a manually triggered tooltip'
       tooltipEvent='manual'
-      tooltipOpen=showTooltip
+      tooltipVisibility=showTooltip
       data-test='manually-trigger'
     }}
       Manual tooltip
@@ -19,7 +19,7 @@
     {{#test-component data-test='manually-trigger-component'}}
       {{#tooltip-on-parent
         event='manual'
-        open=showComponentTooltip
+        visibility=showComponentTooltip
       }}
         Manually triggering a component tooltip
       {{/tooltip-on-parent}}

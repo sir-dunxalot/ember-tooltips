@@ -14,7 +14,7 @@ module('Acceptance | tooltip triggered manually', {
   }
 });
 
-test('Rendering tooltips with event="manual" and provided "tooltipOpen" boolean', function(assert) {
+test('Rendering tooltips with event="manual" and provided "tooltipVisibility" boolean', function(assert) {
   visit('/tooltip-manual-trigger');
 
   assert.expect(13);

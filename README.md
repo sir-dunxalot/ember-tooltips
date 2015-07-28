@@ -31,7 +31,7 @@ This addon aims to maintain parity with all Tooltip library features. Current su
 - place (defaults to top)
 - spacing (defaults to 10)
 - typeClass (can be any string. No default)
-- open (true or false, when `event: 'manual'`. Defaults to null)
+- visibility (true or false, when `event: 'manual'`. No default)
 
 **Please note**, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`, `tooltipEffectClass` or `tooltip-effect-class`. More info is in each section below.
 
@@ -87,7 +87,7 @@ To manually set the tooltip's state:
 {{#some-component
   tooltipContent='This tooltip is triggered manually via attribute'
   tooltipEvent='manual'
-  tooltipOpen=showTooltip
+  tooltipVisibility=showTooltip
 }}
   I'll show a tooltip if you want me to...
 {{/some-component}}

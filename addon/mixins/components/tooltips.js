@@ -30,7 +30,7 @@ export default Ember.Mixin.create({
     'place',
     'spacing',
     'typeClass',
-    'open'
+    'visibility'
   ],
 
   /* Tooltip options - see http://darsa.in/tooltip/ */
@@ -42,7 +42,7 @@ export default Ember.Mixin.create({
   tooltipPlace: 'top',
   tooltipSpacing: 10,
   tooltipTypeClass: null,
-  tooltipOpen: null, // for manual-mode triggering
+  tooltipVisibility: null, // for manual-mode triggering
 
   /**
   Removes a tooltip from the DOM if the element it is attached
@@ -60,7 +60,7 @@ export default Ember.Mixin.create({
     }
 
     /* Remove observer, even if it was never added */
-    this.removeObserver('tooltipOpen', this, this.tooltipOpenDidChange);
+    this.removeObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
   }),
 
   /**
@@ -151,25 +151,25 @@ export default Ember.Mixin.create({
       if (componentWasPassed) {
         // Keep track of child tooltip component
         this.set('tooltipChildComponent', component);
-        // Turn 'tooltipOpen' into a computed property, reading from child tooltip component's 'open' option
-        Ember.defineProperty(this, 'tooltipOpen', Ember.computed.reads('tooltipChildComponent.open'));
+        // Turn 'tooltipVisibility' into a computed property, reading from child tooltip component's 'visibility' option
+        Ember.defineProperty(this, 'tooltipVisibility', Ember.computed.reads('tooltipChildComponent.visibility'));
       }
-      this.addObserver('tooltipOpen', this, this.tooltipOpenDidChange);
-      this.tooltipOpenDidChange();
+      this.addObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
+      this.tooltipVisibilityDidChange();
     }
   }),
 
   /**
-  Opens / closes tooltip based on value of 'tooltipOpen'.
+  Opens / closes tooltip based on value of 'tooltipVisibility'.
   Only used when event is 'manual'.
 
-  @method tooltipOpenDidChange
+  @method tooltipVisibilityDidChange
   */
 
-  tooltipOpenDidChange: function() {
+  tooltipVisibilityDidChange: function() {
     const tooltip = this.get('tooltip');
 
-    if (this.get('tooltipOpen')) {
+    if (this.get('tooltipVisibility')) {
       tooltip.show();
     } else {
       tooltip.hide();
