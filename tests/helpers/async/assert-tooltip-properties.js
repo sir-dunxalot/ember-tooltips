@@ -36,8 +36,8 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       mouseOver(name);
     } else if (expectedEvent === 'manual') {
       click(selectorFor(name) + ' + input[type="checkbox"]');
-    } else if (expectedEvent === 'focus') {
-      triggerEvent(selectorFor(name), 'focus');
+    } else {
+      triggerEvent(selectorFor(name), expectedEvent);
     }
 
     andThen(function() {
