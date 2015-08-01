@@ -28,6 +28,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   if (options.duration && typeof options.duration === 'string') {
     options.duration = parseInt(options.duration, 10);
+
     if (isNaN(options.duration) || !isFinite(options.duration)) {
       // Remove invalid parseInt results
       options.duration = null;
@@ -46,6 +47,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
       // Clean previously queued removal (if present)
       Ember.run.cancel(tooltip._hideTimer);
+
       if (willShow && options.duration) {
         // Hide tooltip after specified duration
         let hideTimer = Ember.run.later(function() {
