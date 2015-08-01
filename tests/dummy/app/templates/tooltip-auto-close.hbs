@@ -15,7 +15,7 @@
 
   <li>
     {{#test-component data-test='auto-close-component'}}
-      {{#tooltip-on-parent duration="1000" event="mouseenter"}}
+      {{#tooltip-on-parent duration='1000' event='mouseenter'}}
         Using a component with duration set
       {{/tooltip-on-parent}}
       Hover over me
@@ -38,12 +38,12 @@
 
   <li>
     {{input
-      type="text"
-      data-test="auto-close-input"
-      tooltipEvent="focus"
-      tooltipContent="Auto-closing tooltip on {{input}}"
-      tooltipDuration="1000"
-      placeholder="Focus field"
+      type='text'
+      data-test='auto-close-input'
+      tooltipEvent='focus'
+      tooltipContent='Auto-closing tooltip on {{input}}'
+      tooltipDuration='1000'
+      placeholder='Focus field'
     }}
   </li>
 
