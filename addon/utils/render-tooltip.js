@@ -50,7 +50,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
       if (willShow && options.duration) {
         // Hide tooltip after specified duration
-        let hideTimer = Ember.run.later(function() {
+        const hideTimer = Ember.run.later(function() {
           tooltip.hide();
         }, options.duration);
         // Save timer id for cancelling
