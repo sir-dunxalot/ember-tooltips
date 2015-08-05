@@ -105,7 +105,7 @@ This component registers itself on the parent view and the content of the `{{too
     Stop hovering over me, {{name}}!
   {{/tooltip-on-parent}}
 
-  Dont' hover over me!
+  Don't hover over me!
 {{/some-component}}
 ```
 
