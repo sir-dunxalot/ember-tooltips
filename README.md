@@ -40,7 +40,7 @@ Default values can be set [on the `ember-tooltips` mixin](#customizing-the-mixin
 
 ### Using on Helpers
 
-The most common way to use a tooltip is on a helper. Examples of such helpers are `{{#link-to}}`, `{{#some-component}}`, or `{{view 'table'}}`.
+The most common way to use a tooltip is on a helper. Examples of such helpers are `{{#link-to}}`, `{{some-component}}`, or `{{view 'table'}}`.
 
 All supported properties should be prefixed by `tooltip` and should be camelCased.
 
@@ -82,7 +82,7 @@ Or with dynamic content:
 {{/each}}
 ```
 
-To manually set the tooltip's state:
+To manually set the tooltip's visibility with a boolean property:
 
 ```hbs
 {{#some-component
@@ -94,20 +94,22 @@ To manually set the tooltip's state:
 {{/some-component}}
 ```
 
-Tooltips can be automatically closed:
+Tooltips can be automatically closed after a specified duration:
 
 ```hbs
-{{input type="text"
-  tooltipEvent="focus"
-  tooltipContent="Helpful form tip"
-  tooltipDuration="1000"
-  tooltipPlace="right"
+{{input type='text'
+  tooltipEvent='focus'
+  tooltipContent='Helpful form tip'
+  tooltipDuration='1000'
+  tooltipPlace='right'
 }}
 ```
 
 ### Using as a Component
 
 If you want to use HTMLBars in your tooltip, then the `{{tooltip-on-parent}}` component is your friend.
+
+*Please note, normal HTML can be passed with the `tooltipContent` param.*
 
 This component registers itself on the parent view and the content of the `{{tooltip-on-parent}}` component will be rendered inside the tooltip. The tooltip is automatically attached to the parent view's element.
 
@@ -194,6 +196,8 @@ export default Ember.Component.extend({
 });
 ```
 
+**Warning:** Using HTML `data-x` attributes has limitations. Durations and manual triggers are not supported.
+
 ### Customizing the Mixin
 
 By default the `ember-tooltips` mixin is added to all views and components. This mixin contains the helper methods to render tooltips.
@@ -254,7 +258,7 @@ import EmberTooltipsMixin from 'ember-tooltips/mixins/components/tooltips';
 
 export default Ember.Mixin.create(
   EmberTooltipsMixin, {
-  
+
   tooltipPlace: 'right',
   tooltipSpacing: 20,
 });
@@ -265,3 +269,9 @@ export default Ember.Mixin.create(
 - `git clone https://github.com/sir-dunxalot/ember-tooltips.git`
 - `ember s`
 - `ember test` or `/tests` route
+
+A huge thank you to those who have identified and opened issues, in particular the contributors:
+
+- @davidgovea
+- @kmiyashiro
+- @cdl
