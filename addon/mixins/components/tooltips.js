@@ -25,6 +25,7 @@ export default Ember.Mixin.create({
   tooltipSupportedProperties: [
     'auto',
     'content',
+    'duration',
     'effectClass',
     'event',
     'place',
@@ -37,6 +38,7 @@ export default Ember.Mixin.create({
 
   tooltipAuto: true,
   tooltipContent: null,
+  tooltipDuration: null,
   tooltipEffectClass: 'slide', // fade, grow, slide, null
   tooltipEvent: 'hover', // DOM event or "manual"
   tooltipPlace: 'top',

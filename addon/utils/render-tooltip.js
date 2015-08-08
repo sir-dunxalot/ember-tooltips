@@ -26,13 +26,36 @@ export default function renderTooltip(domElement = {}, options = {}) {
     options.event = 'hover';
   }
 
+  if (options.duration && typeof options.duration === 'string') {
+    options.duration = parseInt(options.duration, 10);
+
+    if (isNaN(options.duration) || !isFinite(options.duration)) {
+      // Remove invalid parseInt results
+      options.duration = null;
+    }
+  }
+
   tooltip = new Tooltip(options.content, options);
 
   tooltip.attach(domElement);
 
   if (options.event !== 'manual') {
     Ember.$(domElement)[options.event](function() {
+      const willShow = tooltip.hidden;
+
       tooltip.toggle();
+
+      // Clean previously queued removal (if present)
+      Ember.run.cancel(tooltip._hideTimer);
+
+      if (willShow && options.duration) {
+        // Hide tooltip after specified duration
+        const hideTimer = Ember.run.later(function() {
+          tooltip.hide();
+        }, options.duration);
+        // Save timer id for cancelling
+        tooltip._hideTimer = hideTimer;
+      }
     });
   }
 

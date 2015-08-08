@@ -26,6 +26,7 @@ Documentation for usage is below:
 This addon aims to maintain parity with all Tooltip library features. Current supported properties are:
 
 - auto (true or false. Defaults to true)
+- duration (time in milliseconds. No default)
 - effectClass (none, fade, slide, or grow. Defaults to slide)
 - event (any kind of [jQuery event](https://api.jquery.com/category/events/) or "manual", defaults to hover)
 - place (defaults to top)
@@ -91,6 +92,17 @@ To manually set the tooltip's state:
 }}
   I'll show a tooltip if you want me to...
 {{/some-component}}
+```
+
+Tooltips can be automatically closed:
+
+```hbs
+{{input type="text"
+  tooltipEvent="focus"
+  tooltipContent="Helpful form tip"
+  tooltipDuration="1000"
+  tooltipPlace="right"
+}}
 ```
 
 ### Using as a Component
