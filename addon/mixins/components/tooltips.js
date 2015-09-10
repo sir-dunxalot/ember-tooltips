@@ -63,6 +63,7 @@ export default Ember.Mixin.create({
 
     /* Remove observer, even if it was never added */
     this.removeObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
+    this.removeObserver('tooltipContent', this, this.tooltipContentDidChange);
   }),
 
   /**
@@ -113,6 +114,9 @@ export default Ember.Mixin.create({
     let content = this.get('tooltipContent');
     let tooltip, tooltipOptions;
 
+    var keys = Object.keys(this);
+    var hasTooltipContentProperty = (Ember.$.inArray('tooltipContent', keys) !== -1);
+
     if (componentWasPassed) {
       const componentContent = component.get('content');
 
@@ -123,7 +127,7 @@ export default Ember.Mixin.create({
       }
     }
 
-    if (!content) {
+    if (!content && !hasTooltipContentProperty) {
       return;
     }
 
@@ -148,6 +152,9 @@ export default Ember.Mixin.create({
 
     this.set('tooltip', tooltip);
 
+    /* Bind observer if tooltipContent changes */
+    this.addObserver('tooltipContent', this, this.tooltipContentDidChange);
+
     /* Bind observer if manual-triggering mode */
     if (tooltipOptions.event === 'manual') {
       if (componentWasPassed) {
@@ -160,6 +167,20 @@ export default Ember.Mixin.create({
       this.tooltipVisibilityDidChange();
     }
   }),
+
+  /**
+  Updates the content value of the tooltip with value of 'tooltipContent'.
+
+  @method tooltipContentDidChange
+  */
+
+  tooltipContentDidChange: function() {
+    const tooltip = this.get('tooltip');
+
+    if (tooltip) {
+      tooltip.content(this.get('tooltipContent'));
+    }
+  },
 
   /**
   Opens / closes tooltip based on value of 'tooltipVisibility'.
