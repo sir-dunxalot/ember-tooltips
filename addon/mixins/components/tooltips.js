@@ -114,8 +114,8 @@ export default Ember.Mixin.create({
     let content = this.get('tooltipContent');
     let tooltip, tooltipOptions;
 
-    var keys = Object.keys(this);
-    var hasTooltipContentProperty = (Ember.$.inArray('tooltipContent', keys) !== -1);
+    const keys = Object.keys(this);
+    const hasTooltipContentProperty = (Ember.$.inArray('tooltipContent', keys) !== -1);
 
     if (componentWasPassed) {
       const componentContent = component.get('content');
