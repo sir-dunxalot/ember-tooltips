@@ -1,10 +1,10 @@
 import Ember from 'ember';
-import { initialize } from '../../../initializers/ember-tooltips';
+// import { initialize } from '../../../initializers/ember-tooltips';
 import { module, test } from 'qunit';
 
-let application, container, view;
+let application, container;
 
-module('Unit | Initializer | add tooltips to views', {
+module('Unit | Initializer | add tooltips to components', {
   beforeEach: function() {
     Ember.run(function() {
       application = Ember.Application.create();
@@ -15,7 +15,7 @@ module('Unit | Initializer | add tooltips to views', {
 });
 
 test('Reopening classes', function(assert) {
-  const classes = ['Component', 'View'];
+  const classes = ['Component'];
 
   assert.expect(classes.length);
 
