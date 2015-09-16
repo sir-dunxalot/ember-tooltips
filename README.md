@@ -11,6 +11,13 @@ Powered by <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip (d
 ember install ember-tooltips
 ```
 
+## Compatibility Table
+
+| Ember | Ember Tooltips |
+|-------|----------------|
+| 1.13  | 0.4.0          |
+| 2.0   | 0.5.0          |
+
 ## Usage
 
 Documentation for usage is below:
