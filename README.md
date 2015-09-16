@@ -11,6 +11,13 @@ Powered by <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip (d
 ember install ember-tooltips
 ```
 
+## Compatibility Table
+
+| Ember | Ember Tooltips |
+|-------|----------------|
+| 1.13  | 0.4.0          |
+| 2.0   | 0.5.0          |
+
 ## Usage
 
 Documentation for usage is below:
@@ -200,7 +207,7 @@ export default Ember.Component.extend({
 
 ### Customizing the Mixin
 
-By default the `ember-tooltips` mixin is added to all views and components. This mixin contains the helper methods to render tooltips.
+By default the `ember-tooltips` mixin is added to all components. This mixin contains the helper methods to render tooltips.
 
 You can customize where the mixin is automatically added by overriding the `addTo` option in your `config/environment.js` file:
 
@@ -211,7 +218,7 @@ module.exports = function(environment) {
     /* ... */
 
     tooltips: {
-      addTo: ['View', 'Component'], // Ember.View, Ember.Component
+      addTo: ['Component'], // Ember.Component
     }
   }
 };

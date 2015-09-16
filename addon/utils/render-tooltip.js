@@ -4,12 +4,13 @@ A utility to attach a tooltip to a DOM element.
 @submodule utils
 @method renderTooltip
 @param {Element} domElement The DOM element, not jQuery element, to attach the tooltip to
-@param {Object} options The tooltip options to render the tooltip with. For supported options, see the tooltipSupportedProperties array in the views initializer
+@param {Object} options The tooltip options to render the tooltip with
 */
 
 import Ember from 'ember';
 
 const Tooltip = window.Tooltip;
+const { $, run } = Ember;
 
 export default function renderTooltip(domElement = {}, options = {}) {
   const typeClass = options.typeClass;
@@ -29,8 +30,9 @@ export default function renderTooltip(domElement = {}, options = {}) {
   if (options.duration && typeof options.duration === 'string') {
     options.duration = parseInt(options.duration, 10);
 
+    /* Remove invalid parseInt results */
+
     if (isNaN(options.duration) || !isFinite(options.duration)) {
-      // Remove invalid parseInt results
       options.duration = null;
     }
   }
@@ -40,20 +42,25 @@ export default function renderTooltip(domElement = {}, options = {}) {
   tooltip.attach(domElement);
 
   if (options.event !== 'manual') {
-    Ember.$(domElement)[options.event](function() {
+    $(domElement)[options.event](function() {
       const willShow = tooltip.hidden;
 
       tooltip.toggle();
 
-      // Clean previously queued removal (if present)
-      Ember.run.cancel(tooltip._hideTimer);
+      /* Clean previously queued removal (if present) */
+
+      run.cancel(tooltip._hideTimer);
 
       if (willShow && options.duration) {
-        // Hide tooltip after specified duration
-        const hideTimer = Ember.run.later(function() {
+
+        /* Hide tooltip after specified duration */
+
+        const hideTimer = run.later(function() {
           tooltip.hide();
         }, options.duration);
-        // Save timer id for cancelling
+
+        /* Save timer ID for cancelling */
+
         tooltip._hideTimer = hideTimer;
       }
     });

@@ -62,18 +62,20 @@ export default Ember.Mixin.create({
     }
 
     /* Remove observer, even if it was never added */
+
     this.removeObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
+    this.removeObserver('tooltipContent', this, this.tooltipContentDidChange);
   }),
 
   /**
-  Adds a tooltip to the current view using the values of the tooltip
-  properties on the view or, if a `{{tooltip-on-parent}}` component is
-  passed, the values set on the component.
+  Adds a tooltip to the current component using the values of the tooltip
+  properties on this component's helper or, if a `{{tooltip-on-parent}}` component is
+  passed, the values set on that component.
 
   In the latter case, the `{{tooltip-on-parent}}` block template will
   be used for the tooltip content.
 
-  ## Example 1 - Setting values on a view or component
+  ## Example 1 - Setting values on a component
 
   ```hbs
   {{#some-component tooltipContent='This will show' tooltipPlace='right'}}
@@ -113,6 +115,9 @@ export default Ember.Mixin.create({
     let content = this.get('tooltipContent');
     let tooltip, tooltipOptions;
 
+    const keys = Object.keys(this);
+    const hasTooltipContentProperty = (Ember.$.inArray('tooltipContent', keys) !== -1);
+
     if (componentWasPassed) {
       const componentContent = component.get('content');
 
@@ -123,7 +128,7 @@ export default Ember.Mixin.create({
       }
     }
 
-    if (!content) {
+    if (!content && !hasTooltipContentProperty) {
       return;
     }
 
@@ -148,21 +153,46 @@ export default Ember.Mixin.create({
 
     this.set('tooltip', tooltip);
 
-    /* Bind observer if manual-triggering mode */
+    /* Bind observer if tooltipContent changes */
+
+    this.addObserver('tooltipContent', this, this.tooltipContentDidChange);
+
+    /* Bind observer if in manual-triggering mode */
+
     if (tooltipOptions.event === 'manual') {
       if (componentWasPassed) {
-        // Keep track of child tooltip component
+
+        /* Keep track of child tooltip component */
+
         this.set('tooltipChildComponent', component);
-        // Turn 'tooltipVisibility' into a computed property, reading from child tooltip component's 'visibility' option
+
+        /* Turn 'tooltipVisibility' into a computed property, reading
+        from child tooltip component's 'visibility' option */
+
         Ember.defineProperty(this, 'tooltipVisibility', Ember.computed.reads('tooltipChildComponent.visibility'));
       }
+
       this.addObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
       this.tooltipVisibilityDidChange();
     }
   }),
 
   /**
-  Opens / closes tooltip based on value of 'tooltipVisibility'.
+  Updates the content value of the tooltip with value of 'tooltipContent'.
+
+  @method tooltipContentDidChange
+  */
+
+  tooltipContentDidChange: function() {
+    const tooltip = this.get('tooltip');
+
+    if (tooltip) {
+      tooltip.content(this.get('tooltipContent'));
+    }
+  },
+
+  /**
+  Opens or closes tooltip based on value of 'tooltipVisibility'.
   Only used when event is 'manual'.
 
   @method tooltipVisibilityDidChange
@@ -179,7 +209,7 @@ export default Ember.Mixin.create({
   },
 
   /**
-  Call this method on any view to attach tooltips to all elements in its
+  Call this method on any component to attach tooltips to all elements in its
   template that have a `.tooltip` class. Tooltip options are set using
   data attributes.
 
