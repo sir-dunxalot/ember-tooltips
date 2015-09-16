@@ -59,11 +59,10 @@ export default Ember.Mixin.create({
     if (tooltip) {
       tooltip.effect(null); // Remove animation
       tooltip.detach();
-      this.set('tooltip', null);
-      this.set('tooltipContent', null);
     }
 
     /* Remove observer, even if it was never added */
+
     this.removeObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
     this.removeObserver('tooltipContent', this, this.tooltipContentDidChange);
   }),
@@ -193,7 +192,7 @@ export default Ember.Mixin.create({
   },
 
   /**
-  Opens pr closes tooltip based on value of 'tooltipVisibility'.
+  Opens or closes tooltip based on value of 'tooltipVisibility'.
   Only used when event is 'manual'.
 
   @method tooltipVisibilityDidChange
