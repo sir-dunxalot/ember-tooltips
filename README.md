@@ -16,7 +16,7 @@ ember install ember-tooltips
 | Ember | Ember Tooltips |
 |-------|----------------|
 | 1.13  | 0.4.0          |
-| 2.0   | 0.5.0          |
+| 2.0   | 0.5.0 or above |
 
 ## Usage
 
