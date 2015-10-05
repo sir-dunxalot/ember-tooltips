@@ -41,7 +41,7 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
     }
 
     andThen(function() {
-      const [ tooltip ] = Ember.$('.tooltip');
+      const [ tooltip ] = Ember.$('.tooltip').toArray();
       const indexOfEffectClass = tooltip.className.indexOf(expectedEffectClass);
       const indexOfTypeClass = tooltip.className.indexOf(expectedTypeClass);
 
@@ -53,15 +53,13 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       /* Check content */
 
       if (usingComponent) {
-        const [ tooltipHtml ] = cleanWhitespace($(tooltip));
+        const [ tooltipHtml ] = cleanWhitespace($(tooltip)).toArray();
         const cleanTooltipHtml = tooltipHtml.innerHTML.replace(/id="[^"]*"/g, '').replace(/\s+/, ' ');
         const expectedTargetContent = properties.targetContent || 'Hover over me';
         const target = inspect(name, false);
 
         assert.equal($.trim(cleanTooltipHtml), expectedContent,
           'The HTML content of the tooltip should be correct');
-
-        console.log();
 
         assert.equal(target.innerText, expectedTargetContent,
           'The expected target content should contain just the expected text and not the {{tooltip-on-parent}} view');
