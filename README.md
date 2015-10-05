@@ -3,7 +3,7 @@ Ember-tooltips [![Build Status](https://travis-ci.org/sir-dunxalot/ember-tooltip
 
 Render simple tooltips on components, views, HTML elements, and more using simple strings, HTMLBars, bound properties, and more.
 
-Powered by <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip (demo here)</a>.
+Powered by <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip</a>. You can see [a demo here](http://sir-dunxalot.github.io/ember-tooltips/).
 
 ## Installation
 
