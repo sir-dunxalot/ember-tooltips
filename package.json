@@ -39,7 +39,8 @@
     "ember-paper": "0.2.8",
     "ember-suave": "1.1.0",
     "ember-try": "0.0.6",
-    "publish": "^0.5.0"
+    "publish": "^0.5.0",
+    "rsvp": "^3.1.0"
   },
   "keywords": [
     "ember-addon",
