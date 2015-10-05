@@ -32,16 +32,16 @@ Documentation for usage is below:
 
 This addon aims to maintain parity with all Tooltip library features. Current supported properties are:
 
-- auto (true or false. Defaults to true)
-- duration (time in milliseconds. No default)
-- effectClass (none, fade, slide, or grow. Defaults to slide)
-- event (any kind of [jQuery event](https://api.jquery.com/category/events/) or "manual", defaults to hover)
-- place (defaults to top)
-- spacing (defaults to 10)
-- typeClass (can be any string. No default)
-- visibility (true or false, when `event: 'manual'`. No default)
+- `auto` (`true` or `false`. Defaults to `true`)
+- `duration` (time in milliseconds. No default)
+- `effectClass` (`'none'`, `'fade'`, `'slide'`, or `'grow'`. Defaults to `'slide'`)
+- `event` (any kind of [jQuery event](https://api.jquery.com/category/events/) or `'manual'`, defaults to `'hover'`)
+- `place` (defaults to `'top'`)
+- `spacing` (defaults to `10`)
+- `typeClass` (can be any string. No default)
+- `visibility` (`true` or `false`, when `event: 'manual'`. No default)
 
-**Please note**, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`, `tooltipEffectClass` or `tooltip-effect-class`. More info is in each section below.
+**Please note**, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`, `tooltipEffectClass` or `data-tooltip-effect-class`. More info is in each section below.
 
 Default values can be set [on the `ember-tooltips` mixin](#customizing-the-mixin).
 
