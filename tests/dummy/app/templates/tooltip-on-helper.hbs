@@ -11,6 +11,15 @@
 
   <li>
     {{#test-component
+      tooltipContent='Debugging'
+      action='debugging'
+    }}
+      Should disappear on route transition
+    {{/test-component}}
+  </li>
+
+  <li>
+    {{#test-component
       tooltipContent='This shows on a click event'
       tooltipEvent='click'
       data-test='showing-on-click'

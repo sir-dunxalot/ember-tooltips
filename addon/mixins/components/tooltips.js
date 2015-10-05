@@ -58,7 +58,12 @@ export default Ember.Mixin.create({
 
     if (tooltip) {
       tooltip.effect(null); // Remove animation
+      tooltip.hide();
       tooltip.detach();
+
+      if (document.contains(tooltip.element)) {
+        this.$().unbind();
+      }
     }
 
     /* Remove observer, even if it was never added */
