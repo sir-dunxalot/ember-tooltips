@@ -41,7 +41,7 @@ test('The mixin adds the public properties', function(assert) {
 
   assert.expect(11);
 
-  Ember.keys(expectedProperties).forEach(function(expectedProperty) {
+  Object.keys(expectedProperties).forEach(function(expectedProperty) {
     const expectedValue = expectedProperties[expectedProperty];
     const actualValue = component.get(expectedProperty);
 
