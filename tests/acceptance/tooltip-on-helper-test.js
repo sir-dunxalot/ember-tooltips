@@ -2,16 +2,18 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 
-var application;
+let application;
 
 module('Acceptance | tooltip on helper', {
-  beforeEach: function() {
+
+  beforeEach() {
     application = startApp();
   },
 
-  afterEach: function() {
+  afterEach() {
     Ember.run(application, 'destroy');
-  }
+  },
+
 });
 
 test('Rendering tooltips set on helpers', function(assert) {

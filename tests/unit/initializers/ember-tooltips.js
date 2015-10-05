@@ -2,16 +2,19 @@ import Ember from 'ember';
 // import { initialize } from '../../../initializers/ember-tooltips';
 import { module, test } from 'qunit';
 
-let application, container;
+let application;
+let container;
 
 module('Unit | Initializer | add tooltips to components', {
-  beforeEach: function() {
+
+  beforeEach() {
     Ember.run(function() {
       application = Ember.Application.create();
       container = application.__container__;
       application.deferReadiness();
     });
-  }
+  },
+
 });
 
 test('Reopening classes', function(assert) {

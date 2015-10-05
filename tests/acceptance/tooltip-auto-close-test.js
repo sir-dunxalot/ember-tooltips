@@ -2,16 +2,18 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 
-var application;
+let application;
 
 module('Acceptance | tooltip auto close', {
-  beforeEach: function() {
+
+  beforeEach() {
     application = startApp();
   },
 
-  afterEach: function() {
+  afterEach() {
     Ember.run(application, 'destroy');
-  }
+  },
+
 });
 
 test('Auto-closing tooltips using duration parameter', function(assert) {
@@ -21,7 +23,7 @@ test('Auto-closing tooltips using duration parameter', function(assert) {
 
   assertTooltipProperties(assert, 'auto-close-basic', {
     content: 'This shows on a click event, then hides',
-    event: 'click'
+    event: 'click',
   });
 
   assertTooltipProperties(assert, 'auto-close-component', {
@@ -31,12 +33,12 @@ test('Auto-closing tooltips using duration parameter', function(assert) {
 
   assertTooltipProperties(assert, 'auto-close-data', {
     content: 'This is set on a data attribute',
-    event: 'click'
+    event: 'click',
   });
 
   assertTooltipProperties(assert, 'auto-close-input', {
     content: 'Auto-closing tooltip on {{input}}',
-    event: 'focus'
+    event: 'focus',
   });
 
 });

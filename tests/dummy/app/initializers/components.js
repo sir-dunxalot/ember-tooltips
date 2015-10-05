@@ -11,5 +11,5 @@ export function initialize(/* container, application */) {
 
 export default {
   name: 'components',
-  initialize: initialize
+  initialize,
 };

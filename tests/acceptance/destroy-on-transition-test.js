@@ -3,16 +3,18 @@ import { module, test } from 'qunit';
 import selectorFor from '../helpers/selector-for';
 import startApp from '../helpers/start-app';
 
-var application;
+let application;
 
 module('Acceptance | destroy on transition', {
-  beforeEach: function() {
+
+  beforeEach() {
     application = startApp();
   },
 
-  afterEach: function() {
+  afterEach() {
     Ember.run(application, 'destroy');
-  }
+  },
+
 });
 
 test('visiting /destroy-on-transition', function(assert) {

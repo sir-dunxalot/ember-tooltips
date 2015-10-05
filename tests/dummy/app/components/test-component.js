@@ -7,5 +7,6 @@ export default Ember.Component.extend({
     if (this.get('action')) {
       this.sendAction('action');
     }
-  }
+  },
+
 });

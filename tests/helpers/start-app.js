@@ -9,9 +9,9 @@ import './async/mouse-over';
 import './sync/inspect';
 
 export default function startApp(attrs) {
-  var application;
+  let attributes = Ember.merge({}, config.APP);
+  let application;
 
-  var attributes = Ember.merge({}, config.APP);
   attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
 
   Ember.run(function() {

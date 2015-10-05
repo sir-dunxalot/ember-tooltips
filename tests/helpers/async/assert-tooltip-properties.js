@@ -35,13 +35,13 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
     } else if (expectedEvent === 'hover') {
       mouseOver(name);
     } else if (expectedEvent === 'manual') {
-      click(selectorFor(name) + ' + input[type="checkbox"]');
+      click(`${selectorFor(name)} + input[type="checkbox"]`);
     } else {
       triggerEvent(selectorFor(name), expectedEvent);
     }
 
     andThen(function() {
-      const tooltip = Ember.$('.tooltip')[0];
+      const [ tooltip ] = Ember.$('.tooltip');
       const indexOfEffectClass = tooltip.className.indexOf(expectedEffectClass);
       const indexOfTypeClass = tooltip.className.indexOf(expectedTypeClass);
 
@@ -53,7 +53,7 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       /* Check content */
 
       if (usingComponent) {
-        const tooltipHtml = cleanWhitespace($(tooltip))[0];
+        const [ tooltipHtml ] = cleanWhitespace($(tooltip));
         const cleanTooltipHtml = tooltipHtml.innerHTML.replace(/id="[^"]*"/g, '').replace(/\s+/, ' ');
         const expectedTargetContent = properties.targetContent || 'Hover over me';
         const target = inspect(name, false);
@@ -85,12 +85,12 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       if (expectedEffectClass) {
 
         assert.ok(indexOfEffectClass > -1,
-          'The effect class of the tooltip should be ' + expectedEffectClass);
+          `The effect class of the tooltip should be ${expectedEffectClass}`);
 
       } else {
 
         assert.ok(indexOfEffectClass === -1,
-          'The type class of the tooltip should not contain ' + expectedTypeClass);
+          `The type class of the tooltip should not contain ${expectedTypeClass}`);
 
       }
 
@@ -111,28 +111,28 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
       if (expectedTypeClass) {
 
         assert.ok(indexOfTypeClass > -1,
-          'The type class of the tooltip should be ' + expectedTypeClass);
+          `The type class of the tooltip should be ${expectedTypeClass}`);
 
       } else {
 
         assert.ok(indexOfTypeClass === -1,
-          'The type class of the tooltip should not contain ' + expectedTypeClass);
+          `The type class of the tooltip should not contain ${expectedTypeClass}`);
 
       }
 
     });
 
     /* Unhover/click so the tooltip is detached from the DOM */
-    if (name.match('auto-close')) {
-      // do nothing (just wait for close)
-    } else if (expectedEvent === 'click') {
+
+    //  if (name.match('auto-close')) do nothing
+
+    if (expectedEvent === 'click') {
       click(selectorFor(name));
     } else if (expectedEvent === 'hover') {
       mouseOut(name);
     } else if (expectedEvent === 'manual') {
-      click(selectorFor(name) + ' + input[type="checkbox"]');
+      click(`${selectorFor(name)} + input[type="checkbox"]`);
     }
-
 
     /* Then check it has been removed */
 

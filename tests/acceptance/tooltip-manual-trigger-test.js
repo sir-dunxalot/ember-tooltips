@@ -2,16 +2,18 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 
-var application;
+let application;
 
 module('Acceptance | tooltip triggered manually', {
-  beforeEach: function() {
+
+  beforeEach() {
     application = startApp();
   },
 
-  afterEach: function() {
+  afterEach() {
     Ember.run(application, 'destroy');
-  }
+  },
+
 });
 
 test('Rendering tooltips with event="manual" and provided "tooltipVisibility" boolean', function(assert) {
@@ -21,14 +23,14 @@ test('Rendering tooltips with event="manual" and provided "tooltipVisibility" bo
 
   assertTooltipProperties(assert, 'manually-trigger', {
     content: 'This is a manually triggered tooltip',
-    event: 'manual'
+    event: 'manual',
   });
 
   assertTooltipProperties(assert, 'manually-trigger-component', {
     targetContent: 'Manual tooltip as component',
     content: 'Manually triggering a component tooltip',
     usingComponent: true,
-    event: 'manual'
+    event: 'manual',
   });
 
 });
