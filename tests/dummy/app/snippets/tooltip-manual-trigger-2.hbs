@@ -1,0 +1,14 @@
+{{!-- BEGIN-SNIPPET tooltip-manual-trigger-2 --}}
+{{#some-component}}
+
+  {{#tooltip-on-parent
+    event='manual'
+    visibility=showTooltip
+  }}
+    Manually triggering a component tooltip
+  {{/tooltip-on-parent}}
+
+{{/some-component}}
+
+{{input type='checkbox' checked=showTooltip}}
+{{!-- END-SNIPPET --}}

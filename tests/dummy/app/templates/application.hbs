@@ -1,38 +1,77 @@
-<h1 id="title">Ember Tooltips</h1>
+{{#paper-nav-container}}
 
-<h2>Other examples</h2>
+  {{#paper-sidenav class='md-sidenav-left md-whiteframe-z2' locked-open='gt-sm'}}
 
-<ul>
-  <li>
-    {{#link-to 'tooltip-on-helper'}}
-      Tooltips on <strong>helpers</strong> like component, view, link-to, etc
-    {{/link-to}}
-  </li>
+    {{#paper-toolbar}}
+      <div class="md-toolbar-tools">
 
-  <li>
-    {{#link-to 'tooltip-as-component'}}
-      <strong>HTMLBars</strong> tooltips as <strong>components</strong> that render on their parent component
-    {{/link-to}}
-  </li>
+        <div class="logo-wrapper">
+          <h2 id="title">
+            {{#link-to 'index'}}
+              {{paper-icon icon='chat'}}
+              <img src="https://s3.amazonaws.com/dgw-public/ember-logo-white.png" class="logo" height="30"/>
+              <span class="text">&nbsp;Tooltips</span>
+            {{/link-to}}
+          </h2>
+        </div>
+      </div>
+    {{/paper-toolbar}}
 
-  <li>
-    {{#link-to 'tooltip-on-element'}}
-      Tooltips set on <strong>elements</strong> using <strong>data attributes</strong>
-    {{/link-to}}
-  </li>
+    {{#paper-content}}
+      {{#paper-list}}
 
-  <li>
-    {{#link-to 'tooltip-manual-trigger'}}
-      Tooltips triggered <strong>manually</strong> by providing a <strong>boolean attribute</strong>
-    {{/link-to}}
-  </li>
+        {{#paper-item action='transitionTo' param='tooltip-on-helper'}}
+          Tooltips on helpers
+        {{/paper-item}}
 
-  <li>
-    {{#link-to 'tooltip-auto-close'}}
-      Tooltips with <strong>automatic-close durations</strong>
-    {{/link-to}}
-  </li>
+        {{#paper-item action='transitionTo' param='tooltip-as-component'}}
+          Tooltips as components
+        {{/paper-item}}
 
-</ul>
+        {{#paper-item action='transitionTo' param='tooltip-on-element'}}
+          Tooltips on element
+        {{/paper-item}}
 
-{{outlet}}
+        {{#paper-item action='transitionTo' param='tooltip-manual-trigger'}}
+          Manual tooltip visibility
+        {{/paper-item}}
+
+        {{#paper-item action='transitionTo' param='tooltip-auto-close'}}
+          Automatic close durations
+        {{/paper-item}}
+
+        {{paper-divider}}
+
+        {{#paper-item action='linkTo' param='https://github.com/sir-dunxalot/ember-tooltips'}}
+          {{paper-icon icon='code'}}
+          View Source on Github
+        {{/paper-item}}
+
+        {{#paper-item action='linkTo' param='http://darsa.in/tooltip/'}}
+          {{paper-icon icon='library-books'}}
+          Darsain Tooltip Docs
+        {{/paper-item}}
+
+      {{/paper-list}}
+    {{/paper-content}}
+
+  {{/paper-sidenav}}
+
+  <div layout="column" tabindex="-1" role="main" flex>
+    {{#paper-toolbar}}
+      <div class="md-toolbar-tools">
+        {{#paper-sidenav-toggle as |toggle|}}
+          {{#paper-button target=toggle action='toggleMenu' icon-button=true}}
+            {{paper-icon icon='menu'}}
+          {{/paper-button}}
+        {{/paper-sidenav-toggle}}
+        <span class="md-breadcrumb-page">{{pageTitle}}</span>
+      </div>
+    {{/paper-toolbar}}
+
+    {{#paper-content class='md-padding page-content'}}
+      {{outlet}}
+    {{/paper-content}}
+  </div>
+
+{{/paper-nav-container}}

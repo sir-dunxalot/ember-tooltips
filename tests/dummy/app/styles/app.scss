@@ -1,0 +1,73 @@
+@import 'compass';
+@import 'ember-paper';
+
+@import 'core/variables';
+@import 'core/mixins';
+
+@import 'components/code';
+
+html {
+  font-size: $baseFontSize;
+}
+
+body {
+  @include rem(font-size, $bodyFontSize);
+
+  /* So text looks much better in Crome/Safari */
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+.logo, .logo-wrapper .text {
+  @include inline-block;
+}
+
+.logo {
+  @include rem(margin-top, -0.7);
+  @include rem(margin-left, 1);
+}
+
+.page-content {
+  @include rem(padding, 4);
+}
+
+.inline-block {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.inline-block:hover {
+  border-color: #999;
+}
+
+.examples {
+  list-style: none;
+  padding: 0;
+  margin: 30px;
+}
+
+.examples li {
+  padding: 0;
+  margin: 30px 0;
+}
+
+.tooltip-error {
+  background-color: #e37f7f;
+}
+
+a {
+  color: #7aafd1;
+  text-shadow: none !important;
+}
+
+md-toolbar.md-default-theme {
+  background-color: #D39120;
+}
