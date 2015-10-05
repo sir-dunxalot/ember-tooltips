@@ -26,7 +26,7 @@ test('The mixin adds the public properties', function(assert) {
       'place',
       'spacing',
       'typeClass',
-      'visibility'
+      'visibility',
     ],
     tooltipAuto: true,
     tooltipContent: null,

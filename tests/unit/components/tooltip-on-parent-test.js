@@ -13,10 +13,12 @@ moduleForComponent('tooltip-on-parent', 'Unit | Component | tooltip on parent', 
 
 test('The component registers itself', function(assert) {
   const parentView = Ember.Component.create({
+
     renderTooltip() {
       assert.ok(true,
         'The renderTooltip() method should be called on the parent view after render');
-    }
+    },
+
   });
 
   assert.expect(3);

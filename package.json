@@ -46,7 +46,7 @@
     "htmlbars"
   ],
   "dependencies": {
-    "ember-cli-babel": "^5.1.3",
+    "ember-cli-babel": "^5.1.5",
     "ember-cli-htmlbars": "0.7.9"
   },
   "ember-addon": {
