@@ -23,7 +23,7 @@ module.exports = function(environment) {
       'style-src': "'self' 'unsafe-inline' *.google.com *.googleapis.com",
       'font-src': "'self' *.gstatic.com *.googleapis.com",
       'img-src': "'self' *.amazonaws.com",
-    },
+    }
   };
 
   if (environment === 'development') {

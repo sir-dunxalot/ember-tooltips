@@ -10,5 +10,4 @@ dist/
 .npmignore
 **/.gitkeep
 bower.json
-ember-cli-build.js
 testem.json

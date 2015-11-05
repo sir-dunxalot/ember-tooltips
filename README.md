@@ -267,6 +267,8 @@ export default Ember.Mixin.create(
 ## Development
 
 - `git clone https://github.com/sir-dunxalot/ember-tooltips.git`
+- `cd ember-tooltips`
+- `npm install && bower install`
 - `ember s`
 - `ember test` or `/tests` route
 
