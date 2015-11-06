@@ -1,21 +1,22 @@
 {
   "name": "ember-tooltips",
   "dependencies": {
-    "ember": "2.0.2",
-    "ember-cli-shims": "ember-cli/ember-cli-shims#0.0.5",
-    "ember-cli-test-loader": "ember-cli-test-loader#0.1.3",
-    "ember-data": "2.0.0",
-    "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.7",
-    "ember-qunit": "0.4.10",
-    "ember-qunit-notifications": "0.0.7",
-    "ember-resolver": "~0.1.21",
+    "ember": "2.1.0",
+    "ember-cli-shims": "0.0.6",
+    "ember-cli-test-loader": "0.2.1",
+    "ember-load-initializers": "0.1.7",
     "jquery": "^1.11.3",
-    "loader.js": "ember-cli/loader.js#3.2.1",
-    "qunit": "~1.18.0",
-    "hammerjs": "~2.0.4",
-    "matchMedia": "0.2.0"
+    "loader.js": "3.3.0"
   },
   "devDependencies": {
-    "compass-mixins": "~1.0.2"
+    "compass-mixins": "~1.0.2",
+    "ember-qunit": "0.4.13",
+    "ember-qunit-notifications": "0.1.0",
+    "hammerjs": "~2.0.4",
+    "matchMedia": "0.2.0",
+    "qunit": "~1.19.0"
+  },
+  "resolutions": {
+    "ember": "2.1.0"
   }
 }
