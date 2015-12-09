@@ -10,7 +10,7 @@ A utility to attach a tooltip to a DOM element.
 import Ember from 'ember';
 
 const Tooltip = window.Tooltip;
-const { $, run } = Ember;
+const { $, run, Handlebars: { SafeString } } = Ember;
 
 export default function renderTooltip(domElement = {}, options = {}) {
   const typeClass = options.typeClass;
@@ -37,7 +37,12 @@ export default function renderTooltip(domElement = {}, options = {}) {
     }
   }
 
-  tooltip = new Tooltip(options.content, options);
+  // ensure Ember's SafeStrings work
+  if (options.content instanceof SafeString) {
+    tooltip = new Tooltip(options.content.toString(), options);
+  } else {
+    tooltip = new Tooltip(options.content, options);
+  }
 
   tooltip.attach(domElement);
 
