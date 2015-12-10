@@ -9,6 +9,7 @@ export default Ember.Test.registerAsyncHelper('mouseOut',
   function(app, name) {
     const selector = selectorFor(name);
     const $element = inspect(name);
+    const $tooltips = Ember.$('.tooltip');
 
     let elementExists = $element.length;
 
@@ -16,11 +17,15 @@ export default Ember.Test.registerAsyncHelper('mouseOut',
 
     /* Wait until the element is removed to continue the tests */
 
-    Ember.$('.tooltip')[0].addEventListener('DOMNodeRemovedFromDocument', function() {
-      Ember.run(function() {
-        elementExists = false;
+    if ($tooltips.length) {
+      $tooltips[0].addEventListener('DOMNodeRemovedFromDocument', function() {
+        Ember.run(function() {
+          elementExists = false;
+        });
       });
-    });
+    } else {
+      elementExists = false;
+    }
 
     Ember.Test.registerWaiter(function() {
       return !elementExists;
