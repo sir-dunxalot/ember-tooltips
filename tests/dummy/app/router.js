@@ -12,6 +12,7 @@ Router.map(function() {
   this.route('tooltip-on-helper');
   this.route('tooltip-manual-trigger');
   this.route('tooltip-auto-close');
+  this.route('tooltip-with-safestring');
 });
 
 export default Router;
