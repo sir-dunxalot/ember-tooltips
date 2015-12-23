@@ -62,6 +62,7 @@ export default Ember.Mixin.create({
       tooltip.detach();
 
       if (document.body.contains(tooltip.element)) {
+        // delete tooltip.element;
         this.$().unbind();
       }
     }

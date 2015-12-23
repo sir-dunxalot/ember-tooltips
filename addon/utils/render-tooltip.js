@@ -1,3 +1,11 @@
+
+import Ember from 'ember';
+
+const { Tooltip } = window;
+const { $, run, Handlebars: { SafeString } } = Ember;
+
+let tooltipIndex = 1;
+
 /**
 A utility to attach a tooltip to a DOM element.
 
@@ -7,69 +15,141 @@ A utility to attach a tooltip to a DOM element.
 @param {Object} options The tooltip options to render the tooltip with
 */
 
-import Ember from 'ember';
-
-const Tooltip = window.Tooltip;
-const { $, run, Handlebars: { SafeString } } = Ember;
-
 export default function renderTooltip(domElement = {}, options = {}) {
-  const typeClass = options.typeClass;
-
-  let tooltip;
 
   Ember.assert('You must pass a DOM element as the first argument to the renderTooltip util', !!domElement.tagName);
 
-  if (typeClass) {
-    options.typeClass = 'tooltip-' + typeClass;
-  }
+  const $domElement = $(domElement);
+  const parsedOptions = parseTooltipOptions(options);
+  const tooltipId = `tooltip-${tooltipIndex}`;
 
-  if (!options.event) {
-    options.event = 'hover';
-  }
+  let $tooltip, tooltip;
 
-  if (options.duration && typeof options.duration === 'string') {
-    options.duration = parseInt(options.duration, 10);
+  /**
+  @method toggleTooltipVisibility
+  @private
+  */
 
-    /* Remove invalid parseInt results */
+  function toggleTooltipVisibilty(shouldShow) {
+    const { duration } = parsedOptions;
 
-    if (isNaN(options.duration) || !isFinite(options.duration)) {
-      options.duration = null;
+    tooltip.toggle();
+    $tooltip.attr('aria-hidden', shouldShow);
+
+    if (shouldShow) {
+      $domElement.attr('aria-describedby', tooltipId);
+    }
+
+    /* Clean previously queued removal (if present) */
+
+    run.cancel(tooltip._hideTimer);
+
+    if (shouldShow && duration) {
+
+      /* Hide tooltip after specified duration */
+
+      const hideTimer = run.later(function() {
+        tooltip.hide();
+      }, duration);
+
+      /* Save timer ID for cancelling */
+
+      tooltip._hideTimer = hideTimer;
     }
   }
 
-  // ensure Ember's SafeStrings work
-  if (options.content instanceof SafeString) {
-    tooltip = new Tooltip(options.content.toString(), options);
-  } else {
-    tooltip = new Tooltip(options.content, options);
+  /**
+  @method parseTooltipOptions
+  @private
+
+  Manipulate the options object
+  */
+
+  function parseTooltipOptions(options = {}) {
+    const newOptions = options;
+    const { typeClass } = newOptions;
+
+    /* Prefix type class */
+
+    if (typeClass) {
+      newOptions.typeClass = 'tooltip-' + typeClass;
+    }
+
+    /* Add a default event if none exists */
+
+    if (!newOptions.event) {
+      newOptions.event = 'hover';
+    }
+
+
+    if (newOptions.duration && typeof newOptions.duration === 'string') {
+      let cleanDuration = parseInt(newOptions.duration, 10);
+
+      /* Remove invalid parseInt results */
+
+      if (isNaN(cleanDuration) || !isFinite(cleanDuration)) {
+        cleanDuration = null;
+      }
+
+      newOptions.duration = cleanDuration;
+    }
+
+    if (newOptions.content instanceof SafeString) {
+      newOptions.content = newOptions.content.toString();
+    }
+
+    return newOptions;
   }
+
+  /* Now set up the tooltip options and render the tooltip */
+
+  const tooltipContent = parsedOptions.content;
+
+  /* Ensure Ember's SafeStrings work */
+
+  tooltip = new Tooltip(tooltipContent, parsedOptions); // Create tooltip
+  $tooltip = $(tooltip.element);
 
   tooltip.attach(domElement);
 
-  if (options.event !== 'manual') {
-    $(domElement)[options.event](function() {
-      const willShow = tooltip.hidden;
-
-      tooltip.toggle();
-
-      /* Clean previously queued removal (if present) */
-
-      run.cancel(tooltip._hideTimer);
-
-      if (willShow && options.duration) {
-
-        /* Hide tooltip after specified duration */
-
-        const hideTimer = run.later(function() {
-          tooltip.hide();
-        }, options.duration);
-
-        /* Save timer ID for cancelling */
-
-        tooltip._hideTimer = hideTimer;
-      }
+  if (parsedOptions.event !== 'manual') {
+    $domElement[parsedOptions.event](function() {
+      toggleTooltipVisibilty(tooltip.hidden);
     });
   }
+
+  /* Hide and show the tooltip on focus and escape */
+
+  $domElement.focusin(function() {
+    toggleTooltipVisibilty(true);
+  });
+
+  $domElement.focusout(function() {
+    toggleTooltipVisibilty(false);
+  });
+
+  $domElement.keydown(function(event) {
+    if (event.which === 27) {
+      toggleTooltipVisibilty(false);
+      event.preventDefault();
+
+      return false;
+    }
+  });
+
+  /* Setup acessibility */
+
+  $tooltip.attr({
+    id: tooltipId,
+    role: 'tooltip',
+  });
+
+  $domElement.attr({
+    tabindex: $domElement.attr('tabindex') || '0',
+    title: $domElement.attr('title') || tooltipContent.toString(),
+  });
+
+  tooltipIndex++;
 
   return tooltip;
 }
