@@ -52,6 +52,8 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
     if (shouldShow) {
       $domElement.attr('aria-describedby', tooltipId);
+    } else {
+      $domElement.removeAttr('aria-describedby');
     }
 
     /* Clean previously queued removal (if present) */
