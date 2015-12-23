@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import renderTooltip from 'ember-tooltips/utils/render-tooltip';
 
-const { on } = Ember;
+const { $, on } = Ember;
 
 export default Ember.Mixin.create({
 
@@ -32,6 +32,7 @@ export default Ember.Mixin.create({
     'showOn',
     'hideOn',
     'spacing',
+    'tabIndex',
     'typeClass',
     'visibility'
   ],
@@ -47,6 +48,7 @@ export default Ember.Mixin.create({
   tooltipPlace: 'top',
   tooltipSpacing: 10,
   tooltipShowOn: null,
+  tooltipTabIndex: 0, // A positive integer (to enable) or -1 (to disable)
   tooltipTypeClass: null,
   tooltipVisibility: null, // for manual-mode triggering
 
@@ -65,10 +67,16 @@ export default Ember.Mixin.create({
       tooltip.hide();
       tooltip.detach();
 
+      /* The below if fixes a couple of edge cases*/
+
       if (document.body.contains(tooltip.element)) {
-        // delete tooltip.element;
-        this.$().unbind();
+        const tooltipSelector = `#${tooltip.id}`;
+
+        $(tooltipSelector).off();
+        $.remove(tooltipSelector); // Remove tooltip
       }
+
+      this.$().off(); // Remove all event listeners
     }
 
     /* Remove observer, even if it was never added */

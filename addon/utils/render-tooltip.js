@@ -21,7 +21,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   const $domElement = $(domElement);
   const parsedOptions = parseTooltipOptions(options);
-  const { content, duration, event, hideOn, showOn } = parsedOptions;
+  const { content, duration, event, hideOn, tabIndex, showOn } = parsedOptions;
   const tooltipId = `tooltip-${tooltipIndex}`;
 
   let $tooltip, tooltip;
@@ -33,43 +33,49 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   function setTooltipVisibility(shouldShow) {
 
-    /* If we're setting visibility to the value
-    it already is, do nothing... */
+    /* We debounce to avoid focus causing issues
+    when showOn and hideOn are the same event */
 
-    if (!tooltip.hidden === shouldShow) { // hidden is 0 or 1
-      return;
-    }
+    run.debounce(function() {
 
-    /* Else, set the visbility */
+      /* If we're setting visibility to the value
+      it already is, do nothing... */
 
-    const visibilityMethod = shouldShow ? 'show' : 'hide';
+      if (tooltip.hidden === shouldShow) {
+        return;
+      }
 
-    tooltip[visibilityMethod]();
-    $tooltip.attr('aria-hidden', shouldShow);
+      /* Else, set the visbility */
 
-    if (shouldShow) {
-      $domElement.attr('aria-describedby', tooltipId);
-    } else {
-      $domElement.removeAttr('aria-describedby');
-    }
+      const visibilityMethod = shouldShow ? 'show' : 'hide';
 
-    /* Clean previously queued removal (if present) */
+      tooltip[visibilityMethod]();
+      $tooltip.attr('aria-hidden', shouldShow);
 
-    run.cancel(tooltip._hideTimer);
+      if (shouldShow) {
+        $domElement.attr('aria-describedby', tooltipId);
+      } else {
+        $domElement.removeAttr('aria-describedby');
+      }
 
-    if (shouldShow && duration) {
+      /* Clean previously queued removal (if present) */
 
-      /* Hide tooltip after specified duration */
+      run.cancel(tooltip._hideTimer);
 
-      const hideTimer = run.later(function() {
-        tooltip.hide();
-      }, duration);
+      if (shouldShow && duration) {
 
-      /* Save timer ID for cancelling should an event
-      hide the tooltop before the duration */
+        /* Hide tooltip after specified duration */
 
-      tooltip._hideTimer = hideTimer;
-    }
+        const hideTimer = run.later(function() {
+          tooltip.hide();
+        }, duration);
+
+        /* Save timer ID for cancelling should an event
+        hide the tooltop before the duration */
+
+        tooltip._hideTimer = hideTimer;
+      }
+    }, 150);
   }
 
   /**
@@ -81,7 +87,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   function parseTooltipOptions(options = {}) {
     const newOptions = options;
-    const { content, duration, event, typeClass } = newOptions;
+    const { content, duration, event, tabIndex, typeClass } = newOptions;
 
     /* Prefix type class */
 
@@ -125,6 +131,14 @@ export default function renderTooltip(domElement = {}, options = {}) {
       newOptions.duration = cleanDuration;
     }
 
+    /* Make tab index a string */
+
+    if (typeof tabIndex === 'number') {
+      newOptions.tabIndex = tabIndex.toString();
+    } else if (!tabIndex) {
+      newOptions.tabIndex = '-1';
+    }
+
     /* Make sure content can be passed as a SafeString */
 
     if (content instanceof SafeString) {
@@ -147,8 +161,8 @@ export default function renderTooltip(domElement = {}, options = {}) {
     the visibility */
 
     if (showOn === hideOn) {
-      $domElement.on(showOn, function() {
-        setTooltipVisibility(tooltip.hidden);
+      $domElement.on(showOn, function(aevent) {
+        setTooltipVisibility(!!tooltip.hidden);
       });
     } else {
 
@@ -198,7 +212,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
   });
 
   $domElement.attr({
-    // tabindex: $domElement.attr('tabindex') || '0',
+    tabindex: $domElement.attr('tabindex') || tabIndex,
     title: $domElement.attr('title') || content.toString(),
   });
 
