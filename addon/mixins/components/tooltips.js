@@ -29,6 +29,8 @@ export default Ember.Mixin.create({
     'effectClass',
     'event',
     'place',
+    'showOn',
+    'hideOn',
     'spacing',
     'typeClass',
     'visibility'
@@ -41,8 +43,10 @@ export default Ember.Mixin.create({
   tooltipDuration: null,
   tooltipEffectClass: 'slide', // fade, grow, slide, null
   tooltipEvent: 'hover', // DOM event or "manual"
+  tooltipHideOn: 'mouseleave',
   tooltipPlace: 'top',
   tooltipSpacing: 10,
+  tooltipShowOn: 'mouseenter',
   tooltipTypeClass: null,
   tooltipVisibility: null, // for manual-mode triggering
 

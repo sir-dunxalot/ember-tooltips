@@ -21,19 +21,33 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   const $domElement = $(domElement);
   const parsedOptions = parseTooltipOptions(options);
+  const tooltipContent = parsedOptions.content;
+  const tooltipEvent = parsedOptions.event;
   const tooltipId = `tooltip-${tooltipIndex}`;
+  const tooltipVisibilityIsManual = tooltipEvent === 'manual' || tooltipEvent === 'none';
 
   let $tooltip, tooltip;
 
   /**
-  @method toggleTooltipVisibility
+  @method setTooltipVisibility
   @private
   */
 
-  function toggleTooltipVisibilty(shouldShow) {
-    const { duration } = parsedOptions;
+  function setTooltipVisibility(shouldShow) {
 
-    tooltip.toggle();
+    /* If we're setting visibility to the value
+    it already is, do nothing... */
+
+    if (!tooltip.hidden === shouldShow) {
+      return;
+    }
+
+    /* Else, set the visbility */
+
+    const { duration } = parsedOptions;
+    const visibilityMethod = shouldShow ? 'show' : 'hide';
+
+    tooltip[visibilityMethod](); // TODO  - set to hide and show
     $tooltip.attr('aria-hidden', shouldShow);
 
     if (shouldShow) {
@@ -52,7 +66,8 @@ export default function renderTooltip(domElement = {}, options = {}) {
         tooltip.hide();
       }, duration);
 
-      /* Save timer ID for cancelling */
+      /* Save timer ID for cancelling should an event
+      hide the tooltop before the duration */
 
       tooltip._hideTimer = hideTimer;
     }
@@ -75,12 +90,29 @@ export default function renderTooltip(domElement = {}, options = {}) {
       newOptions.typeClass = 'tooltip-' + typeClass;
     }
 
-    /* Add a default event if none exists */
+    /* Set the correct hide and show events */
 
-    if (!newOptions.event) {
-      newOptions.event = 'hover';
+    if (!newOptions.showOn) {
+      if (tooltipEvent === 'hover') {
+        newOptions.showOn = 'mouseenter';
+      } else {
+        newOptions.showOn = tooltipEvent;
+      }
     }
 
+    if (!newOptions.hideOn) {
+      if (tooltipEvent === 'hover') {
+        newOptions.hideOn = 'mouseleave';
+      } else if (tooltipEvent === 'focus') {
+        newOptions.hideOn = 'blur';
+      } else if (tooltipEvent === 'ready') {
+        newOptions.hideOn = null;
+      } else {
+        newOptions.hideOn = tooltipEvent;
+      }
+    }
+
+    /* If duration is passed as a string, make it a number */
 
     if (newOptions.duration && typeof newOptions.duration === 'string') {
       let cleanDuration = parseInt(newOptions.duration, 10);
@@ -94,6 +126,8 @@ export default function renderTooltip(domElement = {}, options = {}) {
       newOptions.duration = cleanDuration;
     }
 
+    /* Make sure content can be passed as a SafeString */
+
     if (newOptions.content instanceof SafeString) {
       newOptions.content = newOptions.content.toString();
     }
@@ -101,43 +135,52 @@ export default function renderTooltip(domElement = {}, options = {}) {
     return newOptions;
   }
 
-  /* Now set up the tooltip options and render the tooltip */
+  /* First, create the tooltip and set the variables */
 
-  const tooltipContent = parsedOptions.content;
-
-  /* Ensure Ember's SafeStrings work */
-
-  tooltip = new Tooltip(tooltipContent, parsedOptions); // Create tooltip
+  tooltip = new Tooltip(tooltipContent, parsedOptions);
   $tooltip = $(tooltip.element);
 
   tooltip.attach(domElement);
 
-  if (parsedOptions.event !== 'manual') {
-    $domElement[parsedOptions.event](function() {
-      toggleTooltipVisibilty(tooltip.hidden);
+  if (!tooltipVisibilityIsManual) {
+    const { showOn, hideOn } = parsedOptions;
+
+    if (showOn !== 'none') {
+      $domElement.on(parsedOptions.showOn, function() {
+        setTooltipVisibility(true);
+      });
+    }
+
+    if (showOn !== 'none') {
+      $domElement.on(parsedOptions.hideOn, function() {
+        setTooltipVisibility(false);
+      });
+    }
+  }
+
+  /* Hide and show the tooltip on focus and escape
+  for acessibility */
+
+  if (parsedOptions.event !== 'focus') {
+    $domElement.focusin(function() {
+      setTooltipVisibility(true);
+    });
+
+    $domElement.focusout(function() {
+      setTooltipVisibility(false);
     });
   }
 
-  /* Hide and show the tooltip on focus and escape */
-
-  $domElement.focusin(function() {
-    toggleTooltipVisibilty(true);
-  });
-
-  $domElement.focusout(function() {
-    toggleTooltipVisibilty(false);
-  });
-
   $domElement.keydown(function(event) {
     if (event.which === 27) {
-      toggleTooltipVisibilty(false);
+      setTooltipVisibility(false);
       event.preventDefault();
 
       return false;
     }
   });
 
-  /* Setup acessibility */
+  /* Setup ARIA attributes for acessibility */
 
   $tooltip.attr({
     id: tooltipId,
@@ -145,7 +188,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
   });
 
   $domElement.attr({
-    tabindex: $domElement.attr('tabindex') || '0',
+    // tabindex: $domElement.attr('tabindex') || '0',
     title: $domElement.attr('title') || tooltipContent.toString(),
   });
 
