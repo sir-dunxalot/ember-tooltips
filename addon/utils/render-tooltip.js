@@ -21,10 +21,8 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   const $domElement = $(domElement);
   const parsedOptions = parseTooltipOptions(options);
-  const tooltipContent = parsedOptions.content;
-  const tooltipEvent = parsedOptions.event;
+  const { content, duration, event, hideOn, showOn } = parsedOptions;
   const tooltipId = `tooltip-${tooltipIndex}`;
-  const tooltipVisibilityIsManual = tooltipEvent === 'manual' || tooltipEvent === 'none';
 
   let $tooltip, tooltip;
 
@@ -38,16 +36,15 @@ export default function renderTooltip(domElement = {}, options = {}) {
     /* If we're setting visibility to the value
     it already is, do nothing... */
 
-    if (!tooltip.hidden === shouldShow) {
+    if (!tooltip.hidden === shouldShow) { // hidden is 0 or 1
       return;
     }
 
     /* Else, set the visbility */
 
-    const { duration } = parsedOptions;
     const visibilityMethod = shouldShow ? 'show' : 'hide';
 
-    tooltip[visibilityMethod](); // TODO  - set to hide and show
+    tooltip[visibilityMethod]();
     $tooltip.attr('aria-hidden', shouldShow);
 
     if (shouldShow) {
@@ -84,7 +81,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   function parseTooltipOptions(options = {}) {
     const newOptions = options;
-    const { typeClass } = newOptions;
+    const { content, duration, event, typeClass } = newOptions;
 
     /* Prefix type class */
 
@@ -95,29 +92,29 @@ export default function renderTooltip(domElement = {}, options = {}) {
     /* Set the correct hide and show events */
 
     if (!newOptions.showOn) {
-      if (tooltipEvent === 'hover') {
+      if (event === 'hover') {
         newOptions.showOn = 'mouseenter';
       } else {
-        newOptions.showOn = tooltipEvent;
+        newOptions.showOn = event;
       }
     }
 
     if (!newOptions.hideOn) {
-      if (tooltipEvent === 'hover') {
+      if (event === 'hover') {
         newOptions.hideOn = 'mouseleave';
-      } else if (tooltipEvent === 'focus') {
+      } else if (event === 'focus') {
         newOptions.hideOn = 'blur';
-      } else if (tooltipEvent === 'ready') {
+      } else if (event === 'ready') {
         newOptions.hideOn = null;
       } else {
-        newOptions.hideOn = tooltipEvent;
+        newOptions.hideOn = event;
       }
     }
 
     /* If duration is passed as a string, make it a number */
 
-    if (newOptions.duration && typeof newOptions.duration === 'string') {
-      let cleanDuration = parseInt(newOptions.duration, 10);
+    if (duration && typeof duration === 'string') {
+      let cleanDuration = parseInt(duration, 10);
 
       /* Remove invalid parseInt results */
 
@@ -130,8 +127,8 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
     /* Make sure content can be passed as a SafeString */
 
-    if (newOptions.content instanceof SafeString) {
-      newOptions.content = newOptions.content.toString();
+    if (content instanceof SafeString) {
+      newOptions.content = content.toString();
     }
 
     return newOptions;
@@ -139,31 +136,42 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   /* First, create the tooltip and set the variables */
 
-  tooltip = new Tooltip(tooltipContent, parsedOptions);
+  tooltip = new Tooltip(content, parsedOptions);
   $tooltip = $(tooltip.element);
 
   tooltip.attach(domElement);
 
-  if (!tooltipVisibilityIsManual) {
-    const { showOn, hideOn } = parsedOptions;
+  if (event !== 'manual' && event !== 'none') {
 
-    if (showOn !== 'none') {
-      $domElement.on(parsedOptions.showOn, function() {
-        setTooltipVisibility(true);
-      });
-    }
+    /* If show and hide are the same (e.g. click), toggle
+    the visibility */
 
-    if (showOn !== 'none') {
-      $domElement.on(parsedOptions.hideOn, function() {
-        setTooltipVisibility(false);
+    if (showOn === hideOn) {
+      $domElement.on(showOn, function() {
+        setTooltipVisibility(tooltip.hidden);
       });
+    } else {
+
+      /* Else, add the show and hide events individually */
+
+      if (showOn !== 'none') {
+        $domElement.on(showOn, function() {
+          setTooltipVisibility(true);
+        });
+      }
+
+      if (hideOn !== 'none') {
+        $domElement.on(hideOn, function() {
+          setTooltipVisibility(false);
+        });
+      }
     }
   }
 
   /* Hide and show the tooltip on focus and escape
   for acessibility */
 
-  if (parsedOptions.event !== 'focus') {
+  if (event !== 'focus') {
     $domElement.focusin(function() {
       setTooltipVisibility(true);
     });
@@ -173,10 +181,10 @@ export default function renderTooltip(domElement = {}, options = {}) {
     });
   }
 
-  $domElement.keydown(function(event) {
-    if (event.which === 27) {
+  $domElement.keydown(function(keyEvent) {
+    if (keyEvent.which === 27) {
       setTooltipVisibility(false);
-      event.preventDefault();
+      keyEvent.preventDefault();
 
       return false;
     }
@@ -191,7 +199,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
   $domElement.attr({
     // tabindex: $domElement.attr('tabindex') || '0',
-    title: $domElement.attr('title') || tooltipContent.toString(),
+    title: $domElement.attr('title') || content.toString(),
   });
 
   tooltipIndex++;
