@@ -34,7 +34,7 @@ export default Ember.Mixin.create({
     'spacing',
     'tabIndex',
     'typeClass',
-    'visibility'
+    'visibility',
   ],
 
   /* Tooltip options - see http://darsa.in/tooltip/ */
@@ -72,8 +72,7 @@ export default Ember.Mixin.create({
       if (document.body.contains(tooltip.element)) {
         const tooltipSelector = `#${tooltip.id}`;
 
-        $(tooltipSelector).off();
-        $.remove(tooltipSelector); // Remove tooltip
+        $(tooltipSelector).off().remove();
       }
 
       this.$().off(); // Remove all event listeners

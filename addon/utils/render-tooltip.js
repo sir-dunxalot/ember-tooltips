@@ -15,9 +15,9 @@ A utility to attach a tooltip to a DOM element.
 @param {Object} options The tooltip options to render the tooltip with
 */
 
-export default function renderTooltip(domElement = {}, options = {}, context) {
+export default function renderTooltip(domElement, options, context) {
 
-  Ember.assert('You must pass a DOM element as the first argument to the renderTooltip util', !!domElement.tagName);
+  Ember.assert('You must pass a DOM element as the first argument to the renderTooltip util', !domElement || (domElement && !!domElement.tagName));
 
   const $domElement = $(domElement);
   const parsedOptions = parseTooltipOptions(options);
