@@ -15,7 +15,7 @@ A utility to attach a tooltip to a DOM element.
 @param {Object} options The tooltip options to render the tooltip with
 */
 
-export default function renderTooltip(domElement = {}, options = {}) {
+export default function renderTooltip(domElement = {}, options = {}, context) {
 
   Ember.assert('You must pass a DOM element as the first argument to the renderTooltip util', !!domElement.tagName);
 
@@ -51,6 +51,10 @@ export default function renderTooltip(domElement = {}, options = {}) {
 
       tooltip[visibilityMethod]();
       $tooltip.attr('aria-hidden', shouldShow);
+
+      if (context) {
+        context.set('tooltipVisibility', shouldShow);
+      }
 
       if (shouldShow) {
         $domElement.attr('aria-describedby', tooltipId);
@@ -161,7 +165,7 @@ export default function renderTooltip(domElement = {}, options = {}) {
     the visibility */
 
     if (showOn === hideOn) {
-      $domElement.on(showOn, function(aevent) {
+      $domElement.on(showOn, function() {
         setTooltipVisibility(!!tooltip.hidden);
       });
     } else {

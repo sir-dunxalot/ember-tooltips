@@ -129,6 +129,7 @@ export default Ember.Mixin.create({
   renderTooltip: on('didInsertElement', function(maybeTooltipComponent) {
     const componentWasPassed = Ember.typeOf(maybeTooltipComponent) === 'instance';
     const component = componentWasPassed ? maybeTooltipComponent : Ember.Object.create({});
+    const renderContext = componentWasPassed ? component : this;
 
     let content = this.get('tooltipContent');
     let tooltip, tooltipOptions;
@@ -167,7 +168,7 @@ export default Ember.Mixin.create({
       tooltipOptions[property] = component.get(property) || this.get(`tooltip${capitalizedProperty}`);
     }, this);
 
-    tooltip = renderTooltip(this.get('element'), tooltipOptions);
+    tooltip = renderTooltip(this.get('element'), tooltipOptions, renderContext);
 
     this.set('tooltip', tooltip);
 
