@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import renderTooltip from 'ember-tooltips/utils/render-tooltip';
 
-const { on } = Ember;
+const { $, on } = Ember;
 
 export default Ember.Mixin.create({
 
@@ -29,9 +29,12 @@ export default Ember.Mixin.create({
     'effectClass',
     'event',
     'place',
+    'showOn',
+    'hideOn',
     'spacing',
+    'tabIndex',
     'typeClass',
-    'visibility'
+    'visibility',
   ],
 
   /* Tooltip options - see http://darsa.in/tooltip/ */
@@ -40,9 +43,12 @@ export default Ember.Mixin.create({
   tooltipContent: null,
   tooltipDuration: null,
   tooltipEffectClass: 'slide', // fade, grow, slide, null
-  tooltipEvent: 'hover', // DOM event or "manual"
+  tooltipEvent: 'hover', // hover, click, focus, ready, or none
+  tooltipHideOn: null,
   tooltipPlace: 'top',
   tooltipSpacing: 10,
+  tooltipShowOn: null,
+  tooltipTabIndex: 0, // A positive integer (to enable) or -1 (to disable)
   tooltipTypeClass: null,
   tooltipVisibility: null, // for manual-mode triggering
 
@@ -61,9 +67,15 @@ export default Ember.Mixin.create({
       tooltip.hide();
       tooltip.detach();
 
+      /* The below if fixes a couple of edge cases*/
+
       if (document.body.contains(tooltip.element)) {
-        this.$().unbind();
+        const tooltipSelector = `#${tooltip.id}`;
+
+        $(tooltipSelector).off().remove();
       }
+
+      this.$().off(); // Remove all event listeners
     }
 
     /* Remove observer, even if it was never added */
@@ -116,6 +128,7 @@ export default Ember.Mixin.create({
   renderTooltip: on('didInsertElement', function(maybeTooltipComponent) {
     const componentWasPassed = Ember.typeOf(maybeTooltipComponent) === 'instance';
     const component = componentWasPassed ? maybeTooltipComponent : Ember.Object.create({});
+    const renderContext = componentWasPassed ? component : this;
 
     let content = this.get('tooltipContent');
     let tooltip, tooltipOptions;
@@ -154,7 +167,7 @@ export default Ember.Mixin.create({
       tooltipOptions[property] = component.get(property) || this.get(`tooltip${capitalizedProperty}`);
     }, this);
 
-    tooltip = renderTooltip(this.get('element'), tooltipOptions);
+    tooltip = renderTooltip(this.get('element'), tooltipOptions, renderContext);
 
     this.set('tooltip', tooltip);
 
@@ -164,7 +177,7 @@ export default Ember.Mixin.create({
 
     /* Bind observer if in manual-triggering mode */
 
-    if (tooltipOptions.event === 'manual') {
+    if (tooltipOptions.event === 'manual' || tooltipOptions.event === 'none') {
       if (componentWasPassed) {
 
         /* Keep track of child tooltip component */
