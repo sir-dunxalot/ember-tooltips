@@ -11,38 +11,28 @@ Powered by <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip</a
 ember install ember-tooltips
 ```
 
-## Usage
+## Documentation
 
 Documentation for usage is below:
 
+- [Usage](#usage)
+  - [On helpers](#using-on-helpers)
+  - [As a component](#using-as-a-component)
+  - [On HTML elements](#using-on-html-elements)
 - [Supported properties](#supported-properties)
-- [Using on helpers](#using-on-helpers)
-- [Using as a component](#using-as-a-component)
-- [Using on HTML elements](#using-on-html-elements)
-- [Customizing the mixin](#customizing-the-mixin)
+- [The Tooltip Object](#the-tooltip-object)
+- [Hiding and Showing Tooltips](#hiding-and-showing-tooltips)
+- [Accessibility](#accessibility)
+- [The Tooltip Mixin (and changing default values)](#the-tooltip-mixin)
+- [The Tooltip Utility](#the-tooltip-utility)
 
-### Supported Properties
-
-This addon aims to maintain parity with all Tooltip library features. Current supported properties are:
-
-- `auto` (`true` or `false`. Defaults to `true`)
-- `duration` (time in milliseconds. No default)
-- `effectClass` (`'none'`, `'fade'`, `'slide'`, or `'grow'`. Defaults to `'slide'`)
-- `event` (any kind of [jQuery event](https://api.jquery.com/category/events/) or `'manual'`, defaults to `'hover'`)
-- `place` (defaults to `'top'`)
-- `spacing` (defaults to `10`)
-- `typeClass` (can be any string. No default)
-- `visibility` (`true` or `false`, when `event: 'manual'`. No default)
-
-**Please note**, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`, `tooltipEffectClass` or `data-tooltip-effect-class`. More info is in each section below.
-
-Default values can be set [on the `ember-tooltips` mixin](#customizing-the-mixin).
+## Usage
 
 ### Using on Helpers
 
-The most common way to use a tooltip is on a helper. Examples of such helpers are `{{#link-to}}`, `{{some-component}}`, or `{{view 'table'}}`.
+The most common way to use a tooltip is on a helper like `{{#link-to}}` or `{{some-component}}`.
 
-All supported properties should be prefixed by `tooltip` and should be camelCased.
+All [supported properties](#supported-properties) should be camelCased and prefixed by `tooltip`.
 
 To add a tooltip to any component:
 
@@ -64,54 +54,11 @@ You can use multiple options:
 {{/some-component}}
 ```
 
-Here's an example on a `{{link-to}}` helper and HTML:
-
-```hbs
-{{#link-to 'danger-zone' tooltipContent="<strong>I'm warning you!</strong>"}}
-  Don't click me!
-{{/link-to}}
-```
-
-Or with dynamic content:
-
-```hbs
-{{#each picture in model}}
-  {{#link-to picture tooltipContent=picture.description}}
-    {{some-img-component src=picture.url}}
-  {{/link-to}}
-{{/each}}
-```
-
-To manually set the tooltip's visibility with a boolean property:
-
-```hbs
-{{#some-component
-  tooltipContent='This tooltip is triggered manually via attribute'
-  tooltipEvent='manual'
-  tooltipVisibility=showTooltip
-}}
-  I'll show a tooltip if you want me to...
-{{/some-component}}
-```
-
-Tooltips can be automatically closed after a specified duration:
-
-```hbs
-{{input type='text'
-  tooltipEvent='focus'
-  tooltipContent='Helpful form tip'
-  tooltipDuration='1000'
-  tooltipPlace='right'
-}}
-```
-
 ### Using as a Component
 
 If you want to use HTMLBars in your tooltip, then the `{{tooltip-on-parent}}` component is your friend.
 
-*Please note, normal HTML can be passed with the `tooltipContent` param.*
-
-This component registers itself on the parent view and the content of the `{{tooltip-on-parent}}` component will be rendered inside the tooltip. The tooltip is automatically attached to the parent view's element.
+The tooltip is automatically attached to the parent view's element and the template block of the `{{tooltip-on-parent}}` component will be rendered inside the tooltip.
 
 ```hbs
 {{#some-component}}
@@ -137,9 +84,13 @@ camelCased Options can still be passed to the component but they are not prefixe
 
 ### Using on HTML elements
 
-If you want to render a tooltip on an HTML element that isn't rendered by an Ember View then data attributes will be your solution. Be sure to include the `has-tooltip` class on each HTML element that contains a tooltip.
+If you want to render a tooltip on an HTML element that isn't rendered by an Ember Component, you can use `data` attributes.
 
-Please note, you must call the `renderChildTooltips()` method of the parent view in order to render the tooltips.
+1. Add the `has-tooltip` class
+2. Add `data-<x>` attributes to set tooltip properties
+3. Call `this.renderChildTooltips()` in a parent view that has the tooltips mixin included (usually this mixin is automatically added to all components. See [the tooltips mixin](#the-tooltip-mixin))
+
+For example, to render two tooltips:
 
 ```hbs
 {{#some-component}}
@@ -154,8 +105,10 @@ Please note, you must call the `renderChildTooltips()` method of the parent view
 // app/components/some-component.js
 
 import Ember from 'ember';
+import TooltipsMixin from 'ember-tooltips/mixins/components/tooltips';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(
+  TooltipsMixin, {
 
   didInsertElement: function() {
     this.renderChildTooltips(); // Voila!
@@ -173,7 +126,7 @@ Options can be set on the element(s) as <strong>prefixed and dasherized</strong>
       class="has-tooltip"
       data-tooltip-content="This is bad!"
       data-tooltip-effect-class="grow"
-      data-tooltip-type-class="tooltip-error">
+      data-tooltip-type-class="error">
 
       Hover for more info
 
@@ -198,7 +151,146 @@ export default Ember.Component.extend({
 
 **Warning:** Using HTML `data-x` attributes has limitations. Durations and manual triggers are not supported.
 
-### Customizing the Mixin
+### Supported Properties
+
+This addon aims to maintain parity with all the [Tooltip library](https://github.com/darsain/tooltip/wiki) features.
+
+Current tooltip properties this addon supports are:
+
+- `auto` (`true` or `false`. Defaults to `true`)
+- `duration` (time in milliseconds. No default)
+- `effectClass` (`'none'`, `'fade'`, `'slide'`, or `'grow'`. Defaults to `'slide'`)
+- `event` (see [events](#events))
+- `hideOn` (see [events](#events))
+- `place` (defaults to `'top'`)
+- `showOn` (see [events](#events))
+- `spacing` (defaults to `10`)
+- `typeClass` (can be any string. No default)
+- `visibility` (`true` or `false`, when `event: 'manual'`. No default)
+
+**Please note**, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`, `tooltipEffectClass` or `data-tooltip-effect-class`.
+
+Default values can be set [on the `ember-tooltips` mixin](#customizing-the-mixin).
+
+```hbs
+{{input type='text'
+  tooltipEvent='focus'
+  tooltipContent='Helpful form tip'
+  tooltipDuration='1000'
+  tooltipPlace='right'
+}}
+```
+
+### The Tooltip Object
+
+Any time a tooltip is created for a component, the tooltip is set as the `tooltip` property of the component.
+
+Thus, you can programatically control the tooltip of any Ember component using `this.get('tooltip')`. This will return the `Tooltip` instance, which is created using [`darsain/tooltip`](https://github.com/darsain/tooltip/wiki/Tooltip).
+
+The documentation for the tooltip is contained in [the `Tooltip` API wiki](https://github.com/darsain/tooltip/wiki/Tooltip).
+
+For example:
+
+```js
+/* Change the tooltip content */
+this.get('tooltip').content('This is the new content');
+
+/* Show the tooltip  */
+this.get('tooltip').show();
+
+/* Get the tooltip's DOM element  */
+this.get('tooltip').element;
+
+/* Update the size after the tooltip content changes */
+this.get('tooltip').updateSize();
+
+/* See if the tooltip is already hidden */
+this.get('tooltip').hidden; // 1 or 0
+```
+
+### Hiding and Showing Tooltips
+
+There are three ways to hide and show tooltips:
+
+- [Events](#events)
+- [Methods](#methods)
+- [Timers](#timers)
+
+#### Events
+
+You can control the hiding and showing of tooltips on set jQuery events using three properties: `event`, `showOn`, and `hideOn`.
+
+Version `0.5.5` and lower does *not* support `hideOn` and `showOn`.
+
+`event` is the easiest way to set the hide and show event - it sets the `hideOn` and `showOn` properties.
+
+`event` should be a string equal to `'hover'`, `'click'`, `'focus'`, `'ready'` (show on load of DOM), or `'none'`. The default value is `'hover'`.
+
+```hbs
+{{some-component
+  tooltipContent='This will show on hover'
+  tooltipEvent='hover'
+}}
+```
+
+If you want to set the show or hide events individually, you can overwrite `event` using `showOn` and `hideOn`. Both properties accept any [jQuery event](https://api.jquery.com/category/events/) or `'none'`.
+
+For example:
+
+```hbs
+{{some-component
+  tooltipHideOn='none'
+  tooltipShowOn='click'
+  tooltipContent='hover'
+}}
+```
+
+Default values for `event`, `hideOn`, and `showOn` can be set [on the `ember-tooltips` mixin](#customizing-the-mixin).
+
+Version `0.5.5` and lower of this addon use 'manual' instead of 'none'.
+
+#### Methods
+
+As described in [The Tooltip Object](#the-tooltip-object) documentation, you can access the `tooltip` property on any component.
+
+Thus, you can programatically hide and show the tooltip of any component as follows:
+
+```js
+this.get('tooltip').hide();
+this.get('tooltip').show();
+```
+
+If you want to check whether a tooltip is currently hidden, access the `hidden` property:
+
+```
+this.get('tooltip').hidden; // 1 or 0
+```
+
+#### Timers
+
+You can set a timer on a tooltip to close it after an amount of time using the `duration` property. Duration should be any number of milliseconds.
+
+```hbs
+{{input type='text'
+  tooltipEvent='focus'
+  tooltipContent='Helpful form tip'
+  tooltipDuration='1000'
+}}
+```
+
+In the above example, the tooltip shows on focus and then closes after 1000ms.
+
+### Accessibility
+
+This addon aims to meet 508 compliance.
+
+Components with tooltips are given a `tabindex` attribute and when the component receives focus, the tooltip with show.
+
+Additionally, the `aria-describedby`, `title`, `id`, and `role` attributes are managed by this addon.
+
+There is always room for improvement and PRs to improve accessibility are welcome.
+
+### The Tooltip Mixin
 
 By default the `ember-tooltips` mixin is added to all components. This mixin contains the helper methods to render tooltips.
 
@@ -217,7 +309,7 @@ module.exports = function(environment) {
 };
 ```
 
-Each Option corresponds to a class on the Ember namespace. For example, `addTo: ['Input']` corresponds to `Ember.Input`.
+Each option corresponds to a class on the Ember namespace. For example, `addTo: ['Input']` corresponds to `Ember.Input`.
 
 You can disable all reopening of classes by seting `addTo` to a falsy value or empty array:
 
@@ -236,7 +328,7 @@ module.exports = function(environment) {
 
 You can add the tooltip functionality to individual classes by importing the mixin to your class:
 
-```
+```js
 // app/components/big-button.js
 
 import Ember from 'ember';
@@ -264,13 +356,40 @@ export default Ember.Mixin.create(
 });
 ```
 
+You can see the [tooltips mixin here](https://github.com/sir-dunxalot/ember-tooltips/blob/master/addon/mixins/components/tooltips.js).
+
+### The Tooltip Utility
+
+All tooltips rendered by this addon use the [`renderTooltip()` utility](https://github.com/sir-dunxalot/ember-tooltips/blob/master/addon/utils/render-tooltip.js).
+
+You can use this utility in your application if none of the given use cases work:
+
+```js
+import Ember from 'ember';
+import renderTooltip from 'ember-tooltips/utils/render-tooltip';
+
+export default Ember.Component.extend({
+
+  AddTheTooltip() {
+    const element = this.$().find('#some-element')[0];
+
+    renderTooltip(element, {
+      content: 'Some extra info',
+      event: 'click',
+      place: 'right',
+    });
+  },
+
+});
+```
+
 ## Development
 
 - `git clone https://github.com/sir-dunxalot/ember-tooltips.git`
 - `cd ember-tooltips`
 - `npm install && bower install`
 - `ember s`
-- `ember test` or `/tests` route
+- `ember test`, `ember try:testall`, or the `/tests` route
 
 A huge thank you to those who have identified and opened issues, in particular the contributors:
 
@@ -278,18 +397,11 @@ A huge thank you to those who have identified and opened issues, in particular t
 - @kmiyashiro
 - @cdl
 
-
 ### Releases
 
-Ensure tests are passing, then:
+Ensure tests are passing in Travis, then:
 
 ```sh
-# Update github pages demo
-ember github-pages:commit --message "Added some functionality"
-git push origin gh-pages
-
-# Go back to master branch
-checkout master
 
 # Release on NPM and Github
 ember release # If patch

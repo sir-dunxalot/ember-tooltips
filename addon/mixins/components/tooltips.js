@@ -177,7 +177,7 @@ export default Ember.Mixin.create({
 
     /* Bind observer if in manual-triggering mode */
 
-    if (tooltipOptions.event === 'manual') {
+    if (tooltipOptions.event === 'manual' || tooltipOptions.event === 'none') {
       if (componentWasPassed) {
 
         /* Keep track of child tooltip component */
