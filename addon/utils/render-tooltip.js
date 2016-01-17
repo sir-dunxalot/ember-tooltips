@@ -45,6 +45,10 @@ export default function renderTooltip(domElement, options, context) {
         return;
       }
 
+      if (context && context.isDestroying) {
+        return;
+      }
+
       /* Else, set the visbility */
 
       const visibilityMethod = shouldShow ? 'show' : 'hide';
