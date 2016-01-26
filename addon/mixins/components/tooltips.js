@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import renderTooltip from 'ember-tooltips/utils/render-tooltip';
 
-const { $, on } = Ember;
+const { on } = Ember;
 
 export default Ember.Mixin.create({
 
@@ -64,18 +64,8 @@ export default Ember.Mixin.create({
 
     if (tooltip) {
       tooltip.effect(null); // Remove animation
-      tooltip.hide();
-      tooltip.detach();
-
-      /* The below if fixes a couple of edge cases*/
-
-      if (document.body.contains(tooltip.element)) {
-        const tooltipSelector = `#${tooltip.id}`;
-
-        $(tooltipSelector).off().remove();
-      }
-
-      this.$().off(); // Remove all event listeners
+      tooltip.detach();     // Remove the tooltip from the document
+      this.$().off();       // Remove all event listeners
     }
 
     /* Remove observer, even if it was never added */

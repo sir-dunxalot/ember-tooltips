@@ -3,7 +3,9 @@ module.exports = {
   scenarios: [
     {
       name: 'default',
-      dependencies: { }
+      dependencies: {
+        'jquery': '1.11.3'
+      }
     },
     {
       name: 'ember-release',
