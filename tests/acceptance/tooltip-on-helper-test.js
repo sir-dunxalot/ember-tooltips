@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import { module, test } from 'qunit';
-import selectorFor from '../helpers/selector-for';
 import startApp from '../helpers/start-app';
 
 let application;
@@ -19,7 +18,7 @@ module('Acceptance | tooltip on helper', {
 
 test('Rendering tooltips set on helpers', function(assert) {
 
-  assert.expect(19);
+  assert.expect(24);
 
   visit('/tooltip-on-helper');
 
@@ -31,20 +30,13 @@ test('Rendering tooltips set on helpers', function(assert) {
     content: 'This is a tooltip on a block component',
   });
 
+  assertTooltipProperties(assert, 'on-link-to', {
+    content: 'This is a tooltip on a link-to helper',
+  });
+
   assertTooltipProperties(assert, 'showing-on-click', {
     content: 'This shows on a click event',
     event: 'click',
-  });
-
-  mouseOver('on-link-to'); // Show the tooltip
-
-  click(selectorFor('on-link-to'));
-
-  andThen(function() {
-
-    assert.notOk(inspect('on-link-to', false),
-      'There should be no tooltip in the DOM after transition');
-
   });
 
 });
