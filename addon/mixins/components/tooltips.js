@@ -70,8 +70,8 @@ export default Ember.Mixin.create({
 
     /* Remove observer, even if it was never added */
 
-    this.removeObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
-    this.removeObserver('tooltipContent', this, this.tooltipContentDidChange);
+    this.removeObserver('tooltipVisibility', this, this._tooltipVisibilityDidChange);
+    this.removeObserver('tooltipContent', this, this._tooltipContentDidChange);
   }),
 
   /**
@@ -163,7 +163,7 @@ export default Ember.Mixin.create({
 
     /* Bind observer if tooltipContent changes */
 
-    this.addObserver('tooltipContent', this, this.tooltipContentDidChange);
+    this.addObserver('tooltipContent', this, this._tooltipContentDidChange);
 
     /* Bind observer if in manual-triggering mode */
 
@@ -180,18 +180,19 @@ export default Ember.Mixin.create({
         Ember.defineProperty(this, 'tooltipVisibility', Ember.computed.reads('tooltipChildComponent.visibility'));
       }
 
-      this.addObserver('tooltipVisibility', this, this.tooltipVisibilityDidChange);
-      this.tooltipVisibilityDidChange();
+      this.addObserver('tooltipVisibility', this, this._tooltipVisibilityDidChange);
+      this._tooltipVisibilityDidChange();
     }
   }),
 
   /**
   Updates the content value of the tooltip with value of 'tooltipContent'.
 
-  @method tooltipContentDidChange
+  @method _tooltipContentDidChange
+  @private
   */
 
-  tooltipContentDidChange: function() {
+  _tooltipContentDidChange: function() {
     const tooltip = this.get('tooltip');
 
     if (tooltip) {
@@ -203,10 +204,11 @@ export default Ember.Mixin.create({
   Opens or closes tooltip based on value of 'tooltipVisibility'.
   Only used when event is 'manual'.
 
-  @method tooltipVisibilityDidChange
+  @method _tooltipVisibilityDidChange
+  @private
   */
 
-  tooltipVisibilityDidChange: function() {
+  _tooltipVisibilityDidChange: function() {
     const tooltip = this.get('tooltip');
 
     if (this.get('tooltipVisibility')) {
