@@ -385,26 +385,12 @@ export default Ember.Component.extend({
 
 ## Development
 
+All PRs and issues are welcome.
+
 - `git clone https://github.com/sir-dunxalot/ember-tooltips.git`
 - `cd ember-tooltips`
 - `npm install && bower install`
 - `ember s`
 - `ember test`, `ember try:testall`, or the `/tests` route
 
-A huge thank you to those who have identified and opened issues, in particular the contributors:
-
-- @davidgovea
-- @kmiyashiro
-- @cdl
-
-### Releases
-
-Ensure tests are passing in Travis, then:
-
-```sh
-
-# Release on NPM and Github
-ember release # If patch
-ember release --minor # If minor
-ember release --major # If major
-```
+You do not need to bump the version when you have a PR.
