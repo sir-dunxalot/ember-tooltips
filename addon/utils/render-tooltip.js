@@ -188,29 +188,29 @@ export default function renderTooltip(domElement, options, context) {
         });
       }
     }
-  }
 
-  /* Hide and show the tooltip on focus and escape
-  for acessibility */
+    /* Hide and show the tooltip on focus and escape
+    for acessibility */
 
-  if (event !== 'focus') {
-    $domElement.focusin(function() {
-      setTooltipVisibility(true);
-    });
+    if (event !== 'focus') {
+      $domElement.focusin(function() {
+        setTooltipVisibility(true);
+      });
 
-    $domElement.focusout(function() {
-      setTooltipVisibility(false);
-    });
-  }
-
-  $domElement.keydown(function(keyEvent) {
-    if (keyEvent.which === 27) {
-      setTooltipVisibility(false);
-      keyEvent.preventDefault();
-
-      return false;
+      $domElement.focusout(function() {
+        setTooltipVisibility(false);
+      });
     }
-  });
+
+    $domElement.keydown(function(keyEvent) {
+      if (keyEvent.which === 27) {
+        setTooltipVisibility(false);
+        keyEvent.preventDefault();
+
+        return false;
+      }
+    });
+  }
 
   /* Setup ARIA attributes for acessibility */
 
