@@ -28,9 +28,9 @@ export default Ember.Mixin.create({
     'duration',
     'effectClass',
     'event',
+    'hideOn',
     'place',
     'showOn',
-    'hideOn',
     'spacing',
     'tabIndex',
     'typeClass',
@@ -46,8 +46,8 @@ export default Ember.Mixin.create({
   tooltipEvent: 'hover', // hover, click, focus, ready, or none
   tooltipHideOn: null,
   tooltipPlace: 'top',
-  tooltipSpacing: 10,
   tooltipShowOn: null,
+  tooltipSpacing: 10,
   tooltipTabIndex: 0, // A positive integer (to enable) or -1 (to disable)
   tooltipTypeClass: null,
   tooltipVisibility: null, // for manual-mode triggering
