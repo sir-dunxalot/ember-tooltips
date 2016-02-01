@@ -221,7 +221,7 @@ export default function renderTooltip(domElement, options, context) {
 
   $domElement.attr({
     tabindex: $domElement.attr('tabindex') || tabIndex,
-    title: $domElement.attr('title') || content.toString(),
+    // title: $domElement.attr('title') || content.toString(), // Removed for #9
   });
 
   tooltipIndex++;
