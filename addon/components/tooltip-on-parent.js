@@ -18,7 +18,7 @@ export default Ember.Component.extend({
       const parentView = this.get('parentView');
 
       if (parentView.renderTooltip) {
-        const target = get(this, 'tooltipTarget') ? get(this, 'tooltipTarget') : this;
+        const target = get(parentView, 'tooltipTarget') ? get(parentView, 'tooltipTarget') : this;
         parentView.renderTooltip(target);
       } else {
         warn('No renderTooltip method found on the parent view of the {{tooltip-on-parent}} component');
