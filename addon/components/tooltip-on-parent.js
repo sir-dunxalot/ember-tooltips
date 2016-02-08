@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import layout from '../templates/components/tooltip-on-parent';
-import renderTooltip from 'ember-tooltips/utils/render-tooltip';
 
 const { computed, warn, run, get } = Ember;
 
