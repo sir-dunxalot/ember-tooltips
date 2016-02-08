@@ -16,14 +16,14 @@ export default Ember.Component.extend({
 
     run.schedule('afterRender', () => {
       const parentView = this.get('parentView');
+      const parentHasSelector = get(parentView, 'tagName') ? true : false;
+      const domTarget = get(parentView, 'domTarget');
+      const target = parentHasSelector ? parentView : domTarget;
 
-      if (parentView.renderTooltip) {
-        const parentHasSelector = get(parentView, 'tagName') ? true : false;
-        const domTarget = get(parentView, 'domTarget');
-        const target = parentHasSelector ? parentView : domTarget;
+      if (target.renderTooltip) {
         target.renderTooltip(this);
       } else {
-        warn('No renderTooltip method found on the parent view of the {{tooltip-on-parent}} component');
+        console.warn('No renderTooltip method found on the parent view of the {{tooltip-on-parent}} component');
       }
 
       this.remove();
