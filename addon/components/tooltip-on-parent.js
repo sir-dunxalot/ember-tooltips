@@ -12,7 +12,7 @@ export default Ember.Component.extend({
   }),
 
   init(...args) {
-    this._super.init(args);
+    this._super(args);
     
     run.schedule('afterRender', () => {
       const parentView = this.get('parentView');
