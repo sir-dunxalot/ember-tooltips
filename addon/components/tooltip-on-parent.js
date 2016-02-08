@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/tooltip-on-parent';
 
-const { computed, on, warn, run } = Ember;
+const { computed, warn, run } = Ember;
 
 export default Ember.Component.extend({
   attributeBindings: ['style'],
