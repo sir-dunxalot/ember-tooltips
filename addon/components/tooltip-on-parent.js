@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/tooltip-on-parent';
 
-const { computed, warn, run, get } = Ember;
+const { computed, run, get } = Ember;
 
 export default Ember.Component.extend({
   attributeBindings: ['style'],
@@ -16,12 +16,11 @@ export default Ember.Component.extend({
 
     run.schedule('afterRender', () => {
       const parentView = this.get('parentView');
-      const parentHasSelector = get(parentView, 'tagName') ? true : false;
-      const domTarget = get(parentView, 'domTarget');
-      const target = parentHasSelector ? parentView : domTarget;
-
-      if (target.renderTooltip) {
-        target.renderTooltip(this);
+      const componentNotInDOM = get(parentView, 'tagName') ? false : true;
+      if(componentNotInDOM) {
+        console.warn('The parent component of {{tooltip-on-parent}} has no tagName and therefore no position in the DOM to target');
+      } else if (parentView.renderTooltip) {
+        parentView.renderTooltip(this);
       } else {
         console.warn('No renderTooltip method found on the parent view of the {{tooltip-on-parent}} component');
       }
