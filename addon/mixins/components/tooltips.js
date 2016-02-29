@@ -2,6 +2,7 @@ import Ember from 'ember';
 import renderTooltip from 'ember-tooltips/utils/render-tooltip';
 
 const { on } = Ember;
+const { Tooltip } = window;
 
 export default Ember.Mixin.create({
 
@@ -62,7 +63,7 @@ export default Ember.Mixin.create({
   destroyTooltip: on('willDestroyElement', function() {
     const tooltip = this.get('tooltip');
 
-    if (tooltip && Ember.typeOf(tooltip) === 'object') {
+    if (tooltip && tooltip instanceof Tooltip) {
       tooltip.effect(null); // Remove animation
       tooltip.detach();     // Remove the tooltip from the document
       this.$().off();       // Remove all event listeners
