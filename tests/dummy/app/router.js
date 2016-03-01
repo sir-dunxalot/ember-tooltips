@@ -13,6 +13,7 @@ Router.map(function() {
   this.route('tooltip-manual-trigger');
   this.route('tooltip-auto-close');
   this.route('tooltip-with-safestring');
+  this.route('tooltip-with-type-class');
 });
 
 export default Router;

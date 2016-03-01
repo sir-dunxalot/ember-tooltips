@@ -42,8 +42,9 @@ export default Ember.Test.registerAsyncHelper('assertTooltipProperties',
 
     andThen(function() {
       const [ tooltip ] = Ember.$('.tooltip').toArray();
-      const indexOfEffectClass = tooltip.className.indexOf(expectedEffectClass);
-      const indexOfTypeClass = tooltip.className.indexOf(expectedTypeClass);
+      const classNames = tooltip.className.split(/\s+/);
+      const indexOfEffectClass = classNames.indexOf(expectedEffectClass);
+      const indexOfTypeClass = classNames.indexOf(expectedTypeClass);
 
       assert.ok(!!tooltip,
         'The tooltip should be added to the DOM after triggering the show event on the target element');
