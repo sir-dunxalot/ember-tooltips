@@ -21,7 +21,7 @@ export default function renderTooltip(domElement, options, context) {
 
   const $domElement = $(domElement);
   const parsedOptions = parseTooltipOptions(options);
-  const { content, duration, event, hideOn, tabIndex, showOn } = parsedOptions;
+  const { content, duration, event, hideOn, tabIndex, showOn, delay } = parsedOptions;
   const tooltipId = `tooltip-${tooltipIndex}`;
 
   let $tooltip, tooltip;
@@ -38,6 +38,8 @@ export default function renderTooltip(domElement, options, context) {
 
     run.debounce(function() {
 
+      run.cancel(tooltip._delayTimer);
+
       /* If we're setting visibility to the value
       it already is, do nothing... */
 
@@ -49,39 +51,33 @@ export default function renderTooltip(domElement, options, context) {
         return;
       }
 
-      /* Else, set the visbility */
-
-      const visibilityMethod = shouldShow ? 'show' : 'hide';
-
-      tooltip[visibilityMethod]();
-      $tooltip.attr('aria-hidden', shouldShow);
-
-      if (context) {
-        context.set('tooltipVisibility', shouldShow);
-      }
-
-      if (shouldShow) {
-        $domElement.attr('aria-describedby', tooltipId);
-      } else {
-        $domElement.removeAttr('aria-describedby');
-      }
-
       /* Clean previously queued removal (if present) */
-
       run.cancel(tooltip._hideTimer);
 
-      if (shouldShow && duration) {
+      if (shouldShow) {
+        tooltip._delayTimer = run.later(function() {
+          tooltip.show();
+          $tooltip.attr('aria-hidden', true);
+          if (context) {
+            context.set('tooltipVisibility', true);
+          }
+          $domElement.attr('aria-describedby', tooltipId);
+          if (duration) {
+            /* Hide tooltip after specified duration */
+            const hideTimer = run.later(tooltip, 'hide', duration);
 
-        /* Hide tooltip after specified duration */
-
-        const hideTimer = run.later(function() {
-          tooltip.hide();
-        }, duration);
-
-        /* Save timer ID for cancelling should an event
-        hide the tooltop before the duration */
-
-        tooltip._hideTimer = hideTimer;
+            /* Save timer ID for cancelling should an event
+            hide the tooltop before the duration */
+            tooltip._hideTimer = hideTimer;
+          }
+        }, delay);
+      } else {
+        tooltip.hide();
+        $tooltip.attr('aria-hidden', false);
+        if (context) {
+          context.set('tooltipVisibility', false);
+        }
+        $domElement.removeAttr('aria-describedby');
       }
     }, 150);
   }
@@ -95,7 +91,7 @@ export default function renderTooltip(domElement, options, context) {
 
   function parseTooltipOptions(options = {}) {
     const newOptions = options;
-    const { content, duration, event, tabIndex, typeClass } = newOptions;
+    const { content, duration, event, tabIndex, typeClass, delay } = newOptions;
 
     /* Prefix type class */
 
@@ -139,6 +135,17 @@ export default function renderTooltip(domElement, options, context) {
       newOptions.duration = cleanDuration;
     }
 
+    if (delay && typeof delay === 'string') {
+      let cleanDelay = parseInt(delay, 10);
+
+      /* Remove invalid parseInt results */
+
+      if (isNaN(cleanDelay) || !isFinite(cleanDelay)) {
+        cleanDelay = 0;
+      }
+
+      newOptions.delay = cleanDelay;
+    }
     /* Make tab index a string */
 
     if (typeof tabIndex === 'number') {
