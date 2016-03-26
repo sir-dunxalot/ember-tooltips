@@ -62,7 +62,7 @@ export default Ember.Mixin.create({
   destroyTooltip: on('willDestroyElement', function() {
     const tooltip = this.get('tooltip');
 
-    if (tooltip) {
+    if (tooltip && Ember.typeOf(tooltip) === 'object') {
       tooltip.effect(null); // Remove animation
       tooltip.detach();     // Remove the tooltip from the document
       this.$().off();       // Remove all event listeners
