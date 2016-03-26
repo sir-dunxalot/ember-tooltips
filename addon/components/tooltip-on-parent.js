@@ -16,9 +16,9 @@ export default Ember.Component.extend({
 
     run.schedule('afterRender', () => {
       const parentView = this.get('parentView');
-      const componentNotInDOM = get(parentView, 'tagName') ? false : true;
-      if(componentNotInDOM) {
-        console.warn('The parent component of {{tooltip-on-parent}} has no tagName and therefore no position in the DOM to target');
+
+      if (!parentView) {
+        console.warn('No parentView found');
       } else if (parentView.renderTooltip) {
         parentView.renderTooltip(this);
       } else {
