@@ -9,7 +9,7 @@ export function initialize() {
     addTo: ['Component'],
   };
   const overridingOptions = ENV.tooltips || {};
-  const options = Ember.merge(defaultOptions, overridingOptions);
+  const options = Ember.assign(defaultOptions, overridingOptions);
 
   /* TODO - Needs test coverage for addTo */
 
