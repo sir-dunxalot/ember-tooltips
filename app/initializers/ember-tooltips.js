@@ -2,6 +2,8 @@ import Ember from 'ember';
 import ENV from '../config/environment';
 import Tooltips from '../mixins/components/tooltips';
 
+const assign = Ember.assign || Ember.merge;
+
 /* This is in the app tree so we can access ENV */
 
 export function initialize() {
@@ -9,7 +11,7 @@ export function initialize() {
     addTo: ['Component'],
   };
   const overridingOptions = ENV.tooltips || {};
-  const options = Ember.merge(defaultOptions, overridingOptions);
+  const options = assign(defaultOptions, overridingOptions);
 
   /* TODO - Needs test coverage for addTo */
 
