@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+ const safeString = Ember.String.htmlSafe || Ember.Handlebars.SafeString;
+
 export default Ember.Controller.extend({
 
   actions: {
@@ -8,6 +10,6 @@ export default Ember.Controller.extend({
     },
   },
 
-  safeString: new Ember.Handlebars.SafeString('this is a test'),
+  safeString: new safeString('this is a test'),
 
 });
