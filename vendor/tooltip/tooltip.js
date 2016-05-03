@@ -263,7 +263,7 @@ exports.unbind = window.removeEventListener ? function (el, type, fn, capture) {
 \t\tel[fnid] = undefined;\n\
 \t}\n\
 \treturn fn;\n\
-};//@ sourceURL=darsain-event/index.js"
+};//# sourceURL=darsain-event/index.js"
 ));
 require.register("darsain-position/index.js", Function("exports, require, module",
 "'use strict';\n\
@@ -337,7 +337,7 @@ function position(element) {\n\
 \tbox.bottom = box.top + box.height;\n\
 \n\
 \treturn box;\n\
-}//@ sourceURL=darsain-position/index.js"
+}//# sourceURL=darsain-position/index.js"
 ));
 require.register("component-classes/index.js", Function("exports, require, module",
 "/**\n\
@@ -505,7 +505,7 @@ ClassList.prototype.contains = function(name){\n\
     ? this.list.contains(name)\n\
     : !! ~index(this.array(), name);\n\
 };\n\
-//@ sourceURL=component-classes/index.js"
+//# sourceURL=component-classes/index.js"
 ));
 require.register("component-indexof/index.js", Function("exports, require, module",
 "module.exports = function(arr, obj){\n\
@@ -514,7 +514,7 @@ require.register("component-indexof/index.js", Function("exports, require, modul
     if (arr[i] === obj) return i;\n\
   }\n\
   return -1;\n\
-};//@ sourceURL=component-indexof/index.js"
+};//# sourceURL=component-indexof/index.js"
 ));
 require.register("tooltip/index.js", Function("exports, require, module",
 "'use strict';\n\
@@ -1129,7 +1129,7 @@ Tooltip.defaults = {\n\
 \tplace:       'top',     // Default place.\n\
 \tspacing:     null,      // Gap between target and tooltip.\n\
 \tauto:        0          // Whether to automatically adjust place to fit into window.\n\
-};//@ sourceURL=tooltip/index.js"
+};//# sourceURL=tooltip/index.js"
 ));
 
 
