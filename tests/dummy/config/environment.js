@@ -19,7 +19,7 @@ module.exports = function(environment) {
     },
 
     contentSecurityPolicy: {
-      'script-src': "'self' 'unsafe-eval' *.google.com *.gstatic.com",
+      'script-src': "'self' 'unsafe-eval' *.google.com *.gstatic.com 'sha256-37u63EBe1EibDZ3vZNr6mxLepqlY1CQw+4N89HrzP9s='",
       'style-src': "'self' 'unsafe-inline' *.google.com *.googleapis.com",
       'font-src': "'self' *.gstatic.com *.googleapis.com",
       'img-src': "'self' *.amazonaws.com data:",
