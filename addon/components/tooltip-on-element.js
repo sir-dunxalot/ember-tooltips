@@ -11,19 +11,19 @@ export default EmberTetherComponent.extend({
   effect: 'slide', // fade, grow, slide, null
   event: 'hover', // hover, click, focus, ready, or none
   hideOn: null,
-  isVisible: false,
   position: 'bottom center',
   role: 'tooltip',
   showOn: null,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
+  tooltipIsVisible: false,
   type: null,
 
   /* Properties */
 
-  'aria-hidden': computed.oneWay('isVisible'),
+  'aria-hidden': computed.oneWay('tooltipIsVisible'),
   attachment: computed.oneWay('position'),
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
-  classNameBindings: ['positionClass', 'effectClass', 'isVisible', 'typeClass'],
+  classNameBindings: ['positionClass', 'effectClass', 'tooltipIsVisible', 'typeClass'],
   classNames: ['tooltip'],
   targetAttachment: 'top center',
 
@@ -32,7 +32,7 @@ export default EmberTetherComponent.extend({
   }),
 
   positionClass: computed(function() {
-    const dasherizedTarget = Ember.String.dasherize(this.get('target'));
+    const dasherizedTarget = Ember.String.dasherize(this.get('position'));
 
     return `tooltip-${dasherizedTarget}`;
   }),
@@ -132,7 +132,7 @@ export default EmberTetherComponent.extend({
 
       if (_showOn === _hideOn) {
         $target.on(_showOn, () => {
-          this.toggleProperty('isVisible');
+          this.toggleProperty('tooltipIsVisible');
         });
       } else {
 
@@ -140,13 +140,13 @@ export default EmberTetherComponent.extend({
 
         if (_showOn !== 'none') {
           $target.on(_showOn, () => {
-            this.set('isVisible', true);
+            this.set('tooltipIsVisible', true);
           });
         }
 
         if (_hideOn !== 'none') {
           $target.on(_hideOn, () => {
-            this.set('isVisible', false);
+            this.set('tooltipIsVisible', false);
           });
         }
       }
@@ -156,17 +156,17 @@ export default EmberTetherComponent.extend({
 
       if (event !== 'focus') {
         $target.focusin(() => {
-          this.set('isVisible', true);
+          this.set('tooltipIsVisible', true);
         });
 
         $target.focusout(() => {
-          this.set('isVisible', false);
+          this.set('tooltipIsVisible', false);
         });
       }
 
       $target.keydown((keyEvent) => {
         if (keyEvent.which === 27) {
-          this.set('isVisible', false);
+          this.set('tooltipIsVisible', false);
           keyEvent.preventDefault();
 
           return false;
@@ -182,9 +182,9 @@ export default EmberTetherComponent.extend({
       return;
     }
 
-    const isVisible = this.get('isVisible');
+    const tooltipIsVisible = this.get('tooltipIsVisible');
 
-    if (isVisible) {
+    if (tooltipIsVisible) {
       const _duration = this.get('_duration');
 
       run.cancel(this.get('_hideTimer'));
@@ -194,7 +194,7 @@ export default EmberTetherComponent.extend({
         /* Hide tooltip after specified duration */
 
         const hideTimer = run.later(() => {
-          this.set('isVisible', false);
+          this.set('tooltipIsVisible', false);
         }, _duration);
 
         /* Save timer ID for cancelling should an event
@@ -211,7 +211,7 @@ export default EmberTetherComponent.extend({
     const $target = $(this.get('target'));
 
     this.set('effect', null);
-    this.set('isVisible', false);
+    this.set('tooltipIsVisible', false);
 
     $target.removeAttr('aria-describedby');
     $target.off();

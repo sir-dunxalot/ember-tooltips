@@ -1,5 +1,5 @@
 .tooltip {
-  // position: relative;
+  position: relative;
   // top: 10px; /* Defines the spacing between tooltip and target position */
   max-width: 200px;
   color: #fff;
@@ -41,7 +41,7 @@
 
 /* Fade */
 .tooltip.tooltip-fade { opacity: 0; transition: opacity 200ms ease-out; }
-.tooltip.tooltip-fade.is-visible { opacity: 1; transition-duration: 100ms; }
+.tooltip.tooltip-fade.tooltip-is-visible { opacity: 1; transition-duration: 100ms; }
 
 /* Slide */
 .tooltip.tooltip-slide {
@@ -75,7 +75,7 @@
   -webkit-transform: translateX(-15px);
   transform: translateX(-15px);
 }
-.tooltip.tooltip-slide.is-visible {
+.tooltip.tooltip-slide.tooltip-is-visible {
   opacity: 1;
   -webkit-transform: none;
   transform: none;
@@ -137,7 +137,7 @@
   -webkit-transform: translateX(-53%) translateY(-40%) scale(0);
   transform: translateX(-53%) translateY(-40%) scale(0);
 }
-.tooltip.tooltip-grow.is-visible {
+.tooltip.tooltip-grow.tooltip-is-visible {
   -webkit-transform: none;
   transform: none;
   transition-duration: 100ms;
