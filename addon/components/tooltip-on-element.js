@@ -7,13 +7,16 @@ export default EmberTetherComponent.extend({
 
   /* Options */
 
+  alignment: 'center',
   duration: null,
   effect: 'slide', // fade, grow, slide, null
   event: 'hover', // hover, click, focus, ready, or none
   hideOn: null,
   position: 'bottom center',
   role: 'tooltip',
+  side: 'top',
   showOn: null,
+  spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
   tooltipIsVisible: false,
   type: null,
@@ -21,20 +24,35 @@ export default EmberTetherComponent.extend({
   /* Properties */
 
   'aria-hidden': computed.oneWay('tooltipIsVisible'),
-  attachment: computed.oneWay('position'),
-  attributeBindings: ['aria-hidden', 'role', 'tabindex'],
+  attributeBindings: ['aria-hidden', 'role', 'tabindex', 'spacingRule:style'],
   classNameBindings: ['positionClass', 'effectClass', 'tooltipIsVisible', 'typeClass'],
   classNames: ['tooltip'],
-  targetAttachment: 'top center',
+
+  attachment: computed(function() {
+    const side = this.get('side');
+
+    let oppositeSide;
+
+    switch(side) {
+      case 'top' : oppositeSide = 'bottom'; break;
+      case 'right' : oppositeSide = 'left'; break;
+      case 'bottom' : oppositeSide = 'top'; break;
+      case 'left' : oppositeSide = 'right'; break;
+    }
+
+    return `${oppositeSide} ${this.get('alignment')}`;
+  }),
 
   effectClass: computed(function() {
     return `tooltip-${this.get('effect')}`;
   }),
 
   positionClass: computed(function() {
-    const dasherizedTarget = Ember.String.dasherize(this.get('position'));
+    return `tooltip-${this.get('side')} tooltip-${this.get('alignment')}`;
+  }),
 
-    return `tooltip-${dasherizedTarget}`;
+  spacingRule: computed(function() {
+    return `margin-${this.get('side')}:-${this.get('spacing')}px;`;
   }),
 
   target: computed(function() {
@@ -47,6 +65,10 @@ export default EmberTetherComponent.extend({
     } else {
       return `#${parentView.get('elementId')}`;
     }
+  }),
+
+  targetAttachment: computed(function() {
+    return `${this.get('side')} ${this.get('alignment')}`;
   }),
 
   typeClass: computed(function() {
