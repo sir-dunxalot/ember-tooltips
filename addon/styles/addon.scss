@@ -1,17 +1,17 @@
-/*! tooltip 0.1.0 - 18th Dec 2013 | https://github.com/darsain/tooltip */
 .tooltip {
-  position: absolute;
-  padding: .8em 1em;
-  top: 10px; /* Defines the spacing between tooltip and target position */
+  // position: relative;
+  // top: 10px; /* Defines the spacing between tooltip and target position */
   max-width: 200px;
   color: #fff;
   background: #3a3c47;
-  border-radius: 2px;
   text-shadow: -1px -1px 0 rgba(0,0,0,.2);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
   pointer-events: none;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 3px;
 }
 
 /* Arrow styles */
@@ -27,55 +27,55 @@
   transform: rotate(45deg);
 }
 
-.tooltip.top:after, .tooltip.top-left:after, .tooltip.top-right:after { bottom: 0; }
-.tooltip.bottom:after, .tooltip.bottom-left:after, .tooltip.bottom-right:after { top: 0; }
-.tooltip.top:after, .tooltip.bottom:after { left: 50%; }
-.tooltip.top-left:after, .tooltip.bottom-left:after { right: 15px; }
-.tooltip.top-right:after, .tooltip.bottom-right:after { left: 15px; }
+.tooltip.tooltip-top:after, .tooltip.tooltip-top-left:after, .tooltip.tooltip-top-right:after { bottom: 0; }
+.tooltip.tooltip-bottom:after, .tooltip.tooltip-bottom-left:after, .tooltip.tooltip-bottom-right:after { top: 0; }
+.tooltip.tooltip-top:after, .tooltip.tooltip-bottom:after { left: 50%; }
+.tooltip.tooltip-top-left:after, .tooltip.tooltip-bottom-left:after { right: 15px; }
+.tooltip.tooltip-top-right:after, .tooltip.tooltip-bottom-right:after { left: 15px; }
 
-.tooltip.left:after, .tooltip.left-top:after, .tooltip.left-bottom:after { right: 0; }
-.tooltip.right:after, .tooltip.right-top:after, .tooltip.right-bottom:after { left: 0; }
-.tooltip.left:after, .tooltip.right:after { top: 50%; }
-.tooltip.left-top:after, .tooltip.right-top:after { bottom: 15px; }
-.tooltip.left-bottom:after, .tooltip.right-bottom:after { top: 15px; }
+.tooltip.tooltip-left:after, .tooltip.tooltip-left-top:after, .tooltip.tooltip-left-bottom:after { right: 0; }
+.tooltip.tooltip-right:after, .tooltip.tooltip-right-top:after, .tooltip.tooltip-right-bottom:after { left: 0; }
+.tooltip.tooltip-left:after, .tooltip.tooltip-right:after { top: 50%; }
+.tooltip.tooltip-left-top:after, .tooltip.tooltip-right-top:after { bottom: 15px; }
+.tooltip.tooltip-left-bottom:after, .tooltip.tooltip-right-bottom:after { top: 15px; }
 
 /* Fade */
-.tooltip.fade { opacity: 0; transition: opacity 200ms ease-out; }
-.tooltip.fade.in { opacity: 1; transition-duration: 100ms; }
+.tooltip.tooltip-fade { opacity: 0; transition: opacity 200ms ease-out; }
+.tooltip.tooltip-fade.is-visible { opacity: 1; transition-duration: 100ms; }
 
 /* Slide */
-.tooltip.slide {
+.tooltip.tooltip-slide {
   opacity: 0;
   transition: -webkit-transform 200ms ease-out;
   transition: transform 200ms ease-out;
   transition-property: -webkit-transform, opacity;
   transition-property: transform, opacity;
 }
-.tooltip.slide.top,
-.tooltip.slide.top-left,
-.tooltip.slide.top-right {
+.tooltip.tooltip-slide.tooltip-top,
+.tooltip.tooltip-slide.tooltip-top-left,
+.tooltip.tooltip-slide.tooltip-top-right {
   -webkit-transform: translateY(15px);
   transform: translateY(15px);
 }
-.tooltip.slide.bottom,
-.tooltip.slide.bottom-left,
-.tooltip.slide.bottom-right {
+.tooltip.tooltip-slide.tooltip-bottom,
+.tooltip.tooltip-slide.tooltip-bottom-left,
+.tooltip.tooltip-slide.tooltip-bottom-right {
   -webkit-transform: translateY(-15px);
   transform: translateY(-15px);
 }
-.tooltip.slide.left,
-.tooltip.slide.left-top,
-.tooltip.slide.left-bottom {
+.tooltip.tooltip-slide.tooltip-left,
+.tooltip.tooltip-slide.tooltip-left-top,
+.tooltip.tooltip-slide.tooltip-left-bottom {
   -webkit-transform: translateX(15px);
   transform: translateX(15px);
 }
-.tooltip.slide.right,
-.tooltip.slide.right-top,
-.tooltip.slide.right-bottom {
+.tooltip.tooltip-slide.tooltip-right,
+.tooltip.tooltip-slide.tooltip-right-top,
+.tooltip.tooltip-slide.tooltip-right-bottom {
   -webkit-transform: translateX(-15px);
   transform: translateX(-15px);
 }
-.tooltip.slide.in {
+.tooltip.tooltip-slide.is-visible {
   opacity: 1;
   -webkit-transform: none;
   transform: none;
@@ -83,74 +83,68 @@
 }
 
 /* Grow */
-.tooltip.grow {
+.tooltip.tooltip-grow {
   -webkit-transform: scale(0);
   transform: scale(0);
   transition: -webkit-transform 200ms ease-out;
   transition: transform 200ms ease-out;
 }
-.tooltip.grow.top {
+.tooltip.tooltip-grow.tooltip-top {
   -webkit-transform: translateY(60%) scale(0);
   transform: translateY(60%) scale(0);
 }
-.tooltip.grow.top-left {
+.tooltip.tooltip-grow.tooltip-top-left {
   -webkit-transform: translateY(60%) translateX(40%) scale(0);
   transform: translateY(60%) translateX(40%) scale(0);
 }
-.tooltip.grow.top-right {
+.tooltip.tooltip-grow.tooltip-top-right {
   -webkit-transform: translateY(60%) translateX(-40%) scale(0);
   transform: translateY(60%) translateX(-40%) scale(0);
 }
-.tooltip.grow.bottom {
+.tooltip.tooltip-grow.tooltip-bottom {
   -webkit-transform: translateY(-60%) scale(0);
   transform: translateY(-60%) scale(0);
 }
-.tooltip.grow.bottom-left {
+.tooltip.tooltip-grow.tooltip-bottom-left {
   -webkit-transform: translateY(-60%) translateX(40%) scale(0);
   transform: translateY(-60%) translateX(40%) scale(0);
 }
-.tooltip.grow.bottom-right {
+.tooltip.tooltip-grow.tooltip-bottom-right {
   -webkit-transform: translateY(-60%) translateX(-40%) scale(0);
   transform: translateY(-60%) translateX(-40%) scale(0);
 }
-.tooltip.grow.left {
+.tooltip.tooltip-grow.tooltip-left {
   -webkit-transform: translateX(53%) scale(0);
   transform: translateX(53%) scale(0);
 }
-.tooltip.grow.left-top {
+.tooltip.tooltip-grow.tooltip-left-top {
   -webkit-transform: translateX(53%) translateY(40%) scale(0);
   transform: translateX(53%) translateY(40%) scale(0);
 }
-.tooltip.grow.left-bottom {
+.tooltip.tooltip-grow.tooltip-left-bottom {
   -webkit-transform: translateX(53%) translateY(-40%) scale(0);
   transform: translateX(53%) translateY(-40%) scale(0);
 }
-.tooltip.grow.right {
+.tooltip.tooltip-grow.tooltip-right {
   -webkit-transform: translateX(-53%) scale(0);
   transform: translateX(-53%) scale(0);
 }
-.tooltip.grow.right-top {
+.tooltip.tooltip-grow.tooltip-right-top {
   -webkit-transform: translateX(-53%) translateY(40%) scale(0);
   transform: translateX(-53%) translateY(40%) scale(0);
 }
-.tooltip.grow.right-bottom {
+.tooltip.tooltip-grow.tooltip-right-bottom {
   -webkit-transform: translateX(-53%) translateY(-40%) scale(0);
   transform: translateX(-53%) translateY(-40%) scale(0);
 }
-.tooltip.grow.in {
+.tooltip.tooltip-grow.is-visible {
   -webkit-transform: none;
   transform: none;
   transition-duration: 100ms;
 }
 
 /* Types */
-.tooltip.light { color: #3a3c47; background: #fff; text-shadow: none; }
-.tooltip.success { background: #8dc572; }
-.tooltip.warning { background: #ddc12e; }
-.tooltip.error { background: #be6464; }
-
-.tooltip {
-  font-size: 14px;
-  padding: 6px 10px;
-  border-radius: 3px;
-}
+.tooltip.tooltip-light { color: #3a3c47; background: #fff; text-shadow: none; }
+.tooltip.tooltip-success { background: #8dc572; }
+.tooltip.tooltip-warning { background: #ddc12e; }
+.tooltip.tooltip-error { background: #be6464; }

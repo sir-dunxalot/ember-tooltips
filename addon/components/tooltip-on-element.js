@@ -16,14 +16,26 @@ export default EmberTetherComponent.extend({
   role: 'tooltip',
   showOn: null,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
+  type: null,
 
   /* Properties */
 
   'aria-hidden': computed.oneWay('isVisible'),
   attachment: computed.oneWay('position'),
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
+  classNameBindings: ['positionClass', 'effectClass', 'isVisible', 'typeClass'],
   classNames: ['tooltip'],
   targetAttachment: 'top center',
+
+  effectClass: computed(function() {
+    return `tooltip-${this.get('effect')}`;
+  }),
+
+  positionClass: computed(function() {
+    const dasherizedTarget = Ember.String.dasherize(this.get('target'));
+
+    return `tooltip-${dasherizedTarget}`;
+  }),
 
   target: computed(function() {
     const parentView = this.get('parentView');
@@ -35,6 +47,12 @@ export default EmberTetherComponent.extend({
     } else {
       return `#${parentView.get('elementId')}`;
     }
+  }),
+
+  typeClass: computed(function() {
+    const type = this.get('type');
+
+    return type ? `tooltip-${type}` : null;
   }),
 
   /* Private properties */
