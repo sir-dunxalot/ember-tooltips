@@ -148,3 +148,9 @@
 .tooltip.success { background: #8dc572; }
 .tooltip.warning { background: #ddc12e; }
 .tooltip.error { background: #be6464; }
+
+.tooltip {
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
