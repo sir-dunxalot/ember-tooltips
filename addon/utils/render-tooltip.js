@@ -2,7 +2,8 @@
 import Ember from 'ember';
 
 const { Tooltip } = window;
-const { $, run, Handlebars: { SafeString } } = Ember;
+const { $, run } = Ember;
+const SafeString = Ember.String.htmlSafe || Ember.Handlebars.SafeString;
 
 let tooltipIndex = 1;
 
