@@ -23,6 +23,7 @@ export default EmberTetherComponent.extend({
   attachment: computed.oneWay('position'),
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
   classNames: ['tooltip'],
+  targetAttachment: 'top center',
 
   target: computed(function() {
     const parentView = this.get('parentView');
