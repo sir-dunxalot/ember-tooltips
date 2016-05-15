@@ -75,3 +75,7 @@ a {
 md-toolbar.md-default-theme {
   background-color: #D39120;
 }
+
+.tooltip {
+  z-index: 61; // Over md-sidenav
+}

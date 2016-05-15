@@ -173,7 +173,7 @@ export default EmberTetherComponent.extend({
 
   /* Methods */
 
-  close() {
+  hide() {
     this.set('tooltipIsVisible', false);
   },
 
@@ -204,13 +204,13 @@ export default EmberTetherComponent.extend({
 
         if (_showOn !== 'none') {
           $target.on(_showOn, () => {
-            this.open();
+            this.show();
           });
         }
 
         if (_hideOn !== 'none') {
           $target.on(_hideOn, () => {
-            this.close();
+            this.hide();
           });
         }
       }
@@ -220,23 +220,27 @@ export default EmberTetherComponent.extend({
 
       if (event !== 'focus') {
         $target.focusin(() => {
-          this.open();
+          this.show();
         });
 
         $target.focusout(() => {
-          this.close();
+          this.hide();
         });
       }
 
       $target.keydown((keyEvent) => {
         if (keyEvent.which === 27) {
-          this.close();
+          this.hide();
           keyEvent.preventDefault();
 
           return false;
         }
       });
     }
+
+    /* When this component has rendered we need
+    to check if Tether moved its position to keep the
+    element in bounds */
 
     let renderedSide;
 
@@ -245,6 +249,10 @@ export default EmberTetherComponent.extend({
         renderedSide = side;
       }
     });
+
+    /* We then use the side the tooltip was *actually*
+    rendered on to set the correct offset from
+    the target element */
 
     const spacing = this.get('spacing');
 
@@ -265,10 +273,7 @@ export default EmberTetherComponent.extend({
         break;
     }
 
-    console.log(offset);
-
     this.set('offset', offset);
-    this.tetherDidChange();
   },
 
   setTimer: Ember.observer('tooltipIsVisible', function() {
@@ -290,7 +295,7 @@ export default EmberTetherComponent.extend({
         /* Hide tooltip after specified duration */
 
         const hideTimer = run.later(() => {
-          this.close();
+          this.hide();
         }, _duration);
 
         /* Save timer ID for cancelling should an event
@@ -301,7 +306,7 @@ export default EmberTetherComponent.extend({
     }
   }),
 
-  open() {
+  show() {
     this.set('tooltipIsVisible', true);
   },
 
@@ -313,7 +318,7 @@ export default EmberTetherComponent.extend({
     const $target = $(this.get('target'));
 
     this.set('effect', null);
-    this.close();
+    this.hide();
 
     $target.removeAttr('aria-describedby');
     $target.off();
