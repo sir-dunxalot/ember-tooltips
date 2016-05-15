@@ -100,7 +100,7 @@ export default function renderTooltip(domElement, options, context) {
     /* Prefix type class */
 
     if (typeClass) {
-      newOptions.typeClass = 'tooltip-' + typeClass;
+      newOptions.typeClass = typeClass;
     }
 
     /* Set the correct hide and show events */
