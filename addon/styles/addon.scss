@@ -24,17 +24,17 @@
   }
 }
 
-.tooltip.tooltip-top:after, .tooltip.tooltip-top-left:after, .tooltip.tooltip-top-right:after { bottom: 0; }
-.tooltip.tooltip-bottom:after, .tooltip.tooltip-bottom-left:after, .tooltip.tooltip-bottom-right:after { top: 0; }
-.tooltip.tooltip-top:after, .tooltip.tooltip-bottom:after { left: 50%; }
-.tooltip.tooltip-top-left:after, .tooltip.tooltip-bottom-left:after { right: 15px; }
-.tooltip.tooltip-top-right:after, .tooltip.tooltip-bottom-right:after { left: 15px; }
+.tooltip.tooltip-target-attached-top:after, .tooltip.tooltip-target-attached-top-left:after, .tooltip.tooltip-target-attached-top-right:after { bottom: 0; }
+.tooltip.tooltip-target-attached-bottom:after, .tooltip.tooltip-target-attached-bottom-left:after, .tooltip.tooltip-target-attached-bottom-right:after { top: 0; }
+.tooltip.tooltip-target-attached-top:after, .tooltip.tooltip-target-attached-bottom:after { left: 50%; }
+.tooltip.tooltip-target-attached-top-left:after, .tooltip.tooltip-target-attached-bottom-left:after { right: 15px; }
+.tooltip.tooltip-target-attached-top-right:after, .tooltip.tooltip-target-attached-bottom-right:after { left: 15px; }
 
-.tooltip.tooltip-left:after, .tooltip.tooltip-left-top:after, .tooltip.tooltip-left-bottom:after { right: 0; }
-.tooltip.tooltip-right:after, .tooltip.tooltip-right-top:after, .tooltip.tooltip-right-bottom:after { left: 0; }
-.tooltip.tooltip-left:after, .tooltip.tooltip-right:after { top: 50%; }
-.tooltip.tooltip-left-top:after, .tooltip.tooltip-right-top:after { bottom: 15px; }
-.tooltip.tooltip-left-bottom:after, .tooltip.tooltip-right-bottom:after { top: 15px; }
+.tooltip.tooltip-target-attached-left:after, .tooltip.tooltip-target-attached-left-top:after, .tooltip.tooltip-target-attached-left-bottom:after { right: 0; }
+.tooltip.tooltip-target-attached-right:after, .tooltip.tooltip-target-attached-right-top:after, .tooltip.tooltip-target-attached-right-bottom:after { left: 0; }
+.tooltip.tooltip-target-attached-left:after, .tooltip.tooltip-target-attached-right:after { top: 50%; }
+.tooltip.tooltip-target-attached-left-top:after, .tooltip.tooltip-target-attached-right-top:after { bottom: 15px; }
+.tooltip.tooltip-target-attached-left-bottom:after, .tooltip.tooltip-target-attached-right-bottom:after { top: 15px; }
 
 /* Fade */
 
@@ -48,24 +48,24 @@
   }
 
   &.tooltip-slide {
-    &.tooltip-top {
+    &.tooltip-target-attached-top {
       margin-top: 10px;
     }
 
-    &.tooltip-right {
+    &.tooltip-target-attached-right {
       margin-left: -10px;
     }
 
-    &.tooltip-bottom {
+    &.tooltip-target-attached-bottom {
       margin-top: -10px;
     }
 
-    &.tooltip-left {
+    &.tooltip-target-attached-left {
       margin-left: 10px;
     }
   }
 
-  &.tooltip-is-visible {
+  &[aria-hidden="false"] {
     opacity: 1;
     transition-duration: 100ms; // Shorter hide duration
 

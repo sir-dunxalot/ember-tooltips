@@ -9,9 +9,9 @@ export default EmberTetherComponent.extend({
 
   /* Options */
 
-  duration: 100,
+  duration: 0,
   effect: 'slide', // fade, slide, none
-  event: 'click', // hover, click, focus, ready, or none
+  event: 'hover', // hover, click, focus, ready, or none
   hideOn: null,
   role: 'tooltip',
   side: 'top',
@@ -19,12 +19,14 @@ export default EmberTetherComponent.extend({
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
   tooltipIsVisible: false,
+  keepInWindow: true,
 
   /* Properties */
 
-  'aria-hidden': computed.oneWay('tooltipIsVisible'),
+  'aria-hidden': computed.not('tooltipIsVisible'),
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
-  classNameBindings: ['positionClass', 'effectClass', 'tooltipIsVisible'],
+  classNameBindings: ['effectClass'],
+  classPrefix: 'tooltip',
   classNames: ['tooltip'],
 
   attachment: computed(function() {
@@ -54,31 +56,23 @@ export default EmberTetherComponent.extend({
     return `${verticalPosition} ${horizontalPosition}`;
   }),
 
-  effectClass: computed(function() {
-    return `tooltip-${this.get('effect')}`;
-  }),
+  constraints: computed('keepInWindow', function() {
+    let constraints;
 
-  offset: computed(function() {
-    const side = this.get('side');
-    const spacing = this.get('spacing');
-    let offset;
-
-    switch(side) {
-      case 'top':
-        offset = `${spacing}px 0`;
-        break;
-      case 'right':
-        offset = `0 -${spacing}px`;
-        break;
-      case 'bottom':
-        offset = `-${spacing}px 0`;
-        break;
-      case 'left':
-        offset = `0 ${spacing}px`;
-        break;
+    if (this.get('keepInWindow')) {
+      constraints = [
+        {
+          to: 'window',
+          attachment: 'together'
+        }
+      ];
     }
 
-    return offset;
+    return constraints;
+  }),
+
+  effectClass: computed(function() {
+    return `tooltip-${this.get('effect')}`;
   }),
 
   positionClass: computed(function() {
@@ -187,6 +181,10 @@ export default EmberTetherComponent.extend({
     this._super(...arguments);
 
     const event = this.get('event');
+    const _tether = this.get('_tether');
+    const $_tether = $(_tether.element);
+
+    /* Setup event handling to hide and show the tooltip */
 
     if (event !== 'none') {
       const _hideOn = this.get('_hideOn');
@@ -239,6 +237,38 @@ export default EmberTetherComponent.extend({
         }
       });
     }
+
+    let renderedSide;
+
+    ['top', 'right', 'bottom', 'left'].forEach(function(side) {
+      if ($_tether.hasClass(`tooltip-target-attached-${side}`)) {
+        renderedSide = side;
+      }
+    });
+
+    const spacing = this.get('spacing');
+
+    let offset;
+
+    switch(renderedSide) {
+      case 'top':
+        offset = `${spacing}px 0`;
+        break;
+      case 'right':
+        offset = `0 -${spacing}px`;
+        break;
+      case 'bottom':
+        offset = `-${spacing}px 0`;
+        break;
+      case 'left':
+        offset = `0 ${spacing}px`;
+        break;
+    }
+
+    console.log(offset);
+
+    this.set('offset', offset);
+    this.tetherDidChange();
   },
 
   setTimer: Ember.observer('tooltipIsVisible', function() {
