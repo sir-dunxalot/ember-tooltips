@@ -9,9 +9,9 @@ export default EmberTetherComponent.extend({
 
   /* Options */
 
-  duration: null,
+  duration: 100,
   effect: 'slide', // fade, slide, none
-  event: 'hover', // hover, click, focus, ready, or none
+  event: 'click', // hover, click, focus, ready, or none
   hideOn: null,
   role: 'tooltip',
   side: 'top',
@@ -241,7 +241,7 @@ export default EmberTetherComponent.extend({
     }
   },
 
-  didReceiveAttrs() {
+  setTimer: Ember.observer('tooltipIsVisible', function() {
     this._super(...arguments);
 
     if (this.get('isDestroying')) {
@@ -269,7 +269,7 @@ export default EmberTetherComponent.extend({
         this.set('_hideTimer', hideTimer);
       }
     }
-  },
+  }),
 
   open() {
     this.set('tooltipIsVisible', true);
