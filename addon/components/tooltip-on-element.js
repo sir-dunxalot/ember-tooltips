@@ -11,7 +11,7 @@ export default EmberTetherComponent.extend({
 
   duration: 0,
   effect: 'slide', // fade, slide, none
-  event: 'hover', // hover, click, focus, ready, or none
+  event: 'hover', // hover, click, focus, none
   hideOn: null,
   role: 'tooltip',
   side: 'top',
@@ -181,6 +181,7 @@ export default EmberTetherComponent.extend({
     this._super(...arguments);
 
     const event = this.get('event');
+    const $target = $(this.get('target'));
     const _tether = this.get('_tether');
     const $_tether = $(_tether.element);
 
@@ -189,7 +190,6 @@ export default EmberTetherComponent.extend({
     if (event !== 'none') {
       const _hideOn = this.get('_hideOn');
       const _showOn = this.get('_showOn');
-      const $target = $(this.get('target'));
 
       /* If show and hide are the same (e.g. click), toggle
       the visibility */
@@ -237,6 +237,11 @@ export default EmberTetherComponent.extend({
         }
       });
     }
+
+    $target.attr({
+      'aria-describedby': `#${this.get('elementId')}`,
+      tabindex: $target.attr('tabindex') || this.get('tabindex'),
+    });
 
     /* When this component has rendered we need
     to check if Tether moved its position to keep the
