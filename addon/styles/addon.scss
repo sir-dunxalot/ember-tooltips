@@ -40,28 +40,37 @@
 
 .tooltip {
   opacity: 0;
-  -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
-  transition: opacity 200ms ease-out, margin 200ms ease-out;
 
-  &.tooltip-top {
-    margin-top: 10px;
+  &.tooltip-slide,
+  &.tooltip-fade {
+    -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
+    transition: opacity 200ms ease-out, margin 200ms ease-out;
   }
 
-  &.tooltip-right {
-    margin-left: -10px;
-  }
+  &.tooltip-slide {
+    &.tooltip-top {
+      margin-top: 10px;
+    }
 
-  &.tooltip-bottom {
-    margin-top: -10px;
-  }
+    &.tooltip-right {
+      margin-left: -10px;
+    }
 
-  &.tooltip-left {
-    margin-left: 10px;
+    &.tooltip-bottom {
+      margin-top: -10px;
+    }
+
+    &.tooltip-left {
+      margin-left: 10px;
+    }
   }
 
   &.tooltip-is-visible {
     opacity: 1;
-    transition-duration: 100ms;
-    margin: 0px;
+    transition-duration: 100ms; // Shorter hide duration
+
+    &.tooltip-slide {
+      margin: 0px;
+    }
   }
 }

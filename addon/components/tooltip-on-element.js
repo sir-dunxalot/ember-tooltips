@@ -10,7 +10,7 @@ export default EmberTetherComponent.extend({
   /* Options */
 
   duration: null,
-  effect: 'slide', // fade, grow, slide, null
+  effect: 'slide', // fade, slide, none
   event: 'hover', // hover, click, focus, ready, or none
   hideOn: null,
   role: 'tooltip',
