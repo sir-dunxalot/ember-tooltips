@@ -9,28 +9,23 @@ export default EmberTetherComponent.extend({
 
   /* Options */
 
-  // alignment: defaultPosition,
   duration: null,
   effect: 'slide', // fade, grow, slide, null
   event: 'hover', // hover, click, focus, ready, or none
   hideOn: null,
-  // position: 'bottom middle',
-  // targetOffset: '1',
   role: 'tooltip',
   side: 'top',
   showOn: null,
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
   tooltipIsVisible: false,
-  type: null,
 
   /* Properties */
 
   'aria-hidden': computed.oneWay('tooltipIsVisible'),
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
-  classNameBindings: ['positionClass', 'effectClass', 'tooltipIsVisible', 'typeClass'],
+  classNameBindings: ['positionClass', 'effectClass', 'tooltipIsVisible'],
   classNames: ['tooltip'],
-  sideIsVertical: computed.or('side', 'bottom', 'top'),
 
   attachment: computed(function() {
     const side = this.get('side');
@@ -87,7 +82,15 @@ export default EmberTetherComponent.extend({
   }),
 
   positionClass: computed(function() {
-    return `tooltip-${this.get('side')} tooltip-${this.get('alignment')}`;
+    const targetAttachment = this.get('targetAttachment');
+
+    return `tooltip-${targetAttachment.replace(' ', ' tooltip-')}`;
+  }),
+
+  sideIsVertical: computed(function() {
+    const side = this.get('side');
+
+    return side === 'top' || side === 'bottom';
   }),
 
   target: computed(function() {
@@ -105,7 +108,7 @@ export default EmberTetherComponent.extend({
   targetAttachment: computed(function() {
     const side = this.get('side');
 
-    if (side === 'left' || side === 'right') {
+    if (!this.get('sideIsVertical')) {
       return `center ${side}`;
     } else {
       return `${side} center`; // top and bottom
@@ -176,8 +179,8 @@ export default EmberTetherComponent.extend({
 
   /* Methods */
 
-  init() {
-    this._super(...arguments);
+  close() {
+    this.set('tooltipIsVisible', false);
   },
 
   didInsertElement() {
@@ -195,7 +198,7 @@ export default EmberTetherComponent.extend({
 
       if (_showOn === _hideOn) {
         $target.on(_showOn, () => {
-          this.toggleProperty('tooltipIsVisible');
+          this.toggle();
         });
       } else {
 
@@ -203,13 +206,13 @@ export default EmberTetherComponent.extend({
 
         if (_showOn !== 'none') {
           $target.on(_showOn, () => {
-            this.set('tooltipIsVisible', true);
+            this.open();
           });
         }
 
         if (_hideOn !== 'none') {
           $target.on(_hideOn, () => {
-            this.set('tooltipIsVisible', false);
+            this.close();
           });
         }
       }
@@ -219,17 +222,17 @@ export default EmberTetherComponent.extend({
 
       if (event !== 'focus') {
         $target.focusin(() => {
-          this.set('tooltipIsVisible', true);
+          this.open();
         });
 
         $target.focusout(() => {
-          this.set('tooltipIsVisible', false);
+          this.close();
         });
       }
 
       $target.keydown((keyEvent) => {
         if (keyEvent.which === 27) {
-          this.set('tooltipIsVisible', false);
+          this.close();
           keyEvent.preventDefault();
 
           return false;
@@ -257,7 +260,7 @@ export default EmberTetherComponent.extend({
         /* Hide tooltip after specified duration */
 
         const hideTimer = run.later(() => {
-          this.set('tooltipIsVisible', false);
+          this.close();
         }, _duration);
 
         /* Save timer ID for cancelling should an event
@@ -268,16 +271,24 @@ export default EmberTetherComponent.extend({
     }
   },
 
-  willDestroy() {
-    this._super(...arguments);
+  open() {
+    this.set('tooltipIsVisible', true);
+  },
 
+  toggle() {
+    this.toggleProperty('tooltipIsVisible');
+  },
+
+  willDestroy() {
     const $target = $(this.get('target'));
 
     this.set('effect', null);
-    this.set('tooltipIsVisible', false);
+    this.close();
 
     $target.removeAttr('aria-describedby');
     $target.off();
+
+    this._super(...arguments); // Removes thether
   },
 
 });
