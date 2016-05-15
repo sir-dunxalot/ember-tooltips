@@ -3,16 +3,19 @@ import EmberTetherComponent from 'ember-tether/components/ember-tether';
 
 const { $, computed, run, get } = Ember;
 
+const defaultPosition = 'center';
+
 export default EmberTetherComponent.extend({
 
   /* Options */
 
-  alignment: 'center',
+  // alignment: defaultPosition,
   duration: null,
   effect: 'slide', // fade, grow, slide, null
   event: 'hover', // hover, click, focus, ready, or none
   hideOn: null,
-  position: 'bottom center',
+  // position: 'bottom middle',
+  // targetOffset: '1',
   role: 'tooltip',
   side: 'top',
   showOn: null,
@@ -24,35 +27,67 @@ export default EmberTetherComponent.extend({
   /* Properties */
 
   'aria-hidden': computed.oneWay('tooltipIsVisible'),
-  attributeBindings: ['aria-hidden', 'role', 'tabindex', 'spacingRule:style'],
+  attributeBindings: ['aria-hidden', 'role', 'tabindex'],
   classNameBindings: ['positionClass', 'effectClass', 'tooltipIsVisible', 'typeClass'],
   classNames: ['tooltip'],
+  sideIsVertical: computed.or('side', 'bottom', 'top'),
 
   attachment: computed(function() {
     const side = this.get('side');
 
-    let oppositeSide;
+    let horizontalPosition, verticalPosition;
 
     switch(side) {
-      case 'top' : oppositeSide = 'bottom'; break;
-      case 'right' : oppositeSide = 'left'; break;
-      case 'bottom' : oppositeSide = 'top'; break;
-      case 'left' : oppositeSide = 'right'; break;
+      case 'top':
+        horizontalPosition = defaultPosition;
+        verticalPosition = 'bottom';
+        break;
+      case 'right':
+        horizontalPosition = 'left';
+        verticalPosition = defaultPosition;
+        break;
+      case 'bottom':
+        horizontalPosition = defaultPosition;
+        verticalPosition = 'top';
+        break;
+      case 'left':
+        horizontalPosition = 'right';
+        verticalPosition = defaultPosition;
+        break;
     }
 
-    return `${oppositeSide} ${this.get('alignment')}`;
+    return `${verticalPosition} ${horizontalPosition}`;
   }),
 
   effectClass: computed(function() {
     return `tooltip-${this.get('effect')}`;
   }),
 
-  positionClass: computed(function() {
-    return `tooltip-${this.get('side')} tooltip-${this.get('alignment')}`;
+  offset: computed(function() {
+    const side = this.get('side');
+    const spacing = this.get('spacing');
+    let offset;
+
+    switch(side) {
+      case 'top':
+        offset = `${spacing}px 0`;
+        break;
+      case 'right':
+        offset = `0 -${spacing}px`;
+        break;
+      case 'bottom':
+        offset = `-${spacing}px 0`;
+        break;
+      case 'left':
+        offset = `0 ${spacing}px`;
+        break;
+    }
+
+    return offset;
   }),
 
-  spacingRule: computed(function() {
-    return `margin-${this.get('side')}:-${this.get('spacing')}px;`;
+  positionClass: computed(function() {
+    return `tooltip-${this.get('side')} tooltip-${this.get('alignment')}`;
   }),
 
   target: computed(function() {
@@ -68,7 +103,13 @@ export default EmberTetherComponent.extend({
   }),
 
   targetAttachment: computed(function() {
-    return `${this.get('side')} ${this.get('alignment')}`;
+    const side = this.get('side');
+
+    if (side === 'left' || side === 'right') {
+      return `center ${side}`;
+    } else {
+      return `${side} center`; // top and bottom
+    }
   }),
 
   typeClass: computed(function() {
