@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import EmberTetherComponent from 'ember-tether/components/ember-tether';
 
-const { $, computed, run, get } = Ember;
+const { $, computed, run } = Ember;
 
 const defaultPosition = 'center';
 

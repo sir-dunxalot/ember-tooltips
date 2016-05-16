@@ -1,4 +1,3 @@
-@import 'compass';
 @import 'ember-paper';
 
 @import 'core/variables';
@@ -23,7 +22,7 @@ body {
 
 
 .logo, .logo-wrapper .text {
-  @include inline-block;
+  display: inline-block;
 }
 
 .logo {

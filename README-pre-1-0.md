@@ -1,7 +1,9 @@
 Ember-tooltips [![Build Status](https://travis-ci.org/sir-dunxalot/ember-tooltips.svg)](https://travis-ci.org/sir-dunxalot/ember-tooltips) [![npm](https://img.shields.io/npm/v/ember-tooltips.svg)](https://www.npmjs.com/package/ember-tooltips)
 ======
 
-Render tooltips on components and other HTML elements using HTMLBars.
+Render simple tooltips on components, views, HTML elements, and more using simple strings, HTMLBars, bound properties, and more.
+
+Powered by <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip</a>. You can see [a demo here](http://sir-dunxalot.github.io/ember-tooltips/).
 
 ## Installation
 
@@ -23,11 +25,6 @@ Documentation for usage is below:
 - [Accessibility](#accessibility)
 - [The Tooltip Mixin (and changing default values)](#the-tooltip-mixin)
 - [The Tooltip Utility](#the-tooltip-utility)
-
-## Upgrading to 1.0.0
-
-
-Version 1.0.0 removed <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip</a> as a dependency, in favor of using custom Ember code. This introduced only a single way to add tooltips: the `{{tooltip-on-element}}` component.
 
 ## Usage
 
