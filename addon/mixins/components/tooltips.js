@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import renderTooltip from 'ember-tooltips/utils/render-tooltip';
 
-const { on } = Ember;
+const { on, run } = Ember;
 const { Tooltip } = window;
 
 export default Ember.Mixin.create({
@@ -27,6 +27,7 @@ export default Ember.Mixin.create({
     'auto',
     'content',
     'duration',
+    'delay',
     'effectClass',
     'event',
     'hideOn',
@@ -49,6 +50,7 @@ export default Ember.Mixin.create({
   tooltipPlace: 'top',
   tooltipShowOn: null,
   tooltipSpacing: 10,
+  tooltipDelay: 0,
   tooltipTabIndex: 0, // A positive integer (to enable) or -1 (to disable)
   tooltipTypeClass: null,
   tooltipVisibility: null, // for manual-mode triggering
@@ -212,8 +214,9 @@ export default Ember.Mixin.create({
   _tooltipVisibilityDidChange: function() {
     const tooltip = this.get('tooltip');
 
+    run.cancel(this._delayTimer);
     if (this.get('tooltipVisibility')) {
-      tooltip.show();
+      this._delayTimer = run.later(tooltip, 'show', this.get('tooltipDelay'));
     } else {
       tooltip.hide();
     }

@@ -21,6 +21,7 @@ test('The mixin adds the public properties', function(assert) {
       'auto',
       'content',
       'duration',
+      'delay',
       'effectClass',
       'event',
       'hideOn',

@@ -160,6 +160,7 @@ This addon aims to maintain parity with all the [Tooltip library](https://github
 Current tooltip properties this addon supports are:
 
 - `auto` (`true` or `false`. Defaults to `true`)
+- `delay` (time in milliseconds. No default)
 - `duration` (time in milliseconds. No default)
 - `effectClass` (`'none'`, `'fade'`, `'slide'`, or `'grow'`. Defaults to `'slide'`)
 - `event` (see [events](#events))
@@ -281,6 +282,18 @@ You can set a timer on a tooltip to close it after an amount of time using the `
 ```
 
 In the above example, the tooltip shows on focus and then closes after 1000ms.
+
+
+You can also set a timer on a tooltip to delay its visibility using the `delay` property. Delay should be any number of milliseconds.
+
+```hbs
+{{some-component
+  tooltipContent='Something excellent'
+  tooltipDelay='1000'
+}}
+```
+
+In the above example, the tooltip will show on hover after 1000ms.
 
 ### Accessibility
 
