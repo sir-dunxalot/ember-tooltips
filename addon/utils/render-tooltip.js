@@ -21,7 +21,7 @@ export default function renderTooltip(domElement, options, context) {
 
   const $domElement = $(domElement);
   const parsedOptions = parseTooltipOptions(options);
-  const { content, duration, event, hideOn, tabIndex, showOn, delay } = parsedOptions;
+  const { content, duration, event, hideOn, tabIndex, showOn, delay, delayOnChange } = parsedOptions;
   const tooltipId = `tooltip-${tooltipIndex}`;
 
   let $tooltip, tooltip;
@@ -55,6 +55,15 @@ export default function renderTooltip(domElement, options, context) {
       run.cancel(tooltip._hideTimer);
 
       if (shouldShow) {
+
+        let showTooltipDelay = delay;
+        if (!delayOnChange) {
+          // If the `delayOnChange` property is set to false, we don't want to delay opening this tooltip if there is
+          // already a tooltip visible in the DOM. Check that here and adjust the delay as needed.
+          let visibleTooltips = Ember.$('.tooltip').length;
+          showTooltipDelay = visibleTooltips ? 0 : delay;
+        }
+
         tooltip._delayTimer = run.later(function() {
           tooltip.show();
           $tooltip.attr('aria-hidden', true);
@@ -70,7 +79,7 @@ export default function renderTooltip(domElement, options, context) {
             hide the tooltop before the duration */
             tooltip._hideTimer = hideTimer;
           }
-        }, delay);
+        }, showTooltipDelay);
       } else {
         tooltip.hide();
         $tooltip.attr('aria-hidden', false);

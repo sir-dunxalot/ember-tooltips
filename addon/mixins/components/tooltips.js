@@ -28,6 +28,7 @@ export default Ember.Mixin.create({
     'content',
     'duration',
     'delay',
+    'delayOnChange',
     'effectClass',
     'event',
     'hideOn',
@@ -51,6 +52,7 @@ export default Ember.Mixin.create({
   tooltipShowOn: null,
   tooltipSpacing: 10,
   tooltipDelay: 0,
+  tooltipDelayOnChange: true, // tooltips should listen to the above `delay` option by default
   tooltipTabIndex: 0, // A positive integer (to enable) or -1 (to disable)
   tooltipTypeClass: null,
   tooltipVisibility: null, // for manual-mode triggering

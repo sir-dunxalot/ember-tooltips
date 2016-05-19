@@ -44,7 +44,29 @@
     }}
   </li>
 
+  <li>
+    {{#test-component
+      data-test='delay-on-change-1'
+      tooltipContent='This will open after 1000ms'
+      tooltipDelay=1000
+    }}
+    Hover over me first
+    {{/test-component}}
+
+    {{#test-component
+      data-test='delay-on-change-2'
+      tooltipContent='This will open immediately if there is already another tooltip visible, otherwise will delay 1000ms'
+      tooltipDelay=1000
+      tooltipDelayOnChange=false
+    }}
+    Hover over me second
+    {{/test-component}}
+  </li>
+
 </ul>
 
 {{code-snippet name='tooltip-delay-open-1.hbs'}}
 {{code-snippet name='tooltip-delay-open-2.hbs'}}
+
+<div>Using `delayOnChange=false` with `delay`</div>
+{{code-snippet name='tooltip-delay-open-3.hbs'}}
