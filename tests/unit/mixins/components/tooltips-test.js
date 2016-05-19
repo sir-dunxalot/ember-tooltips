@@ -22,6 +22,7 @@ test('The mixin adds the public properties', function(assert) {
       'content',
       'duration',
       'delay',
+      'delayOnChange',
       'effectClass',
       'event',
       'hideOn',
@@ -35,6 +36,8 @@ test('The mixin adds the public properties', function(assert) {
     tooltipAuto: true,
     tooltipContent: null,
     tooltipDuration: null,
+    tooltipDelay: 0,
+    tooltipDelayOnChange: true,
     tooltipEffectClass: 'slide',
     tooltipEvent: 'hover',
     tooltipHideOn: null,
@@ -46,7 +49,7 @@ test('The mixin adds the public properties', function(assert) {
     tooltipVisibility: null,
   };
 
-  assert.expect(14);
+  assert.expect(16);
 
   Object.keys(expectedProperties).forEach(function(expectedProperty) {
     const expectedValue = expectedProperties[expectedProperty];

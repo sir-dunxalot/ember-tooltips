@@ -92,7 +92,7 @@ test('Setting the delay property should wait before making tooltip visible', fun
 
 });
 
-test('Setting the delay property should wait before making tooltip visible', function(assert) {
+test('Setting the delayOnChange property should make tooltip visible immediately if another tooltip is open', function(assert) {
   const delay = 1000;
 
   assert.expect(4);
