@@ -57,7 +57,7 @@ export default function renderTooltip(domElement, options, context) {
       if (shouldShow) {
         tooltip._delayTimer = run.later(function() {
           tooltip.show();
-          $tooltip.attr('aria-hidden', true);
+          $tooltip.attr('aria-hidden', false);
           if (context) {
             context.set('tooltipVisibility', true);
           }
@@ -73,7 +73,7 @@ export default function renderTooltip(domElement, options, context) {
         }, delay);
       } else {
         tooltip.hide();
-        $tooltip.attr('aria-hidden', false);
+        $tooltip.attr('aria-hidden', true);
         if (context) {
           context.set('tooltipVisibility', false);
         }
