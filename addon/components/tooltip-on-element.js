@@ -18,6 +18,7 @@ export default EmberTetherComponent.extend({
   showOn: null,
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
+  target: null,
   tooltipIsVisible: false,
   keepInWindow: true,
 
@@ -85,18 +86,6 @@ export default EmberTetherComponent.extend({
     const side = this.get('side');
 
     return side === 'top' || side === 'bottom';
-  }),
-
-  target: computed(function() {
-    const parentView = this.get('parentView');
-
-    if (!parentView) {
-      console.warn('No parentView found');
-
-      return null;
-    } else {
-      return `#${parentView.get('elementId')}`;
-    }
   }),
 
   targetAttachment: computed(function() {
@@ -179,6 +168,12 @@ export default EmberTetherComponent.extend({
 
   didInsertElement() {
     this._super(...arguments);
+
+    const target = this.get('target');
+
+    if (!target || target.indexOf('#') === -1) {
+      Ember.assert('You must specify a target attribute in the format "#element-id" for the tooltip component');
+    }
 
     const event = this.get('event');
     const $target = $(this.get('target'));
