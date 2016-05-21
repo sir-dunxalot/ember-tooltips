@@ -1,22 +1,21 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
+moduleForComponent('tooltip-on-component', 'Integration | Component | tooltip on parent', {
   integration: true
 });
 
 test('It renders', function(assert) {
 
-  this.render(hbs`{{tooltip-on-element}}`);
+  this.render(hbs`{{tooltip-on-component}}`);
 
   assert.equal(this.$().text().trim(), '',
     'Should render with no content');
 
   this.render(hbs`
-    {{#tooltip-on-element}}
+    {{#tooltip-on-component}}
       template block text
-    {{/tooltip-on-element}}
+    {{/tooltip-on-component}}
   `);
 
   assert.equal(this.$().text().trim(), 'template block text',

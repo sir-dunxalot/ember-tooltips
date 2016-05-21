@@ -250,9 +250,15 @@ export default EmberTetherComponent.extend({
       for acessibility */
 
       if (event !== 'focus') {
-        $target.focusin(() => {
-          this.show();
-        });
+
+        /* If the event is click, we don't want the
+        click to also trigger focusin */
+
+        if (event !== 'click') {
+          $target.focusin(() => {
+            this.show();
+          });
+        }
 
         $target.focusout(() => {
           this.hide();
