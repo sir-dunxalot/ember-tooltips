@@ -25,6 +25,13 @@ export default EmberTetherComponent.extend({
   tooltipIsVisible: false,
   keepInWindow: true,
 
+  /* Actions */
+
+  onTooltipDestroy: null,
+  onTooltipHide: null,
+  onTooltipRender: null,
+  onTooltipShow: null,
+
   /* Properties */
 
   'aria-hidden': computed.not('tooltipIsVisible'),
@@ -188,6 +195,7 @@ export default EmberTetherComponent.extend({
 
   hide() {
     this.set('tooltipIsVisible', false);
+    this.sendAction('onTooltipHide', this);
   },
 
   didInsertElement() {
@@ -203,6 +211,8 @@ export default EmberTetherComponent.extend({
     const $target = $(this.get('target'));
     const _tether = this.get('_tether');
     const $_tether = $(_tether.element);
+
+    this.sendAction('onTooltipRender', this);
 
     /* Setup event handling to hide and show the tooltip */
 
@@ -337,7 +347,9 @@ export default EmberTetherComponent.extend({
     run.cancel(_delayTimer);
 
     if (delay) {
-      if (!delayOnChange) {
+      let showTooltipDelay;
+
+      if (!this.get('delayOnChange')) {
 
         /* If the `delayOnChange` property is set to false, we
         don't want to delay opening this tooltip if there is
@@ -349,7 +361,9 @@ export default EmberTetherComponent.extend({
         showTooltipDelay = visibleTooltips ? 0 : delay;
       }
 
-      this.set('_delayTimer', run.later(this, this.set, 'tooltipIsVisible', true, delay));
+      const _delayTimer = run.later(this, this.set, 'tooltipIsVisible', true, showTooltipDelay);
+
+      this.set('_delayTimer', _delayTimer);
     } else {
 
       /* If there is no delay, show the tooltop immediately */
@@ -358,10 +372,20 @@ export default EmberTetherComponent.extend({
     }
 
     this.setTimer();
+    this.sendAction('onTooltipShow', this);
   },
 
   toggle() {
-    this.toggleProperty('tooltipIsVisible');
+
+    /* We don't use toggleProperty because we centralize
+    logic for showing and hiding in the show() and hide()
+    methods. */
+
+    if (this.get('tooltipIsVisible')) {
+      this.hide();
+    } else {
+      this.show();
+    }
   },
 
   willDestroy() {
@@ -374,6 +398,8 @@ export default EmberTetherComponent.extend({
     $target.off();
 
     this._super(...arguments); // Removes tether
+
+    this.sendAction('onTooltipDestroy', this);
   },
 
 });
