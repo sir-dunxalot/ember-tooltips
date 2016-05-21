@@ -91,3 +91,48 @@ test('Setting the delay property should wait before making tooltip visible', fun
   });
 
 });
+
+test('Setting the delayOnChange property should make tooltip visible immediately if another tooltip is open', function(assert) {
+  const delay = 1000;
+
+  assert.expect(4);
+
+  visit('/tooltip-delay-open');
+
+  let tooltip = 'delay-on-change-2';
+  let start = Date.now();
+
+  mouseOver(tooltip);
+  andThen(function() {
+    let end = Date.now();
+    let diff = end - start;
+
+    assert.equal(Ember.$('.tooltip').length, 1, 'The tooltip should be added to the DOM on hover with delayOnChange set to false and no other tooltips visible');
+    assert.ok(diff > delay, 'The tooltip should be visible after 1000ms in the default delayOnChange test');
+
+    mouseOut(tooltip);
+  });
+
+  andThen(function() {
+    tooltip = 'delay-on-change-1';
+
+    mouseOver(tooltip);
+    andThen(function() {
+      tooltip = 'delay-on-change-2';
+      start = Date.now();
+
+      assert.equal(Ember.$('.tooltip').length, 1, 'The first tooltip should be added to the DOM like normal');
+
+      mouseOver(tooltip);
+      andThen(function() {
+        let end = Date.now();
+        let diff = end - start;
+
+        assert.ok(diff < delay, 'The tooltip should be visible before 1000ms with delayOnChange set to false and another tooltip already visible');
+      });
+
+    });
+
+  });
+
+});

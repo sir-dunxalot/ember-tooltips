@@ -1,0 +1,16 @@
+{{!-- BEGIN-SNIPPET tooltip-delay-open-3 --}}
+{{#test-component
+  tooltipContent='This will open after 1000ms'
+  tooltipDelay=1000
+}}
+Hover over me first
+{{/test-component}}
+
+{{#test-component
+  tooltipContent='This will open immediately if there is already another tooltip visible, otherwise will delay 1000ms'
+  tooltipDelay=1000
+  tooltipDelayOnChange=false
+}}
+  Hover over me second
+{{/test-component}}
+{{!-- END-SNIPPET --}}
