@@ -7,6 +7,24 @@ const defaultPosition = 'center';
 
 let tooltipCounterId = 0;
 
+function cleanNumber(stringOrNumber) {
+  let cleanNumber;
+
+  if (stringOrNumber && typeof stringOrNumber === 'string') {
+    cleanNumber = parseInt(stringOrNumber, 10);
+
+    /* Remove invalid parseInt results */
+
+    if (isNaN(cleanNumber) || !isFinite(cleanNumber)) {
+      cleanNumber = 0;
+    }
+  } else {
+    cleanNumber = stringOrNumber;
+  }
+
+  return cleanNumber;
+}
+
 export default EmberTetherComponent.extend({
 
   /* Options */
@@ -106,8 +124,6 @@ export default EmberTetherComponent.extend({
   target: computed(function() {
     const parentElement = this.$().parent();
 
-    console.log(parentElement);
-
     let parentElementId = parentElement.attr('id');
 
     if (!parentElementId) {
@@ -138,26 +154,6 @@ export default EmberTetherComponent.extend({
   }),
 
   /* Private CPs */
-
-  _duration: computed(function() {
-    let duration = this.get('duration');
-
-    if (typeof duration === 'number') {
-      return duration;
-    } else if (typeof duration === 'string') {
-      let cleanDuration = parseInt(duration, 10);
-
-      /* Remove invalid parseInt results */
-
-      if (isNaN(cleanDuration) || !isFinite(cleanDuration)) {
-        cleanDuration = null;
-      }
-
-      duration = cleanDuration;
-    }
-
-    return duration;
-  }),
 
   _hideOn: computed(function() {
     let hideOn = this.get('hideOn');
@@ -310,21 +306,26 @@ export default EmberTetherComponent.extend({
     this.set('offset', offset);
   },
 
-  setTimer() {
+  /*
+  We use an observer so the user can set tooltipIsVisible
+  as a attribute.
+
+  @method setTimer
+  */
+
+  setTimer: Ember.observer('tooltipIsVisible', function() {
     const tooltipIsVisible = this.get('tooltipIsVisible');
 
     if (tooltipIsVisible) {
-      const _duration = this.get('_duration');
+      const duration = cleanNumber(this.get('duration'));
 
       run.cancel(this.get('_hideTimer'));
 
-      if (_duration) {
+      if (duration) {
 
         /* Hide tooltip after specified duration */
 
-        const hideTimer = run.later(() => {
-          this.hide();
-        }, _duration);
+        const hideTimer = run.later(this, this.hide, duration);
 
         /* Save timer ID for cancelling should an event
         hide the tooltop before the duration */
@@ -332,7 +333,7 @@ export default EmberTetherComponent.extend({
         this.set('_hideTimer', hideTimer);
       }
     }
-  },
+  }),
 
   show() {
 
@@ -342,13 +343,11 @@ export default EmberTetherComponent.extend({
 
     const _delayTimer = this.get('_delayTimer');
 
-    let delay = this.get('delay');
+    let delay = cleanNumber(this.get('delay'));
 
     run.cancel(_delayTimer);
 
     if (delay) {
-      let showTooltipDelay;
-
       if (!this.get('delayOnChange')) {
 
         /* If the `delayOnChange` property is set to false, we
@@ -358,10 +357,12 @@ export default EmberTetherComponent.extend({
 
         let visibleTooltips = Ember.$('.tooltip[aria-hidden="false"]').length;
 
-        showTooltipDelay = visibleTooltips ? 0 : delay;
+        if (visibleTooltips) {
+          delay = 0;
+        }
       }
 
-      const _delayTimer = run.later(this, this.set, 'tooltipIsVisible', true, showTooltipDelay);
+      const _delayTimer = run.later(this, this.set, 'tooltipIsVisible', true, delay);
 
       this.set('_delayTimer', _delayTimer);
     } else {
@@ -371,7 +372,6 @@ export default EmberTetherComponent.extend({
       this.set('tooltipIsVisible', true);
     }
 
-    this.setTimer();
     this.sendAction('onTooltipShow', this);
   },
 
