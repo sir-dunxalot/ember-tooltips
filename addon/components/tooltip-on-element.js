@@ -58,8 +58,8 @@ export default EmberTetherComponent.extend({
   classPrefix: 'tooltip',
   classNames: ['tooltip'],
 
-  _delayTimer: null,
   _hideTimer: null,
+  _showTimer: null,
 
   /* CPs */
 
@@ -190,6 +190,12 @@ export default EmberTetherComponent.extend({
   /* Methods */
 
   hide() {
+
+    /* If the tooltip is about to be showed by
+    a delay, stop is being shown. */
+
+    run.cancel(this.get('_showTimer'));
+
     this.set('tooltipIsVisible', false);
     this.sendAction('onTooltipHide', this);
   },
@@ -341,11 +347,11 @@ export default EmberTetherComponent.extend({
       return;
     }
 
-    const _delayTimer = this.get('_delayTimer');
+    const _showTimer = this.get('_showTimer');
 
     let delay = cleanNumber(this.get('delay'));
 
-    run.cancel(_delayTimer);
+    run.cancel(_showTimer);
 
     if (delay) {
       if (!this.get('delayOnChange')) {
@@ -362,9 +368,9 @@ export default EmberTetherComponent.extend({
         }
       }
 
-      const _delayTimer = run.later(this, this.set, 'tooltipIsVisible', true, delay);
+      const _showTimer = run.later(this, this.set, 'tooltipIsVisible', true, delay);
 
-      this.set('_delayTimer', _delayTimer);
+      this.set('_showTimer', _showTimer);
     } else {
 
       /* If there is no delay, show the tooltop immediately */
