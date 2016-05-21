@@ -11,6 +11,8 @@ export default EmberTetherComponent.extend({
 
   /* Options */
 
+  delay: 0,
+  delayOnChange: true,
   duration: 0,
   effect: 'slide', // fade, slide, none
   event: 'hover', // hover, click, focus, none
@@ -30,6 +32,11 @@ export default EmberTetherComponent.extend({
   classNameBindings: ['effectClass'],
   classPrefix: 'tooltip',
   classNames: ['tooltip'],
+
+  _delayTimer: null,
+  _hideTimer: null,
+
+  /* CPs */
 
   attachment: computed(function() {
     const side = this.get('side');
@@ -123,9 +130,7 @@ export default EmberTetherComponent.extend({
     return type ? `tooltip-${type}` : null;
   }),
 
-  /* Private properties */
-
-  _hideTimer: null,
+  /* Private CPs */
 
   _duration: computed(function() {
     let duration = this.get('duration');
@@ -295,13 +300,7 @@ export default EmberTetherComponent.extend({
     this.set('offset', offset);
   },
 
-  setTimer: Ember.observer('tooltipIsVisible', function() {
-    this._super(...arguments);
-
-    if (this.get('isDestroying')) {
-      return;
-    }
-
+  setTimer() {
     const tooltipIsVisible = this.get('tooltipIsVisible');
 
     if (tooltipIsVisible) {
@@ -323,10 +322,42 @@ export default EmberTetherComponent.extend({
         this.set('_hideTimer', hideTimer);
       }
     }
-  }),
+  },
 
   show() {
-    this.set('tooltipIsVisible', true);
+
+    if (this.get('isDestroying')) {
+      return;
+    }
+
+    const _delayTimer = this.get('_delayTimer');
+
+    let delay = this.get('delay');
+
+    run.cancel(_delayTimer);
+
+    if (delay) {
+      if (!delayOnChange) {
+
+        /* If the `delayOnChange` property is set to false, we
+        don't want to delay opening this tooltip if there is
+        already a tooltip visible in the DOM. Check that here
+        and adjust the delay as needed. */
+
+        let visibleTooltips = Ember.$('.tooltip[aria-hidden="false"]').length;
+
+        showTooltipDelay = visibleTooltips ? 0 : delay;
+      }
+
+      this.set('_delayTimer', run.later(this, this.set, 'tooltipIsVisible', true, delay));
+    } else {
+
+      /* If there is no delay, show the tooltop immediately */
+
+      this.set('tooltipIsVisible', true);
+    }
+
+    this.setTimer();
   },
 
   toggle() {
