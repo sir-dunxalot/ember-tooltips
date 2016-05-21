@@ -270,3 +270,9 @@ Based off Monokai Sublime style. Derived from Monokai by noformnocontent http://
 .php .xml {
   // @include opacity(0.8);
 }
+
+.handlebars {
+  .hljs-expression {
+    color: $blue;
+  }
+}

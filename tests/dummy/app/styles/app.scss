@@ -1,8 +1,8 @@
-@import 'ember-paper';
+@import 'compass-boilerplate-vendor/normalize';
+@import 'compass-boilerplate-vendor/html5bp';
+@import 'compass-boilerplate';
 
-@import 'core/variables';
-@import 'core/mixins';
-
+@import 'variables';
 @import 'components/code';
 
 html {
@@ -18,69 +18,54 @@ body {
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-
-.logo, .logo-wrapper .text {
-  display: inline-block;
-}
-
-.logo {
-  @include rem(margin-top, -0.7);
-  @include rem(margin-left, 1);
-}
-
-.page-content {
-  @include rem(padding, 4);
-}
-
-.inline-block {
-  display: inline-block;
-  vertical-align: middle;
-  padding: 10px;
-  border: 1px solid #bbb;
-  border-radius: 3px;
-  cursor: pointer;
-
-  &:focus {
-    border-color: $info;
-  }
-}
-
-.inline-block:hover {
-  border-color: #999;
-}
-
-.examples {
-  list-style: none;
-  padding: 0;
-  margin: 30px;
-}
-
-.examples li {
-  padding: 0;
-  margin: 30px 0;
-}
-
-.tooltip-error {
-  background-color: #e37f7f;
-}
-
-a {
-  color: #7aafd1;
-  text-shadow: none !important;
-}
-
-md-toolbar.md-default-theme {
-  background-color: #D39120;
-}
-
-.tooltip {
-  z-index: 61; // Over md-sidenav
+  font-family: 'Open Sans', sans-serif;
 }
 
 #ember-testing-container {
   /* Set position static to short-circuit Hubspot Tether's positioning */
   /* https://github.com/HubSpot/tether/pull/98/ */
   position: static !important;
+}
+
+h1,
+h2 {
+  font-weight: 200;
+}
+
+.hero {
+  height: 100vh;
+  width: 100vw;
+  background-color: #3023AE;
+  background-image: linear-gradient(-134deg, #3023AE 0%, #A56DD7 100%);
+  -webkit-display: flex;
+  display: flex;
+  @include justify-content(center);
+  @include align-items(center);
+  @include flex-direction(column);
+}
+
+#ember-logo {
+  width: 200px;
+  height: auto;
+  @include rem(margin-right, 10);
+  @include inline-block;
+}
+
+.badges {
+  @include rem(margin-top, 4);
+
+  a + a {
+    @include rem(margin-left, 1);
+  }
+}
+
+.logo-tooltip {
+  @include rem(font-size, 2);
+  top: 16px !important;
+}
+
+.page-content {
+  @include rem(padding, 8, 0);
+  @include rem(max-width, 80);
+  margin: 0 auto;
 }

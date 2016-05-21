@@ -1,32 +1,72 @@
-{{#test-component}}
-  Sup
-  {{#tooltip-on-component side='left' event='click'}}
-    Hey sdg sdg
-  {{/tooltip-on-component}}
-{{/test-component}}
+<div class="hero">
+  <h1 class="visuallyhidden">Ember Tooltips</h1>
 
-<hr>
+  <div id="headline">
+    <img src="http://miguelcobain.github.io/ember-paper/ember-logo-white-955db9d87b940bf54a17bd1fa78d0713.png" id="ember-logo">
+    {{!-- <span class="hero-text">Tooltips</span> --}}
+  </div>
 
-{{#tooltip-on-element side='left' target='#test-1' event='focus' duration=1000}}
-  Hey sdg sdg
-{{/tooltip-on-element}}
+  <div class="badges">
+    <a href="https://www.npmjs.com/package/ember-tooltips"><img src="https://camo.githubusercontent.com/20b25311bfe9f6a298f2a1c7dc4908101c8b8b30/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f656d6265722d746f6f6c746970732e737667" alt="npm" data-canonical-src="https://img.shields.io/npm/v/ember-tooltips.svg" style="max-width:100%;"></a>
 
-{{input id='test-1'}}
+    <a href="https://travis-ci.org/sir-dunxalot/ember-tooltips"><img src="https://camo.githubusercontent.com/0928f8bea4cb764feceb44750753eec0dda770b0/68747470733a2f2f7472617669732d63692e6f72672f7369722d64756e78616c6f742f656d6265722d746f6f6c746970732e737667" alt="Build Status" data-canonical-src="https://travis-ci.org/sir-dunxalot/ember-tooltips.svg" style="max-width:100%;"></a>
+  </div>
 
-<hr>
-
-<div>
-  Yo
-  {{#tooltip-on-element}}
-    Hey man!
-  {{/tooltip-on-element}}
 </div>
 
-<hr>
+{{#tooltip-on-element
+  class='logo-tooltip'
+  event='none'
+  target='#ember-logo'
+  tooltipIsVisible=showTooltips
+  side='right'
+  spacing=15
+}}
+  Tooltips
+{{/tooltip-on-element}}
 
-<div>
-  Yo
-  {{#tooltip-on-element delay='1000'}}
-    Hey man!
-  {{/tooltip-on-element}}
+{{!-- {{#tooltip-on-element
+  delay=1000
+  event='none'
+  target='#headline'
+  tooltipIsVisible=showTooltips
+  side='right'
+}}
+  Built in HTML bars
+{{/tooltip-on-element}}
+
+{{#tooltip-on-element
+  delay=2000
+  event='none'
+  target='#headline'
+  tooltipIsVisible=showTooltips
+  side='bottom'
+}}
+  Extendible
+{{/tooltip-on-element}}
+
+{{#tooltip-on-element
+  delay=3000
+  event='none'
+  target='#headline'
+  tooltipIsVisible=showTooltips
+  side='left'
+}}
+  Something else
+{{/tooltip-on-element}} --}}
+
+<div class="page-content">
+
+  {{!-- BEGIN-SNIPPET basic-usage --}}
+  {{#some-component}}
+    Hover for more info
+
+    {{#tooltip-on-component}}
+      Here is the info!
+    {{/tooltip-on-component}}
+  {{/some-component}}
+  {{!-- END-SNIPPET --}}
+
+  {{code-snippet name='basic-usage.hbs'}}
+
 </div>

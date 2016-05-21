@@ -19,6 +19,8 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
+    "compass-boilerplate": "^0.1.2",
+    "compass-mixins": "^0.12.10",
     "ember-ajax": "0.7.1",
     "ember-cli": "2.5.0",
     "ember-cli-app-version": "^1.0.0",
@@ -37,11 +39,10 @@
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
-    "ember-paper": "0.2.14",
     "ember-resolver": "^2.0.3",
+    "ember-tether": "0.3.1",
     "ember-try": "^0.2.2",
-    "loader.js": "^4.0.1",
-    "ember-tether": "0.3.1"
+    "loader.js": "^4.0.1"
   },
   "keywords": [
     "ember-addon",
