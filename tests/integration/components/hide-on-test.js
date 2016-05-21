@@ -9,15 +9,11 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | hideOn', {
   integration: true
 });
 
-test('It toggles with hover', function(assert) {
+test('It hides with hideOn', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`
-    {{#tooltip-on-component hideOn='click'}}
-      Sup
-    {{/tooltip-on-component}}
-  `);
+  this.render(hbs`{{tooltip-on-component hideOn='click'}}`);
 
   assertHide(assert, this);
 

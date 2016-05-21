@@ -9,17 +9,13 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | tooltipIsVisi
   integration: true
 });
 
-test('It toggles with hover', function(assert) {
+test('It toggles with tooltipIsVisible', function(assert) {
 
   assert.expect(2);
 
   this.set('showTooltip', true);
 
-  this.render(hbs`
-    {{#tooltip-on-component tooltipIsVisible=showTooltip}}
-      Sup
-    {{/tooltip-on-component}}
-  `);
+  this.render(hbs`{{tooltip-on-component tooltipIsVisible=showTooltip}}`);
 
   assertShow(assert, this);
 

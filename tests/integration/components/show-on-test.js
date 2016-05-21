@@ -9,15 +9,11 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | showOn', {
   integration: true
 });
 
-test('It toggles with hover', function(assert) {
+test('It shows with showOn', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`
-    {{#tooltip-on-component showOn='click'}}
-      Sup
-    {{/tooltip-on-component}}
-  `);
+  this.render(hbs`{{tooltip-on-component showOn='click'}}`);
 
   assertHide(assert, this);
 

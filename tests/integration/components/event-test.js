@@ -13,11 +13,7 @@ test('It toggles with hover', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`
-    {{#tooltip-on-component}}
-      Sup
-    {{/tooltip-on-component}}
-  `);
+  this.render(hbs`{{tooltip-on-component}}`);
 
   assertHide(assert, this);
 
@@ -39,11 +35,7 @@ test('It toggles with click', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`
-    {{#tooltip-on-component event='click'}}
-      Sup
-    {{/tooltip-on-component}}
-  `);
+  this.render(hbs`{{tooltip-on-component event='click'}}`);
 
   assertHide(assert, this);
 
@@ -65,11 +57,7 @@ test('It toggles with focus', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`
-    {{#tooltip-on-component event='focus'}}
-      Sup
-    {{/tooltip-on-component}}
-  `);
+  this.render(hbs`{{tooltip-on-component event='focus'}}`);
 
   assertHide(assert, this);
 
@@ -91,11 +79,7 @@ test('It does not show with none', function(assert) {
 
   assert.expect(4);
 
-  this.render(hbs`
-    {{#tooltip-on-component event='none'}}
-      Sup
-    {{/tooltip-on-component}}
-  `);
+  this.render(hbs`{{tooltip-on-component event='none'}}`);
 
   assertHide(assert, this);
 
