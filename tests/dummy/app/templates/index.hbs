@@ -7,9 +7,13 @@
   </div>
 
   <div class="badges">
+
     <a href="https://www.npmjs.com/package/ember-tooltips"><img src="https://camo.githubusercontent.com/20b25311bfe9f6a298f2a1c7dc4908101c8b8b30/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f656d6265722d746f6f6c746970732e737667" alt="npm" data-canonical-src="https://img.shields.io/npm/v/ember-tooltips.svg" style="max-width:100%;"></a>
 
     <a href="https://travis-ci.org/sir-dunxalot/ember-tooltips"><img src="https://camo.githubusercontent.com/0928f8bea4cb764feceb44750753eec0dda770b0/68747470733a2f2f7472617669732d63692e6f72672f7369722d64756e78616c6f742f656d6265722d746f6f6c746970732e737667" alt="Build Status" data-canonical-src="https://travis-ci.org/sir-dunxalot/ember-tooltips.svg" style="max-width:100%;"></a>
+
+   <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=star&count=true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+
   </div>
 
 </div>
@@ -25,48 +29,92 @@
   Tooltips
 {{/tooltip-on-element}}
 
-{{!-- {{#tooltip-on-element
-  delay=1000
-  event='none'
-  target='#headline'
-  tooltipIsVisible=showTooltips
-  side='right'
-}}
-  Built in HTML bars
-{{/tooltip-on-element}}
-
-{{#tooltip-on-element
-  delay=2000
-  event='none'
-  target='#headline'
-  tooltipIsVisible=showTooltips
-  side='bottom'
-}}
-  Extendible
-{{/tooltip-on-element}}
-
-{{#tooltip-on-element
-  delay=3000
-  event='none'
-  target='#headline'
-  tooltipIsVisible=showTooltips
-  side='left'
-}}
-  Something else
-{{/tooltip-on-element}} --}}
-
 <div class="page-content">
 
-  {{!-- BEGIN-SNIPPET basic-usage --}}
-  {{#some-component}}
-    Hover for more info
+  <h2>Documentation</h2>
 
-    {{#tooltip-on-component}}
-      Here is the info!
-    {{/tooltip-on-component}}
-  {{/some-component}}
-  {{!-- END-SNIPPET --}}
+  <p>Documentation is available <a href="https://github.com/sir-dunxalot/ember-tooltips" target="_blank">In the repo</a>.</p>
 
-  {{code-snippet name='basic-usage.hbs'}}
+  <hr>
+
+  <h2>Examples</h2>
+
+  <h3>Basic usage with components</h3>
+
+{{!-- BEGIN-SNIPPET basic-usage-components --}}
+{{#some-component}}
+  Hover for more info
+
+  {{#tooltip-on-component}}
+    Here is the info!
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='basic-usage-components.hbs'}}
+
+</div>
+
+<div class="page-content gray">
+  <h3>Basic usage with elements</h3>
+
+{{!-- BEGIN-SNIPPET basic-usage-elements --}}
+<div class="some-component">
+  Hover for more info
+
+  {{#tooltip-on-element}}
+    Here is the info!
+  {{/tooltip-on-element}}
+</div>
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='basic-usage-elements.hbs'}}
+
+</div>
+
+<div class="page-content">
+  <h3>Using with a target</h3>
+
+{{!-- BEGIN-SNIPPET basic-usage-target --}}
+{{input id='my-input' value='Some value'}}
+
+{{#tooltip-on-element target='#my-input' event='focus'}}
+  Here is the info!
+{{/tooltip-on-element}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='basic-usage-target.hbs'}}
+</div>
+
+<div class="page-content gray">
+  <h3>Using a delay</h3>
+
+{{!-- BEGIN-SNIPPET using-with-delay --}}
+{{#some-component}}
+  Tooltip will show after 1000ms
+
+  {{#tooltip-on-component delay=1000}}
+    Here is the info!
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='using-with-delay.hbs'}}
+</div>
+
+<div class="page-content">
+  <h3>Using a duration</h3>
+
+{{!-- BEGIN-SNIPPET using-with-duration --}}
+{{#some-component}}
+  Tooltip wil disappear after 1000ms
+
+  {{#tooltip-on-component duration=1000}}
+    Here is the info!
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='using-with-duration.hbs'}}
 
 </div>

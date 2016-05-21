@@ -28,7 +28,8 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3 {
   font-weight: 200;
 }
 
@@ -53,8 +54,9 @@ h2 {
 
 .badges {
   @include rem(margin-top, 4);
+  text-align: center;
 
-  a + a {
+  a + * {
     @include rem(margin-left, 1);
   }
 }
@@ -65,7 +67,28 @@ h2 {
 }
 
 .page-content {
-  @include rem(padding, 8, 0);
-  @include rem(max-width, 80);
-  margin: 0 auto;
+  $_width: 800px;
+
+  width: 100%;
+  @include rem(padding, $spacing);
+  padding-left: calc((100% - #{$_width}) / 2);
+  padding-right: calc((100% - #{$_width}) / 2);
+  box-sizing: border-box;
+}
+
+.gray {
+  background-color: #eee;
+}
+
+.some-component {
+  border: 1px solid #666;
+  @include rem(border-radius, 0.3);
+  @include inline-block;
+  @include rem(padding, 0.6, 1);
+  cursor: pointer;
+  background-color: rgba($white, 0.5);
+}
+
+hr {
+  @include rem(margin, 6, 0);
 }
