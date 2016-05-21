@@ -78,3 +78,9 @@ md-toolbar.md-default-theme {
 .tooltip {
   z-index: 61; // Over md-sidenav
 }
+
+#ember-testing-container {
+  /* Set position static to short-circuit Hubspot Tether's positioning */
+  /* https://github.com/HubSpot/tether/pull/98/ */
+  position: static !important;
+}
