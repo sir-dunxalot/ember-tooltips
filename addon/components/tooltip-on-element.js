@@ -30,7 +30,7 @@ export default EmberTetherComponent.extend({
   /* Options */
 
   delay: 0,
-  delayOnChange: true,
+  delayOnChange: false,
   duration: 0,
   effect: 'slide', // fade, slide, none
   event: 'hover', // hover, click, focus, none

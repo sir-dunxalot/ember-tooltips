@@ -13,380 +13,329 @@ ember install ember-tooltips
 
 Documentation for usage is below:
 
+- [1.0.0 Release](#100-release)
 - [Usage](#usage)
-  - [On helpers](#using-on-helpers)
-  - [As a component](#using-as-a-component)
-  - [On HTML elements](#using-on-html-elements)
-- [Supported properties](#supported-properties)
-- [The Tooltip Object](#the-tooltip-object)
-- [Hiding and Showing Tooltips](#hiding-and-showing-tooltips)
+  - [tooltip-on-component](#tooltip-on-component)
+  - [tooltip-on-element](#tooltip-on-element)
+- [Options](#options)
+- [Actions](#actions)
 - [Accessibility](#accessibility)
-- [The Tooltip Mixin (and changing default values)](#the-tooltip-mixin)
-- [The Tooltip Utility](#the-tooltip-utility)
 
-## Upgrading to 1.0.0
+## 1.0.0 Release
 
+Version 1.0.0 removed <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip</a> as a dependency, in favor of using custom Ember code.
 
-Version 1.0.0 removed <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip</a> as a dependency, in favor of using custom Ember code. This introduced only a single way to add tooltips: the `{{tooltip-on-element}}` component.
+You can use and see the pre-1.0 version on [this branch](https://github.com/sir-dunxalot/ember-tooltips/tree/pre-1.0). Alternatively, install `"ember-tooltips": "0.7.0"` in your `package.json`.
 
 ## Usage
 
-### Using on Helpers
+### Tooltip on Component
 
-The most common way to use a tooltip is on a helper like `{{#link-to}}` or `{{some-component}}`.
-
-All [supported properties](#supported-properties) should be camelCased and prefixed by `tooltip`.
-
-To add a tooltip to any component:
+The easiest way to add a tooltip to any component is with the `{{tooltip-on-component}}` component:
 
 ```hbs
-{{#some-component tooltipContent='This is the tooltip'}}
-  Hover over me!
-{{/some-component}}
+{{#my-component}}
+  Hover for more info
+
+  {{#tooltip-on-component}}
+    Here is the info in a tooltip!
+  {{/tooltip-on-component}}
+{{/my-component}}
 ```
 
-You can use multiple options:
+Options can be set on the `{{tooltip-on-component}}` as attributes:
 
 ```hbs
-{{#some-component
-  tooltipContent='This is the tooltip'
-  tooltipPlace='Right'
-  tooltipSpacing=50
-}}
-  Hover over me!
-{{/some-component}}
+{{#my-component}}
+  Click for more info
+
+  {{#tooltip-on-component event='click'}}
+    This info will show on click!
+  {{/tooltip-on-component}}
+{{/my-component}}
 ```
 
-### Using as a Component
+Documentation for supported options is located [here](#options).
 
-If you want to use HTMLBars in your tooltip, then the `{{tooltip-on-parent}}` component is your friend.
+### Tooltip on Element
 
-The tooltip is automatically attached to the parent view's element and the template block of the `{{tooltip-on-parent}}` component will be rendered inside the tooltip.
+If you want to add a tooltip to an element that is not an Ember component, you can do so with `{{tooltip-on-element}}`.
+
+By default, the tooltip will attach itself to it's parent element:
 
 ```hbs
-{{#some-component}}
-  {{#tooltip-on-parent}}
-    Stop hovering over me, {{name}}!
-  {{/tooltip-on-parent}}
+<div>
+  Hover for more info
 
-  Don't hover over me!
-{{/some-component}}
+  {{#tooltip-on-element}}
+    Here is the info in a tooltip!
+  {{/tooltip-on-element}}
+</div>
 ```
 
-camelCased Options can still be passed to the component but they are not prefixed:
+You can also specify the ID of the element to attach the tooltip to:
 
 ```hbs
-{{#some-component}}
-  {{#tooltip-on-parent place='right' effectClass='grow'}}
-    <strong>Stop hovering over me, {{name}}!</strong>
-  {{/tooltip-on-parent}}
+{{input id='has-info-tooltip'}}
 
-  Dont' hover over me!
-{{/some-component}}
+{{#tooltip-on-element target='#has-info-tooltip'}}
+  Here is some more info
+{{/tooltip-on-element}}
 ```
 
-### Using on HTML elements
+The `target` property must be an ID, including the `#`.
 
-If you want to render a tooltip on an HTML element that isn't rendered by an Ember Component, you can use `data` attributes.
+## Options
 
-1. Add the `has-tooltip` class
-2. Add `data-<x>` attributes to set tooltip properties
-3. Call `this.renderChildTooltips()` in a parent view that has the tooltips mixin included (usually this mixin is automatically added to all components. See [the tooltips mixin](#the-tooltip-mixin))
+Options are set as attributes on the tooltip components. Current tooltip properties this addon supports are:
 
-For example, to render two tooltips:
+- [class](#class)
+- [delay](#delay)
+- [delayOnChange](#delay-on-change)
+- [duration](#duration)
+- [effect](#effect)
+- [event](#event)
+- [hideOn](#hideOn)
+- [keepInWindow](#keep-in-window)
+- [side](#side)
+- [showOn](#show-on)
+- [spacing](#spacing)
+- [tooltipIsVisible](#tooltip-is-visible)
+
+#### Class
+
+| Type    | String  |
+|---------|---------|
+| Default | none    |
+
+Adds a class to any tooltip:
 
 ```hbs
-{{#some-component}}
-  <ul class="list">
-    <li class="has-tooltip" data-tooltip-content="Dave is great">Dave</li>
-    <li class="has-tooltip" data-tooltip-content="Mike is not great">Mike</li>
-  </ul>
-{{/some-component}}
+{{tooltip-on-component class='tooltip-warning'}}
 ```
 
-```js
-// app/components/some-component.js
+#### Delay
 
-import Ember from 'ember';
-import TooltipsMixin from 'ember-tooltips/mixins/components/tooltips';
+| Type    | Number  |
+|---------|---------|
+| Default | 0       |
 
-export default Ember.Component.extend(
-  TooltipsMixin, {
-
-  didInsertElement: function() {
-    this._super(...arguments);
-    this.renderChildTooltips(); // Voila!
-  },
-
-});
-```
-
-Options can be set on the element(s) as <strong>prefixed and dasherized</strong> attributes. For example:
+Delays showing the tooltip by the given number of milliseconds.
 
 ```hbs
-{{#some-component}}
-  <div class="notification">
-    <span
-      class="has-tooltip"
-      data-tooltip-content="This is bad!"
-      data-tooltip-effect-class="grow"
-      data-tooltip-type-class="error">
+{{!--Delays the show animation by 500ms--}}
 
-      Hover for more info
-
-    </span>
-  </div>
-{{/some-component}}
+{{tooltip-on-component delay=500}}
 ```
 
-```js
-// app/components/some-component.js
+This does not affect the hiding of the tooltip. See also, [delayOnChange](#delay-on-change).
 
-import Ember from 'ember';
+#### Delay on change
 
-export default Ember.Component.extend({
+| Type    | Boolean |
+|---------|---------|
+| Default | false   |
 
-  didInsertElement: function() {
-    this._super(...arguments);
-    this.renderChildTooltips(); // Voila!
-  },
+Whether or not to enforce the delay even when the user transitions their cursor between multiple target elements with tooltips.
 
-});
-```
+See this animation for a visual explanation:
 
-**Warning:** Using HTML `data-x` attributes has limitations. Durations and manual triggers are not supported.
-
-### Supported Properties
-
-This addon aims to maintain parity with all the [Tooltip library](https://github.com/darsain/tooltip/wiki) features.
-
-Current tooltip properties this addon supports are:
-
-- `auto` (`true` or `false`. Defaults to `true`)
-- `duration` (time in milliseconds. No default)
-- `effectClass` (`'none'`, `'fade'`, `'slide'`, or `'grow'`. Defaults to `'slide'`)
-- `event` (see [events](#events))
-- `hideOn` (see [events](#events))
-- `place` (defaults to `'top'`)
-- `showOn` (see [events](#events))
-- `spacing` (defaults to `10`)
-- `typeClass` (can be any string. No default)
-- `visibility` (`true` or `false`, when `event: 'manual'`. No default)
-
-**Please note**, depending on your use case, you may have to prefix or modify the property name. For example, `effectClass`, `tooltipEffectClass` or `data-tooltip-effect-class`.
-
-Default values can be set [on the `ember-tooltips` mixin](#customizing-the-mixin).
+![](https://cloud.githubusercontent.com/assets/669410/15400803/d99f671e-1dba-11e6-8183-8b160cbcda10.gif)
 
 ```hbs
-{{input type='text'
-  tooltipEvent='focus'
-  tooltipContent='Helpful form tip'
-  tooltipDuration='1000'
-  tooltipPlace='right'
-}}
+{{!--Forces delay to be enforced when the user skips
+between elements with tooltips--}}
+
+{{tooltip-on-component delayOnChange=true}}
 ```
 
-### The Tooltip Object
+#### Duration
 
-Any time a tooltip is created for a component, the tooltip is set as the `tooltip` property of the component.
+| Type    | Number  |
+|---------|---------|
+| Default | 0       |
 
-Thus, you can programatically control the tooltip of any Ember component using `this.get('tooltip')`. This will return the `Tooltip` instance, which is created using [`darsain/tooltip`](https://github.com/darsain/tooltip/wiki/Tooltip).
+Sets the duration for which the tooltip will be open, in milliseconds. When the tooltip has been opened for the duration set it will hide itself.
 
-The documentation for the tooltip is contained in [the `Tooltip` API wiki](https://github.com/darsain/tooltip/wiki/Tooltip).
-
-For example:
-
-```js
-/* Change the tooltip content */
-this.get('tooltip').content('This is the new content');
-
-/* Show the tooltip  */
-this.get('tooltip').show();
-
-/* Get the tooltip's DOM element  */
-this.get('tooltip').element;
-
-/* Update the size after the tooltip content changes */
-this.get('tooltip').updateSize();
-
-/* See if the tooltip is already hidden */
-this.get('tooltip').hidden; // 1 or 0
-```
-
-### Hiding and Showing Tooltips
-
-There are three ways to hide and show tooltips:
-
-- [Events](#events)
-- [Methods](#methods)
-- [Timers](#timers)
-
-#### Events
-
-You can control the hiding and showing of tooltips on set jQuery events using three properties: `event`, `showOn`, and `hideOn`.
-
-Version `0.5.5` and lower does *not* support `hideOn` and `showOn`.
-
-`event` is the easiest way to set the hide and show event - it sets the `hideOn` and `showOn` properties.
-
-`event` should be a string equal to `'hover'`, `'click'`, `'focus'`, `'ready'` (show on load of DOM), or `'none'`. The default value is `'hover'`.
+The user will still hide the tooltip if the hide event occurs before the duration expires.
 
 ```hbs
-{{some-component
-  tooltipContent='This will show on hover'
-  tooltipEvent='hover'
+{{!-- Closes the tooltip after 1000ms--}}
+
+{{tooltip-on-component duration=1000}}
+```
+
+#### Effect
+
+| Type    | String  |
+|---------|---------|
+| Default | 'slide' |
+
+Sets the animation used to show and hide the tooltip. Possible options are:
+
+- `'fade'`
+- `'slide'`
+- `'none'`
+
+```hbs
+{{tooltip-on-component effect='slide'}}
+```
+
+#### Event
+
+| Type    | String  |
+|---------|---------|
+| Default | 'hover' |
+
+The event that the tooltip will hide and show for. Possible options are:
+
+- `'hover'`
+- `'click'`
+- `'focus'` (hides on blur)
+- `'none'`
+
+```hbs
+{{tooltip-on-component event='click'}}
+```
+
+This event is overwritten by the individual [`hideOn`](#hide-on) and [`showOn`](#show-on) properties. In effect, setting `event` sets `hideOn` and `shownOn` for you.
+
+The tooltip can also be shown programatically by passing in the `tooltipIsVisible` property, [documented here](#tooltip-is-visible).
+
+#### Hide on
+
+| Type    | String  |
+|---------|---------|
+| Default | 'none'  |
+
+Sets the event that the tooltip will hide on. This overwrites any event set with the [event](#event) option.
+
+This can be any javascript-emitted event.
+
+```hbs
+{{!--This tooltip will hide on mouseleave, NOT click--}}
+
+{{tooltip-on-component
+  event='click'
+  hideOn='mouseleave'
 }}
 ```
 
-If you want to set the show or hide events individually, you can overwrite `event` using `showOn` and `hideOn`. Both properties accept any [jQuery event](https://api.jquery.com/category/events/) or `'none'`.
+This does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event).
 
-For example:
+#### Keep in window
+
+| Type    | Boolean |
+|---------|---------|
+| Default | true    |
+
+Whether to automatically try keep the tooltip in the window. This will override any `side` you set if the tooltip is rendered partically outside the window.
+
+For example, a target element in the top-left of the screen with a tooltip's side set to `left` will probably render the tooltip on the right of the target element.
 
 ```hbs
-{{some-component
-  tooltipHideOn='none'
-  tooltipShowOn='click'
-  tooltipContent='hover'
+{{!--Forces the tooltip to stay on the left even if
+it will render off-screen--}}
+
+{{tooltip-on-component
+  keepInWindow=false
+  side='right'
 }}
 ```
 
-Default values for `event`, `hideOn`, and `showOn` can be set [on the `ember-tooltips` mixin](#customizing-the-mixin).
+#### Side
 
-Version `0.5.5` and lower of this addon use 'manual' instead of 'none'.
+| Type    | String  |
+|---------|---------|
+| Default | 'top'   |
 
-#### Methods
+Sets the side the tooltip will render on. If `keepInWindow` is set to `true`, `side` can be overwritten to keep the tooltip on screen.
 
-As described in [The Tooltip Object](#the-tooltip-object) documentation, you can access the `tooltip` property on any component.
+Possible options are:
 
-Thus, you can programatically hide and show the tooltip of any component as follows:
-
-```js
-this.get('tooltip').hide();
-this.get('tooltip').show();
-```
-
-If you want to check whether a tooltip is currently hidden, access the `hidden` property:
-
-```
-this.get('tooltip').hidden; // 1 or 0
-```
-
-#### Timers
-
-You can set a timer on a tooltip to close it after an amount of time using the `duration` property. Duration should be any number of milliseconds.
+- Top
+- Right
+- Bottom
+- Left
 
 ```hbs
-{{input type='text'
-  tooltipEvent='focus'
-  tooltipContent='Helpful form tip'
-  tooltipDuration='1000'
+{{!--The tooltip will render on the right of the target element--}}
+
+{{tooltip-on-component
+  side='right'
 }}
 ```
 
-In the above example, the tooltip shows on focus and then closes after 1000ms.
+#### Show on
 
-### Accessibility
+| Type    | String  |
+|---------|---------|
+| Default | 'none'  |
+
+Sets the event that the tooltip will show on. This overwrites any event set with the [event](#event) option.
+
+This can be any javascript-emitted event.
+
+```hbs
+{{!--This tooltip will show on click, NOT hover--}}
+
+{{tooltip-on-component
+  showOn='click'
+}}
+```
+
+This does not affect the event the tooltip hides on. That is set by the [hideOn](#hide-on) option. This will override [the event property](#event).
+
+#### Spacing
+
+| Type    | Number  |
+|---------|---------|
+| Default | 10      |
+
+Sets the number of pixels the tooltip will render from the target element. A higher number will move the tooltip further from the target. This can be any number.
+
+```hbs
+{{!--Render the tooltip 20px from the target element--}}
+{{tooltip-on-component spacing=20}}
+```
+
+#### Tooltip is visible
+
+| Type    | Boolean |
+|---------|---------|
+| Default | false   |
+
+Gives you a programatic way to hide and show a tooltip. Set this value to `true` to manually show the tooltip.
+
+This can be useful alongside `event='none'` when you only want to toolip to show when you specific and not based on an user action.
+
+```hbs
+{{!--Binds the tooltip visibility to the showTooltip property--}}
+{{tooltip-on-component tooltipIsVisible=showTooltip}}
+```
+
+## Actions
+
+Four actions are available for you to hook onto through the tooltip lifecycle:
+
+```hbs
+{{tooltip-on-component
+  onTooltipDestroy='onTooltipDestroy'
+  onTooltipHide='onTooltipHide'
+  onTooltipRender='onTooltipRender'
+  onTooltipShow='onTooltipShow'
+}}
+```
+
+## Accessibility
 
 This addon aims to meet 508 compliance.
 
-Components with tooltips are given a `tabindex` attribute and when the component receives focus, the tooltip with show.
+Elements with tooltips are given a `tabindex` attribute and when the element receives focus, the tooltip with show.
 
 Additionally, the `aria-describedby`, `title`, `id`, and `role` attributes are managed by this addon.
 
 There is always room for improvement and PRs to improve accessibility are welcome.
-
-### The Tooltip Mixin
-
-By default the `ember-tooltips` mixin is added to all components. This mixin contains the helper methods to render tooltips.
-
-You can customize where the mixin is automatically added by overriding the `addTo` option in your `config/environment.js` file:
-
-```js
-module.exports = function(environment) {
-  var ENV = {
-
-    /* ... */
-
-    tooltips: {
-      addTo: ['Component'], // Ember.Component
-    }
-  }
-};
-```
-
-Each option corresponds to a class on the Ember namespace. For example, `addTo: ['Input']` corresponds to `Ember.Input`.
-
-You can disable all reopening of classes by seting `addTo` to a falsy value or empty array:
-
-```js
-module.exports = function(environment) {
-  var ENV = {
-
-    /* ... */
-
-    tooltips: {
-      addTo: [], // The mixin is not added to anything
-    }
-  }
-};
-```
-
-You can add the tooltip functionality to individual classes by importing the mixin to your class:
-
-```js
-// app/components/big-button.js
-
-import Ember from 'ember';
-import TooltipsComponent from 'ember-tooltips/mixins/components/tooltips';
-
-export default Ember.Component.extend(
-  TooltipsComponent, {
-
-});
-```
-
-To set default values for [supported properties](#supported-properties) across your application, set the values in the mixin in your app tree:
-
-```js
-// app/mixins/components/tooltips.js
-
-import Ember from 'ember';
-import EmberTooltipsMixin from 'ember-tooltips/mixins/components/tooltips';
-
-export default Ember.Mixin.create(
-  EmberTooltipsMixin, {
-
-  tooltipPlace: 'right',
-  tooltipSpacing: 20,
-});
-```
-
-You can see the [tooltips mixin here](https://github.com/sir-dunxalot/ember-tooltips/blob/master/addon/mixins/components/tooltips.js).
-
-### The Tooltip Utility
-
-All tooltips rendered by this addon use the [`renderTooltip()` utility](https://github.com/sir-dunxalot/ember-tooltips/blob/master/addon/utils/render-tooltip.js).
-
-You can use this utility in your application if none of the given use cases work:
-
-```js
-import Ember from 'ember';
-import renderTooltip from 'ember-tooltips/utils/render-tooltip';
-
-export default Ember.Component.extend({
-
-  AddTheTooltip() {
-    const element = this.$().find('#some-element')[0];
-
-    renderTooltip(element, {
-      content: 'Some extra info',
-      event: 'click',
-      place: 'right',
-    });
-  },
-
-});
-```
 
 ## Development
 
@@ -397,5 +346,7 @@ All PRs and issues are welcome.
 - `npm install && bower install`
 - `ember s`
 - `ember test`, `ember try:testall`, or the `/tests` route
+
+Please include tests and documentation updates with any new features.
 
 You do not need to bump the version when you have a PR.
