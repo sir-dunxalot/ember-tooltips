@@ -35,6 +35,8 @@
 
   <p>Documentation is available <a href="https://github.com/sir-dunxalot/ember-tooltips" target="_blank">In the repo</a>.</p>
 
+  <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=fork&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+
   <hr>
 
   <h2>Examples</h2>
@@ -116,5 +118,29 @@
 {{!-- END-SNIPPET --}}
 
   {{code-snippet name='using-with-duration.hbs'}}
+
+</div>
+
+<div class="page-content gray">
+  <h3>With custom styling</h3>
+
+{{!-- BEGIN-SNIPPET custom-styling --}}
+<style>
+  .tooltip-error {
+    background-color: #e37f7f;
+    color: #fff;
+  }
+</style>
+
+{{#some-component}}
+  Show an error
+
+  {{#tooltip-on-component class='tooltip-error'}}
+    Here is the error!
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='custom-styling.hbs'}}
 
 </div>

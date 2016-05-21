@@ -21,7 +21,7 @@ pre, code {
 pre,
 .hljs {
   background-color: $darkBlue;
-  @include rem(margin, 3, 2);
+  @include rem(margin, 3, 0);
   @include rem(padding, 1.5);
 }
 

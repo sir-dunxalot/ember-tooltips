@@ -68,12 +68,15 @@ h3 {
 
 .page-content {
   $_width: 800px;
+  $_gutter: 10px;
 
   width: 100%;
   @include rem(padding, $spacing);
   padding-left: calc((100% - #{$_width}) / 2);
   padding-right: calc((100% - #{$_width}) / 2);
   box-sizing: border-box;
+  border-left: #{$_gutter} solid transparent;
+  border-right: #{$_gutter} solid transparent;
 }
 
 .gray {
