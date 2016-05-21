@@ -18,6 +18,7 @@ Documentation for usage is below:
   - [tooltip-on-component](#tooltip-on-component)
   - [tooltip-on-element](#tooltip-on-element)
 - [Options](#options)
+  - [Setting defaults](#setting-defaults)
 - [Actions](#actions)
 - [Accessibility](#accessibility)
 
@@ -312,6 +313,21 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 ```hbs
 {{!--Binds the tooltip visibility to the showTooltip property--}}
 {{tooltip-on-component tooltipIsVisible=showTooltip}}
+```
+
+### Setting Defaults
+
+You can set the default for any option by extending the `{{tooltip-on-element}}` component:
+
+```js
+{{!--your-app/components/tooltip-on-element}}--}}
+
+import TooltipOnElementComponent from 'ember-tooltips/components/tooltip-on-element';
+
+export default TooltipOnElementComponent.extend({
+  effect: 'fade',
+  side: 'bottom',
+});
 ```
 
 ## Actions

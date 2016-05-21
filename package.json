@@ -1,7 +1,7 @@
 {
   "name": "ember-tooltips",
   "version": "1.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Easy and extendible tooltips for Ember",
   "directories": {
     "doc": "doc",
     "test": "tests"
