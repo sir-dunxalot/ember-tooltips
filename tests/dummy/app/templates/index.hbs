@@ -1,14 +1,23 @@
 {{#test-component}}
   Sup
-  {{#tooltip-on-parent side='left'}}
+  {{#tooltip-on-component side='left'}}
     Hey sdg sdg
-  {{/tooltip-on-parent}}
+  {{/tooltip-on-component}}
 {{/test-component}}
 
-<br>
+<hr>
 
 {{#tooltip-on-element side='left' target='#test-1' event='focus' duration=1000}}
   Hey sdg sdg
 {{/tooltip-on-element}}
 
 {{input id='test-1'}}
+
+<hr>
+
+<div>
+  Yo
+  {{#tooltip-on-element}}
+    Hey man!
+  {{/tooltip-on-element}}
+</div>

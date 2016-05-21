@@ -4,6 +4,7 @@ import EmberTetherComponent from 'ember-tether/components/ember-tether';
 const { $, computed, run } = Ember;
 
 const defaultPosition = 'center';
+const tooltipCounterId = 0;
 
 export default EmberTetherComponent.extend({
 
@@ -18,7 +19,6 @@ export default EmberTetherComponent.extend({
   showOn: null,
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
-  target: null,
   tooltipIsVisible: false,
   keepInWindow: true,
 
@@ -86,6 +86,22 @@ export default EmberTetherComponent.extend({
     const side = this.get('side');
 
     return side === 'top' || side === 'bottom';
+  }),
+
+  target: computed(function() {
+    const parentElement = this.$().parent();
+
+    console.log(parentElement);
+
+    let parentElementId = parentElement.attr('id');
+
+    if (!parentElementId) {
+      parentElementId = `target-for-tooltip-${tooltipCounterId}`;
+
+      parentElement.attr('id', parentElementId);
+    }
+
+    return `#${parentElementId}`;
   }),
 
   targetAttachment: computed(function() {
