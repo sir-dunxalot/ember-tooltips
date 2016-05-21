@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow } from '../../helpers/sync/assert-visibility';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;

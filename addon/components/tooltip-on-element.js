@@ -191,6 +191,10 @@ export default EmberTetherComponent.extend({
 
   hide() {
 
+    if (this.get('isDestroying')) {
+      return;
+    }
+
     /* If the tooltip is about to be showed by
     a delay, stop is being shown. */
 
