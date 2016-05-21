@@ -4,7 +4,8 @@ import EmberTetherComponent from 'ember-tether/components/ember-tether';
 const { $, computed, run } = Ember;
 
 const defaultPosition = 'center';
-const tooltipCounterId = 0;
+
+let tooltipCounterId = 0;
 
 export default EmberTetherComponent.extend({
 
@@ -98,6 +99,8 @@ export default EmberTetherComponent.extend({
     if (!parentElementId) {
       parentElementId = `target-for-tooltip-${tooltipCounterId}`;
 
+      tooltipCounterId++;
+
       parentElement.attr('id', parentElementId);
     }
 
@@ -188,7 +191,7 @@ export default EmberTetherComponent.extend({
     const target = this.get('target');
 
     if (!target || target.indexOf('#') === -1) {
-      Ember.assert('You must specify a target attribute in the format "#element-id" for the tooltip component');
+      Ember.assert('You must specify a target attribute in the format target="#element-id" for the tooltip component');
     }
 
     const event = this.get('event');
@@ -339,7 +342,7 @@ export default EmberTetherComponent.extend({
     $target.removeAttr('aria-describedby');
     $target.off();
 
-    this._super(...arguments); // Removes thether
+    this._super(...arguments); // Removes tether
   },
 
 });
