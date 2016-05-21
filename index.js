@@ -9,7 +9,9 @@ module.exports = {
     /* Load from vendor until browserify becomes first-class
     in Ember CLI */
 
-    app.import('vendor/tooltip/tooltip.js');
+    if (!process.env.EMBER_CLI_FASTBOOT) {
+      app.import('vendor/tooltip/tooltip.js');
+    }
     app.import('vendor/tooltip/tooltip.css');
     app.import('vendor/tooltip/tooltip-custom.css');
 
