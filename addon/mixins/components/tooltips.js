@@ -199,7 +199,12 @@ export default Ember.Mixin.create({
     const tooltip = this.get('tooltip');
 
     if (tooltip) {
-      tooltip.content(this.get('tooltipContent'));
+      let tooltipContent = this.get('tooltipContent');
+      if (tooltipContent instanceof Ember.Handlebars.SafeString) {
+        // Convert SafeString to regular string
+        tooltipContent = tooltipContent.toString();
+      }
+      tooltip.content(tooltipContent);
     }
   },
 
