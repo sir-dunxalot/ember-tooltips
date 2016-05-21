@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | showOn', {
+moduleForComponent('tooltip-on-component', 'Integration | Option | hideOn', {
   integration: true
 });
 
@@ -14,27 +14,27 @@ test('It toggles with hover', function(assert) {
   assert.expect(3);
 
   this.render(hbs`
-    {{#tooltip-on-component showOn='click'}}
+    {{#tooltip-on-component hideOn='click'}}
       Sup
     {{/tooltip-on-component}}
   `);
 
   assertHide(assert, this);
 
-  /* Check hover doesn't trigger tooltip */
+  /* Check hover triggers tooltip */
 
   run(() => {
     this.$().trigger('mouseover');
   });
 
-  assertHide(assert, this);
+  assertShow(assert, this);
 
-  /* Check click does trigger tooltip */
+  /* Check click hides tooltip */
 
   run(() => {
     this.$().trigger('click');
   });
 
-  assertShow(assert, this);
+  assertHide(assert, this);
 
 });

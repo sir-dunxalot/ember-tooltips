@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-component', 'Integration | Component | event', {
+moduleForComponent('tooltip-on-component', 'Integration | Option | event', {
   integration: true
 });
 
