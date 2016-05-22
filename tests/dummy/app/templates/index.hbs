@@ -22,7 +22,7 @@
   class='logo-tooltip'
   event='none'
   target='#ember-logo'
-  tooltipIsVisible=showTooltips
+  tooltipIsVisible=showLogoTooltip
   side='right'
   spacing=15
 }}
@@ -109,7 +109,7 @@
 
 {{!-- BEGIN-SNIPPET using-with-duration --}}
 {{#some-component}}
-  Tooltip wil disappear after 1000ms
+  Tooltip will disappear after 1000ms
 
   {{#tooltip-on-component duration=1000}}
     Here is the info!
@@ -142,5 +142,31 @@
 {{!-- END-SNIPPET --}}
 
   {{code-snippet name='custom-styling.hbs'}}
+
+</div>
+
+<div class="page-content">
+  <h3>Using async content</h3>
+
+{{!-- BEGIN-SNIPPET async-content --}}
+{{#some-component}}
+  Tooltip has async content
+
+  {{#tooltip-on-component onTooltipShow='setAsyncContent' updateFor=asyncContent}}
+    {{#if asyncContent}}
+      {{asyncContent}}
+    {{else}}
+      {{!-- Some custom spinner --}}
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    {{/if}}
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='async-content.hbs'}}
 
 </div>

@@ -43,6 +43,18 @@ export default EmberTetherComponent.extend({
   tooltipIsVisible: false,
   keepInWindow: true,
 
+  /*
+  When this property changes it repositions the tooltip.
+
+  This isn't actually used in the code anywhere - it just
+  needs to be passed as an attribute so didUpdate is
+  triggered.
+
+  @property updateFor
+  */
+
+  updateFor: null,
+
   /* Actions */
 
   onTooltipDestroy: null,
@@ -320,6 +332,21 @@ export default EmberTetherComponent.extend({
     }
 
     this.set('offset', offset);
+  },
+
+  /*
+  Repositions the tooltip if new attributes or content are
+  passed to the tooltip.
+
+  @method didUpdate
+  */
+
+  didUpdate() {
+    this._super(...arguments);
+
+    run.later(() => {
+      this.positionTether();
+    }, 1000);
   },
 
   /*
