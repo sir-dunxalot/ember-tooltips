@@ -135,7 +135,7 @@ This does not affect the hiding of the tooltip. See also, [delayOnChange](#delay
 
 | Type    | Boolean |
 |---------|---------|
-| Default | false   |
+| Default | true    |
 
 Whether or not to enforce the delay even when the user transitions their cursor between multiple target elements with tooltips.
 

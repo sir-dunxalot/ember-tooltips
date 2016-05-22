@@ -95,3 +95,7 @@ h3 {
 hr {
   @include rem(margin, 6, 0);
 }
+
+input {
+  @include rem(padding, 0.4, 0.6);
+}

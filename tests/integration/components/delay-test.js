@@ -22,7 +22,7 @@ test('It animates with delay passed as a number', function(assert) {
     this.$().trigger('mouseover');
   });
 
-  /* Check the tooltip is shwon after the correct delay */
+  /* Check the tooltip is shown after the correct delay */
 
   run.later(() => {
     assertHide(assert, this);
