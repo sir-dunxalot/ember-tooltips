@@ -366,3 +366,11 @@ All PRs and issues are welcome.
 Please include tests and documentation updates with any new features.
 
 You do not need to bump the version when you have a PR.
+
+To release an update to the demo app:
+
+```sh
+git checkout master
+ember github-pages:commit --message "Initial gh-pages release" # Builds the app
+git push origin gh-pages # Deploys the app
+```
