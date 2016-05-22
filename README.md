@@ -370,7 +370,7 @@ You do not need to bump the version when you have a PR.
 To release an update to the demo app:
 
 ```sh
-git checkout master
-ember github-pages:commit --message "Initial gh-pages release" # Builds the app
-git push origin gh-pages # Deploys the app
+git checkout master # make sure you're on master branch
+ember github-pages:commit --message "Some commit message" # Builds the app
+git push origin gh-pages:gh-pages # Deploys the app
 ```
