@@ -63,7 +63,7 @@ Documentation for supported options is located [here](#options).
 
 If you want to add a tooltip to an element that is not an Ember component, you can do so with `{{tooltip-on-element}}`.
 
-By default, the tooltip will attach itself to it's parent element:
+By default, the tooltip will attach itself to its parent element:
 
 ```hbs
 <div>
