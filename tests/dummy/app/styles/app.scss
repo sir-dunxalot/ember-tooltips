@@ -100,10 +100,24 @@ input {
   @include rem(padding, 0.4, 0.6);
 }
 
+p {
+  @include rem(margin, 3, 0);
+}
+
+a {
+  color: $purple;
+  text-decoration: none;
+  border-bottom: 1px dotted $purple;
+}
+
+li {
+  @include rem(padding, 0.4, 0);
+}
+
 /* Async spinner */
 
 .spinner {
-  margin: 5px 0;
+  margin: 3px 0 5px;
   width: 70px;
   text-align: center;
 }

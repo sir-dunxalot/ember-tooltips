@@ -37,11 +37,25 @@
 
   <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=fork&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 
-  <hr>
+</div>
 
+<div class="page-content gray">
   <h2>Examples</h2>
 
-  <h3>Basic usage with components</h3>
+  <ul>
+    <li><a href="#component">On parent component</a></li>
+    <li><a href="#element">On parent element</a></li>
+    <li><a href="#target">On any target</a></li>
+    <li><a href="#delay">Show after delay</a></li>
+    <li><a href="#duration">Show for duration</a></li>
+    <li><a href="#styling">Using custom styling</a></li>
+    <li><a href="#async">Using async content</a></li>
+  </ul>
+</div>
+
+<div class="page-content">
+
+  <h3 id="component">Basic usage with components</h3>
 
 {{!-- BEGIN-SNIPPET basic-usage-components --}}
 {{#some-component}}
@@ -58,13 +72,13 @@
 </div>
 
 <div class="page-content gray">
-  <h3>Basic usage with elements</h3>
+  <h3 id="element">Basic usage with elements</h3>
 
 {{!-- BEGIN-SNIPPET basic-usage-elements --}}
 <div class="some-component">
-  Hover for more info
+  Click for more info
 
-  {{#tooltip-on-element}}
+  {{#tooltip-on-element event='click'}}
     Here is the info!
   {{/tooltip-on-element}}
 </div>
@@ -75,7 +89,7 @@
 </div>
 
 <div class="page-content">
-  <h3>Using with a target</h3>
+  <h3 id="target">Using with a target</h3>
 
 {{!-- BEGIN-SNIPPET basic-usage-target --}}
 {{input id='my-input' value='Some value'}}
@@ -89,7 +103,7 @@
 </div>
 
 <div class="page-content gray">
-  <h3>Using a delay</h3>
+  <h3 id="delay">Using a delay</h3>
 
 {{!-- BEGIN-SNIPPET using-with-delay --}}
 {{#some-component}}
@@ -105,7 +119,7 @@
 </div>
 
 <div class="page-content">
-  <h3>Using a duration</h3>
+  <h3 id="duration">Using a duration</h3>
 
 {{!-- BEGIN-SNIPPET using-with-duration --}}
 {{#some-component}}
@@ -122,7 +136,7 @@
 </div>
 
 <div class="page-content gray">
-  <h3>With custom styling</h3>
+  <h3 id="styling">With custom styling</h3>
 
 {{!-- BEGIN-SNIPPET custom-styling --}}
 <style>
@@ -146,22 +160,21 @@
 </div>
 
 <div class="page-content">
-  <h3>Using async content</h3>
+  <h3 id="async">Using async content</h3>
+
+  <p>In this example, <code>onTooltipShow</code> is used to mimick async behaviour. In reality, you do not need set this for async operations.</p>
+
+  <p>The tooltip will reposition itself whenever the <code>updateFor</code> property changes.</p>
 
 {{!-- BEGIN-SNIPPET async-content --}}
 {{#some-component}}
   Tooltip has async content
 
-  {{#tooltip-on-component onTooltipShow='setAsyncContent' updateFor=asyncContent}}
+  {{#tooltip-on-component updateFor=asyncContent onTooltipShow='setAsyncContent'}}
     {{#if asyncContent}}
       {{asyncContent}}
     {{else}}
-      {{!-- Some custom spinner --}}
-      <div class="spinner">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
-      </div>
+      {{some-spinner}}
     {{/if}}
   {{/tooltip-on-component}}
 {{/some-component}}
