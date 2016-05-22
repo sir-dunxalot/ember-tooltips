@@ -137,7 +137,10 @@ export default Ember.Mixin.create({
       if (componentContent) {
         content = componentContent;
       } else {
-        content = component.get('element').innerHTML;
+        //For change observering we should delete component. We should move it to tooltip.
+        //Tooltip can take the element of this component as content
+        //content = component.get('element').innerHTML;
+        content = component.get('element');
       }
     }
 
