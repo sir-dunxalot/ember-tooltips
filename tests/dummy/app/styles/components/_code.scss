@@ -21,7 +21,7 @@ pre, code {
 pre,
 .hljs {
   background-color: $darkBlue;
-  @include rem(margin, 3, 2);
+  @include rem(margin, 3, 0);
   @include rem(padding, 1.5);
 }
 
@@ -66,7 +66,7 @@ pre code {
     text-transform: uppercase;
     @include rem(font-size, 1.2);
     @include rem(padding, 0.5, 1);
-    @include inline-block;
+    display: inline-block;
     margin: 0;
 
     position: absolute;
@@ -269,4 +269,10 @@ Based off Monokai Sublime style. Derived from Monokai by noformnocontent http://
 .xml .php,
 .php .xml {
   // @include opacity(0.8);
+}
+
+.handlebars {
+  .hljs-expression {
+    color: $blue;
+  }
 }

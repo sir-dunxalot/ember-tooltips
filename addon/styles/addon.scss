@@ -1,0 +1,77 @@
+.tooltip {
+  max-width: 200px;
+  color: #fff;
+  background: #3a3c47;
+  text-shadow: -1px -1px 0 rgba(0,0,0,0.2);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 3px;
+  font-family: sans-serif;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    margin: -5px;
+    background: inherit;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
+
+.tooltip.tooltip-target-attached-top:after, .tooltip.tooltip-target-attached-top-left:after, .tooltip.tooltip-target-attached-top-right:after { bottom: 0; }
+.tooltip.tooltip-target-attached-bottom:after, .tooltip.tooltip-target-attached-bottom-left:after, .tooltip.tooltip-target-attached-bottom-right:after { top: 0; }
+.tooltip.tooltip-target-attached-top:after, .tooltip.tooltip-target-attached-bottom:after { left: 50%; }
+.tooltip.tooltip-target-attached-top-left:after, .tooltip.tooltip-target-attached-bottom-left:after { right: 15px; }
+.tooltip.tooltip-target-attached-top-right:after, .tooltip.tooltip-target-attached-bottom-right:after { left: 15px; }
+
+.tooltip.tooltip-target-attached-left:after, .tooltip.tooltip-target-attached-left-top:after, .tooltip.tooltip-target-attached-left-bottom:after { right: 0; }
+.tooltip.tooltip-target-attached-right:after, .tooltip.tooltip-target-attached-right-top:after, .tooltip.tooltip-target-attached-right-bottom:after { left: 0; }
+.tooltip.tooltip-target-attached-left:after, .tooltip.tooltip-target-attached-right:after { top: 50%; }
+.tooltip.tooltip-target-attached-left-top:after, .tooltip.tooltip-target-attached-right-top:after { bottom: 15px; }
+.tooltip.tooltip-target-attached-left-bottom:after, .tooltip.tooltip-target-attached-right-bottom:after { top: 15px; }
+
+/* Fade */
+
+.tooltip {
+  opacity: 0;
+
+  &.tooltip-slide,
+  &.tooltip-fade {
+    -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
+    transition: opacity 200ms ease-out, margin 200ms ease-out;
+  }
+
+  &.tooltip-slide {
+    &.tooltip-target-attached-top {
+      margin-top: 10px;
+    }
+
+    &.tooltip-target-attached-right {
+      margin-left: -10px;
+    }
+
+    &.tooltip-target-attached-bottom {
+      margin-top: -10px;
+    }
+
+    &.tooltip-target-attached-left {
+      margin-left: 10px;
+    }
+  }
+
+  &[aria-hidden="false"] {
+    opacity: 1;
+    transition-duration: 100ms; // Shorter hide duration
+
+    &.tooltip-slide {
+      margin: 0px;
+    }
+  }
+}

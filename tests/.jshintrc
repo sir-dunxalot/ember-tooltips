@@ -21,12 +21,7 @@
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName",
-    "inspect",
-    "mouseOut",
-    "mouseOver",
-    "assertTooltipProperties",
-    "andThenAfterRender"
+    "currentRouteName"
   ],
   "node": false,
   "browser": false,

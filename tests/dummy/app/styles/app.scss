@@ -1,9 +1,8 @@
-@import 'compass';
-@import 'ember-paper';
+@import 'compass-boilerplate-vendor/normalize';
+@import 'compass-boilerplate-vendor/html5bp';
+@import 'compass-boilerplate';
 
-@import 'core/variables';
-@import 'core/mixins';
-
+@import 'variables';
 @import 'components/code';
 
 html {
@@ -19,59 +18,144 @@ body {
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: 'Open Sans', sans-serif;
 }
 
+#ember-testing-container {
+  /* Set position static to short-circuit Hubspot Tether's positioning */
+  /* https://github.com/HubSpot/tether/pull/98/ */
+  position: static !important;
+}
 
-.logo, .logo-wrapper .text {
+h1,
+h2,
+h3 {
+  font-weight: 200;
+}
+
+.hero {
+  height: 100vh;
+  width: 100vw;
+  background-color: #3023AE;
+  background-image: linear-gradient(-134deg, #3023AE 0%, #A56DD7 100%);
+  -webkit-display: flex;
+  display: flex;
+  @include justify-content(center);
+  @include align-items(center);
+  @include flex-direction(column);
+}
+
+#ember-logo {
+  width: 200px;
+  height: auto;
+  @include rem(margin-right, 10);
   @include inline-block;
 }
 
-.logo {
-  @include rem(margin-top, -0.7);
-  @include rem(margin-left, 1);
-}
+.badges {
+  @include rem(margin-top, 4);
+  text-align: center;
 
-.page-content {
-  @include rem(padding, 4);
-}
-
-.inline-block {
-  display: inline-block;
-  vertical-align: middle;
-  padding: 10px;
-  border: 1px solid #bbb;
-  border-radius: 3px;
-  cursor: pointer;
-
-  &:focus {
-    border-color: $info;
+  a + * {
+    @include rem(margin-left, 1);
   }
 }
 
-.inline-block:hover {
-  border-color: #999;
+.logo-tooltip {
+  @include rem(font-size, 2);
+  top: 16px !important;
 }
 
-.examples {
-  list-style: none;
-  padding: 0;
-  margin: 30px;
+.page-content {
+  $_width: 800px;
+  $_gutter: 10px;
+
+  width: 100%;
+  @include rem(padding, $spacing);
+  padding-left: calc((100% - #{$_width}) / 2);
+  padding-right: calc((100% - #{$_width}) / 2);
+  box-sizing: border-box;
+  border-left: #{$_gutter} solid transparent;
+  border-right: #{$_gutter} solid transparent;
 }
 
-.examples li {
-  padding: 0;
-  margin: 30px 0;
+.gray {
+  background-color: #eee;
 }
 
-.tooltip-error {
-  background-color: #e37f7f;
+.some-component {
+  border: 1px solid #666;
+  @include rem(border-radius, 0.3);
+  @include inline-block;
+  @include rem(padding, 0.6, 1);
+  cursor: pointer;
+  background-color: rgba($white, 0.5);
+}
+
+hr {
+  @include rem(margin, 6, 0);
+}
+
+input {
+  @include rem(padding, 0.4, 0.6);
+}
+
+p {
+  @include rem(margin, 3, 0);
 }
 
 a {
-  color: #7aafd1;
-  text-shadow: none !important;
+  color: $purple;
+  text-decoration: none;
+  border-bottom: 1px dotted $purple;
 }
 
-md-toolbar.md-default-theme {
-  background-color: #D39120;
+li {
+  @include rem(padding, 0.4, 0);
 }
+
+/* Async spinner */
+
+.spinner {
+  margin: 3px 0 5px;
+  width: 70px;
+  text-align: center;
+}
+
+.spinner > div {
+  width: 6px;
+  height: 6px;
+  background-color: #fff;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+
+/* End of async spinner */

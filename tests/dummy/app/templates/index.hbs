@@ -1,139 +1,185 @@
-<h1>Examples</h1>
+<div class="hero">
+  <h1 class="visuallyhidden">Ember Tooltips</h1>
 
-<ul class="examples">
+  <div id="headline">
+    <img src="http://miguelcobain.github.io/ember-paper/ember-logo-white-955db9d87b940bf54a17bd1fa78d0713.png" id="ember-logo">
+    {{!-- <span class="hero-text">Tooltips</span> --}}
+  </div>
 
-  <li>
-    {{test-component
-      tooltipContent='This is a tooltip'
-      data-test='default'
-    }}
-  </li>
+  <div class="badges">
 
-  <li>
-    {{#test-component
-      tooltipTypeClass='error'
-      tooltipContent='This is a tooltip'
-      data-test='error'
-    }}
-      Custom 'tooltip-error' class
-    {{/test-component}}
-  </li>
+    <a href="https://www.npmjs.com/package/ember-tooltips"><img src="https://camo.githubusercontent.com/20b25311bfe9f6a298f2a1c7dc4908101c8b8b30/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f656d6265722d746f6f6c746970732e737667" alt="npm" data-canonical-src="https://img.shields.io/npm/v/ember-tooltips.svg" style="max-width:100%;"></a>
 
-  <li>
-    {{test-component
-      tooltipContent='This is a tooltip'
-      tooltipPlace='top-right'
-      data-test='top-right'
-    }}
-  </li>
+    <a href="https://travis-ci.org/sir-dunxalot/ember-tooltips"><img src="https://camo.githubusercontent.com/0928f8bea4cb764feceb44750753eec0dda770b0/68747470733a2f2f7472617669732d63692e6f72672f7369722d64756e78616c6f742f656d6265722d746f6f6c746970732e737667" alt="Build Status" data-canonical-src="https://travis-ci.org/sir-dunxalot/ember-tooltips.svg" style="max-width:100%;"></a>
 
-  <li>
-    {{test-component
-      tooltipContent='This is a tooltip'
-      tooltipPlace='bottom'
-      data-test='bottom'
-    }}
-  </li>
+   <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=star&count=true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
 
+  </div>
 
-  <li>
-    {{test-component
-      tooltipContent='This is a tooltip'
-      tooltipPlace='left'
-      data-test='left'
-    }}
-  </li>
+</div>
 
-  <li>
-    {{#test-component
-      tooltipContent='Slide in'
-      tooltipEffectClass='slide'
-      data-test='slide'
-    }}
-      Slide in
-    {{/test-component}}
-  </li>
+{{#tooltip-on-element
+  class='logo-tooltip'
+  event='none'
+  target='#ember-logo'
+  tooltipIsVisible=showLogoTooltip
+  side='right'
+  spacing=15
+}}
+  Tooltips
+{{/tooltip-on-element}}
 
-  <li>
-    {{#test-component
-      tooltipContent='Fade in'
-      tooltipEffectClass='fade'
-      data-test='fade'
-    }}
-      Fade in
-    {{/test-component}}
-  </li>
+<div class="page-content">
 
-  <li>
-    {{#test-component
-      tooltipContent='Grow in'
-      tooltipEffectClass='grow'
-      data-test='grow'
-    }}
-      Grow in
-    {{/test-component}}
-  </li>
+  <h2>Documentation</h2>
 
-  <li>
-    {{#test-component
-      tooltipContent='No effect'
-      tooltipEffectClass=null
-      data-test='no-effect'
-    }}
-      No effect
-    {{/test-component}}
-  </li>
+  <p>Documentation is available <a href="https://github.com/sir-dunxalot/ember-tooltips" target="_blank">In the repo</a>.</p>
 
-  <li>
-    {{#link-to 'index'
-      tooltipContent='Showing on link to'
-      class='inline-block'
-      data-test='on-link-to'
-    }}
-      On link to
-    {{/link-to}}
-  </li>
+  <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=fork&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 
-  <li>
-    {{#link-to 'index'
-      tooltipContent='Showing on link to to the right'
-      tooltipPlace='right'
-      class='inline-block'
-      data-test='on-link-to-right'
-    }}
-      On link to
-    {{/link-to}}
-  </li>
+</div>
 
-  <li>
-    {{#link-to 'index'
-      tooltipContent='<span><i>This</i> <strong>is</strong> HTML</span>'
-      class='inline-block'
-      data-test='using-html'
-    }}
-      Using HTML
-    {{/link-to}}
-  </li>
+<div class="page-content gray">
+  <h2>Examples</h2>
 
-  <li>
-    {{#test-component
-      data-test='registering-on-parent'
-    }}
-      {{#tooltip-on-parent}}
-        It works, {{name}}!
-      {{/tooltip-on-parent}}
-      Rendered with HTMLBars block.
-    {{/test-component}}
-  </li>
+  <ul>
+    <li><a href="#component">On parent component</a></li>
+    <li><a href="#element">On parent element</a></li>
+    <li><a href="#target">On any target</a></li>
+    <li><a href="#delay">Show after delay</a></li>
+    <li><a href="#duration">Show for duration</a></li>
+    <li><a href="#styling">Using custom styling</a></li>
+    <li><a href="#async">Using async content</a></li>
+  </ul>
+</div>
 
-  <li>
-    {{#test-component
-      tooltipContent='This shows on a click event'
-      tooltipEvent='click'
-      data-test='showing-on-click'
-    }}
-      Click me
-    {{/test-component}}
-  </li>
+<div class="page-content">
 
-</ul>
+  <h3 id="component">Basic usage with components</h3>
+
+{{!-- BEGIN-SNIPPET basic-usage-components --}}
+{{#some-component}}
+  Hover for more info
+
+  {{#tooltip-on-component}}
+    Here is the info!
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='basic-usage-components.hbs'}}
+
+</div>
+
+<div class="page-content gray">
+  <h3 id="element">Basic usage with elements</h3>
+
+{{!-- BEGIN-SNIPPET basic-usage-elements --}}
+<div class="some-component">
+  Click for more info
+
+  {{#tooltip-on-element event='click'}}
+    Here is the info!
+  {{/tooltip-on-element}}
+</div>
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='basic-usage-elements.hbs'}}
+
+</div>
+
+<div class="page-content">
+  <h3 id="target">Using with a target</h3>
+
+{{!-- BEGIN-SNIPPET basic-usage-target --}}
+{{input id='my-input' value='Some value'}}
+
+{{#tooltip-on-element target='#my-input' event='focus'}}
+  Here is the info!
+{{/tooltip-on-element}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='basic-usage-target.hbs'}}
+</div>
+
+<div class="page-content gray">
+  <h3 id="delay">Using a delay</h3>
+
+{{!-- BEGIN-SNIPPET using-with-delay --}}
+{{#some-component}}
+  Tooltip will show after 1000ms
+
+  {{#tooltip-on-component delay=1000}}
+    Here is the info!
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='using-with-delay.hbs'}}
+</div>
+
+<div class="page-content">
+  <h3 id="duration">Using a duration</h3>
+
+{{!-- BEGIN-SNIPPET using-with-duration --}}
+{{#some-component}}
+  Tooltip will disappear after 1000ms
+
+  {{#tooltip-on-component duration=1000}}
+    Here is the info!
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='using-with-duration.hbs'}}
+
+</div>
+
+<div class="page-content gray">
+  <h3 id="styling">With custom styling</h3>
+
+{{!-- BEGIN-SNIPPET custom-styling --}}
+<style>
+  .tooltip-error {
+    background-color: #e37f7f;
+    color: #fff;
+  }
+</style>
+
+{{#some-component}}
+  Show an error
+
+  {{#tooltip-on-component class='tooltip-error'}}
+    Here is the error!
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='custom-styling.hbs'}}
+
+</div>
+
+<div class="page-content">
+  <h3 id="async">Using async content</h3>
+
+  <p>In this example, <code>onTooltipShow</code> is used to mimick async behaviour. In reality, you do not need set this for async operations.</p>
+
+  <p>The tooltip will reposition itself whenever the <code>updateFor</code> property changes.</p>
+
+{{!-- BEGIN-SNIPPET async-content --}}
+{{#some-component}}
+  Tooltip has async content
+
+  {{#tooltip-on-component updateFor=asyncContent onTooltipShow='setAsyncContent'}}
+    {{#if asyncContent}}
+      {{asyncContent}}
+    {{else}}
+      {{some-spinner}}
+    {{/if}}
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='async-content.hbs'}}
+
+</div>
