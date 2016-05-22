@@ -346,6 +346,7 @@ export default EmberTetherComponent.extend({
 
     run.later(() => {
       this.positionTether();
+      this.sendAction('onTooltipRender', this);
     }, 1000);
   },
 

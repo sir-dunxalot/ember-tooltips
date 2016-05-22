@@ -10,8 +10,12 @@ function assertSpacing(assert, context, expectedSpacing) {
 
   const paddingTop = parseInt($tooltip.css('padding-top'));
   const paddingBottom = parseInt($tooltip.css('padding-bottom'));
+  const actualSpacing = offset - paddingTop - paddingBottom;
 
-  assert.equal(offset - paddingTop - paddingBottom, expectedSpacing,
+  /* Allow a small margin of error because of how browsers
+  render pixels */
+
+  assert.ok(expectedSpacing - 2 < actualSpacing && actualSpacing < expectedSpacing + 2,
     `Tooltip should be ${expectedSpacing}px from the target`);
 
 }
