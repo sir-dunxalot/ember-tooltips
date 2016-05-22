@@ -13,6 +13,7 @@ ember install ember-tooltips
 
 Documentation for usage is below:
 
+- [Demo](http://sir-dunxalot.github.io/ember-tooltips/)
 - [1.0.0 Release](#100-release)
 - [Usage](#usage)
   - [tooltip-on-component](#tooltip-on-component)
