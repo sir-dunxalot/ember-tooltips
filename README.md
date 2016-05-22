@@ -255,10 +255,10 @@ Sets the side the tooltip will render on. If `keepInWindow` is set to `true`, `s
 
 Possible options are:
 
-- Top
-- Right
-- Bottom
-- Left
+- `'top'`
+- `'right'`
+- `'bottom'`
+- `'left'`
 
 ```hbs
 {{!--The tooltip will render on the right of the target element--}}
