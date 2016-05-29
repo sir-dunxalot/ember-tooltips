@@ -70,6 +70,7 @@ export default EmberTetherComponent.extend({
   classPrefix: 'tooltip',
   classNames: ['tooltip'],
 
+  _didUpdateTimeoutLength: 1000, // 1000 ms or 0 ms, depending whether in test mode
   _hideTimer: null,
   _showTimer: null,
 
@@ -347,7 +348,7 @@ export default EmberTetherComponent.extend({
     run.later(() => {
       this.positionTether();
       this.sendAction('onTooltipRender', this);
-    }, 1000);
+    }, this.get('_didUpdateTimeoutLength'));
   },
 
   /*
