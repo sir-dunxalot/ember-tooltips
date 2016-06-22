@@ -25,3 +25,22 @@ test('It renders', function(assert) {
     'Should create a tooltip element');
 
 });
+
+test('it has the proper aria-describedby tag', function(assert) {
+  assert.expect(2);
+
+  this.render(hbs`
+    <div>
+      Hover here!
+
+      {{#tooltip-on-element}}
+        Some info in a tooltip.
+      {{/tooltip-on-element}}
+    </div>
+  `);
+
+  let $tooltipTarget = this.$('.tooltip-target');
+  let describedBy = $tooltipTarget.attr('aria-describedby');
+  assert.equal(this.$(`#${describedBy}`).text().trim(), 'Some info in a tooltip.');
+  assert.equal(describedBy.indexOf('#'), '-1');
+});

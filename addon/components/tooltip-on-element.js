@@ -292,7 +292,7 @@ export default EmberTetherComponent.extend({
     }
 
     $target.attr({
-      'aria-describedby': `#${this.get('elementId')}`,
+      'aria-describedby': `${this.get('elementId')}`,
       tabindex: $target.attr('tabindex') || this.get('tabindex'),
     });
 
