@@ -121,7 +121,7 @@ export default EmberTetherComponent.extend({
   }),
 
   effectClass: computed(function() {
-    return `tooltip-${this.get('effect')}`;
+    return `ember-tooltip-${this.get('effect')}`;
   }),
 
   positionClass: computed(function() {
@@ -165,7 +165,7 @@ export default EmberTetherComponent.extend({
   typeClass: computed(function() {
     const type = this.get('type');
 
-    return type ? `embertooltip-${type}` : null;
+    return type ? `ember-tooltip-${type}` : null;
   }),
 
   /* Private CPs */
