@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 function assertSpacing(assert, context, expectedSpacing) {
   const $this = context.$();
   const targetPosition = $this.position();
-  const $tooltip = $this.find('.tooltip');
+  const $tooltip = $this.find('.ember-tooltip');
   const tooltipPosition = $tooltip.position();
   const offset = Math.floor(targetPosition.top - tooltipPosition.top);
 
