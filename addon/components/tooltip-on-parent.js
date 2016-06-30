@@ -25,7 +25,9 @@ export default Ember.Component.extend({
         console.warn('No renderTooltip method found on the parent view of the {{tooltip-on-parent}} component');
       }
 
-      this.remove();
+      if (!this.get('isDestroyed') && !this.get('isDestroying')) {
+        this.remove();
+      }
     });
   },
 
