@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 function assertPosition(assert, context, expectedSide) {
   const $this = context.$();
   const targetPosition = $this.position();
-  const tooltipPosition = $this.find('.tooltip').position();
+  const tooltipPosition = $this.find('.ember-tooltip').position();
 
   if (expectedSide === 'top') {
     assert.ok(targetPosition.top > tooltipPosition.top,
