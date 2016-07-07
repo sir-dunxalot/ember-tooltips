@@ -56,9 +56,6 @@
     "ember-cli-babel": "^5.1.6",
     "ember-cli-sass": "5.3.1"
   },
-  "peerDependencies": {
-    "ember-tether": "0.3.1"
-  },
   "ember-addon": {
     "configPath": "tests/dummy/config",
     "demoURL": "http://sir-dunxalot.github.io/ember-tooltips/"
