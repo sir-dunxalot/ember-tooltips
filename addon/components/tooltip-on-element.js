@@ -380,6 +380,14 @@ export default EmberTetherComponent.extend({
   }),
 
   show() {
+    // this.positionTether() fixes the issues raised in
+    // https://github.com/sir-dunxalot/ember-tooltips/issues/75
+    // this.positionTether();
+
+    // we need to call this private API until we upgrade to ember-tether 0.3.1
+    if (this._tether) {
+      this._tether.position();
+    }
 
     if (this.get('isDestroying')) {
       return;
