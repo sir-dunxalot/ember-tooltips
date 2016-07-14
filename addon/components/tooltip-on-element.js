@@ -381,6 +381,7 @@ export default EmberTetherComponent.extend({
   }),
 
   show() {
+    this.positionTether();
 
     if (this.get('isDestroying')) {
       return;
