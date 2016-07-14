@@ -1,6 +1,6 @@
 {
   "name": "ember-tooltips",
-  "version": "v1.0.0-zenefits.1",
+  "version": "v1.0.0-zenefits.2",
   "description": "Easy and extendible tooltips for Ember",
   "directories": {
     "doc": "doc",
