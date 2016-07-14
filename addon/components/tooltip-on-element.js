@@ -381,6 +381,9 @@ export default EmberTetherComponent.extend({
   }),
 
   show() {
+    // this.positionTether() fixes the issues raised in
+    // https://github.com/sir-dunxalot/ember-tooltips/issues/75
+    this.positionTether();
 
     if (this.get('isDestroying')) {
       return;
