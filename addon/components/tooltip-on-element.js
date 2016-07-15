@@ -67,8 +67,8 @@ export default EmberTetherComponent.extend({
   'aria-hidden': computed.not('tooltipIsVisible'),
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
   classNameBindings: ['effectClass'],
-  classPrefix: 'tooltip',
-  classNames: ['tooltip'],
+  classPrefix: 'ember-tooltip',
+  classNames: ['ember-tooltip'],
 
   _didUpdateTimeoutLength: 1000, // 1000 ms or 0 ms, depending whether in test mode
   _hideTimer: null,
@@ -119,13 +119,13 @@ export default EmberTetherComponent.extend({
   }),
 
   effectClass: computed(function() {
-    return `tooltip-${this.get('effect')}`;
+    return `ember-tooltip-${this.get('effect')}`;
   }),
 
   positionClass: computed(function() {
     const targetAttachment = this.get('targetAttachment');
 
-    return `tooltip-${targetAttachment.replace(' ', ' tooltip-')}`;
+    return `ember-tooltip-${targetAttachment.replace(' ', ' ember-tooltip-')}`;
   }),
 
   sideIsVertical: computed(function() {
@@ -163,7 +163,7 @@ export default EmberTetherComponent.extend({
   typeClass: computed(function() {
     const type = this.get('type');
 
-    return type ? `tooltip-${type}` : null;
+    return type ? `ember-tooltip-${type}` : null;
   }),
 
   /* Private CPs */
@@ -304,7 +304,7 @@ export default EmberTetherComponent.extend({
     let renderedSide;
 
     ['top', 'right', 'bottom', 'left'].forEach(function(side) {
-      if ($_tether.hasClass(`tooltip-target-attached-${side}`)) {
+      if ($_tether.hasClass(`ember-tooltip-target-attached-${side}`)) {
         renderedSide = side;
       }
     });
@@ -403,7 +403,7 @@ export default EmberTetherComponent.extend({
         already a tooltip visible in the DOM. Check that here
         and adjust the delay as needed. */
 
-        let visibleTooltips = Ember.$('.tooltip[aria-hidden="false"]').length;
+        let visibleTooltips = Ember.$('.ember-tooltip[aria-hidden="false"]').length;
 
         if (visibleTooltips) {
           delay = 0;
