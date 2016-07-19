@@ -125,7 +125,7 @@ export default Ember.Mixin.create({
     const component = componentWasPassed ? maybeTooltipComponent : Ember.Object.create({});
     const renderContext = componentWasPassed ? component : this;
 
-    if (renderContext.get('isDestroying') || renderContext.get('isDestroyed')) {
+    if (renderContext.isDestroying) {
       return;
     }
 
