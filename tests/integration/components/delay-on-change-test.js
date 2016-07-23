@@ -37,6 +37,6 @@ test('It animates with a delay', function(assert) {
       'Tooltip should be shown immediately');
 
     done();
-  }, 20);
+  }, 50);
 
 });

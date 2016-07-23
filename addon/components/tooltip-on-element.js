@@ -64,7 +64,6 @@ export default EmberTetherComponent.extend({
 
   /* Properties */
 
-  'aria-hidden': computed.not('tooltipIsVisible'),
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
   classNameBindings: ['effectClass'],
   classPrefix: 'ember-tooltip',
@@ -75,6 +74,10 @@ export default EmberTetherComponent.extend({
   _showTimer: null,
 
   /* CPs */
+
+  'aria-hidden': computed('tooltipIsVisible', function() {
+    return this.get('tooltipIsVisible') ? 'false' : 'true';
+  }),
 
   attachment: computed(function() {
     const side = this.get('side');
@@ -410,7 +413,11 @@ export default EmberTetherComponent.extend({
         }
       }
 
-      const _showTimer = run.later(this, this.set, 'tooltipIsVisible', true, delay);
+      const _showTimer = run.later(this, () => {
+        if (!this.get('destroying')) {
+          this.set('tooltipIsVisible', true);
+        }
+      }, delay);
 
       this.set('_showTimer', _showTimer);
     } else {
