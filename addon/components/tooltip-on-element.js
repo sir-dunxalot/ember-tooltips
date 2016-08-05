@@ -414,7 +414,7 @@ export default EmberTetherComponent.extend({
       }
 
       const _showTimer = run.later(this, () => {
-        if (!this.get('isDestroying')) {
+        if (!this.get('isDestroying') && !this.get('isDestroyed')) {
           this.set('tooltipIsVisible', true);
         }
       }, delay);
