@@ -25,6 +25,8 @@
   }
 }
 
+.ember-popover {}
+
 .ember-tooltip.ember-tooltip-target-attached-top:after, .ember-tooltip.ember-tooltip-target-attached-top-left:after, .ember-tooltip.ember-tooltip-target-attached-top-right:after { bottom: 0; }
 .ember-tooltip.ember-tooltip-target-attached-bottom:after, .ember-tooltip.ember-tooltip-target-attached-bottom-left:after, .ember-tooltip.ember-tooltip-target-attached-bottom-right:after { top: 0; }
 .ember-tooltip.ember-tooltip-target-attached-top:after, .ember-tooltip.ember-tooltip-target-attached-bottom:after { left: 50%; }
