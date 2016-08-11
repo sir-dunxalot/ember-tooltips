@@ -1,6 +1,6 @@
 {
   "name": "ember-tooltips",
-  "version": "2.0.1",
+  "version": "1.0.0-zenefits.3",
   "description": "Easy and extendible tooltips for Ember",
   "directories": {
     "doc": "doc",
@@ -55,9 +55,6 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.6",
     "ember-cli-sass": "5.3.1"
-  },
-  "peerDependencies": {
-    "ember-tether": "0.3.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
