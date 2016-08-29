@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tooltip-and-popover';
 
+
 const { $, run } = Ember;
 
 export default TooltipAndPopoverComponent.extend({
@@ -16,7 +17,7 @@ export default TooltipAndPopoverComponent.extend({
 
     const event = this.get('event');
     const $target = $(this.get('target'));
-    const $popover = $(this.get('_tether.element'));
+    const $popover = this.$();
 
     if (event === 'none') {
       return;
