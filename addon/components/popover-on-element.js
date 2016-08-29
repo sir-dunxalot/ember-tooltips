@@ -1,77 +1,89 @@
 import Ember from 'ember';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tooltip-and-popover';
 
-const { $ } = Ember;
+const { $, run } = Ember;
 
 export default TooltipAndPopoverComponent.extend({
 
+  hideDelay: '250',
+
   classNames: ['ember-popover'],
-	didInsertElement() {
-		this._super(...arguments);
+  _isMouseInside: false,
+  _isMouseOutside: Ember.computed.not('_isMouseInside'),
+  _isMouseInsidePopover: false, /* see note below why this is necessary */
+  didInsertElement() {
+    this._super(...arguments);
 
-		/* Setup event handling to hide and show the tooltip */
+    const event = this.get('event');
+    const $target = $(this.get('target'));
+    const $popover = $(this.get('_tether.element'));
 
-		const $target = $(this.get('target'));
-		const event = this.get('event');
+    if (event === 'none') {
+      return;
+    }
 
-		/* Setup event handling to hide and show the tooltip */
-
-    if (event !== 'none') {
-      const _hideOn = this.get('_hideOn');
-      const _showOn = this.get('_showOn');
-
-      /* If show and hide are the same (e.g. click), toggle
-      the visibility */
-
-      if (_showOn === _hideOn) {
-        $target.on(_showOn, () => {
-          this.toggle();
-        });
-      } else {
-
-        /* Else, add the show and hide events individually */
-
-        if (_showOn !== 'none') {
-          $target.on(_showOn, () => {
-            this.show();
-          });
-        }
-
-        if (_hideOn !== 'none') {
-          $target.on(_hideOn, () => {
-            this.hide();
-          });
-        }
-      }
-
-      /* Hide and show the tooltip on focus and escape
-      for acessibility */
-
-      if (event !== 'focus') {
-
-        /* If the event is click, we don't want the
-        click to also trigger focusin */
-
-        if (event !== 'click') {
-          $target.focusin(() => {
-            this.show();
-          });
-        }
-
-        $target.focusout(() => {
+    const hideAfterDelayIfMouseIsOutside = () => {
+      run.later(() => {
+        if (this.get('_isMouseOutside')) {
           this.hide();
-        });
-      }
+        }
+      }, +this.get('hideDelay'));
+    };
 
-      $target.keydown((keyEvent) => {
-        if (keyEvent.which === 27) {
+    /* record _isMouseInside events */
+    $target.on('mouseenter', () => {
+      this.set('_isMouseInside', true);
+    });
+    $popover.on('mouseenter', () => {
+      this.set('_isMouseInsidePopover', true);
+      this.set('_isMouseInside', true);
+    });
+
+    /* record !_isMouseInside events */
+    $target.on('mouseleave', () => {
+      this.set('_isMouseInside', false);
+    });
+    $popover.on('mouseleave', () => {
+      this.set('_isMouseInsidePopover', false);
+      this.set('_isMouseInside', false);
+    });
+
+    const _showOn = this.get('_showOn');
+    const _hideOn = this.get('_hideOn');
+
+    if (_showOn === 'mouseenter') {
+      /* handle the popover hover */
+
+      $target.on(_showOn, () => this.show());
+
+      $target.on(_hideOn, () => hideAfterDelayIfMouseIsOutside());
+
+      $popover.on(_hideOn, () => hideAfterDelayIfMouseIsOutside());
+
+    } else if (_showOn === 'click') {
+      /* handle the popover click */
+
+      $target.on(_showOn, () => {
+        /* $target.on('click'... ) gets called when the $popover is clicked
+        we need _isMouseInsidePopover to reject this event */
+        if (this.get('_isMouseInsidePopover')) {
+          return;
+        }
+
+        if (this.get('tooltipIsVisible')) {
           this.hide();
-          keyEvent.preventDefault();
-
-          return false;
+        } else {
+          this.show();
         }
       });
+
+      $target.on('focusout', () => {
+        if (this.get('_isMouseOutside')) {
+          this.hide();
+        }
+      });
+
     }
-	},
+  },
 
 });
