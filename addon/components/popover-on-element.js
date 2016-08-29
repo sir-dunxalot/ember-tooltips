@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tooltip-and-popover';
-import template from 'ember-tooltips/templates/components/popover-on-element';
+import layout from 'ember-tooltips/templates/components/popover-on-element';
 
 const { $, run } = Ember;
 
@@ -8,7 +8,7 @@ export default TooltipAndPopoverComponent.extend({
 
   hideDelay: '250',
 
-  template,
+  layout,
   classNames: ['ember-popover'],
   _isMouseInside: false,
   _isMouseOutside: Ember.computed.not('_isMouseInside'),
