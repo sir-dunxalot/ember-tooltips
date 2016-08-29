@@ -12,7 +12,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | duration', {
 test('It hides after the given duration', function(assert) {
   const done = assert.async();
 
-  // assert.expect(3);
+  assert.expect(3);
 
   this.render(hbs`{{tooltip-on-component duration=300}}`);
 
@@ -35,7 +35,7 @@ test('It hides after the given duration', function(assert) {
 
 test('It hides before the given duration, if requested', function(assert) {
 
-  // assert.expect(3);
+  assert.expect(3);
 
   this.render(hbs`{{tooltip-on-component duration=300}}`);
 
@@ -58,7 +58,7 @@ test('It hides before the given duration, if requested', function(assert) {
 test('It uses duration after the first show', function(assert) {
   const done = assert.async();
 
-  // assert.expect(5);
+  assert.expect(5);
 
   this.render(hbs`{{tooltip-on-component duration=300}}`);
 

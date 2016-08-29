@@ -11,7 +11,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | showOn', {
 
 test('It shows with showOn', function(assert) {
 
-  // assert.expect(3);
+  assert.expect(3);
 
   this.render(hbs`{{tooltip-on-component showOn='click'}}`);
 

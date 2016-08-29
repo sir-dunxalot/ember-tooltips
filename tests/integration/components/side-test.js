@@ -27,7 +27,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | side and keep
 
 test('It shows with showOn', function(assert) {
 
-  // assert.expect(4);
+  assert.expect(4);
 
   /* Test the positions without forcing the tooltip
   to stay in the window. */
@@ -54,7 +54,7 @@ test('It shows with showOn', function(assert) {
 
 // test('It stays in the window', function(assert) {
 
-//   // assert.expect(1);
+//   assert.expect(1);
 
 //   /* Test the position switches form left to right automatically. */
 
