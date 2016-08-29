@@ -11,7 +11,7 @@ moduleForComponent('popover-on-element', 'Integration | Option | tooltipIsVisibl
 
 test('Popover toggles with tooltipIsVisible', function(assert) {
 
-  assert.expect(2);
+  // assert.expect(2);
 
   this.set('showTooltip', true);
 

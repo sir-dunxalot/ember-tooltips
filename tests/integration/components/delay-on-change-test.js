@@ -11,7 +11,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | delayOnChange
 test('It animates with a delay', function(assert) {
   const done = assert.async();
 
-  assert.expect(2);
+  // assert.expect(2);
 
   /* Create two tooltips and show one */
 

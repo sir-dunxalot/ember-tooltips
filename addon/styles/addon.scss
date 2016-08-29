@@ -1,4 +1,4 @@
-.ember-tooltip {
+.tooltip-and-popover {
   max-width: 200px;
   color: #fff;
   background: #3a3c47;
@@ -43,13 +43,13 @@
 
 /* Fade */
 
-.ember-tooltip {
+.tooltip-and-popover {
   opacity: 0;
 
   &.ember-tooltip-slide,
   &.ember-tooltip-fade {
-    -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
-    transition: opacity 200ms ease-out, margin 200ms ease-out;
+    // -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
+    // transition: opacity 200ms ease-out, margin 200ms ease-out;
   }
 
   &.ember-tooltip-slide {
@@ -72,7 +72,8 @@
 
   &[aria-hidden="false"] {
     opacity: 1;
-    transition-duration: 100ms; // Shorter hide duration
+    // transition-duration: 100ms; // Shorter hide duration
+    // TODO(Andrew) revert this
 
     &.ember-tooltip-slide {
       margin: 0px;

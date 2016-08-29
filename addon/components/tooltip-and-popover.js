@@ -67,7 +67,7 @@ export default EmberTetherComponent.extend({
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
   classNameBindings: ['effectClass'],
   classPrefix: 'ember-tooltip',
-  classNames: ['ember-tooltip'],
+  classNames: ['tooltip-and-popover'],
 
   _didUpdateTimeoutLength: 1000, // 1000 ms or 0 ms, depending whether in test mode
   _hideTimer: null,
