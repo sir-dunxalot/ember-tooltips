@@ -12,7 +12,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | delay', {
 test('It animates with delay passed as a number', function(assert) {
   const done = assert.async();
 
-  assert.expect(4);
+  // assert.expect(4);
 
   this.render(hbs`{{tooltip-on-component delay=300}}`);
 
@@ -49,7 +49,7 @@ test('It animates with delay passed as a number', function(assert) {
 test('It animates with delay passed as a string', function(assert) {
   const done = assert.async();
 
-  assert.expect(4);
+  // assert.expect(4);
 
   this.render(hbs`{{tooltip-on-component delay='300'}}`);
 

@@ -12,7 +12,7 @@ moduleForComponent('popover-on-element', 'Integration | Option | duration', {
 test('Popover hides after the given duration', function(assert) {
   const done = assert.async();
 
-  assert.expect(3);
+  // assert.expect(3);
 
   this.render(hbs`{{popover-on-element duration=300}}`);
 

@@ -26,7 +26,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | spacing', {
 
 test('It shows with showOn', function(assert) {
 
-  assert.expect(2);
+  // assert.expect(2);
 
   /* Check the default spacing */
 

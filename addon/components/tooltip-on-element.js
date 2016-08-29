@@ -5,13 +5,14 @@ const { $ } = Ember;
 
 export default TooltipAndPopoverComponent.extend({
 
+	classNames: ['ember-tooltip'],
 	didInsertElement() {
 		this._super(...arguments);
 
 		/* Setup event handling to hide and show the tooltip */
 
 		const $target = $(this.get('target'));
-		const event = $(this.get('event'));
+		const event = this.get('event');
 
 		/* Setup event handling to hide and show the tooltip */
 

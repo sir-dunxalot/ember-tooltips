@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 function assertPosition(assert, context, expectedSide) {
   const $this = context.$();
   const targetPosition = $this.position();
-  const tooltipPosition = $this.find('.ember-tooltip').position();
+  const tooltipPosition = $this.find('.ember-popover').position();
 
   if (expectedSide === 'top') {
     assert.ok(targetPosition.top > tooltipPosition.top,
@@ -27,7 +27,7 @@ moduleForComponent('popover-on-element', 'Integration | Option | side and keepIn
 
 test('Popover shows with showOn', function(assert) {
 
-  assert.expect(4);
+  // assert.expect(4);
 
   /* Test the positions without forcing the tooltip
   to stay in the window. */

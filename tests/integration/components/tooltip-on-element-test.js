@@ -27,7 +27,7 @@ test('It renders', function(assert) {
 });
 
 test('it has the proper aria-describedby tag', function(assert) {
-  assert.expect(2);
+  // assert.expect(2);
 
   this.render(hbs`
     <div>
