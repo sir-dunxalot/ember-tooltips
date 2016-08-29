@@ -16,7 +16,7 @@ test('It animates with delay passed as a number', function(assert) {
     'onTooltipShow': 0,
   };
 
-  // assert.expect(10);
+  assert.expect(10);
 
   /* Setup the actions and handlers... */
 

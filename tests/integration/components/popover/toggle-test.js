@@ -1,19 +1,21 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow } from '../../helpers/sync/assert-visibility';
+import { assertHide, assertShow } from '../../../helpers/sync/assert-visibility';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | event', {
+moduleForComponent('popover-on-component', 'Integration | Option | event', {
   integration: true
 });
 
-test('It toggles with hover', function(assert) {
+test('Popover toggles with hover', function(assert) {
+
+  const done = assert.async();
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-component}}`);
+  this.render(hbs`{{popover-on-component}}`);
 
   assertHide(assert, this);
 
@@ -27,15 +29,17 @@ test('It toggles with hover', function(assert) {
     this.$().trigger('mouseleave');
   });
 
-  assertHide(assert, this);
-
+  run.later(() => {
+    assertHide(assert, this);
+    done();
+  }, 350);
 });
 
-test('It toggles with click', function(assert) {
+test('Popover toggles with click', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-component event='click'}}`);
+  this.render(hbs`{{popover-on-component event='click'}}`);
 
   assertHide(assert, this);
 
@@ -53,33 +57,11 @@ test('It toggles with click', function(assert) {
 
 });
 
-test('It toggles with focus', function(assert) {
-
-  assert.expect(3);
-
-  this.render(hbs`{{tooltip-on-component event='focus'}}`);
-
-  assertHide(assert, this);
-
-  run(() => {
-    this.$().trigger('focus');
-  });
-
-  assertShow(assert, this);
-
-  run(this, () => {
-    this.$().trigger('blur');
-  });
-
-  assertHide(assert, this);
-
-});
-
-test('It does not show with none', function(assert) {
+test('Popover does not show with none', function(assert) {
 
   assert.expect(4);
 
-  this.render(hbs`{{tooltip-on-component event='none'}}`);
+  this.render(hbs`{{popover-on-component event='none'}}`);
 
   assertHide(assert, this);
 

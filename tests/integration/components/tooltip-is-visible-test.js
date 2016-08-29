@@ -11,7 +11,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | tooltipIsVisi
 
 test('It toggles with tooltipIsVisible', function(assert) {
 
-  // assert.expect(2);
+  assert.expect(2);
 
   this.set('showTooltip', true);
 
