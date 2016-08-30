@@ -66,7 +66,7 @@ export default EmberTetherComponent.extend({
 
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
   classNameBindings: ['effectClass'],
-  classPrefix: 'ember-tooltip',
+  classPrefix: 'tooltip-and-popover',
   classNames: ['tooltip-and-popover'],
 
   _didUpdateTimeoutLength: 1000, // 1000 ms or 0 ms, depending whether in test mode
@@ -122,13 +122,14 @@ export default EmberTetherComponent.extend({
   }),
 
   effectClass: computed(function() {
-    return `ember-tooltip-${this.get('effect')}`;
+    return `${this.get('classPrefix')}-${this.get('effect')}`;
   }),
 
   positionClass: computed(function() {
     const targetAttachment = this.get('targetAttachment');
+    const classPrefix = this.get('classPrefix');
 
-    return `ember-tooltip-${targetAttachment.replace(' ', ' ember-tooltip-')}`;
+    return `${classPrefix}-${targetAttachment.replace(' ', ` ${classPrefix}-`)}`;
   }),
 
   sideIsVertical: computed(function() {
@@ -165,8 +166,9 @@ export default EmberTetherComponent.extend({
 
   typeClass: computed(function() {
     const type = this.get('type');
+    const classPrefix = this.get('classPrefix');
 
-    return type ? `ember-tooltip-${type}` : null;
+    return type ? `${classPrefix}-${type}` : null;
   }),
 
   /* Private CPs */
@@ -246,8 +248,8 @@ export default EmberTetherComponent.extend({
 
     let renderedSide;
 
-    ['top', 'right', 'bottom', 'left'].forEach(function(side) {
-      if ($_tether.hasClass(`ember-tooltip-target-attached-${side}`)) {
+    ['top', 'right', 'bottom', 'left'].forEach((side) => {
+      if ($_tether.hasClass(`${this.get('classPrefix')}-target-attached-${side}`)) {
         renderedSide = side;
       }
     });
@@ -357,7 +359,7 @@ export default EmberTetherComponent.extend({
         already a tooltip visible in the DOM. Check that here
         and adjust the delay as needed. */
 
-        let visibleTooltips = Ember.$('.ember-tooltip[aria-hidden="false"]').length;
+        let visibleTooltips = Ember.$(`.${this.get('classPrefix')}[aria-hidden="false"]`).length;
 
         if (visibleTooltips) {
           delay = 0;

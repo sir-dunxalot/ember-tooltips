@@ -39,7 +39,7 @@ test('it has the proper aria-describedby tag', function(assert) {
     </div>
   `);
 
-  const $tooltipTarget = this.$('.ember-tooltip-target');
+  const $tooltipTarget = this.$('.tooltip-and-popover-target');
   const describedBy = $tooltipTarget.attr('aria-describedby');
 
   assert.equal(this.$(`#${describedBy}`).text().trim(), 'Some info in a tooltip.');
