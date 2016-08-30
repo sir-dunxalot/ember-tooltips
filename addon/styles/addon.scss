@@ -28,43 +28,43 @@
   }
 }
 
-.ember-tooltip.ember-tooltip-target-attached-top:after, .ember-tooltip.ember-tooltip-target-attached-top-left:after, .ember-tooltip.ember-tooltip-target-attached-top-right:after { bottom: 0; }
-.ember-tooltip.ember-tooltip-target-attached-bottom:after, .ember-tooltip.ember-tooltip-target-attached-bottom-left:after, .ember-tooltip.ember-tooltip-target-attached-bottom-right:after { top: 0; }
-.ember-tooltip.ember-tooltip-target-attached-top:after, .ember-tooltip.ember-tooltip-target-attached-bottom:after { left: 50%; }
-.ember-tooltip.ember-tooltip-target-attached-top-left:after, .ember-tooltip.ember-tooltip-target-attached-bottom-left:after { right: 15px; }
-.ember-tooltip.ember-tooltip-target-attached-top-right:after, .ember-tooltip.ember-tooltip-target-attached-bottom-right:after { left: 15px; }
+.ember-tooltip.tooltip-and-popover-target-attached-top:after, .ember-tooltip.tooltip-and-popover-target-attached-top-left:after, .ember-tooltip.tooltip-and-popover-target-attached-top-right:after { bottom: 0; }
+.ember-tooltip.tooltip-and-popover-target-attached-bottom:after, .ember-tooltip.tooltip-and-popover-target-attached-bottom-left:after, .ember-tooltip.tooltip-and-popover-target-attached-bottom-right:after { top: 0; }
+.ember-tooltip.tooltip-and-popover-target-attached-top:after, .ember-tooltip.tooltip-and-popover-target-attached-bottom:after { left: 50%; }
+.ember-tooltip.tooltip-and-popover-target-attached-top-left:after, .ember-tooltip.tooltip-and-popover-target-attached-bottom-left:after { right: 15px; }
+.ember-tooltip.tooltip-and-popover-target-attached-top-right:after, .ember-tooltip.tooltip-and-popover-target-attached-bottom-right:after { left: 15px; }
 
-.ember-tooltip.ember-tooltip-target-attached-left:after, .ember-tooltip.ember-tooltip-target-attached-left-top:after, .ember-tooltip.ember-tooltip-target-attached-left-bottom:after { right: 0; }
-.ember-tooltip.ember-tooltip-target-attached-right:after, .ember-tooltip.ember-tooltip-target-attached-right-top:after, .ember-tooltip.ember-tooltip-target-attached-right-bottom:after { left: 0; }
-.ember-tooltip.ember-tooltip-target-attached-left:after, .ember-tooltip.ember-tooltip-target-attached-right:after { top: 50%; }
-.ember-tooltip.ember-tooltip-target-attached-left-top:after, .ember-tooltip.ember-tooltip-target-attached-right-top:after { bottom: 15px; }
-.ember-tooltip.ember-tooltip-target-attached-left-bottom:after, .ember-tooltip.ember-tooltip-target-attached-right-bottom:after { top: 15px; }
+.ember-tooltip.tooltip-and-popover-target-attached-left:after, .ember-tooltip.tooltip-and-popover-target-attached-left-top:after, .ember-tooltip.tooltip-and-popover-target-attached-left-bottom:after { right: 0; }
+.ember-tooltip.tooltip-and-popover-target-attached-right:after, .ember-tooltip.tooltip-and-popover-target-attached-right-top:after, .ember-tooltip.tooltip-and-popover-target-attached-right-bottom:after { left: 0; }
+.ember-tooltip.tooltip-and-popover-target-attached-left:after, .ember-tooltip.tooltip-and-popover-target-attached-right:after { top: 50%; }
+.ember-tooltip.tooltip-and-popover-target-attached-left-top:after, .ember-tooltip.tooltip-and-popover-target-attached-right-top:after { bottom: 15px; }
+.ember-tooltip.tooltip-and-popover-target-attached-left-bottom:after, .ember-tooltip.tooltip-and-popover-target-attached-right-bottom:after { top: 15px; }
 
 /* Fade */
 
 .tooltip-and-popover {
   opacity: 0;
 
-  &.ember-tooltip-slide,
-  &.ember-tooltip-fade {
+  &.tooltip-and-popover-slide,
+  &.tooltip-and-popover-fade {
     -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
     transition: opacity 200ms ease-out, margin 200ms ease-out;
   }
 
-  &.ember-tooltip-slide {
-    &.ember-tooltip-target-attached-top {
+  &.tooltip-and-popover-slide {
+    &.tooltip-and-popover-target-attached-top {
       margin-top: 10px;
     }
 
-    &.ember-tooltip-target-attached-right {
+    &.tooltip-and-popover-target-attached-right {
       margin-left: -10px;
     }
 
-    &.ember-tooltip-target-attached-bottom {
+    &.tooltip-and-popover-target-attached-bottom {
       margin-top: -10px;
     }
 
-    &.ember-tooltip-target-attached-left {
+    &.tooltip-and-popover-target-attached-left {
       margin-left: 10px;
     }
   }
@@ -73,7 +73,7 @@
     opacity: 1;
     transition-duration: 100ms; // Shorter hide duration
 
-    &.ember-tooltip-slide {
+    &.tooltip-and-popover-slide {
       margin: 0px;
     }
   }
