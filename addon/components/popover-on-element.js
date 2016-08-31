@@ -28,16 +28,22 @@ export default TooltipAndPopoverComponent.extend({
 
       const _hideOn = this.get('_hideOn');
 
-      // we must use mouseover, which correctly
-      // registers hover interactivity when spacing=0
-      $target.add($popover).on('mouseover click', () => this.set('_isMouseInside', true));
+      // we must use mouseover/mouseout because they correctly
+      // register hover interactivity when spacing='0'
+      $target.add($popover).on('mouseover', () => this.set('_isMouseInside', true));
       $target.add($popover).on('mouseout', () => this.set('_isMouseInside', false));
 
+      // _showOn == 'mouseenter'
       $target.on(_showOn, () => this.show());
 
-      $target.on(_hideOn, () => this.hideAfterDelayIfIsMouseOutside());
-
-      $popover.on(_hideOn, () => this.hideAfterDelayIfIsMouseOutside());
+      // _hideOn == 'mouseleave'
+      $target.add($popover).on(_hideOn, () => {
+        run.later(() => {
+          if (!this.get('_isMouseInside')) {
+            this.hide();
+          }
+        }, +this.get('hideDelay'));
+      });
 
     } else if (_showOn === 'click') {
 
@@ -68,53 +74,20 @@ export default TooltipAndPopoverComponent.extend({
   willDestroyElement() {
     this._super(...arguments);
 
-    const event = this.get('event');
     const target = this.get('target');
     const $target = $(target);
     const $popover = this.$();
     const _showOn = this.get('_showOn');
+    const _hideOn = this.get('_hideOn');
 
-    if (event === 'none') {
-      return;
-    }
+    $target.add($popover).off(`${_showOn} mouseover ${_hideOn} mouseout click`);
 
-    if (_showOn === 'mouseenter') {
+    $(document).off(`click.${target}`);
 
-      const _hideOn = this.get('_hideOn');
-
-      $target.add($popover).off('mouseover click');
-
-      $target.add($popover).off('mouseout');
-
-      $target.off(_showOn);
-
-      $target.off(_hideOn);
-
-      $popover.off(_hideOn);
-
-    } else if (_showOn === 'click') {
-
-      $(document).off(`click.${target}`);
-
-      $target.off('click');
-
-    }
-
-  },
-  hideIfIsMouseOutside() {
-    if (!this.get('_isMouseInside')) {
-      this.hide();
-    }
-  },
-  hideAfterDelayIfIsMouseOutside() {
-    run.later(() => {
-      this.hideIfIsMouseOutside();
-    }, +this.get('hideDelay'));
   },
   actions: {
     hide() {
       this.hide();
-      this.set('_isMouseInside', false);
     }
   },
 
