@@ -15,12 +15,41 @@ test('Popover with click toggle', function(assert) {
 
   this.render(hbs`{{popover-on-element event="click"}}`);
 
+  assertHide(assert, this);
+
+  run(() => {
+    this.$().trigger('click');
+  });
+
+  assertShow(assert, this);
+
+  run(() => {
+    this.$().trigger('click');
+  });
+
+  assertHide(assert, this);
+
+});
+
+test('Popover: click target, click popover, click target', function(assert) {
+
+  // assert.expect(4);
+
+  this.render(hbs`{{popover-on-element event="click"}}`);
+
   const $target = this.$();
+  const $popover = $target.find('.ember-popover');
 
   assertHide(assert, this);
 
   run(() => {
     $target.trigger('click');
+  });
+
+  assertShow(assert, this);
+
+  run(() => {
+    $popover.trigger('click');
   });
 
   assertShow(assert, this);
@@ -33,14 +62,49 @@ test('Popover with click toggle', function(assert) {
 
 });
 
-test('Popover with click on popover and focusout', function(assert) {
+test('Popover: hover/click target, hover/click popover, hover/click target', function(assert) {
+
+  // assert.expect(4);
+
+  this.render(hbs`{{popover-on-element event="click"}}`);
+
+  const $target = this.$();
+  const $popover = $target.find('.ember-popover');
+
+  assertHide(assert, this);
+
+  run(() => {
+    $target.trigger('mouseover');
+    $target.trigger('click');
+  });
+
+  assertShow(assert, this);
+
+  run(() => {
+    $target.trigger('mouseout');
+    $popover.trigger('mouseover');
+    $popover.trigger('click');
+  });
+
+  assertShow(assert, this);
+
+  run(() => {
+    $popover.trigger('mouseout');
+    $target.trigger('mouseover');
+    $target.trigger('click');
+  });
+
+  assertHide(assert, this);
+
+});
+
+test('Popover: click target, click popover, click elsewhere', function(assert) {
 
   assert.expect(4);
 
-  this.render(hbs`
-    {{popover-on-element event="click"}}
-  `);
+  this.render(hbs`{{popover-on-element event="click"}}`);
 
+  const done = assert.async();
   const $target = this.$();
   const $popover = $target.find('.ember-popover');
 
@@ -65,6 +129,10 @@ test('Popover with click on popover and focusout', function(assert) {
     $popover.trigger('focusout');
   });
 
-  assertHide(assert, this);
+  run.later(() => {
+    assertHide(assert, this);
+    done();
+  }, 50);
+
 
 });
