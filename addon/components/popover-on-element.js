@@ -22,15 +22,15 @@ export default TooltipAndPopoverComponent.extend({
       return;
     }
 
-    // we must use mouseover, which correctly
-    // registers hover interactivity when spacing=0
-    $target.add($popover).on('mouseover click', () => this.set('_isMouseInside', true));
-    $target.add($popover).on('mouseout', () => this.set('_isMouseInside', false));
-
     const _showOn = this.get('_showOn');
     const _hideOn = this.get('_hideOn');
 
     if (_showOn === 'mouseenter') {
+
+      // we must use mouseover, which correctly
+      // registers hover interactivity when spacing=0
+      $target.add($popover).on('mouseover click', () => this.set('_isMouseInside', true));
+      $target.add($popover).on('mouseout', () => this.set('_isMouseInside', false));
 
       $target.on(_showOn, () => this.show());
 
@@ -40,23 +40,26 @@ export default TooltipAndPopoverComponent.extend({
 
     } else if (_showOn === 'click') {
 
-      $target.on(_showOn, (event) => {
+      $(document).on('click', (event) => {
+        // this lightweight document.click handler is necessary to determine
+        // if a click is NOT on $target and NOT an ancestor of $target.
+        // If so then it must be a click elsewhere and should close the popover
+        // see... https://css-tricks.com/dangers-stopping-event-propagation/
+        let $clickedElement = event.target;
+        if (this.get('tooltipIsVisible') &&
+            $target[0] !== $clickedElement &&
+            !$target.find($clickedElement).length) {
+          this.hide();
+        }
+      });
+
+      $target.on('click', (event) => {
         /* $target.on('click') is called when the $popover is clicked because the $popover
         is contained within the $target. This will ignores those types of clicks. */
         if ($target[0] !== event.target) {
           return;
         }
-
         this.toggle();
-      });
-
-      $target.on('focusout', () => {
-        // this must be run.later(..., 1) because we must allow time
-        // for the all of the _isMouseInside events to be recorded
-        run.later(() => {
-          this.hideIfIsMouseOutside();
-        }, 1);
-
       });
 
     }
