@@ -9,13 +9,11 @@ moduleForComponent('popover-on-element', 'Integration | Option | event', {
   integration: true
 });
 
-test('Popover with hover visible with long delay', function(assert) {
+test('Popover: hover target, hover elsewhere', function(assert) {
+
+  this.render(hbs`{{popover-on-element event="hover" hideDelay="250"}}`);
 
   const done = assert.async();
-  const HIDE_DELAY = 500;
-
-  this.render(hbs`{{popover-on-element hideDelay="500"}}`);
-
   const $target = this.$();
 
   assertHide(assert, this);
@@ -30,40 +28,70 @@ test('Popover with hover visible with long delay', function(assert) {
     $target.trigger('mouseleave');
   });
 
-  run.later(() => {
-    assertShow(assert, this);
-  }, HIDE_DELAY - 100);
+  assertShow(assert, this);
 
   run.later(() => {
     assertHide(assert, this);
     done();
-  }, HIDE_DELAY + 100);
+  }, 300);
+
+  assert.expect(4);
 
 });
 
-test('Popover with hover shown with interaction', function(assert) {
+test('Popover: hover target, hover popover (too slow)', function(assert) {
+
+  this.render(hbs`{{popover-on-element event="hover" hideDelay="250"}}`);
+
+  const done = assert.async();
+  const $target = this.$();
+  const $popover = $target.find('.ember-popover');
+
+  assertHide(assert, this);
+
+  run(() => {
+    $target.trigger('mouseover');
+  });
+
+  assertShow(assert, this);
+
+  run(() => {
+    $target.trigger('mouseleave');
+  });
+
+  run.later(() => {
+    $popover.trigger('mouseover');
+    // hideDelay is 250, it took the 'user' 300 to mouseover the popover
+  }, 300);
+
+  run.later(() => {
+    assertHide(assert, this);
+    done();
+  }, 300);
+
+  assert.expect(3);
+
+});
+
+test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', function(assert) {
   /*
     Timeline: the popover should only hide if neither elements
-    have been moused-over within the 250ms default hideDelay
+    have been moused-over within the 250ms hideDelay
     0 hidden
     0 target.mouseover
     0 shown
     0 target.mouseleave
     0 shown
     100 popover.mouseover
-    100 shown
-    350 shown
-    400 popover.mouseleave
+    200 shown
+    300 popover.mouseleave
     400 shown
-    750 hidden
+    1000 hidden
   */
 
+  this.render(hbs`{{popover-on-element event="hover" hideDelay="250"}}`);
+
   const done = assert.async();
-
-  assert.expect(7);
-
-  this.render(hbs`{{popover-on-element}}`);
-
   const $target = this.$();
   const $popover = $target.find('.ember-popover');
 
@@ -85,21 +113,23 @@ test('Popover with hover shown with interaction', function(assert) {
     $popover.trigger('mouseover');
   }, 100);
 
-  assertShow(assert, this);
-
   run.later(() => {
     assertShow(assert, this);
-  }, 350);
+  }, 200);
 
   run.later(() => {
     $popover.trigger('mouseleave');
-  }, 400);
+  }, 300);
 
-  assertShow(assert, this);
+  run.later(() => {
+    assertShow(assert, this);
+  }, 400);
 
   run.later(() => {
     assertHide(assert, this);
     done();
-  }, 750);
+  }, 1000);
+
+  assert.expect(6);
 
 });

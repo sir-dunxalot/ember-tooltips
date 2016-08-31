@@ -9,18 +9,18 @@ moduleForComponent('popover-on-component', 'Integration | Option | event', {
   integration: true
 });
 
-test('Popover does not show with none', function(assert) {
-
-  assert.expect(4);
+test('Popover: never shows with none', function(assert) {
 
   this.render(hbs`{{popover-on-component event='none'}}`);
+
+  const $target = this.$();
 
   assertHide(assert, this);
 
   /* Check focus */
 
   run(() => {
-    this.$().trigger('focus');
+    $target.trigger('focus');
   });
 
   assertHide(assert, this);
@@ -28,7 +28,7 @@ test('Popover does not show with none', function(assert) {
   /* Check hover */
 
   run(this, () => {
-    this.$().trigger('mouseover');
+    $target.trigger('mouseover');
   });
 
   assertHide(assert, this);
@@ -36,9 +36,11 @@ test('Popover does not show with none', function(assert) {
   /* Check click */
 
   run(this, () => {
-    this.$().click();
+    $target.click();
   });
 
   assertHide(assert, this);
+
+  assert.expect(4);
 
 });

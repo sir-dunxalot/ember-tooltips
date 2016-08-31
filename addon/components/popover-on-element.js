@@ -52,10 +52,12 @@ export default TooltipAndPopoverComponent.extend({
         // if a click is NOT on $target and NOT an ancestor of $target.
         // If so then it must be a click elsewhere and should close the popover
         // see... https://css-tricks.com/dangers-stopping-event-propagation/
-        let $clickedElement = event.target;
-        if (this.get('tooltipIsVisible') &&
-            $target[0] !== $clickedElement &&
-            !$target.find($clickedElement).length) {
+        const $clickedElement = event.target;
+        const isClickOutsideTarget = $target[0] !== $clickedElement;
+        const isClickOutsidePopover = !$target.find($clickedElement).length;
+        const tooltipIsVisible = this.get('tooltipIsVisible');
+
+        if (isClickOutsideTarget && isClickOutsidePopover && tooltipIsVisible) {
           this.hide();
         }
       });
@@ -63,40 +65,12 @@ export default TooltipAndPopoverComponent.extend({
       $target.on('click', (event) => {
         // $target.on('click') is called when the $popover is clicked because the $popover
         // is contained within the $target. This will ignores those types of clicks.
-        // It will also ignore if the lastEventType was focus.
-        // This is necessary because focus occurs before click, thereby flickering the popover
-        if ($target[0] !== event.target || lastEventType === 'focus') {
-          lastEventType = event.type;
+        if ($target[0] !== event.target) {
           return;
         }
         this.toggle();
       });
-
     }
-
-    // always allow focus and blur to show/hide the popover
-    // for accessibility and mobile interaction
-
-    let lastEventType;
-
-    $target.on('focus', (event) => {
-      lastEventType = event.type;
-      this.show();
-    });
-
-    // only hide() if the new focused element is outside of the popover
-    // this adds a blur listener to each descendant within $target
-    $target.on('blur', '*', () => {
-
-      run.later(() => {
-        const isFocusedElementElsewhere = !$popover.find(':focus').length;
-        if (isFocusedElementElsewhere) {
-          this.hide();
-        }
-      }, 1);
-
-    });
-
   },
   willDestroyElement() {
     this._super(...arguments);

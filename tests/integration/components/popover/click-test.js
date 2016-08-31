@@ -9,7 +9,7 @@ moduleForComponent('popover-on-element', 'Integration | Option | event', {
   integration: true
 });
 
-test('Popover: click target toggle', function(assert) {
+test('Popover: click target, click target', function(assert) {
 
   assert.expect(3);
 
@@ -58,6 +58,38 @@ test('Popover: click target, click popover, click target', function(assert) {
 
   run(() => {
     $target.trigger('click');
+  });
+
+  assertHide(assert, this);
+
+});
+
+test('Popover: click target, click elsewhere', function(assert) {
+
+  assert.expect(3);
+
+  this.render(hbs`
+    <div class="elsewhere">
+      <div class="target">
+        click here for popover
+        {{popover-on-element event="click"}}
+      </div>
+    </div>
+  `);
+
+  const $elsewhere = this.$('.elsewhere');
+  const $target = this.$('.target');
+
+  assertHide(assert, this);
+
+  run(() => {
+    $target.trigger('click');
+  });
+
+  assertShow(assert, this);
+
+  run(() => {
+    $elsewhere.trigger('click');
   });
 
   assertHide(assert, this);
