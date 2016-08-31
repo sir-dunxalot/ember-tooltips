@@ -24,7 +24,7 @@ export default TooltipAndPopoverComponent.extend({
       return;
     }
 
-    if (_showOn === 'mouseenter') {
+    if (event === 'hover') {
 
       const _hideOn = this.get('_hideOn');
 
@@ -45,7 +45,7 @@ export default TooltipAndPopoverComponent.extend({
         }, +this.get('hideDelay'));
       });
 
-    } else if (_showOn === 'click') {
+    } else if (event === 'click') {
 
       $(document).on(`click.${target}`, (event) => {
         // this lightweight, namespaced click handler is necessary to determine
@@ -61,15 +61,42 @@ export default TooltipAndPopoverComponent.extend({
       });
 
       $target.on('click', (event) => {
-        /* $target.on('click') is called when the $popover is clicked because the $popover
-        is contained within the $target. This will ignores those types of clicks. */
-        if ($target[0] !== event.target) {
+        // $target.on('click') is called when the $popover is clicked because the $popover
+        // is contained within the $target. This will ignores those types of clicks.
+        // It will also ignore if the lastEventType was focus.
+        // This is necessary because focus occurs before click, thereby flickering the popover
+        if ($target[0] !== event.target || lastEventType === 'focus') {
+          lastEventType = event.type;
           return;
         }
         this.toggle();
       });
 
     }
+
+    // always allow focus and blur to show/hide the popover
+    // for accessibility and mobile interaction
+
+    let lastEventType;
+
+    $target.on('focus', (event) => {
+      lastEventType = event.type;
+      this.show();
+    });
+
+    // only hide() if the new focused element is outside of the popover
+    // this adds a blur listener to each descendant within $target
+    $target.on('blur', '*', () => {
+
+      run.later(() => {
+        const isFocusedElementElsewhere = !$popover.find(':focus').length;
+        if (isFocusedElementElsewhere) {
+          this.hide();
+        }
+      }, 1);
+
+    });
+
   },
   willDestroyElement() {
     this._super(...arguments);
