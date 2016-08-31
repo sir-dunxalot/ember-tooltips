@@ -15,17 +15,18 @@ export default TooltipAndPopoverComponent.extend({
     this._super(...arguments);
 
     const event = this.get('event');
-    const $target = $(this.get('target'));
+    const target = this.get('target');
+    const $target = $(target);
     const $popover = this.$();
+    const _showOn = this.get('_showOn');
 
     if (event === 'none') {
       return;
     }
 
-    const _showOn = this.get('_showOn');
-    const _hideOn = this.get('_hideOn');
-
     if (_showOn === 'mouseenter') {
+
+      const _hideOn = this.get('_hideOn');
 
       // we must use mouseover, which correctly
       // registers hover interactivity when spacing=0
@@ -40,8 +41,8 @@ export default TooltipAndPopoverComponent.extend({
 
     } else if (_showOn === 'click') {
 
-      $(document).on('click', (event) => {
-        // this lightweight document.click handler is necessary to determine
+      $(document).on(`click.${target}`, (event) => {
+        // this lightweight, namespaced click handler is necessary to determine
         // if a click is NOT on $target and NOT an ancestor of $target.
         // If so then it must be a click elsewhere and should close the popover
         // see... https://css-tricks.com/dangers-stopping-event-propagation/
@@ -63,6 +64,42 @@ export default TooltipAndPopoverComponent.extend({
       });
 
     }
+  },
+  willDestroyElement() {
+    this._super(...arguments);
+
+    const event = this.get('event');
+    const target = this.get('target');
+    const $target = $(target);
+    const $popover = this.$();
+    const _showOn = this.get('_showOn');
+
+    if (event === 'none') {
+      return;
+    }
+
+    if (_showOn === 'mouseenter') {
+
+      const _hideOn = this.get('_hideOn');
+
+      $target.add($popover).off('mouseover click');
+
+      $target.add($popover).off('mouseout');
+
+      $target.off(_showOn);
+
+      $target.off(_hideOn);
+
+      $popover.off(_hideOn);
+
+    } else if (_showOn === 'click') {
+
+      $(document).off(`click.${target}`);
+
+      $target.off('click');
+
+    }
+
   },
   hideIfIsMouseOutside() {
     if (!this.get('_isMouseInside')) {
