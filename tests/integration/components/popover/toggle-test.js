@@ -57,36 +57,5 @@ test('Popover toggles with click', function(assert) {
 
 });
 
-test('Popover does not show with none', function(assert) {
-
-  assert.expect(4);
-
-  this.render(hbs`{{popover-on-component event='none'}}`);
-
-  assertHide(assert, this);
-
-  /* Check focus */
-
-  run(() => {
-    this.$().trigger('focus');
-  });
-
-  assertHide(assert, this);
-
-  /* Check hover */
-
-  run(this, () => {
-    this.$().trigger('mouseover');
-  });
-
-  assertHide(assert, this);
-
-  /* Check click */
-
-  run(this, () => {
-    this.$().click();
-  });
-
-  assertHide(assert, this);
-
-});
+// TODO Popover toggles with focus
+// TODO create a focus-test.js and focus interactivity
