@@ -77,8 +77,9 @@ test('Popover: click target, click elsewhere', function(assert) {
     </div>
   `);
 
-  const $elsewhere = this.$('.elsewhere');
+  const done = assert.async();
   const $target = this.$('.target');
+  const $elsewhere = $('.elsewhere');
 
   assertHide(assert, this);
 
@@ -92,7 +93,11 @@ test('Popover: click target, click elsewhere', function(assert) {
     $elsewhere.trigger('click');
   });
 
-  assertHide(assert, this);
+  run.later(() => {
+    assertHide(assert, this);
+    done();
+  }, 100);
+
 
 });
 
@@ -132,5 +137,4 @@ test('Popover: click target, click popover, click elsewhere', function(assert) {
   });
 
   assertHide(assert, this);
-
 });
