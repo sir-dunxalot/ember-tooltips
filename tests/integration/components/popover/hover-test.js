@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('popover-on-element', 'Integration | Option | event', {
+moduleForComponent('popover-on-element', 'Integration | Option | hover', {
   integration: true
 });
 
@@ -61,13 +61,13 @@ test('Popover: hover target, hover popover (too slow)', function(assert) {
 
   run.later(() => {
     $popover.trigger('mouseover');
-    // hideDelay is 250, it took the 'user' 300 to mouseover the popover
-  }, 300);
+    // hideDelay is 250ms, it took the 'user' 500ms to mouseover the popover
+  }, 500);
 
   run.later(() => {
     assertHide(assert, this);
     done();
-  }, 300);
+  }, 500);
 
   assert.expect(3);
 

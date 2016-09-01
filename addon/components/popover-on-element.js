@@ -18,20 +18,15 @@ export default TooltipAndPopoverComponent.extend({
     const target = this.get('target');
     const $target = $(target);
     const $popover = this.$();
-    const _showOn = this.get('_showOn');
 
     if (event === 'none') {
+
       return;
-    }
 
-    if (event === 'hover') {
+    } else if (event === 'hover') {
 
+      const _showOn = this.get('_showOn');
       const _hideOn = this.get('_hideOn');
-
-      // we must use mouseover/mouseout because they correctly
-      // register hover interactivity when spacing='0'
-      $target.add($popover).on('mouseover', () => this.set('_isMouseInside', true));
-      $target.add($popover).on('mouseout', () => this.set('_isMouseInside', false));
 
       // _showOn == 'mouseenter'
       $target.on(_showOn, () => this.show());
@@ -45,10 +40,15 @@ export default TooltipAndPopoverComponent.extend({
         }, +this.get('hideDelay'));
       });
 
+      // we must use mouseover/mouseout because they correctly
+      // register hover interactivity when spacing='0'
+      $target.add($popover).on('mouseover', () => this.set('_isMouseInside', true));
+      $target.add($popover).on('mouseout', () => this.set('_isMouseInside', false));
+
     } else if (event === 'click') {
 
       $(document).on(`click.${target}`, (event) => {
-        // this lightweight, namespaced click handler is necessary to determine
+        // this lightweight, name-spaced click handler is necessary to determine
         // if a click is NOT on $target and NOT an ancestor of $target.
         // If so then it must be a click elsewhere and should close the popover
         // see... https://css-tricks.com/dangers-stopping-event-propagation/

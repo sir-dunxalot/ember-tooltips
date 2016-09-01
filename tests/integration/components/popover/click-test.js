@@ -5,13 +5,11 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('popover-on-element', 'Integration | Option | event', {
+moduleForComponent('popover-on-element', 'Integration | Option | click', {
   integration: true
 });
 
 test('Popover: click target, click target', function(assert) {
-
-  assert.expect(3);
 
   this.render(hbs`{{popover-on-element event="click"}}`);
 
@@ -31,11 +29,11 @@ test('Popover: click target, click target', function(assert) {
 
   assertHide(assert, this);
 
+  assert.expect(3);
+
 });
 
 test('Popover: click target, click popover, click target', function(assert) {
-
-  assert.expect(4);
 
   this.render(hbs`{{popover-on-element event="click"}}`);
 
@@ -62,22 +60,20 @@ test('Popover: click target, click popover, click target', function(assert) {
 
   assertHide(assert, this);
 
+  assert.expect(4);
+
 });
 
 test('Popover: click target, click elsewhere', function(assert) {
 
-  assert.expect(3);
-
   this.render(hbs`
     <div class="elsewhere">
       <div class="target">
-        click here for popover
         {{popover-on-element event="click"}}
       </div>
     </div>
   `);
 
-  const done = assert.async();
   const $target = this.$('.target');
   const $elsewhere = $('.elsewhere');
 
@@ -93,22 +89,17 @@ test('Popover: click target, click elsewhere', function(assert) {
     $elsewhere.trigger('click');
   });
 
-  run.later(() => {
-    assertHide(assert, this);
-    done();
-  }, 100);
+  assertHide(assert, this);
 
+  assert.expect(3);
 
 });
 
 test('Popover: click target, click popover, click elsewhere', function(assert) {
 
-  assert.expect(4);
-
   this.render(hbs`
     <div class="elsewhere">
       <div class="target">
-        click here for popover
         {{popover-on-element event="click"}}
       </div>
     </div>
@@ -137,4 +128,7 @@ test('Popover: click target, click popover, click elsewhere', function(assert) {
   });
 
   assertHide(assert, this);
+
+  assert.expect(4);
+
 });
