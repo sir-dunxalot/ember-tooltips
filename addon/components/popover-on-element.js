@@ -52,9 +52,9 @@ export default TooltipAndPopoverComponent.extend({
         // if a click is NOT on $target and NOT an ancestor of $target.
         // If so then it must be a click elsewhere and should close the popover
         // see... https://css-tricks.com/dangers-stopping-event-propagation/
-        const $clickedElement = event.target;
-        const isClickOutsideTarget = $target[0] !== $clickedElement;
-        const isClickOutsidePopover = !$target.find($clickedElement).length;
+        const clickedElement = event.target;
+        const isClickOutsideTarget = $target[0] !== clickedElement;
+        const isClickOutsidePopover = !$target.find(clickedElement).length;
         const tooltipIsVisible = this.get('tooltipIsVisible');
 
         if (isClickOutsideTarget && isClickOutsidePopover && tooltipIsVisible) {
