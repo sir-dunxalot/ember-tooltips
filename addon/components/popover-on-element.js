@@ -62,15 +62,33 @@ export default TooltipAndPopoverComponent.extend({
         }
       });
 
-      $target.on('click', (event) => {
-        // $target.on('click') is called when the $popover is clicked because the $popover
-        // is contained within the $target. This will ignores those types of clicks.
-        if ($target[0] !== event.target) {
+      // we use mousedown because it occurs before the focus event
+      $target.on('mousedown', (event) => {
+        // $target.on('mousedown') is called when the $popover is
+        // clicked because the $popover is contained within the $target.
+        // This will ignores those types of clicks.
+        if ($popover[0] === event.target || $popover.find(event.target).length) {
           return;
         }
         this.toggle();
       });
     }
+
+    $target.on('focus', () => this.show());
+
+    $popover.on('focusout', () => {
+      // use a run.later() to allow the 'focusout' event to finish handling
+      run.later(() => {
+        const focusedElement = document.activeElement;
+        const isFocusedElementTarget = focusedElement === $target[0];
+        const isFocusedElementPopover = focusedElement === $popover[0];
+        const isFocusedElementInPopover = !!$popover.find(focusedElement).length;
+        if (isFocusedElementTarget || isFocusedElementPopover || isFocusedElementInPopover) {
+          return;
+        }
+        this.hide();
+      });
+    });
   },
   willDestroyElement() {
     this._super(...arguments);
@@ -81,7 +99,7 @@ export default TooltipAndPopoverComponent.extend({
     const _showOn = this.get('_showOn');
     const _hideOn = this.get('_hideOn');
 
-    $target.add($popover).off(`${_showOn} mouseover ${_hideOn} mouseout click`);
+    $target.add($popover).off(`${_showOn} mouseover ${_hideOn} mouseout mousedown focus focusout`);
 
     $(document).off(`click.${target}`);
 

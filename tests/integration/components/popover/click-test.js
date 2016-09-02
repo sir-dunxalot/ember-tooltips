@@ -18,13 +18,15 @@ test('Popover: click target, click target', function(assert) {
   assertHide(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertShow(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertHide(assert, this);
@@ -43,7 +45,8 @@ test('Popover: click target, click popover, click target', function(assert) {
   assertHide(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertShow(assert, this);
@@ -55,7 +58,8 @@ test('Popover: click target, click popover, click target', function(assert) {
   assertShow(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertHide(assert, this);
@@ -80,7 +84,8 @@ test('Popover: click target, click elsewhere', function(assert) {
   assertHide(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertShow(assert, this);
@@ -112,7 +117,8 @@ test('Popover: click target, click popover, click elsewhere', function(assert) {
   assertHide(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertShow(assert, this);

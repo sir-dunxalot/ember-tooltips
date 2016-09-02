@@ -23,7 +23,8 @@ test('Popover: click target, click hideAction', function(assert) {
   assertHide(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertShow(assert, this);
@@ -52,7 +53,8 @@ test('Popover: click target, click hideAction, click target', function(assert) {
   assertHide(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertShow(assert, this);
@@ -64,7 +66,8 @@ test('Popover: click target, click hideAction, click target', function(assert) {
   assertHide(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertShow(assert, this);
@@ -74,8 +77,6 @@ test('Popover: click target, click hideAction, click target', function(assert) {
 });
 
 test('Popover: click target, click popover, click hideAction, click target', function(assert) {
-  // we should keep the run.later and .blur to future proof
-  // against to-be-developed 'focus' accessibility events production
 
   this.render(hbs`
     {{#popover-on-element event="click" as |popover|}}
@@ -83,7 +84,6 @@ test('Popover: click target, click popover, click hideAction, click target', fun
     {{/popover-on-element}}
   `);
 
-  const done = assert.async();
   const $target = this.$();
   const $popover = $target.find('.ember-popover');
   const $hideAction = $target.find('.hideAction');
@@ -91,7 +91,8 @@ test('Popover: click target, click popover, click hideAction, click target', fun
   assertHide(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertShow(assert, this);
@@ -104,19 +105,16 @@ test('Popover: click target, click popover, click hideAction, click target', fun
 
   run(() => {
     $hideAction.trigger('click');
-    $hideAction.trigger('blur');
   });
 
   assertHide(assert, this);
 
   run(() => {
-    $target.trigger('click');
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
-  run.later(() => {
-    assertShow(assert, this);
-    done();
-  }, 10);
+  assertShow(assert, this);
 
   assert.expect(5);
 

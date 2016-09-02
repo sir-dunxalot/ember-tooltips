@@ -36,7 +36,8 @@ test('Popover: never shows with none', function(assert) {
   /* Check click */
 
   run(this, () => {
-    $target.click();
+    $target.trigger('mousedown');
+    $target.trigger('mouseup');
   });
 
   assertHide(assert, this);
