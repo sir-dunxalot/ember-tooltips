@@ -25,24 +25,42 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | side and keep
   integration: true
 });
 
-test('It shows with showOn', function(assert) {
+/* Test the positions without forcing the tooltip
+to stay in the window. */
 
-  assert.expect(4);
+test('It shows with showOn top', function(assert) {
 
-  /* Test the positions without forcing the tooltip
-  to stay in the window. */
+  assert.expect(1);
 
   this.render(hbs`{{tooltip-on-component side='top' keepInWindow=false}}`);
 
   assertPosition(assert, this, 'top');
 
+});
+
+test('It shows with showOn right', function(assert) {
+
+  assert.expect(1);
+
   this.render(hbs`{{tooltip-on-component side='right' keepInWindow=false}}`);
 
   assertPosition(assert, this, 'right');
 
+});
+
+test('It shows with showOn bottom', function(assert) {
+
+  assert.expect(1);
+
   this.render(hbs`{{tooltip-on-component side='bottom' keepInWindow=false}}`);
 
   assertPosition(assert, this, 'bottom');
+
+});
+
+test('It shows with showOn left', function(assert) {
+
+  assert.expect(1);
 
   this.render(hbs`{{tooltip-on-component side='left' keepInWindow=false}}`);
 
