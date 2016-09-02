@@ -24,15 +24,21 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | spacing', {
   integration: true
 });
 
-test('It shows with showOn', function(assert) {
+test('It shows with showOn spacing=default', function(assert) {
 
-  assert.expect(2);
+  assert.expect(1);
 
   /* Check the default spacing */
 
   this.render(hbs`{{tooltip-on-component}}`);
 
   assertSpacing(assert, this, 10);
+
+});
+
+test('It shows with showOn spacing=default', function(assert) {
+
+  assert.expect(1);
 
   /* Check custom spacing */
 
