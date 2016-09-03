@@ -337,10 +337,10 @@ Four actions are available for you to hook onto through the tooltip lifecycle:
 
 ```hbs
 {{tooltip-on-component
-  onTooltipDestroy='onTooltipDestroy'
-  onTooltipHide='onTooltipHide'
-  onTooltipRender='onTooltipRender'
-  onTooltipShow='onTooltipShow'
+  onDestroy='onDestroy'
+  onHide='onHide'
+  onRender='onRender'
+  onShow='onShow'
 }}
 ```
 

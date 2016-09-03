@@ -57,10 +57,10 @@ export default EmberTetherComponent.extend({
 
   /* Actions */
 
-  onTooltipDestroy: null,
-  onTooltipHide: null,
-  onTooltipRender: null,
-  onTooltipShow: null,
+  onDestroy: null,
+  onHide: null,
+  onRender: null,
+  onShow: null,
 
   /* Properties */
 
@@ -219,7 +219,7 @@ export default EmberTetherComponent.extend({
     run.cancel(this.get('_showTimer'));
 
     this.set('isShown', false);
-    this.sendAction('onTooltipHide', this);
+    this.sendAction('onHide', this);
   },
 
   didInsertElement() {
@@ -235,7 +235,7 @@ export default EmberTetherComponent.extend({
     const _tether = this.get('_tether');
     const $_tether = $(_tether.element);
 
-    this.sendAction('onTooltipRender', this);
+    this.sendAction('onRender', this);
 
     $target.attr({
       'aria-describedby': `${this.get('elementId')}`,
@@ -303,7 +303,7 @@ export default EmberTetherComponent.extend({
 
     run.later(() => {
       this.positionTether();
-      this.sendAction('onTooltipRender', this);
+      this.sendAction('onRender', this);
     }, this.get('_didUpdateTimeoutLength'));
   },
 
@@ -380,7 +380,7 @@ export default EmberTetherComponent.extend({
       this.set('isShown', true);
     }
 
-    this.sendAction('onTooltipShow', this);
+    this.sendAction('onShow', this);
   },
 
   toggle() {
@@ -407,7 +407,7 @@ export default EmberTetherComponent.extend({
 
     this._super(...arguments); // Removes tether
 
-    this.sendAction('onTooltipDestroy', this);
+    this.sendAction('onDestroy', this);
   },
 
 });
