@@ -5,7 +5,7 @@ const { $, computed, run } = Ember;
 
 const defaultPosition = 'center';
 
-let tooltipCounterId = 0;
+let tooltipOrPopoverCounterId = 0;
 
 function cleanNumber(stringOrNumber) {
   let cleanNumber;
@@ -144,9 +144,9 @@ export default EmberTetherComponent.extend({
     let parentElementId = parentElement.attr('id');
 
     if (!parentElementId) {
-      parentElementId = `target-for-tooltip-${tooltipCounterId}`;
+      parentElementId = `target-for-tooltip-or-popover-${tooltipOrPopoverCounterId}`;
 
-      tooltipCounterId++;
+      tooltipOrPopoverCounterId++;
 
       parentElement.attr('id', parentElementId);
     }
