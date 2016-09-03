@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide } from '../../../helpers/sync/assert-visibility';
+import { assertPopoverHide } from '../../../helpers/sync/assert-visibility';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -15,7 +15,7 @@ test('Popover: never shows with none', function(assert) {
 
   const $target = this.$();
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   /* Check focus */
 
@@ -23,7 +23,7 @@ test('Popover: never shows with none', function(assert) {
     $target.trigger('focus');
   });
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   /* Check hover */
 
@@ -31,7 +31,7 @@ test('Popover: never shows with none', function(assert) {
     $target.trigger('mouseover');
   });
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   /* Check click */
 
@@ -40,7 +40,7 @@ test('Popover: never shows with none', function(assert) {
     $target.trigger('mouseup');
   });
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   assert.expect(4);
 

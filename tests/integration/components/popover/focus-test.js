@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow } from '../../../helpers/sync/assert-visibility';
+import { assertPopoverHide, assertPopoverShow } from '../../../helpers/sync/assert-visibility';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -23,19 +23,19 @@ test('Popover: target focus, popover focus, elsewhere focus', function(assert) {
 	const $popover = $target.find('.ember-popover');
 	const $elsewhere = $('.elsewhere');
 
-	assertHide(assert, this);
+	assertPopoverHide(assert, this);
 
 	run(() => {
 		$target.trigger('focus');
 	});
 
-	assertShow(assert, this);
+	assertPopoverShow(assert, this);
 
 	run(() => {
 		$popover.trigger('focus');
 	});
 
-	assertShow(assert, this);
+	assertPopoverShow(assert, this);
 
 	run(() => {
 		$popover.trigger('focusout');
@@ -43,7 +43,7 @@ test('Popover: target focus, popover focus, elsewhere focus', function(assert) {
 	});
 
 	run.later(() => {
-		assertHide(assert, this);
+		assertPopoverHide(assert, this);
 		done();
 	}, 10);
 
@@ -67,25 +67,25 @@ test('Popover: target focus, targetInterior focus, popover focus, elsewhere focu
 	const $popover = $target.find('.ember-popover');
 	const $elsewhere = $('.elsewhere');
 
-	assertHide(assert, this);
+	assertPopoverHide(assert, this);
 
 	run(() => {
 		$target.trigger('focus');
 	});
 
-	assertShow(assert, this);
+	assertPopoverShow(assert, this);
 
 	run(() => {
 		$targetInterior.trigger('focus');
 	});
 
-	assertShow(assert, this);
+	assertPopoverShow(assert, this);
 
 	run(() => {
 		$popover.trigger('focus');
 	});
 
-	assertShow(assert, this);
+	assertPopoverShow(assert, this);
 
 	run(() => {
 		$popover.trigger('focusout');
@@ -93,7 +93,7 @@ test('Popover: target focus, targetInterior focus, popover focus, elsewhere focu
 	});
 
 	run.later(() => {
-		assertHide(assert, this);
+		assertPopoverHide(assert, this);
 		done();
 	}, 10);
 
@@ -118,32 +118,32 @@ test('Popover: target focus, popover focus, popoverInterior focus, elsewhere foc
 	const $popoverInterior = $target.find('.popover-interior');
 	const $elsewhere = $('.elsewhere');
 
-	assertHide(assert, this);
+	assertPopoverHide(assert, this);
 
 	run(() => {
 		$target.trigger('focus');
 	});
 
-	assertShow(assert, this);
+	assertPopoverShow(assert, this);
 
 	run(() => {
 		$popover.trigger('focus');
 	});
 
-	assertShow(assert, this);
+	assertPopoverShow(assert, this);
 
 	run(() => {
 		$popoverInterior.trigger('focus');
 	});
 
-	assertShow(assert, this);
+	assertPopoverShow(assert, this);
 
 	run(() => {
 		$elsewhere.trigger('focus');
 	});
 
 	run.later(() => {
-		assertHide(assert, this);
+		assertPopoverHide(assert, this);
 		done();
 	}, 10);
 

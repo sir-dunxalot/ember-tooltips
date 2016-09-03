@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow } from '../../../helpers/sync/assert-visibility';
+import { assertPopoverHide, assertPopoverShow } from '../../../helpers/sync/assert-visibility';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -20,20 +20,20 @@ test('Popover: click target, click hideAction', function(assert) {
   const $target = this.$();
   const $hideAction = $target.find('.hideAction');
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   run(() => {
     $target.trigger('mousedown');
     $target.trigger('mouseup');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   run(() => {
     $hideAction.trigger('click');
   });
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   assert.expect(3);
 
@@ -50,27 +50,27 @@ test('Popover: click target, click hideAction, click target', function(assert) {
   const $target = this.$();
   const $hideAction = $target.find('.hideAction');
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   run(() => {
     $target.trigger('mousedown');
     $target.trigger('mouseup');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   run(() => {
     $hideAction.trigger('click');
   });
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   run(() => {
     $target.trigger('mousedown');
     $target.trigger('mouseup');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   assert.expect(4);
 
@@ -88,33 +88,33 @@ test('Popover: click target, click popover, click hideAction, click target', fun
   const $popover = $target.find('.ember-popover');
   const $hideAction = $target.find('.hideAction');
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   run(() => {
     $target.trigger('mousedown');
     $target.trigger('mouseup');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   run(() => {
     $popover.trigger('click');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   run(() => {
     $hideAction.trigger('click');
   });
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   run(() => {
     $target.trigger('mousedown');
     $target.trigger('mouseup');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   assert.expect(5);
 
