@@ -55,9 +55,9 @@ export default TooltipAndPopoverComponent.extend({
         const clickedElement = event.target;
         const isClickOutsideTarget = $target[0] !== clickedElement;
         const isClickOutsidePopover = !$target.find(clickedElement).length;
-        const tooltipIsVisible = this.get('tooltipIsVisible');
+        const isShown = this.get('isShown');
 
-        if (isClickOutsideTarget && isClickOutsidePopover && tooltipIsVisible) {
+        if (isClickOutsideTarget && isClickOutsidePopover && isShown) {
           this.hide();
         }
       });

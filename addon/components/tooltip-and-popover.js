@@ -40,7 +40,7 @@ export default EmberTetherComponent.extend({
   showOn: null,
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
-  tooltipIsVisible: false,
+  isShown: false,
   keepInWindow: true,
 
   /*
@@ -75,8 +75,8 @@ export default EmberTetherComponent.extend({
 
   /* CPs */
 
-  'aria-hidden': computed('tooltipIsVisible', function() {
-    return this.get('tooltipIsVisible') ? 'false' : 'true';
+  'aria-hidden': computed('isShown', function() {
+    return this.get('isShown') ? 'false' : 'true';
   }),
 
   attachment: computed(function() {
@@ -218,7 +218,7 @@ export default EmberTetherComponent.extend({
 
     run.cancel(this.get('_showTimer'));
 
-    this.set('tooltipIsVisible', false);
+    this.set('isShown', false);
     this.sendAction('onTooltipHide', this);
   },
 
@@ -297,16 +297,16 @@ export default EmberTetherComponent.extend({
   },
 
   /*
-  We use an observer so the user can set tooltipIsVisible
+  We use an observer so the user can set isShown
   as a attribute.
 
   @method setTimer
   */
 
-  setTimer: Ember.observer('tooltipIsVisible', function() {
-    const tooltipIsVisible = this.get('tooltipIsVisible');
+  setTimer: Ember.observer('isShown', function() {
+    const isShown = this.get('isShown');
 
-    if (tooltipIsVisible) {
+    if (isShown) {
       const duration = cleanNumber(this.get('duration'));
 
       run.cancel(this.get('_hideTimer'));
@@ -344,20 +344,20 @@ export default EmberTetherComponent.extend({
       if (!this.get('delayOnChange')) {
 
         /* If the `delayOnChange` property is set to false, we
-        don't want to delay opening this tooltip if there is
-        already a tooltip visible in the DOM. Check that here
+        don't want to delay opening this tooltip/popover if there is
+        already a tooltip/popover shown in the DOM. Check that here
         and adjust the delay as needed. */
 
-        let visibleTooltips = Ember.$(`.${this.get('classPrefix')}[aria-hidden="false"]`).length;
+        let shownTooltipsOrPopovers = Ember.$(`.${this.get('classPrefix')}[aria-hidden="false"]`).length;
 
-        if (visibleTooltips) {
+        if (shownTooltipsOrPopovers) {
           delay = 0;
         }
       }
 
       const _showTimer = run.later(this, () => {
         if (!this.get('destroying')) {
-          this.set('tooltipIsVisible', true);
+          this.set('isShown', true);
         }
       }, delay);
 
@@ -366,7 +366,7 @@ export default EmberTetherComponent.extend({
 
       /* If there is no delay, show the tooltop immediately */
 
-      this.set('tooltipIsVisible', true);
+      this.set('isShown', true);
     }
 
     this.sendAction('onTooltipShow', this);
@@ -378,7 +378,7 @@ export default EmberTetherComponent.extend({
     logic for showing and hiding in the show() and hide()
     methods. */
 
-    if (this.get('tooltipIsVisible')) {
+    if (this.get('isShown')) {
       this.hide();
     } else {
       this.show();
