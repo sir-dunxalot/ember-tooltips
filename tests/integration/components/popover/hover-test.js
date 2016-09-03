@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow } from '../../../helpers/sync/assert-visibility';
+import { assertPopoverHide, assertPopoverShow } from '../../../helpers/sync/assert-visibility';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -16,22 +16,22 @@ test('Popover: hover target, hover elsewhere', function(assert) {
   const done = assert.async();
   const $target = this.$();
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   run(() => {
     $target.trigger('mouseover');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   run(() => {
     $target.trigger('mouseleave');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   run.later(() => {
-    assertHide(assert, this);
+    assertPopoverHide(assert, this);
     done();
   }, 300);
 
@@ -47,13 +47,13 @@ test('Popover: hover target, hover popover (too slow)', function(assert) {
   const $target = this.$();
   const $popover = $target.find('.ember-popover');
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   run(() => {
     $target.trigger('mouseover');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   run(() => {
     $target.trigger('mouseleave');
@@ -65,7 +65,7 @@ test('Popover: hover target, hover popover (too slow)', function(assert) {
   }, 500);
 
   run.later(() => {
-    assertHide(assert, this);
+    assertPopoverHide(assert, this);
     done();
   }, 500);
 
@@ -95,26 +95,26 @@ test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', f
   const $target = this.$();
   const $popover = $target.find('.ember-popover');
 
-  assertHide(assert, this);
+  assertPopoverHide(assert, this);
 
   run(() => {
     $target.trigger('mouseover');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   run(() => {
     $target.trigger('mouseleave');
   });
 
-  assertShow(assert, this);
+  assertPopoverShow(assert, this);
 
   run.later(() => {
     $popover.trigger('mouseover');
   }, 100);
 
   run.later(() => {
-    assertShow(assert, this);
+    assertPopoverShow(assert, this);
   }, 200);
 
   run.later(() => {
@@ -122,11 +122,11 @@ test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', f
   }, 300);
 
   run.later(() => {
-    assertShow(assert, this);
+    assertPopoverShow(assert, this);
   }, 400);
 
   run.later(() => {
-    assertHide(assert, this);
+    assertPopoverHide(assert, this);
     done();
   }, 1000);
 
