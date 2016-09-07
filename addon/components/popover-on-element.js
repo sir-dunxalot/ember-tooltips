@@ -52,12 +52,10 @@ export default TooltipAndPopoverComponent.extend({
         // if a click is NOT on $target and NOT an ancestor of $target.
         // If so then it must be a click elsewhere and should close the popover
         // see... https://css-tricks.com/dangers-stopping-event-propagation/
-        const clickedElement = event.target;
-        const isClickOutsideTarget = $target[0] !== clickedElement;
-        const isClickOutsidePopover = !$target.find(clickedElement).length;
-        const isShown = this.get('isShown');
+        const isClickedElementElsewhere = this._isElementElsewhere(event.target);
+        const isPopoverShown = this.get('isShown');
 
-        if (isClickOutsideTarget && isClickOutsidePopover && isShown) {
+        if (isClickedElementElsewhere && isPopoverShown) {
           this.hide();
         }
       });
@@ -67,7 +65,8 @@ export default TooltipAndPopoverComponent.extend({
         // $target.on('mousedown') is called when the $popover is
         // clicked because the $popover is contained within the $target.
         // This will ignores those types of clicks.
-        if ($popover[0] === event.target || $popover.find(event.target).length) {
+        const isMouseDownElementInPopover = this._isElementInPopover(event.target);
+        if (isMouseDownElementInPopover) {
           return;
         }
         this.toggle();
@@ -79,14 +78,10 @@ export default TooltipAndPopoverComponent.extend({
     $popover.on('focusout', () => {
       // use a run.later() to allow the 'focusout' event to finish handling
       run.later(() => {
-        const focusedElement = document.activeElement;
-        const isFocusedElementTarget = focusedElement === $target[0];
-        const isFocusedElementPopover = focusedElement === $popover[0];
-        const isFocusedElementInPopover = !!$popover.find(focusedElement).length;
-        if (isFocusedElementTarget || isFocusedElementPopover || isFocusedElementInPopover) {
-          return;
+        const isFocusedElementElsewhere = this._isElementElsewhere(document.activeElement);
+        if (isFocusedElementElsewhere) {
+          this.hide();
         }
-        this.hide();
       });
     });
   },
@@ -102,12 +97,24 @@ export default TooltipAndPopoverComponent.extend({
     $target.add($popover).off(`${_showOn} mouseover ${_hideOn} mouseout mousedown focus focusout`);
 
     $(document).off(`click.${target}`);
+  },
+  _isElementInPopover(newElement) {
+    // determines if newElement is $popover or contained within $popover
+    const $popover = this.$();
+    return $popover.is(newElement) || $popover.find(newElement).length;
+  },
+  _isElementElsewhere(newElement) {
+    // determines if newElement is not $target, not $popover, and not contained within either
+    const $target = $(this.get('target'));
 
+    const isNewElementOutsideTarget = !$target.is(newElement) && !$target.find(newElement).length;
+    const isNewElementOutsidePopover = !this._isElementInPopover(newElement);
+
+    return isNewElementOutsideTarget && isNewElementOutsidePopover;
   },
   actions: {
     hide() {
       this.hide();
     }
   },
-
 });
