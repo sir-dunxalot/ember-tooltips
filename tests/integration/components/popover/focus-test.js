@@ -9,37 +9,34 @@ moduleForComponent('popover-on-element', 'Integration | Option | hover', {
 	integration: true
 });
 
-test('Popover: target focus, popover focus, elsewhere focus', function(assert) {
+test('Popover: target focus, popover focus, popover blur', function(assert) {
 
 	this.render(hbs`
-		<div class="target">
-			{{popover-on-element event="focus"}}
+		<div id="target">
+			{{popover-on-element event='focus' id="popover"}}
 		</div>
-		<a href class="elsewhere"></a>
 	`);
 
 	const done = assert.async();
-	const $target = $('.target');
-	const $popover = $target.find('.ember-popover');
-	const $elsewhere = $('.elsewhere');
+	const target = window.document.getElementById('target');
+	const popover = window.document.getElementById('popover');
 
 	assertPopoverHide(assert, this);
 
 	run(() => {
-		$target.trigger('focus');
+		target.dispatchEvent(new window.Event('focus'));
 	});
 
 	assertPopoverShow(assert, this);
 
 	run(() => {
-		$popover.trigger('focus');
+		popover.dispatchEvent(new window.Event('focus'));
 	});
 
 	assertPopoverShow(assert, this);
 
 	run(() => {
-		$popover.trigger('focusout');
-		$elsewhere.trigger('focus');
+		popover.dispatchEvent(new window.Event('blur'));
 	});
 
 	run.later(() => {
@@ -51,45 +48,43 @@ test('Popover: target focus, popover focus, elsewhere focus', function(assert) {
 
 });
 
-test('Popover: target focus, targetInterior focus, popover focus, elsewhere focus', function(assert) {
+
+test('Popover: target focus, targetInterior focus, popover focus, popover blur', function(assert) {
 
 	this.render(hbs`
-		<div class="target">
-			<a href class="target-interior"></a>
-			{{popover-on-element event="focus"}}
+		<div id="target">
+			<a href id="target-interior"></a>
+			{{popover-on-element event='focus' id="popover"}}
 		</div>
-		<a href class="elsewhere"></a>
 	`);
 
 	const done = assert.async();
-	const $target = $('.target');
-	const $targetInterior = $target.find('.target-interior');
-	const $popover = $target.find('.ember-popover');
-	const $elsewhere = $('.elsewhere');
+	const target = window.document.getElementById('target');
+	const targetInterior = window.document.getElementById('target-interior');
+	const popover = window.document.getElementById('popover');
 
 	assertPopoverHide(assert, this);
 
 	run(() => {
-		$target.trigger('focus');
+		target.dispatchEvent(new window.Event('focus'));
 	});
 
 	assertPopoverShow(assert, this);
 
 	run(() => {
-		$targetInterior.trigger('focus');
+		targetInterior.dispatchEvent(new window.Event('focus'));
 	});
 
 	assertPopoverShow(assert, this);
 
 	run(() => {
-		$popover.trigger('focus');
+		popover.dispatchEvent(new window.Event('focus'));
 	});
 
 	assertPopoverShow(assert, this);
 
 	run(() => {
-		$popover.trigger('focusout');
-		$elsewhere.trigger('focus');
+		popover.dispatchEvent(new window.Event('blur'));
 	});
 
 	run.later(() => {
@@ -101,51 +96,49 @@ test('Popover: target focus, targetInterior focus, popover focus, elsewhere focu
 
 });
 
-test('Popover: target focus, popover focus, popoverInterior focus, elsewhere focus', function(assert) {
+test('Popover: target focus, popover focus, popoverInterior focus, popover blur', function(assert) {
 
 	this.render(hbs`
-		<div class="target">
-			{{#popover-on-element event="focus"}}
-				<a href class="popover-interior"></a>
+		<div id="target">
+			{{#popover-on-element event='focus' id="popover"}}
+				<a href id="popover-interior"></a>
 			{{/popover-on-element}}
 		</div>
-		<a href class="elsewhere"></a>
 	`);
 
 	const done = assert.async();
-	const $target = $('.target');
-	const $popover = $target.find('.ember-popover');
-	const $popoverInterior = $target.find('.popover-interior');
-	const $elsewhere = $('.elsewhere');
+	const target = window.document.getElementById('target');
+	const popover = window.document.getElementById('popover');
+	const popoverInterior = window.document.getElementById('popover-interior');
 
 	assertPopoverHide(assert, this);
 
 	run(() => {
-		$target.trigger('focus');
+		target.dispatchEvent(new window.Event('focus'));
 	});
 
 	assertPopoverShow(assert, this);
 
 	run(() => {
-		$popover.trigger('focus');
+		popover.dispatchEvent(new window.Event('focus'));
 	});
 
 	assertPopoverShow(assert, this);
 
 	run(() => {
-		$popoverInterior.trigger('focus');
+		popoverInterior.dispatchEvent(new window.Event('focus'));
 	});
 
 	assertPopoverShow(assert, this);
 
 	run(() => {
-		$elsewhere.trigger('focus');
+		popover.dispatchEvent(new window.Event('blur'));
 	});
 
 	run.later(() => {
 		assertPopoverHide(assert, this);
 		done();
-	}, 10);
+	}, 100);
 
 	assert.expect(5);
 
