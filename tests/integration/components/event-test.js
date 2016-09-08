@@ -57,18 +57,24 @@ test('It toggles with focus', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-component event='focus'}}`);
+  this.render(hbs`
+    <div id="target">
+      {{tooltip-on-element event='focus'}}
+    </div>
+  `);
+
+  const target = window.document.getElementById('target');
 
   assertHide(assert, this);
 
   run(() => {
-    this.$().trigger('focus');
+    target.dispatchEvent(new window.Event('focus'));
   });
 
   assertShow(assert, this);
 
   run(this, () => {
-    this.$().trigger('blur');
+    target.dispatchEvent(new window.Event('blur'));
   });
 
   assertHide(assert, this);
