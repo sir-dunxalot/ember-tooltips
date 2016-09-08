@@ -6,8 +6,10 @@ const { $, run } = Ember;
 
 export default TooltipAndPopoverComponent.extend({
 
-  hideDelay: '250',
+  /* Options */
+  hideDelay: 250,
 
+  /* Properties */
   layout,
   classNames: ['ember-popover'],
   _isMouseInside: false,
