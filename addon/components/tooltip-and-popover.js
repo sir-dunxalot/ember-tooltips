@@ -67,7 +67,6 @@ export default EmberTetherComponent.extend({
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
   classNameBindings: ['effectClass'],
   classPrefix: 'ember-tooltip-or-popover',
-  classNames: ['ember-tooltip-or-popover'],
 
   _didUpdateTimeoutLength: 1000, // 1000 ms or 0 ms, depending whether in test mode
   _hideTimer: null,
@@ -348,7 +347,7 @@ export default EmberTetherComponent.extend({
         already a tooltip/popover shown in the DOM. Check that here
         and adjust the delay as needed. */
 
-        let shownTooltipsOrPopovers = Ember.$(`.${this.get('classPrefix')}[aria-hidden="false"]`).length;
+        let shownTooltipsOrPopovers = Ember.$(`.${this.get('classPrefix')}-element[aria-hidden="false"]`).length;
 
         if (shownTooltipsOrPopovers) {
           delay = 0;
