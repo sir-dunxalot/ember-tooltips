@@ -1,7 +1,7 @@
-Ember-tooltips [![Build Status](https://travis-ci.org/sir-dunxalot/ember-tooltips.svg)](https://travis-ci.org/sir-dunxalot/ember-tooltips) [![npm](https://img.shields.io/npm/v/ember-tooltips.svg)](https://www.npmjs.com/package/ember-tooltips)
+Ember-tooltips (and popovers) [![Build Status](https://travis-ci.org/sir-dunxalot/ember-tooltips.svg)](https://travis-ci.org/sir-dunxalot/ember-tooltips) [![npm](https://img.shields.io/npm/v/ember-tooltips.svg)](https://www.npmjs.com/package/ember-tooltips)
 ======
 
-Render tooltips on components and other HTML elements using HTMLBars.
+Render tooltips and popovers on components and other HTML elements using HTMLBars.
 
 ## Installation
 
@@ -87,9 +87,13 @@ You can also specify the ID of the element to attach the tooltip to:
 
 The `target` property must be an ID, including the `#`.
 
+### Popover on Element
+
+Popovers can be created with `{{popover-on-element}}` and `{{popover-on-component}}` with the same `target` behavior as tooltips.
+
 ## Options
 
-Options are set as attributes on the tooltip components. Current tooltip properties this addon supports are:
+Options are set as attributes on the tooltip/popover components. Current tooltip/popover properties this addon supports are:
 
 - [class](#class)
 - [delay](#delay)
@@ -103,6 +107,7 @@ Options are set as attributes on the tooltip components. Current tooltip propert
 - [showOn](#show-on)
 - [spacing](#spacing)
 - [isShown](#is-shown)
+- [hideDelay (popover only)](#hide-delay)
 
 #### Class
 
@@ -316,6 +321,20 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 {{tooltip-on-component isShown=showTooltip}}
 ```
 
+#### Hide delay
+
+| Type    | Number |
+|---------|---------|
+| Default | 250   |
+
+**POPOVER ONLY:** The number of milliseconds before the popover will hide after the user hovers away from the popover and the popover target. This is only applicable when `event='hover'`.
+
+```hbs
+{{popover-on-component event="hover" hideDelay=300}}
+```
+
+![popover-hover](https://cloud.githubusercontent.com/assets/7050871/18113238/e010ee64-6ee2-11e6-9ff1-a0c674a6d702.gif)
+
 ### Setting Defaults
 
 You can set the default for any option by extending the `{{tooltip-on-element}}` component:
@@ -333,7 +352,7 @@ export default TooltipOnElementComponent.extend({
 
 ## Actions
 
-Four actions are available for you to hook onto through the tooltip lifecycle:
+Four actions are available for you to hook onto through the tooltip/popover lifecycle:
 
 ```hbs
 {{tooltip-on-component
