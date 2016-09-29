@@ -66,6 +66,23 @@ export default EmberTetherComponent.extend({
   onRender: null,
   onShow: null,
 
+  onTooltipDestroy: computed.deprecatingAlias('onDestroy', {
+    id: 'tooltip-and-popover.onTooltipDestroy',
+    until: '3.0.0',
+  }),
+  onTooltipHide: computed.deprecatingAlias('onHide', {
+    id: 'tooltip-and-popover.onTooltipHide',
+    until: '3.0.0',
+  }),
+  onTooltipRender: computed.deprecatingAlias('onRender', {
+    id: 'tooltip-and-popover.onTooltipRender',
+    until: '3.0.0',
+  }),
+  onTooltipShow: computed.deprecatingAlias('onShow', {
+    id: 'tooltip-and-popover.onTooltipShow',
+    until: '3.0.0',
+  }),
+
   /* Properties */
 
   attributeBindings: ['aria-hidden', 'role', 'tabindex'],
