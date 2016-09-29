@@ -26,3 +26,23 @@ test('It toggles with isShown', function(assert) {
   assertHide(assert, this);
 
 });
+
+test('It toggles with tooltipIsVisible', function(assert) {
+	// tooltipIsVisible is deprecated in favor of isShown
+	// tooltipIsVisible will be supported until v3.0.0
+
+  assert.expect(2);
+
+  this.set('showTooltip', true);
+
+  this.render(hbs`{{tooltip-on-component tooltipIsVisible=showTooltip}}`);
+
+  assertShow(assert, this);
+
+  run(() => {
+    this.set('showTooltip', false);
+  });
+
+  assertHide(assert, this);
+
+});

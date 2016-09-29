@@ -41,6 +41,10 @@ export default EmberTetherComponent.extend({
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
   isShown: false,
+  tooltipIsVisible: computed.deprecatingAlias('isShown', {
+    id: 'tooltip-and-popover.tooltipIsVisible', 
+    until: '3.0.0',
+  }),
   keepInWindow: true,
 
   /*
