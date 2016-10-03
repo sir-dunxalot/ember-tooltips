@@ -29,7 +29,7 @@ test('It hides after the given duration', function(assert) {
   run.later(() => {
     assertHide(assert, this);
     done();
-  }, 320);
+  }, 500);
 
 });
 
@@ -87,6 +87,6 @@ test('It uses duration after the first show', function(assert) {
   run.later(() => {
     assertHide(assert, this);
     done();
-  }, 320);
+  }, 500);
 
 });
