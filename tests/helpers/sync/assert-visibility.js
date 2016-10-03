@@ -1,14 +1,18 @@
 export function assertShow(assert, context) {
 
-  assert.equal(context.$().find('.ember-tooltip').attr('aria-hidden'), 'false',
-    'Should show tooltip');
+	const $tooltip = context.$().find('.ember-tooltip');
+  assert.equal($tooltip.attr('aria-hidden'), 'false', 'Should show tooltip');
+  assert.equal($tooltip.attr('is-tether-enabled'), 'true',
+  	'tether should be enabled if tooltip is visible');
 
 }
 
 export function assertHide(assert, context) {
 
-  assert.equal(context.$().find('.ember-tooltip').attr('aria-hidden'), 'true',
-    'Should hide tooltip');
+  const $tooltip = context.$().find('.ember-tooltip');
+  assert.equal($tooltip.attr('aria-hidden'), 'true', 'Should hide tooltip');
+  assert.equal($tooltip.attr('is-tether-enabled'), 'false',
+    'tether should NOT be enabled if tooltip is visible');
 
 }
 
