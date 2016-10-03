@@ -1,11 +1,11 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-component', 'Integration | Component | tooltip on parent', {
+moduleForComponent('tooltip-on-component', 'Integration | Component | tooltip on component', {
   integration: true
 });
 
-test('It renders', function(assert) {
+test('tooltip-on-component renders', function(assert) {
 
   this.render(hbs`{{tooltip-on-component}}`);
 

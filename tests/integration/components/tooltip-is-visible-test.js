@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | tooltipIsVisible', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | tooltipIsVisible', {
   integration: true
 });
 
@@ -15,7 +15,7 @@ test('It toggles with tooltipIsVisible', function(assert) {
 
   this.set('showTooltip', true);
 
-  this.render(hbs`{{tooltip-on-component tooltipIsVisible=showTooltip}}`);
+  this.render(hbs`{{tooltip-on-element tooltipIsVisible=showTooltip}}`);
 
   assertShow(assert, this);
 

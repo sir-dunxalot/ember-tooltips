@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | duration', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | duration', {
   integration: true
 });
 
@@ -14,7 +14,7 @@ test('It hides after the given duration', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-component duration=300}}`);
+  this.render(hbs`{{tooltip-on-element duration=300}}`);
 
   assertHide(assert, this);
 
@@ -37,7 +37,7 @@ test('It hides before the given duration, if requested', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-component duration=300}}`);
+  this.render(hbs`{{tooltip-on-element duration=300}}`);
 
   assertHide(assert, this);
 
@@ -60,7 +60,7 @@ test('It uses duration after the first show', function(assert) {
 
   assert.expect(5);
 
-  this.render(hbs`{{tooltip-on-component duration=300}}`);
+  this.render(hbs`{{tooltip-on-element duration=300}}`);
 
   assertHide(assert, this);
 

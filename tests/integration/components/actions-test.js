@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | actions', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | actions', {
   integration: true
 });
 
@@ -34,7 +34,7 @@ test('It animates with delay passed as a number', function(assert) {
 
   this.render(hbs`
     {{#unless destroyTooltip}}
-      {{tooltip-on-component
+      {{tooltip-on-element
         onTooltipDestroy='onTooltipDestroy'
         onTooltipHide='onTooltipHide'
         onTooltipRender='onTooltipRender'
