@@ -64,7 +64,7 @@ export default EmberTetherComponent.extend({
 
   /* Properties */
 
-  attributeBindings: ['aria-hidden', 'role', 'tabindex'],
+  attributeBindings: ['aria-hidden', 'role', 'tabindex', 'is-tether-enabled'],
   classNameBindings: ['effectClass'],
   classPrefix: 'ember-tooltip-or-popover',
   classNames: ['ember-tooltip-or-popover'],
@@ -396,12 +396,17 @@ export default EmberTetherComponent.extend({
   stopTether() {
     run.schedule('afterRender', () => {
       this.get('_tether').disable();
+      this.set('is-tether-enabled', 'false');
     });
   },
 
   startTether() {
     this.get('_tether').enable();
+    this.set('is-tether-enabled', 'true');
   },
+
+  // cannot use computed.alias('_tether.enabled') for some reason
+  'is-tether-enabled': 'false',
 
   toggle() {
 
