@@ -1,15 +1,12 @@
 {
   "name": "ember-tooltips",
   "dependencies": {
-    "ember": "components/ember#canary",
+    "ember": "^2.6.0",
     "ember-cli-shims": "0.1.1",
     "ember-cli-test-loader": "0.2.2",
     "ember-qunit-notifications": "0.1.0",
     "hammer.js": "^2.0.8",
     "matchMedia": "0.2.0",
     "es5-shim": "^4.5.8"
-  },
-  "resolutions": {
-    "ember": "canary"
   }
 }
