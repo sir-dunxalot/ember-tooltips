@@ -220,6 +220,8 @@ export default EmberTetherComponent.extend({
 
     this.set('isShown', false);
     this.sendAction('onHide', this);
+
+    this.stopTether();
   },
 
   didInsertElement() {
@@ -278,6 +280,10 @@ export default EmberTetherComponent.extend({
     }
 
     this.set('offset', offset);
+
+    if (event !== 'none' || !this.get('isShown')) {
+      this.stopTether();
+    }
   },
 
   /*
@@ -318,6 +324,7 @@ export default EmberTetherComponent.extend({
     const isShown = this.get('isShown');
 
     if (isShown) {
+      this.startTether();
       const duration = cleanNumber(this.get('duration'));
 
       run.cancel(this.get('_hideTimer'));
@@ -333,10 +340,13 @@ export default EmberTetherComponent.extend({
 
         this.set('_hideTimer', hideTimer);
       }
+    } else {
+      this.stopTether();
     }
   }),
 
   show() {
+    this.startTether();
     // this.positionTether() fixes the issues raised in
     // https://github.com/sir-dunxalot/ember-tooltips/issues/75
     this.positionTether();
@@ -381,6 +391,16 @@ export default EmberTetherComponent.extend({
     }
 
     this.sendAction('onShow', this);
+  },
+
+  stopTether() {
+    run.schedule('afterRender', () => {
+      this.get('_tether').disable();
+    });
+  },
+
+  startTether() {
+    this.get('_tether').enable();
   },
 
   toggle() {
