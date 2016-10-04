@@ -12,7 +12,7 @@ export function assertHide(assert, context) {
   const $tooltip = context.$().find('.ember-tooltip');
   assert.equal($tooltip.attr('aria-hidden'), 'true', 'Should hide tooltip');
   assert.equal($tooltip.attr('is-tether-enabled'), 'false',
-    'tether should NOT be enabled if tooltip is visible');
+    'tether should NOT be enabled if tooltip is hidden');
 
 }
 

@@ -346,7 +346,6 @@ export default EmberTetherComponent.extend({
   }),
 
   show() {
-    this.startTether();
     // this.positionTether() fixes the issues raised in
     // https://github.com/sir-dunxalot/ember-tooltips/issues/75
     this.positionTether();
@@ -380,13 +379,14 @@ export default EmberTetherComponent.extend({
         if (!this.get('destroying')) {
           this.set('isShown', true);
         }
+        this.startTether();
       }, delay);
 
       this.set('_showTimer', _showTimer);
     } else {
 
       /* If there is no delay, show the tooltop immediately */
-
+      this.startTether();
       this.set('isShown', true);
     }
 

@@ -11,18 +11,18 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | isShown', {
 
 test('It toggles with isShown', function(assert) {
 
-  assert.expect(2);
+  assert.expect(4);
 
-  this.set('showTooltip', true);
+  this.set('showTooltip', false);
 
   this.render(hbs`{{tooltip-on-component isShown=showTooltip}}`);
 
-  assertShow(assert, this);
+  assertHide(assert, this);
 
   run(() => {
-    this.set('showTooltip', false);
+    this.set('showTooltip', true);
   });
 
-  assertHide(assert, this);
+  assertShow(assert, this);
 
 });
