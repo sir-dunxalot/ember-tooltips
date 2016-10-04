@@ -17,7 +17,7 @@ test('It animates with a delay', function(assert) {
 
   this.render(hbs`
     {{tooltip-on-component delay=300 delayOnChange=false class='test-tooltip'}}
-    {{tooltip-on-component tooltipIsVisible=true delay=300 delayOnChange=false event='none'}}
+    {{tooltip-on-component isShown=true delay=300 delayOnChange=false event='none'}}
   `);
 
   assert.equal(this.$().find('.test-tooltip').attr('aria-hidden'), 'true',

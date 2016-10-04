@@ -11,7 +11,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Option | event', {
 
 test('It toggles with hover', function(assert) {
 
-  assert.expect(3);
+  assert.expect(6);
 
   this.render(hbs`{{tooltip-on-component}}`);
 
@@ -33,7 +33,7 @@ test('It toggles with hover', function(assert) {
 
 test('It toggles with click', function(assert) {
 
-  assert.expect(3);
+  assert.expect(6);
 
   this.render(hbs`{{tooltip-on-component event='click'}}`);
 
@@ -55,20 +55,26 @@ test('It toggles with click', function(assert) {
 
 test('It toggles with focus', function(assert) {
 
-  assert.expect(3);
+  assert.expect(6);
 
-  this.render(hbs`{{tooltip-on-component event='focus'}}`);
+  this.render(hbs`
+    <div id="target">
+      {{tooltip-on-element event='focus'}}
+    </div>
+  `);
+
+  const target = window.document.getElementById('target');
 
   assertHide(assert, this);
 
   run(() => {
-    this.$().trigger('focus');
+    target.dispatchEvent(new window.Event('focus'));
   });
 
   assertShow(assert, this);
 
   run(this, () => {
-    this.$().trigger('blur');
+    target.dispatchEvent(new window.Event('blur'));
   });
 
   assertHide(assert, this);
@@ -77,7 +83,7 @@ test('It toggles with focus', function(assert) {
 
 test('It does not show with none', function(assert) {
 
-  assert.expect(4);
+  assert.expect(8);
 
   this.render(hbs`{{tooltip-on-component event='none'}}`);
 
