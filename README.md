@@ -18,6 +18,8 @@ Documentation for usage is below:
 - [Usage](#usage)
   - [tooltip-on-component](#tooltip-on-component)
   - [tooltip-on-element](#tooltip-on-element)
+  - [popover-on-component](#popover-on-element)
+  - [popover-on-element](#popover-on-element)
 - [Options](#options)
   - [Setting defaults](#setting-defaults)
 - [Actions](#actions)
@@ -90,6 +92,16 @@ The `target` property must be an ID, including the `#`.
 ### Popover on Element
 
 Popovers can be created with `{{popover-on-element}}` and `{{popover-on-component}}` with the same `target` behavior as tooltips.
+
+The same options passed to tooltip components can be passed to popover components. In addition, a [hideDelay](#hide-delay) option is made available for popovers only.
+
+Popovers also benefit from a `hide` API made publically acessible:
+
+```
+{{#popover-on-element as |popover|}}
+  Click <a href {{action popover.hide}}>here</a> to hide the popover
+{{/popover-on-element}}
+```
 
 ## Options
 
