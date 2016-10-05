@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | delayOnChange', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | delayOnChange', {
   integration: true
 });
 
@@ -16,8 +16,8 @@ test('It animates with a delay', function(assert) {
   /* Create two tooltips and show one */
 
   this.render(hbs`
-    {{tooltip-on-component delay=300 delayOnChange=false class='test-tooltip'}}
-    {{tooltip-on-component isShown=true delay=300 delayOnChange=false event='none'}}
+    {{tooltip-on-element delay=300 delayOnChange=false class='test-tooltip'}}
+    {{tooltip-on-element isShown=true delay=300 delayOnChange=false event='none'}}
   `);
 
   assert.equal(this.$().find('.test-tooltip').attr('aria-hidden'), 'true',

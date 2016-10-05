@@ -42,7 +42,7 @@ export default EmberTetherComponent.extend({
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
   isShown: false,
   tooltipIsVisible: computed.deprecatingAlias('isShown', {
-    id: 'tooltip-and-popover.tooltipIsVisible', 
+    id: 'tooltip-and-popover.tooltipIsVisible',
     until: '3.0.0',
   }),
   keepInWindow: true,
@@ -376,7 +376,7 @@ export default EmberTetherComponent.extend({
       }
 
       const _showTimer = run.later(this, () => {
-        if (!this.get('destroying')) {
+        if (!this.get('destroying') && !this.get('isDestroyed')) {
           this.set('isShown', true);
         }
       }, delay);

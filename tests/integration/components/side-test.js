@@ -21,7 +21,7 @@ function assertPosition(assert, context, expectedSide) {
   }
 }
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | side and keepInWindow', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | side and keepInWindow', {
   integration: true
 });
 
@@ -32,7 +32,7 @@ test('It shows with showOn top', function(assert) {
 
   assert.expect(1);
 
-  this.render(hbs`{{tooltip-on-component side='top' keepInWindow=false}}`);
+  this.render(hbs`{{tooltip-on-element side='top' keepInWindow=false}}`);
 
   assertPosition(assert, this, 'top');
 
@@ -42,7 +42,7 @@ test('It shows with showOn right', function(assert) {
 
   assert.expect(1);
 
-  this.render(hbs`{{tooltip-on-component side='right' keepInWindow=false}}`);
+  this.render(hbs`{{tooltip-on-element side='right' keepInWindow=false}}`);
 
   assertPosition(assert, this, 'right');
 
@@ -52,7 +52,7 @@ test('It shows with showOn bottom', function(assert) {
 
   assert.expect(1);
 
-  this.render(hbs`{{tooltip-on-component side='bottom' keepInWindow=false}}`);
+  this.render(hbs`{{tooltip-on-element side='bottom' keepInWindow=false}}`);
 
   assertPosition(assert, this, 'bottom');
 
@@ -62,7 +62,7 @@ test('It shows with showOn left', function(assert) {
 
   assert.expect(1);
 
-  this.render(hbs`{{tooltip-on-component side='left' keepInWindow=false}}`);
+  this.render(hbs`{{tooltip-on-element side='left' keepInWindow=false}}`);
 
   assertPosition(assert, this, 'left');
 
@@ -77,9 +77,9 @@ test('It shows with showOn left', function(assert) {
 //   /* Test the position switches form left to right automatically. */
 
 //   this.render(hbs`
-//     {{#tooltip-on-component side='left'}}
+//     {{#tooltip-on-element side='left'}}
 //       This is some long text to push the tooltip off the page
-//     {{/tooltip-on-component}}
+//     {{/tooltip-on-element}}
 //   `);
 
 //   assertPosition(assert, this, 'right');

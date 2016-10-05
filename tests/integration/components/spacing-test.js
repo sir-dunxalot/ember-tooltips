@@ -20,7 +20,7 @@ function assertSpacing(assert, context, expectedSpacing) {
 
 }
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | spacing', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | spacing', {
   integration: true
 });
 
@@ -30,7 +30,7 @@ test('It shows with showOn spacing=default', function(assert) {
 
   /* Check the default spacing */
 
-  this.render(hbs`{{tooltip-on-component}}`);
+  this.render(hbs`{{tooltip-on-element}}`);
 
   assertSpacing(assert, this, 10);
 
@@ -42,7 +42,7 @@ test('It shows with showOn spacing=default', function(assert) {
 
   /* Check custom spacing */
 
-  this.render(hbs`{{tooltip-on-component spacing=20}}`);
+  this.render(hbs`{{tooltip-on-element spacing=20}}`);
 
   assertSpacing(assert, this, 20);
 

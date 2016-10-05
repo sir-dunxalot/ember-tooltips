@@ -73,5 +73,4 @@ export default TooltipAndPopoverComponent.extend({
       });
     }
 	},
-
 });

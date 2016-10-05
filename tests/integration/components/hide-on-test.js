@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | hideOn', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | hideOn', {
   integration: true
 });
 
@@ -13,7 +13,7 @@ test('It hides with hideOn', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-component hideOn='click'}}`);
+  this.render(hbs`{{tooltip-on-element hideOn='click'}}`);
 
   assertHide(assert, this);
 

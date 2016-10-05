@@ -5,13 +5,13 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('popover-on-component', 'Integration | Option | event', {
+moduleForComponent('popover-on-element', 'Integration | Option | event', {
   integration: true
 });
 
 test('Popover: never shows with none', function(assert) {
 
-  this.render(hbs`{{popover-on-component event='none'}}`);
+  this.render(hbs`{{popover-on-element event='none'}}`);
 
   const $target = this.$();
 

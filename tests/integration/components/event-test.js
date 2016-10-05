@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-component', 'Integration | Option | event', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | event', {
   integration: true
 });
 
@@ -13,7 +13,7 @@ test('It toggles with hover', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-component}}`);
+  this.render(hbs`{{tooltip-on-element}}`);
 
   assertHide(assert, this);
 
@@ -35,7 +35,7 @@ test('It toggles with click', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-component event='click'}}`);
+  this.render(hbs`{{tooltip-on-element event='click'}}`);
 
   assertHide(assert, this);
 
@@ -85,7 +85,7 @@ test('It does not show with none', function(assert) {
 
   assert.expect(4);
 
-  this.render(hbs`{{tooltip-on-component event='none'}}`);
+  this.render(hbs`{{tooltip-on-element event='none'}}`);
 
   assertHide(assert, this);
 

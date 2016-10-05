@@ -7,7 +7,7 @@ moduleForAcceptance('Acceptance | application', {
 
   beforeEach: function() {
     originalTimeout = QUnit.config.testTimeout;
-    QUnit.config.testTimeout = 2000;
+    QUnit.config.testTimeout = 3000;
   },
 
   afterEach: function() {
