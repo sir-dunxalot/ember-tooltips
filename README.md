@@ -1,7 +1,7 @@
-Ember-tooltips [![Build Status](https://travis-ci.org/sir-dunxalot/ember-tooltips.svg)](https://travis-ci.org/sir-dunxalot/ember-tooltips) [![npm](https://img.shields.io/npm/v/ember-tooltips.svg)](https://www.npmjs.com/package/ember-tooltips)
+Ember-tooltips (and popovers) [![Build Status](https://travis-ci.org/sir-dunxalot/ember-tooltips.svg)](https://travis-ci.org/sir-dunxalot/ember-tooltips) [![npm](https://img.shields.io/npm/v/ember-tooltips.svg)](https://www.npmjs.com/package/ember-tooltips)
 ======
 
-Render tooltips on components and other HTML elements using HTMLBars.
+Render tooltips and popovers on components and other HTML elements using HTMLBars.
 
 ## Installation
 
@@ -87,9 +87,13 @@ You can also specify the ID of the element to attach the tooltip to:
 
 The `target` property must be an ID, including the `#`.
 
+### Popover on Element
+
+Popovers can be created with `{{popover-on-element}}` and `{{popover-on-component}}` with the same `target` behavior as tooltips.
+
 ## Options
 
-Options are set as attributes on the tooltip components. Current tooltip properties this addon supports are:
+Options are set as attributes on the tooltip/popover components. Current tooltip/popover properties this addon supports are:
 
 - [class](#class)
 - [delay](#delay)
@@ -102,7 +106,8 @@ Options are set as attributes on the tooltip components. Current tooltip propert
 - [side](#side)
 - [showOn](#show-on)
 - [spacing](#spacing)
-- [tooltipIsVisible](#tooltip-is-visible)
+- [isShown](#is-shown)
+- [hideDelay (popover only)](#hide-delay)
 
 #### Class
 
@@ -202,7 +207,7 @@ The event that the tooltip will hide and show for. Possible options are:
 
 This event is overwritten by the individual [`hideOn`](#hide-on) and [`showOn`](#show-on) properties. In effect, setting `event` sets `hideOn` and `shownOn` for you.
 
-The tooltip can also be shown programatically by passing in the `tooltipIsVisible` property, [documented here](#tooltip-is-visible).
+The tooltip can also be shown programatically by passing in the `isShown` property, [documented here](#is-shown).
 
 #### Hide on
 
@@ -301,7 +306,7 @@ Sets the number of pixels the tooltip will render from the target element. A hig
 {{tooltip-on-component spacing=20}}
 ```
 
-#### Tooltip is visible
+#### Tooltip is shown
 
 | Type    | Boolean |
 |---------|---------|
@@ -313,8 +318,22 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 
 ```hbs
 {{!--Binds the tooltip visibility to the showTooltip property--}}
-{{tooltip-on-component tooltipIsVisible=showTooltip}}
+{{tooltip-on-component isShown=showTooltip}}
 ```
+
+#### Hide delay
+
+| Type    | Number |
+|---------|---------|
+| Default | 250   |
+
+**POPOVER ONLY:** The number of milliseconds before the popover will hide after the user hovers away from the popover and the popover target. This is only applicable when `event='hover'`.
+
+```hbs
+{{popover-on-component event="hover" hideDelay=300}}
+```
+
+![popover-hover](https://cloud.githubusercontent.com/assets/7050871/18113238/e010ee64-6ee2-11e6-9ff1-a0c674a6d702.gif)
 
 ### Setting Defaults
 
@@ -333,14 +352,14 @@ export default TooltipOnElementComponent.extend({
 
 ## Actions
 
-Four actions are available for you to hook onto through the tooltip lifecycle:
+Four actions are available for you to hook onto through the tooltip/popover lifecycle:
 
 ```hbs
 {{tooltip-on-component
-  onTooltipDestroy='onTooltipDestroy'
-  onTooltipHide='onTooltipHide'
-  onTooltipRender='onTooltipRender'
-  onTooltipShow='onTooltipShow'
+  onDestroy='onDestroy'
+  onHide='onHide'
+  onRender='onRender'
+  onShow='onShow'
 }}
 ```
 
