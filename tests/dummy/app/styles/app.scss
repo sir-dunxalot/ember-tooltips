@@ -90,6 +90,7 @@ h3 {
   @include rem(padding, 0.6, 1);
   cursor: pointer;
   background-color: rgba($white, 0.5);
+  position: relative;
 }
 
 hr {
@@ -112,6 +113,16 @@ a {
 
 li {
   @include rem(padding, 0.4, 0);
+}
+
+.ember-popover {
+  h3, p {
+    @include rem(margin, 1, 0);
+  }
+
+  h3 {
+    border-bottom: 1px solid #ccc;
+  }
 }
 
 /* Async spinner */

@@ -4,6 +4,17 @@
   -webkit-user-select: none;
   user-select: none;
   pointer-events: none;
+
+  font-size: 14px;
+  font-family: sans-serif;
+  border-radius: 3px;
+}
+
+.ember-popover {
+  color: #000;
+  background-color: #fff;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
 }
 
 .ember-popover[aria-hidden="false"] {
@@ -16,13 +27,10 @@
 
 .ember-tooltip {
   max-width: 200px;
+  padding: 6px 10px;
   color: #fff;
   background: #3a3c47;
   text-shadow: -1px -1px 0 rgba(0,0,0,0.2);
-  font-size: 14px;
-  padding: 6px 10px;
-  border-radius: 3px;
-  font-family: sans-serif;
 
   &:after {
     content: '';

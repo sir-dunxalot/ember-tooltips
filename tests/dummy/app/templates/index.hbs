@@ -50,6 +50,7 @@
     <li><a href="#duration">Show for duration</a></li>
     <li><a href="#styling">Using custom styling</a></li>
     <li><a href="#async">Using async content</a></li>
+    <li><a href="#popover">Using a popover instead of a tooltip</a></li>
   </ul>
 </div>
 
@@ -181,5 +182,25 @@
 {{!-- END-SNIPPET --}}
 
   {{code-snippet name='async-content.hbs'}}
+
+</div>
+
+<div class="page-content gray">
+  <h3 id="popover">Using a popover instead of a tooltip</h3>
+
+{{!-- BEGIN-SNIPPET popover --}}
+{{#some-component}}
+  View more information
+
+  {{#popover-on-component as |popover|}}
+    <h3>More info</h3>
+    <p>Here is more information!</p>
+
+    <button {{action popover.hide}}>Hide</button>
+  {{/popover-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='popover.hbs'}}
 
 </div>
