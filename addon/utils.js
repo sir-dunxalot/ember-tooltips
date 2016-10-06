@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const { computed } = Ember;
 
-export const onComponentTarget = computed(function() {
+export const onComponentTarget = computed('parentView', function() {
   const parentView = this.get('parentView');
 
   if (!parentView) {

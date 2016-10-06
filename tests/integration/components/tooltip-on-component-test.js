@@ -7,7 +7,11 @@ moduleForComponent('tooltip-on-component', 'Integration | Component | tooltip on
 
 test('It renders with no content', function(assert) {
 
-  this.render(hbs`{{tooltip-on-component}}`);
+  this.render(hbs`
+    {{some-component}}
+      {{tooltip-on-component}}
+    {{/some-component}}
+  `);
 
   assert.equal(this.$().text().trim(), '',
     'Should render with no content');
@@ -17,9 +21,11 @@ test('It renders with no content', function(assert) {
 test('It renders with content', function(assert) {
 
   this.render(hbs`
-    {{#tooltip-on-component}}
-      template block text
-    {{/tooltip-on-component}}
+    {{some-component}}
+      {{#tooltip-on-component}}
+        template block text
+      {{/tooltip-on-component}}
+    {{/some-component}}
   `);
 
   assert.equal(this.$().text().trim(), 'template block text',
