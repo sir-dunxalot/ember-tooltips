@@ -8,7 +8,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Component | tooltip on
 test('It renders with no content', function(assert) {
 
   this.render(hbs`
-    {{some-component}}
+    {{#some-component}}
       {{tooltip-on-component}}
     {{/some-component}}
   `);
@@ -21,7 +21,7 @@ test('It renders with no content', function(assert) {
 test('It renders with content', function(assert) {
 
   this.render(hbs`
-    {{some-component}}
+    {{#some-component}}
       {{#tooltip-on-component}}
         template block text
       {{/tooltip-on-component}}
