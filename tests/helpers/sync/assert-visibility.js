@@ -12,6 +12,20 @@ export function assertHide(assert, context) {
 
 }
 
+export function assertTetherEnabled(assert, context) {
+
+  assert.equal(context.$().find('.ember-tooltip').attr('data-tether-enabled'), 'true',
+    'Should enable tether');
+
+}
+
+export function assertTetherDisabled(assert, context) {
+
+  assert.equal(context.$().find('.ember-tooltip').attr('data-tether-enabled'), 'false',
+    'Should disable tether');
+
+}
+
 
 export function assertPopoverShow(assert, context) {
 

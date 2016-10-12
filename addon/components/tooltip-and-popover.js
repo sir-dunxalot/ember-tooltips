@@ -85,15 +85,20 @@ export default EmberTetherComponent.extend({
 
   /* Properties */
 
-  attributeBindings: ['aria-hidden', 'role', 'tabindex'],
+  attributeBindings: ['aria-hidden', 'role', 'tabindex', 'data-tether-enabled'],
   classNameBindings: ['effectClass'],
   classPrefix: 'ember-tooltip-or-popover',
-
+  
   _didUpdateTimeoutLength: 1000, // 1000 ms or 0 ms, depending whether in test mode
   _hideTimer: null,
   _showTimer: null,
+  _isTetherEnabled: true,
 
   /* CPs */
+
+  'data-tether-enabled': computed('_isTetherEnabled', function() {
+    return this.get('_isTetherEnabled') ? 'true' : 'false';
+  }),
 
   'aria-hidden': computed('isShown', function() {
     return this.get('isShown') ? 'false' : 'true';
@@ -240,6 +245,8 @@ export default EmberTetherComponent.extend({
 
     this.set('isShown', false);
     this.sendAction('onHide', this);
+
+    this.stopTether();
   },
 
   didInsertElement() {
@@ -298,6 +305,10 @@ export default EmberTetherComponent.extend({
     }
 
     this.set('offset', offset);
+
+    if (!this.get('isShown')) {
+      this.stopTether();
+    }
   },
 
   /*
@@ -327,6 +338,7 @@ export default EmberTetherComponent.extend({
     const isShown = this.get('isShown');
 
     if (isShown) {
+      this.startTether();
       const duration = cleanNumber(this.get('duration'));
 
       run.cancel(this.get('_hideTimer'));
@@ -342,10 +354,14 @@ export default EmberTetherComponent.extend({
 
         this.set('_hideTimer', hideTimer);
       }
+    } else {
+      this.stopTether();
     }
   }),
 
   show() {
+    this.startTether();
+
     // this.positionTether() fixes the issues raised in
     // https://github.com/sir-dunxalot/ember-tooltips/issues/75
     this.positionTether();
@@ -418,5 +434,21 @@ export default EmberTetherComponent.extend({
 
     this.sendAction('onDestroy', this);
   },
+
+  startTether() {
+    // can't depend on `_tether.enabled` because it's not an
+    // Ember property (so won't trigger cp update when changed)
+    this.set('_isTetherEnabled', true);
+    this.get('_tether').enable();
+  },
+
+  stopTether() {
+    run.schedule('afterRender', () => {
+      // can't depend on `_tether.enabled` because it's not an
+      // Ember property (so won't trigger cp update when changed)
+      this.set('_isTetherEnabled', false);
+      this.get('_tether').disable();
+    });
+  }
 
 });
