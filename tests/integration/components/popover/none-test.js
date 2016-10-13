@@ -42,6 +42,6 @@ test('Popover: never shows with none', function(assert) {
 
   assertPopoverHide(assert, this);
 
-  assert.expect(4);
+  assert.expect(8);
 
 });
