@@ -27,7 +27,7 @@ test('It animates with delay passed as a number', function(assert) {
   run.later(() => {
     // tether should be enabled, because the tooltip must be positioned
     // before it is shown
-    assertHide(assert, this, { tetherEnabled: true });
+    assertHide(assert, this);
   }, 290);
 
   run.later(() => {
@@ -66,7 +66,7 @@ test('It animates with delay passed as a string', function(assert) {
   run.later(() => {
     // tether should be enabled, because the tooltip must be positioned
     // before it is shown
-    assertHide(assert, this, { tetherEnabled: true });
+    assertHide(assert, this);
   }, 290);
 
   run.later(() => {

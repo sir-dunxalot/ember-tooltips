@@ -8,18 +8,13 @@ export function assertShow(assert, context) {
 
 }
 
-export function assertHide(assert, context, options) {
-
-  // if the tooltip is shown after a delay, it should be hidden but
-  // tethering should still be enabled
-  let tetherEnabled = options && options.tetherEnabled;
-  let tetherAttrValue = tetherEnabled ? 'true' : 'false';
+export function assertHide(assert, context) {
 
   assert.equal(context.$().find('.ember-tooltip').attr('aria-hidden'), 'true',
     'Should hide tooltip');
 
-  assert.equal(context.$().find('.ember-tooltip').attr('data-tether-enabled'), tetherAttrValue,
-    `Should ${tetherEnabled ? 'enable' : 'disable'} tether`);
+  assert.equal(context.$().find('.ember-tooltip').attr('data-tether-enabled'), 'false',
+    'Should disable tether');
 
 }
 
