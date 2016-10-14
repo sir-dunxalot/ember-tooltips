@@ -11,7 +11,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | hideOn', {
 
 test('It hides with hideOn', function(assert) {
 
-  assert.expect(3);
+  assert.expect(6);
 
   this.render(hbs`{{tooltip-on-element hideOn='click'}}`);
 

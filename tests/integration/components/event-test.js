@@ -11,7 +11,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | event', {
 
 test('It toggles with hover', function(assert) {
 
-  assert.expect(3);
+  assert.expect(6);
 
   this.render(hbs`{{tooltip-on-element}}`);
 
@@ -33,7 +33,7 @@ test('It toggles with hover', function(assert) {
 
 test('It toggles with click', function(assert) {
 
-  assert.expect(3);
+  assert.expect(6);
 
   this.render(hbs`{{tooltip-on-element event='click'}}`);
 
@@ -55,7 +55,7 @@ test('It toggles with click', function(assert) {
 
 test('It toggles with focus', function(assert) {
 
-  assert.expect(3);
+  assert.expect(6);
 
   this.render(hbs`
     <div id="target">
@@ -83,7 +83,7 @@ test('It toggles with focus', function(assert) {
 
 test('It does not show with none', function(assert) {
 
-  assert.expect(4);
+  assert.expect(8);
 
   this.render(hbs`{{tooltip-on-element event='none'}}`);
 

@@ -35,7 +35,7 @@ test('Popover: hover target, hover elsewhere', function(assert) {
     done();
   }, 300);
 
-  assert.expect(4);
+  assert.expect(8);
 
 });
 
@@ -69,7 +69,7 @@ test('Popover: hover target, hover popover (too slow)', function(assert) {
     done();
   }, 500);
 
-  assert.expect(3);
+  assert.expect(6);
 
 });
 
@@ -130,6 +130,6 @@ test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', f
     done();
   }, 1000);
 
-  assert.expect(6);
+  assert.expect(12);
 
 });
