@@ -11,14 +11,14 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | isShown', {
 
 test('It toggles with isShown', function(assert) {
 
-  assert.expect(2);
+  assert.expect(4);
 
   this.set('showTooltip', true);
 
   this.render(hbs`{{tooltip-on-element isShown=showTooltip}}`);
 
   assertShow(assert, this);
-
+  
   run(() => {
     this.set('showTooltip', false);
   });
@@ -31,7 +31,7 @@ test('It toggles with tooltipIsVisible', function(assert) {
 	// tooltipIsVisible is deprecated in favor of isShown
 	// tooltipIsVisible will be supported until v3.0.0
 
-  assert.expect(2);
+  assert.expect(4);
 
   this.set('showTooltip', true);
 

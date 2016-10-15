@@ -31,7 +31,7 @@ test('Popover: click target, click target', function(assert) {
 
   assertPopoverHide(assert, this);
 
-  assert.expect(3);
+  assert.expect(6);
 
 });
 
@@ -64,7 +64,7 @@ test('Popover: click target, click popover, click target', function(assert) {
 
   assertPopoverHide(assert, this);
 
-  assert.expect(4);
+  assert.expect(8);
 
 });
 
@@ -96,7 +96,7 @@ test('Popover: click target, click elsewhere', function(assert) {
 
   assertPopoverHide(assert, this);
 
-  assert.expect(3);
+  assert.expect(6);
 
 });
 
@@ -135,6 +135,6 @@ test('Popover: click target, click popover, click elsewhere', function(assert) {
 
   assertPopoverHide(assert, this);
 
-  assert.expect(4);
+  assert.expect(8);
 
 });

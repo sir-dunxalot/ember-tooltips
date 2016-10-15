@@ -12,7 +12,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | delay', {
 test('It animates with delay passed as a number', function(assert) {
   const done = assert.async();
 
-  assert.expect(4);
+  assert.expect(8);
 
   this.render(hbs`{{tooltip-on-element delay=300}}`);
 
@@ -25,6 +25,8 @@ test('It animates with delay passed as a number', function(assert) {
   /* Check the tooltip is shown after the correct delay */
 
   run.later(() => {
+    // tether should be enabled, because the tooltip must be positioned
+    // before it is shown
     assertHide(assert, this);
   }, 290);
 
@@ -49,7 +51,7 @@ test('It animates with delay passed as a number', function(assert) {
 test('It animates with delay passed as a string', function(assert) {
   const done = assert.async();
 
-  assert.expect(4);
+  assert.expect(8);
 
   this.render(hbs`{{tooltip-on-element delay='300'}}`);
 
@@ -62,6 +64,8 @@ test('It animates with delay passed as a string', function(assert) {
   /* Check the tooltip is shwon after the correct delay */
 
   run.later(() => {
+    // tether should be enabled, because the tooltip must be positioned
+    // before it is shown
     assertHide(assert, this);
   }, 290);
 

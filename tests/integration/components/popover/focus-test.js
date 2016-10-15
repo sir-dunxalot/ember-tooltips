@@ -44,7 +44,7 @@ test('Popover: target focus, popover focus, popover blur', function(assert) {
 		done();
 	}, 100);
 
-	assert.expect(4);
+	assert.expect(8);
 
 });
 
@@ -92,7 +92,7 @@ test('Popover: target focus, targetInterior focus, popover focus, popover blur',
 		done();
 	}, 100);
 
-	assert.expect(5);
+	assert.expect(10);
 
 });
 
@@ -140,6 +140,6 @@ test('Popover: target focus, popover focus, popoverInterior focus, popover blur'
 		done();
 	}, 100);
 
-	assert.expect(5);
+	assert.expect(10);
 
 });
