@@ -7,9 +7,10 @@ export function assertNotRendered(assert, context) {
 
 export function assertRendered(assert, context) {
   assert.ok(context.$().hasClass('ember-tooltip-or-popover-target'),
-      `after click the $parent SHOULD be the tooltip-or-popover-target`);
+      'the $parent SHOULD be the tooltip-or-popover-target');
+
   assert.ok(context.$().find('.ember-tooltip').length,
-      `after click the ember-tooltip SHOULD be rendered`);
+      'the ember-tooltip SHOULD be rendered');
 }
 
 export function assertShow(assert, context) {

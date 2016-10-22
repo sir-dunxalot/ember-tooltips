@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from 'ember-tooltips/templates/components/tooltip-on-element';
 
-const EVENT_TYPES = ['mouseenter', 'click', 'focusin']; //TODO rename
+const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 
 export default Ember.Component.extend({
 	layout,
@@ -26,7 +26,7 @@ export default Ember.Component.extend({
 		const $element = this.$();
 		const $parent = $element.parent();
 
-		EVENT_TYPES.forEach((eventType) => {
+		INTERACTION_EVENT_TYPES.forEach((eventType) => {
 			$parent.on(`${eventType}.lazy-ember-tooltip`, () => {
 				if (!this.get('hasUserInteracted')) {
 					this.set('hasUserInteracted', true);
@@ -44,7 +44,7 @@ export default Ember.Component.extend({
 		this._super(...arguments);
 
 		const $parent = this.$().parent();
-		EVENT_TYPES.forEach((eventType) => {
+		INTERACTION_EVENT_TYPES.forEach((eventType) => {
 			$parent.off(`${eventType}.lazy-ember-tooltip`);
 		});
 
