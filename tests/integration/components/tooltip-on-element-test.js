@@ -28,45 +28,28 @@ test('it renders', function(assert) {
 
 });
 
-test('it renders lazily', function(assert) {
+['mouseenter', 'click', 'focusin'].forEach(function(eventType) {
+  test(`it renders lazily after ${eventType}`, function(assert) {
 
-  this.render(hbs`
-    <div id="parent">
-      tooltip is here here
+    this.render(hbs`
       {{tooltip-on-element}}
-    </div>
-  `);
+    `);
 
-  const done = assert.async();
-  const $parent = this.$().find('#parent');
+    const done = assert.async();
 
-  assertNotRendered(assert, this);
+    assertNotRendered(assert, this);
 
-  Ember.run(() => {
-    $parent.trigger('click');
+    Ember.run(() => {
+      this.$().trigger(eventType);
+    });
+
+    Ember.run.next(() => {
+      assertRendered(assert, this);
+      done();
+    });
   });
-
-  Ember.run.next(() => {
-    assertRendered(assert, this);
-
-    done();
-  });
-
-  // const done = assert.async();
-  // const $parent = this.$().parent();
-
-  // assertNotRendered(assert, this);
-
-  // Ember.run(() => {
-  //   $parent.trigger('click');
-  // });
-
-  // Ember.run.later(() => {
-  //   assertRendered(assert, this);
-  //   done();
-  // }, 500);
-
 });
+
 
 test('it has the proper aria-describedby tag', function(assert) {
   assert.expect(2);
