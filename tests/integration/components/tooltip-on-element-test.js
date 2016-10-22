@@ -29,10 +29,10 @@ test('it renders', function(assert) {
 });
 
 ['mouseenter', 'click', 'focusin'].forEach(function(eventType) {
-  test(`it renders lazily after ${eventType}`, function(assert) {
+  test(`it renders lazily after ${eventType} when enabledLazyRendering=true`, function(assert) {
 
     this.render(hbs`
-      {{tooltip-on-element}}
+      {{tooltip-on-element enableLazyRendering=true}}
     `);
 
     const done = assert.async();
@@ -48,6 +48,15 @@ test('it renders', function(assert) {
       done();
     });
   });
+});
+
+test('it renders automatically when enabledLazyRendering=false', function(assert) {
+  this.render(hbs`
+    {{tooltip-on-element enableLazyRendering=false}}
+  `);
+
+  assertRendered(assert, this);
+
 });
 
 
