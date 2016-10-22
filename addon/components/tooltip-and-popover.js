@@ -59,24 +59,6 @@ export default EmberTetherComponent.extend({
 
   updateFor: null,
 
-  target: computed(function() {
-
-    // parent is now the empty forceInitialRender/event-handler component
-    const grandParentElement = this.$().parent().parent();
-
-    let grandParentElementId = grandParentElement.attr('id');
-
-    if (!grandParentElementId) {
-      grandParentElementId = `target-for-tooltip-or-popover-${tooltipOrPopoverCounterId}`;
-
-      tooltipOrPopoverCounterId++;
-
-      grandParentElement.attr('id', grandParentElementId);
-    }
-
-    return `#${grandParentElementId}`;
-  }),
-
   /* Actions */
 
   onDestroy: null,
@@ -179,6 +161,24 @@ export default EmberTetherComponent.extend({
     const side = this.get('side');
 
     return side === 'top' || side === 'bottom';
+  }),
+
+  target: computed(function() {
+
+    // parent is now the empty forceInitialRender/event-handler component
+    const grandParentElement = this.$().parent().parent();
+
+    let grandParentElementId = grandParentElement.attr('id');
+
+    if (!grandParentElementId) {
+      grandParentElementId = `target-for-tooltip-or-popover-${tooltipOrPopoverCounterId}`;
+
+      tooltipOrPopoverCounterId++;
+
+      grandParentElement.attr('id', grandParentElementId);
+    }
+
+    return `#${grandParentElementId}`;
   }),
 
   targetAttachment: computed(function() {

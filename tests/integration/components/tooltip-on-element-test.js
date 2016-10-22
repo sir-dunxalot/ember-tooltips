@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -6,7 +5,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on e
   integration: true
 });
 
-test('it renders', function(assert) {
+test('It renders', function(assert) {
 
   this.render(hbs`{{tooltip-on-element}}`);
 
@@ -26,7 +25,6 @@ test('it renders', function(assert) {
     'Should create a tooltip element');
 
 });
-
 
 test('it has the proper aria-describedby tag', function(assert) {
   assert.expect(2);
