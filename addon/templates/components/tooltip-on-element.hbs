@@ -1,5 +1,7 @@
 {{#if shouldRender}}
-	{{#tooltip-on-element-lazy}}
+	{{#tooltip-on-element-lazy
+		event=event
+	}}
 		{{!-- TODO figure a way to init certain attrs --}}
 		{{yield}}
 	{{/tooltip-on-element-lazy}}

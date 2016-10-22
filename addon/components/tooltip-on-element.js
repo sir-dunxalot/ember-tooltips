@@ -6,6 +6,8 @@ const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 export default Ember.Component.extend({
 	layout,
 
+	event: 'hover',
+
 	enableLazyRendering: false,
 	hasUserInteracted: false,
 	shouldRender: Ember.computed('enableLazyRendering', 'hasUserInteracted', function() {
