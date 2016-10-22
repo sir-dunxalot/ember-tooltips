@@ -1,0 +1,7 @@
+{{#if shouldRender}}
+	{{#tooltip-on-element-lazy
+		target=target
+	}}
+		{{yield}}
+	{{/tooltip-on-element-lazy}}
+{{/if}}

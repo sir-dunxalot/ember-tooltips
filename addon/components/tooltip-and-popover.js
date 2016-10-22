@@ -59,6 +59,28 @@ export default EmberTetherComponent.extend({
 
   updateFor: null,
 
+  target: computed(function() {
+
+    if (this.get('test')) {
+      debugger;
+    }
+
+    // parent is now the empty shouldRender/event-handler component
+    const grandParentElement = this.$().parent().parent();
+
+    let grandParentElementId = grandParentElement.attr('id');
+
+    if (!grandParentElementId) {
+      grandParentElementId = `target-for-tooltip-or-popover-${tooltipOrPopoverCounterId}`;
+
+      tooltipOrPopoverCounterId++;
+
+      grandParentElement.attr('id', grandParentElementId);
+    }
+
+    return `#${grandParentElementId}`;
+  }),
+
   /* Actions */
 
   onDestroy: null,
@@ -88,7 +110,7 @@ export default EmberTetherComponent.extend({
   attributeBindings: ['aria-hidden', 'role', 'tabindex', 'data-tether-enabled'],
   classNameBindings: ['effectClass'],
   classPrefix: 'ember-tooltip-or-popover',
-  
+
   _didUpdateTimeoutLength: 1000, // 1000 ms or 0 ms, depending whether in test mode
   _hideTimer: null,
   _showTimer: null,
@@ -161,22 +183,6 @@ export default EmberTetherComponent.extend({
     const side = this.get('side');
 
     return side === 'top' || side === 'bottom';
-  }),
-
-  target: computed(function() {
-    const parentElement = this.$().parent();
-
-    let parentElementId = parentElement.attr('id');
-
-    if (!parentElementId) {
-      parentElementId = `target-for-tooltip-or-popover-${tooltipOrPopoverCounterId}`;
-
-      tooltipOrPopoverCounterId++;
-
-      parentElement.attr('id', parentElementId);
-    }
-
-    return `#${parentElementId}`;
   }),
 
   targetAttachment: computed(function() {
