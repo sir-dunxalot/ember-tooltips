@@ -61,11 +61,7 @@ export default EmberTetherComponent.extend({
 
   target: computed(function() {
 
-    if (this.get('test')) {
-      debugger;
-    }
-
-    // parent is now the empty shouldRender/event-handler component
+    // parent is now the empty forceInitialRender/event-handler component
     const grandParentElement = this.$().parent().parent();
 
     let grandParentElementId = grandParentElement.attr('id');
