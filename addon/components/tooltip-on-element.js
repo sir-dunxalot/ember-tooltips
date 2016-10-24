@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from 'ember-tooltips/templates/components/tooltip-on-element';
 
-const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
+export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 
 export default Ember.Component.extend({
 	layout,
