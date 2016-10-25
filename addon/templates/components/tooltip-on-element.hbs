@@ -1,8 +1,8 @@
 {{#if shouldRender}}
 	{{#tooltip-on-element-lazy
-		event=event
+		passedProperties=passedProperties
+		class=class
 	}}
-		{{!-- TODO figure a way to init certain attrs --}}
 		{{yield}}
 	{{/tooltip-on-element-lazy}}
 {{/if}}

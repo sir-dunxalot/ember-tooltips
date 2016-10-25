@@ -27,6 +27,14 @@ function cleanNumber(stringOrNumber) {
 
 export default EmberTetherComponent.extend({
 
+  passedProperties: null,
+  setPropertiesWithPassedProperties: Ember.on('didInitAttrs', 'willUpdate', function() {
+    let passedProperties = this.get('passedProperties');
+    if (passedProperties) {
+      this.setProperties(passedProperties);
+    }
+  }),
+
   /* Options */
 
   delay: 0,
@@ -164,8 +172,6 @@ export default EmberTetherComponent.extend({
   }),
 
   target: computed(function() {
-
-    // parent is now the empty forceInitialRender/event-handler component
     const grandParentElement = this.$().parent().parent();
 
     let grandParentElementId = grandParentElement.attr('id');
