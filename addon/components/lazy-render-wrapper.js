@@ -1,5 +1,22 @@
 import Ember from 'ember';
 
+const { get, $ } = Ember;
+
+// https://github.com/emberjs/rfcs/issues/168
+// TODO how will this work with "-on-component" instances?
+export default function getParent(view) {
+  if (get(view, 'tagName') === '') {
+    // Beware: use of private API! :(
+    if (Ember.ViewUtils && Ember.ViewUtils.getViewBounds) {
+      return $(Ember.ViewUtils.getViewBounds(view).parentElement);
+    } else {
+      return $(view._renderNode.contextualElement);
+    }
+  } else {
+    return view.$().parent();
+  }
+}
+
 export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 export const PASSABLE_PROPERTY_NAMES = [
 	// 'id',
@@ -35,6 +52,7 @@ export const PASSABLE_PROPERTY_NAMES = [
 ];
 
 export default Ember.Component.extend({
+	tagName: '',
 
 	// data down
 	passedProperties: Ember.computed(...PASSABLE_PROPERTY_NAMES, function() {
@@ -67,17 +85,10 @@ export default Ember.Component.extend({
 		}
 	}),
 
+
+
 	didInsertElement() {
 		this._super(...arguments);
-
-		const $element = this.$();
-
-		// todo make this a utility called deletePassThroughClassNames()
-		var classNamesToDeleteString = this.get('class') || '';
-		classNamesToDeleteString = classNamesToDeleteString.concat(' ', (this.get('classNames') || []).join(' '));
-
-		$element.removeClass(classNamesToDeleteString); // TODO explain this hack and add tests
-		$element.removeAttr('id');
 
 		if (this.get('shouldRender')) {
 			// if the tooltip is rendered we don't need
@@ -85,14 +96,16 @@ export default Ember.Component.extend({
 			return;
 		}
 
-		const $parent = $element.parent();
+
+		// const $element = this.$();
+		const $parent = getParent(this);
 
 		INTERACTION_EVENT_TYPES.forEach((eventType) => {
 			$parent.on(`${eventType}.lazy-ember-popover`, () => {
 				if (!this.get('hasUserInteracted')) {
 					this.set('hasUserInteracted', true);
 					Ember.run.next(() => {
-						$element.trigger(eventType);
+						$parent.trigger(eventType);
 					});
 				} else {
 					$parent.off(`${eventType}.lazy-ember-popover`);
@@ -104,7 +117,8 @@ export default Ember.Component.extend({
 	willDestroyElement() {
 		this._super(...arguments);
 
-		const $parent = this.$().parent();
+		// const $parent = this.$().parent();
+		const $parent = getParent(this);
 		INTERACTION_EVENT_TYPES.forEach((eventType) => {
 			$parent.off(`${eventType}.lazy-ember-popover`);
 		});

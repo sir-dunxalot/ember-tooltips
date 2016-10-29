@@ -172,19 +172,19 @@ export default EmberTetherComponent.extend({
   }),
 
   target: computed(function() {
-    const grandParentElement = this.$().parent().parent();
+    const parentElement = this.$().parent();
 
-    let grandParentElementId = grandParentElement.attr('id');
+    let parentElementId = parentElement.attr('id');
 
-    if (!grandParentElementId) {
-      grandParentElementId = `target-for-tooltip-or-popover-${tooltipOrPopoverCounterId}`;
+    if (!parentElementId) {
+      parentElementId = `target-for-tooltip-or-popover-${tooltipOrPopoverCounterId}`;
 
       tooltipOrPopoverCounterId++;
 
-      grandParentElement.attr('id', grandParentElementId);
+      parentElement.attr('id', parentElementId);
     }
 
-    return `#${grandParentElementId}`;
+    return `#${parentElementId}`;
   }),
 
   targetAttachment: computed(function() {

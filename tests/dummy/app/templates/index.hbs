@@ -17,7 +17,7 @@
   </div>
 
 </div>
-
+{{!--
 {{#tooltip-on-element
   class='logo-tooltip'
   event='none'
@@ -27,7 +27,7 @@
   spacing=15
 }}
   Tooltips
-{{/tooltip-on-element}}
+{{/tooltip-on-element}} --}}
 
 <div class="page-content">
 
@@ -59,13 +59,13 @@
   <h3 id="component">Basic usage with components</h3>
 
 {{!-- BEGIN-SNIPPET basic-usage-components --}}
-{{#some-component}}
+<div class="some-component">
   Hover for more info
 
-  {{#tooltip-on-component}}
+  {{#tooltip-on-element enableLazyRendering=true}}
     Here is the info!
-  {{/tooltip-on-component}}
-{{/some-component}}
+  {{/tooltip-on-element}}
+</div>
 {{!-- END-SNIPPET --}}
 
   {{code-snippet name='basic-usage-components.hbs'}}
