@@ -1,43 +1,12 @@
 import Ember from 'ember';
-import layout from 'ember-tooltips/templates/components/tooltip-on-element';
-
-// TODO should I move these somewhere? Maybe Utils or Constants?
-export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
-export const PASSABLE_PROPERTY_NAMES = [
-	// 'class', //TODO add tests for class
-	// 'classNames', //TODO add tests for classNames
-	// TODO add tests for classNameBindings
-	'delay',
-	'delayOnChange',
-	'duration',
-	// 'effect', //TODO add tests for this
-	'event',
-	'hideOn',
-	'keepInWindow',
-	'side',
-	'showOn',
-	'spacing',
-	'isShown',
-	'tooltipIsVisible',
-	// 'hideDelay', //TODO add tests for this
-
-	'onDestroy',
-	'onHide',
-	'onRender',
-	'onShow',
-
-	// deprecated lifecycle actions
-	'onTooltipDestroy',
-	'onTooltipHide',
-	'onTooltipRender',
-	'onTooltipShow',
-
-	// TODO add targetAttachment and attachment
-];
+import layout from 'ember-tooltips/templates/components/popover-on-element';
+import { INTERACTION_EVENT_TYPES, PASSABLE_PROPERTY_NAMES } from 'ember-tooltips/components/tooltip-on-element';
 
 export default Ember.Component.extend({
 	layout,
+	classNames: ['ember-popover'], // TODO  should this be ember-popover?
 
+	// TODO get passedProperties from a shared place
 	passedProperties: Ember.computed(...PASSABLE_PROPERTY_NAMES, function() {
 		// this will return an object of approved options attributes
 		// which may be passed to this object
@@ -67,6 +36,7 @@ export default Ember.Component.extend({
 			return this.get('hasUserInteracted');
 		}
 	}),
+
 	didInsertElement() {
 		this._super(...arguments);
 
@@ -78,20 +48,23 @@ export default Ember.Component.extend({
 		const $parent = $element.parent();
 
 		INTERACTION_EVENT_TYPES.forEach((eventType) => {
-			$parent.on(`${eventType}.lazy-ember-tooltip`, () => {
+			$parent.on(`${eventType}.lazy-ember-popover`, () => {
 				if (!this.get('hasUserInteracted')) {
 					this.set('hasUserInteracted', true);
 					Ember.run.next(() => {
 						$element.trigger(eventType);
 					});
 				} else {
-					$parent.off(`${eventType}.lazy-ember-tooltip`);
+					$parent.off(`${eventType}.lazy-ember-popover`);
 				}
 			});
 		});
 
-		$element.removeClass(this.get('class')); // TODO explain this hack
-		$element.removeClass(this.get('classNames')); // TODO explain this hack and add tests
+		// todo make this a utility called deletePassThroughClassNames()
+		var classNamesToDeleteString = this.get('class') || '';
+		classNamesToDeleteString = classNamesToDeleteString.concat(' ', (this.get('classNames') || []).join(' '));
+
+		$element.removeClass(classNamesToDeleteString); // TODO explain this hack and add tests
 	},
 
 	willDestroyElement() {
@@ -99,7 +72,7 @@ export default Ember.Component.extend({
 
 		const $parent = this.$().parent();
 		INTERACTION_EVENT_TYPES.forEach((eventType) => {
-			$parent.off(`${eventType}.lazy-ember-tooltip`);
+			$parent.off(`${eventType}.lazy-ember-popover`);
 		});
 	},
 
@@ -130,8 +103,6 @@ export default Ember.Component.extend({
 		onTooltipDestroy() {
 			this.sendAction('onTooltipDestroy', ...arguments);
 		},
-	}
+	},
+
 });
-
-
-// TODO add tests for target="#some-string"

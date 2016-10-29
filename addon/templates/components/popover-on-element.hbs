@@ -1,3 +1,11 @@
-{{yield (hash
-	hide=(action "hide")
-)}}
+{{#if shouldRender}}
+	{{#popover-on-element-lazy
+		passedProperties=passedProperties
+		class=class
+	}}
+		{{yield (hash
+			hide=(action "hide")
+		)}}
+	{{/popover-on-element-lazy}}
+{{/if}}
+
