@@ -70,11 +70,22 @@ export default Ember.Component.extend({
 	didInsertElement() {
 		this._super(...arguments);
 
-		if (this.get('hasUserInteracted')) {
+		const $element = this.$();
+
+		// todo make this a utility called deletePassThroughClassNames()
+		var classNamesToDeleteString = this.get('class') || '';
+		classNamesToDeleteString = classNamesToDeleteString.concat(' ', (this.get('classNames') || []).join(' '));
+
+		$element.removeClass(classNamesToDeleteString); // TODO explain this hack and add tests
+		$element.removeAttr('id');
+
+		if (this.get('shouldRender')) {
+			// if the tooltip is rendered we don't need
+			// any special $parent event handling
 			return;
 		}
 
-		const $element = this.$();
+		// const $element = this.$();
 		const $parent = $element.parent();
 
 		INTERACTION_EVENT_TYPES.forEach((eventType) => {
@@ -89,13 +100,6 @@ export default Ember.Component.extend({
 				}
 			});
 		});
-
-		// todo make this a utility called deletePassThroughClassNames()
-		var classNamesToDeleteString = this.get('class') || '';
-		classNamesToDeleteString = classNamesToDeleteString.concat(' ', (this.get('classNames') || []).join(' '));
-
-		$element.removeClass(classNamesToDeleteString); // TODO explain this hack and add tests
-		$element.removeAttr('id');
 	},
 
 	willDestroyElement() {
