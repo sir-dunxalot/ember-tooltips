@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 export const PASSABLE_PROPERTY_NAMES = [
+	// 'id',
 	// 'class', //TODO add tests for class
 	// 'classNames', //TODO add tests for classNames
 	// TODO add tests for classNameBindings
@@ -94,6 +95,7 @@ export default Ember.Component.extend({
 		classNamesToDeleteString = classNamesToDeleteString.concat(' ', (this.get('classNames') || []).join(' '));
 
 		$element.removeClass(classNamesToDeleteString); // TODO explain this hack and add tests
+		$element.removeAttr('id');
 	},
 
 	willDestroyElement() {
