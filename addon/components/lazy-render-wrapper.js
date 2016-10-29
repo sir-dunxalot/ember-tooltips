@@ -85,7 +85,6 @@ export default Ember.Component.extend({
 			return;
 		}
 
-		// const $element = this.$();
 		const $parent = $element.parent();
 
 		INTERACTION_EVENT_TYPES.forEach((eventType) => {

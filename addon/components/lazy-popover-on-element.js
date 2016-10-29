@@ -13,6 +13,12 @@ export default TooltipAndPopoverComponent.extend({
   layout,
   classNames: ['ember-popover'],
   _isMouseInside: false,
+  didRender() {
+    this._super(...arguments);
+
+    const parentView = this.get('parentView');
+    parentView.set('childView', this);
+  },
   didInsertElement() {
     this._super(...arguments);
 
