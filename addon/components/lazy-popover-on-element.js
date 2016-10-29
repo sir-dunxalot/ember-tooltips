@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tooltip-and-popover';
-import layout from 'ember-tooltips/templates/components/popover-on-element-lazy';
+import layout from 'ember-tooltips/templates/components/lazy-popover-on-element';
 
 const { $, run } = Ember;
 

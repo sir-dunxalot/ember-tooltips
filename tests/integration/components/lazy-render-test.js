@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { assertNotRendered, assertRendered } from '../../helpers/sync/assert-visibility';
-import { INTERACTION_EVENT_TYPES } from 'ember-tooltips/components/tooltip-on-element';
+import { INTERACTION_EVENT_TYPES } from 'ember-tooltips/components/lazy-render-wrapper';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
   integration: true

@@ -1,9 +1,9 @@
 {{#if shouldRender}}
-	{{#tooltip-on-element-lazy
+	{{#lazy-tooltip-on-element
 		passedProperties=passedProperties
 		class=class
 	}}
 		{{yield}}
-	{{/tooltip-on-element-lazy}}
+	{{/lazy-tooltip-on-element}}
 {{/if}}
 

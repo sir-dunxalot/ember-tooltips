@@ -1,11 +1,11 @@
 {{#if shouldRender}}
-	{{#popover-on-element-lazy
+	{{#lazy-popover-on-element
 		passedProperties=passedProperties
 		class=class
 	}}
 		{{yield (hash
 			hide=(action "hide")
 		)}}
-	{{/popover-on-element-lazy}}
+	{{/lazy-popover-on-element}}
 {{/if}}
 
