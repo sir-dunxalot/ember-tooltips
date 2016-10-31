@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow } from '../../helpers/sync/assert-visibility';
+import { assertHide, assertShow, assertRendered} from '../../helpers/sync/assert-visibility';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -18,7 +18,27 @@ test('It toggles with isShown', function(assert) {
   this.render(hbs`{{tooltip-on-element isShown=showTooltip}}`);
 
   assertShow(assert, this);
-  
+
+  run(() => {
+    this.set('showTooltip', false);
+  });
+
+  assertHide(assert, this);
+
+});
+
+test('It toggles when enableLazyRendering with isShown', function(assert) {
+
+  assert.expect(6);
+
+  this.set('showTooltip', true);
+
+  this.render(hbs`{{tooltip-on-element isShown=showTooltip enableLazyRendering=true}}`);
+
+  assertRendered(assert, this);
+
+  assertShow(assert, this);
+
   run(() => {
     this.set('showTooltip', false);
   });

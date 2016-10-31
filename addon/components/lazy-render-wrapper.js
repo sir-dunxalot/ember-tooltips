@@ -65,6 +65,8 @@ export const PASSABLE_PROPERTY_NAMES = [
 		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101920
 
 	// TODO make PASSABLE_PROPERTY_NAMES editable
+
+	// TODO make sure that each test has `assert.expect` at the beginning
 ];
 
 export default Ember.Component.extend({
@@ -92,8 +94,11 @@ export default Ember.Component.extend({
 
 	enableLazyRendering: false,
 	hasUserInteracted: false,
-	// TODO this should take into consideration isShown
-	shouldRender: Ember.computed('enableLazyRendering', 'hasUserInteracted', function() {
+	shouldRender: Ember.computed('isShown', 'enableLazyRendering', 'hasUserInteracted', function() {
+		if (this.get('isShown')) {
+			this.set('hasUserInteracted', true); // when isShown is true we don't depend on hasUserInteracted events
+			return true;
+		}
 		if (!this.get('enableLazyRendering')) {
 			// users must opt-in to enableLazyRendering
 			return true;
