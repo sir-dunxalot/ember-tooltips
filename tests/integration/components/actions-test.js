@@ -12,11 +12,12 @@ test('It supports deprecated lifecycle actions', function(assert) {
   // onTooltip____ actions are deprecated in favor of on on_____ actions
   // these actions will be supported until v3.0.0
 
+  // actions can have unique names
   const actionsCalledHash = {
-    onTooltipDestroy: 0,
-    onTooltipHide: 0,
-    onTooltipRender: 0,
-    onTooltipShow: 0,
+    onTooltipRenderFoo: 0,
+    onTooltipShowBar: 0,
+    onTooltipDestroyBaz: 0,
+    onTooltipHideFubar: 0,
   };
 
   // assert.expect(10);
@@ -38,20 +39,20 @@ test('It supports deprecated lifecycle actions', function(assert) {
   this.render(hbs`
     {{#unless destroyTooltip}}
       {{tooltip-on-element
-        onTooltipDestroy='onTooltipDestroy'
-        onTooltipHide='onTooltipHide'
-        onTooltipRender='onTooltipRender'
-        onTooltipShow='onTooltipShow'
+        onTooltipRender='onTooltipRenderFoo'
+        onTooltipShow='onTooltipShowBar'
+        onTooltipDestroy='onTooltipDestroyBaz'
+        onTooltipHide='onTooltipHideFubar'
       }}
     {{/unless}}
   `);
 
   /* Check render */
 
-  assert.equal(actionsCalledHash.onTooltipRender, 1,
+  assert.equal(actionsCalledHash.onTooltipRenderFoo, 1,
     'Should have called render');
 
-  assert.equal(actionsCalledHash.onTooltipShow, 0,
+  assert.equal(actionsCalledHash.onTooltipShowBar, 0,
     'Should not have called show');
 
   /* Check show */
@@ -60,24 +61,24 @@ test('It supports deprecated lifecycle actions', function(assert) {
     this.$().trigger('mouseover');
   });
 
-  assert.equal(actionsCalledHash.onTooltipShow, 1,
+  assert.equal(actionsCalledHash.onTooltipShowBar, 1,
     'Should have called show');
 
-  assert.equal(actionsCalledHash.onTooltipHide, 0,
+  assert.equal(actionsCalledHash.onTooltipHideFubar, 0,
     'Should not have called hide');
 
   run(() => {
     this.$().trigger('mouseleave');
   });
 
-  assert.equal(actionsCalledHash.onTooltipHide, 1,
+  assert.equal(actionsCalledHash.onTooltipHideFubar, 1,
     'Should have called hide');
 
   /* Check destroy */
 
   this.set('destroyTooltip', true);
 
-  assert.equal(actionsCalledHash.onTooltipDestroy, 1,
+  assert.equal(actionsCalledHash.onTooltipDestroyBaz, 1,
     'Should have called destroy');
 
   // for some reason the tooltip is rendered twice after it's been destroyed
@@ -88,10 +89,10 @@ test('It supports deprecated lifecycle actions', function(assert) {
 
 test('It calls lifecycle actions', function(assert) {
   const actionsCalledHash = {
-    onDestroy: 0,
-    onHide: 0,
-    onRender: 0,
-    onShow: 0,
+    onRenderFoo: 0,
+    onShowBar: 0,
+    onHideBaz: 0,
+    onDestroyFubar: 0,
   };
 
   // assert.expect(10);
@@ -113,20 +114,20 @@ test('It calls lifecycle actions', function(assert) {
   this.render(hbs`
     {{#unless destroyTooltip}}
       {{tooltip-on-element
-        onDestroy='onDestroy'
-        onHide='onHide'
-        onRender='onRender'
-        onShow='onShow'
+        onRender='onRenderFoo'
+        onShow='onShowBar'
+        onHide='onHideBaz'
+        onDestroy='onDestroyFubar'
       }}
     {{/unless}}
   `);
 
   /* Check render */
 
-  assert.equal(actionsCalledHash.onRender, 1,
+  assert.equal(actionsCalledHash.onRenderFoo, 1,
     'Should have called render');
 
-  assert.equal(actionsCalledHash.onShow, 0,
+  assert.equal(actionsCalledHash.onShowBar, 0,
     'Should not have called show');
 
   /* Check show */
@@ -135,24 +136,45 @@ test('It calls lifecycle actions', function(assert) {
     this.$().trigger('mouseover');
   });
 
-  assert.equal(actionsCalledHash.onShow, 1,
+  assert.equal(actionsCalledHash.onShowBar, 1,
     'Should have called show');
 
-  assert.equal(actionsCalledHash.onHide, 0,
+  assert.equal(actionsCalledHash.onHideBaz, 0,
     'Should not have called hide');
 
   run(() => {
     this.$().trigger('mouseleave');
   });
 
-  assert.equal(actionsCalledHash.onHide, 1,
+  assert.equal(actionsCalledHash.onHideBaz, 1,
     'Should have called hide');
 
   /* Check destroy */
 
   this.set('destroyTooltip', true);
 
-  assert.equal(actionsCalledHash.onDestroy, 1,
+  assert.equal(actionsCalledHash.onDestroyFubar, 1,
     'Should have called destroy');
+
+});
+
+test('It supports lifecycle closure actions with multiple arguments', function(assert) {
+
+  assert.expect(1);
+
+  let onRenderPassword;
+
+  this.on('onRenderFoo', (trickPassword, realPassword) => {
+    onRenderPassword = realPassword;
+  });
+
+  this.render(hbs`
+    {{tooltip-on-element
+      onRender=(action 'onRenderFoo' 'trick password' 'real password')
+    }}
+  `);
+
+  assert.equal(onRenderPassword, 'real password',
+    'tooltip should support closure actions with multiple arguments');
 
 });

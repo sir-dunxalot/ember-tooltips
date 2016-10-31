@@ -18,7 +18,8 @@ export default function getParent(view) {
 }
 
 export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
-export const PASSABLE_PROPERTY_NAMES = [
+
+const PASSABLE_PROPERTIES = [
 	// 'id',
 	// 'class', //TODO add tests for class
 	// 'classNames', //TODO add tests for classNames
@@ -42,18 +43,6 @@ export const PASSABLE_PROPERTY_NAMES = [
 	// 'tabindex', // TODO add tests
 	// 'attribueBindings', // TODO add tests
 
-
-	'onDestroy',
-	'onHide',
-	'onRender',
-	'onShow',
-
-	// deprecated lifecycle actions
-	'onTooltipDestroy',
-	'onTooltipHide',
-	'onTooltipRender',
-	'onTooltipShow',
-
 	// non-publicized attributes
 	'targetAttachment',
 	'attachment',
@@ -64,28 +53,50 @@ export const PASSABLE_PROPERTY_NAMES = [
 		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101919
 		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101920
 
-	// TODO make PASSABLE_PROPERTY_NAMES editable
+	// TODO make PASSABLE_PROPERTIES editable
 
 	// TODO make sure that each test has `assert.expect` at the beginning
 ];
 
+const PASSABLE_ACTIONS = [
+	'onDestroy',
+	'onHide',
+	'onRender',
+	'onShow',
+
+	// deprecated lifecycle actions
+	'onTooltipDestroy',
+	'onTooltipHide',
+	'onTooltipRender',
+	'onTooltipShow',
+];
+
+const PASSABLE_OPTIONS = PASSABLE_PROPERTIES.concat(PASSABLE_ACTIONS);
+
 export default Ember.Component.extend({
 	tagName: '',
 
-	// data down
-	passedProperties: Ember.computed(...PASSABLE_PROPERTY_NAMES, function() {
+	passedProperties: Ember.computed(...PASSABLE_OPTIONS, function() {
 		// this will return an object of approved options attributes
 		// which may be passed to this object
 
 		// TODO write unit tests for passedProperties
-		// TODO make PASSABLE_PROPERTY_NAMES an attribute on tooltip-on-element so people can pass thru whatever
+		// TODO make PASSABLE_PROPERTIES an attribute on tooltip-on-element so people can pass thru whatever
 		// TODO rename all of these things
 
-		return PASSABLE_PROPERTY_NAMES.reduce((passablePropertiesObject, propName) => {
+		return PASSABLE_OPTIONS.reduce((passablePropertiesObject, propName) => {
 			let passedProperty = this.get(propName);
 
 			if (!Ember.isNone(passedProperty)) {
-				passablePropertiesObject[propName] = passedProperty;
+				if (PASSABLE_ACTIONS.includes(propName)) {
+					/* if a user has declared an action like oneShow='someFunc'
+					then we must pass down the correctly-scoped action instead of the string */
+
+					this.set(propName, passedProperty);
+					passablePropertiesObject[propName] = () => this.sendAction(propName);
+				} else {
+					passablePropertiesObject[propName] = passedProperty;
+				}
 			}
 
 			return passablePropertiesObject;
@@ -142,34 +153,4 @@ export default Ember.Component.extend({
 			$parent.off(`${eventType}.lazy-ember-popover`);
 		});
 	},
-
-	// actions up
-	actions: {
-		onRender() {
-			this.sendAction('onRender', ...arguments);
-		},
-		onShow() {
-			this.sendAction('onShow', ...arguments);
-		},
-		onHide() {
-			this.sendAction('onHide', ...arguments);
-		},
-		onDestroy() {
-			this.sendAction('onDestroy', ...arguments);
-		},
-
-		// deprecated lifecycle actions
-		onTooltipRender() {
-			this.sendAction('onTooltipRender', ...arguments);
-		},
-		onTooltipShow() {
-			this.sendAction('onTooltipShow', ...arguments);
-		},
-		onTooltipHide() {
-			this.sendAction('onTooltipHide', ...arguments);
-		},
-		onTooltipDestroy() {
-			this.sendAction('onTooltipDestroy', ...arguments);
-		},
-	}
 });
