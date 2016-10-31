@@ -17,17 +17,17 @@
   </div>
 
 </div>
-{{!--
+
 {{#tooltip-on-element
   class='logo-tooltip'
   event='none'
   target='#ember-logo'
-  tooltipIsVisible=showLogoTooltip
+  isShown=showLogoTooltip
   side='right'
   spacing=15
 }}
   Tooltips
-{{/tooltip-on-element}} --}}
+{{/tooltip-on-element}}
 
 <div class="page-content">
 
@@ -166,7 +166,7 @@
 <div class="page-content">
   <h3 id="async">Using async content</h3>
 
-  <p>In this example, <code>onTooltipShow</code> is used to mimick async behaviour. In reality, you do not need set this for async operations.</p>
+  <p>In this example, <code>onShow</code> is used to mimick async behaviour. In reality, you do not need set this for async operations.</p>
 
   <p>The tooltip will reposition itself whenever the <code>updateFor</code> property changes.</p>
 
@@ -174,7 +174,7 @@
 {{#some-component}}
   Tooltip has async content
 
-  {{#tooltip-on-component updateFor=asyncContent onTooltipShow='setAsyncContent'}}
+  {{#tooltip-on-component updateFor=asyncContent onShow='setAsyncContent'}}
     {{#if asyncContent}}
       {{asyncContent}}
     {{else}}

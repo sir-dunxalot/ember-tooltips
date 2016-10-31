@@ -8,7 +8,6 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on e
   integration: true
 });
 
-// TODO find some way of sharing this eventType array from the tooltip-on-element component
 INTERACTION_EVENT_TYPES.forEach(function(eventType) {
   test(`it renders lazily after ${eventType} when enabledLazyRendering=true`, function(assert) {
 

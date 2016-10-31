@@ -38,6 +38,10 @@ export const PASSABLE_PROPERTY_NAMES = [
 	'tooltipIsVisible',
 	'hideDelay',
 	'target',
+	// 'role', // TODO add tests
+	// 'tabindex', // TODO add tests
+	// 'attribueBindings', // TODO add tests
+
 
 	'onDestroy',
 	'onHide',
@@ -53,6 +57,14 @@ export const PASSABLE_PROPERTY_NAMES = [
 	// non-publicized attributes
 	'targetAttachment',
 	'attachment',
+	// 'updateFor', // TODO add tests
+
+	// TODO fix deprecation. didInitAttrs called in .... emberjs.com/deprecations/v2.x#toc_ember-component-didinitattrs
+	// TODO see if I can fix ember-beta and ember-canary test failures...
+		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101919
+		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101920
+
+	// TODO make PASSABLE_PROPERTY_NAMES editable
 ];
 
 export default Ember.Component.extend({
@@ -80,6 +92,7 @@ export default Ember.Component.extend({
 
 	enableLazyRendering: false,
 	hasUserInteracted: false,
+	// TODO this should take into consideration isShown
 	shouldRender: Ember.computed('enableLazyRendering', 'hasUserInteracted', function() {
 		if (!this.get('enableLazyRendering')) {
 			// users must opt-in to enableLazyRendering

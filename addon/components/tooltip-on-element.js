@@ -4,5 +4,3 @@ import layout from 'ember-tooltips/templates/components/tooltip-on-element';
 export default LazyRenderWrapperComponent.extend({
 	layout,
 });
-
-// TODO add test for updateFor and onTooltipShow
