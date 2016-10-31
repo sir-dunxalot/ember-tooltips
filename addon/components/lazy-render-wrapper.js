@@ -23,6 +23,7 @@ export const PASSABLE_PROPERTY_NAMES = [
 	// 'class', //TODO add tests for class
 	// 'classNames', //TODO add tests for classNames
 	// TODO add tests for classNameBindings
+	// TODO maybe alphabetize this or organize according to presentation in docs
 	'delay',
 	'delayOnChange',
 	'duration',
@@ -36,6 +37,7 @@ export const PASSABLE_PROPERTY_NAMES = [
 	'isShown',
 	'tooltipIsVisible',
 	// 'hideDelay', //TODO add tests for this
+	'target',
 
 	'onDestroy',
 	'onHide',

@@ -5,5 +5,4 @@ export default LazyRenderWrapperComponent.extend({
 	layout,
 });
 
-// TODO add tests for target="#some-string"
 // TODO add test for updateFor and onTooltipShow
