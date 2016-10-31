@@ -50,7 +50,9 @@ export const PASSABLE_PROPERTY_NAMES = [
 	'onTooltipRender',
 	'onTooltipShow',
 
-	// TODO add targetAttachment and attachment
+	// non-publicized attributes
+	'targetAttachment',
+	'attachment',
 ];
 
 export default Ember.Component.extend({
@@ -98,8 +100,6 @@ export default Ember.Component.extend({
 			return;
 		}
 
-
-		// const $element = this.$();
 		const $parent = getParent(this);
 
 		INTERACTION_EVENT_TYPES.forEach((eventType) => {
@@ -119,7 +119,6 @@ export default Ember.Component.extend({
 	willDestroyElement() {
 		this._super(...arguments);
 
-		// const $parent = this.$().parent();
 		const $parent = getParent(this);
 		INTERACTION_EVENT_TYPES.forEach((eventType) => {
 			$parent.off(`${eventType}.lazy-ember-popover`);
