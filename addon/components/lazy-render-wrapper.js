@@ -46,7 +46,7 @@ const PASSABLE_PROPERTIES = [
 	// non-publicized attributes
 	'targetAttachment',
 	'attachment',
-	// 'updateFor', // TODO add tests
+	'updateFor',
 
 	// TODO fix deprecation. didInitAttrs called in .... emberjs.com/deprecations/v2.x#toc_ember-component-didinitattrs
 	// TODO see if I can fix ember-beta and ember-canary test failures...
