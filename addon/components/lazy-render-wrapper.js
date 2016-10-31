@@ -88,7 +88,7 @@ export default Ember.Component.extend({
 			let passedProperty = this.get(propName);
 
 			if (!Ember.isNone(passedProperty)) {
-				if (PASSABLE_ACTIONS.includes(propName)) {
+				if (PASSABLE_ACTIONS.indexOf(propName) >= 0) {
 					/* if a user has declared an action like oneShow='someFunc'
 					then we must pass down the correctly-scoped action instead of the string */
 
