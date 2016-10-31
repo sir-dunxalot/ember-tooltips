@@ -36,7 +36,7 @@ export const PASSABLE_PROPERTY_NAMES = [
 	'spacing',
 	'isShown',
 	'tooltipIsVisible',
-	// 'hideDelay', //TODO add tests for this
+	'hideDelay',
 	'target',
 
 	'onDestroy',
