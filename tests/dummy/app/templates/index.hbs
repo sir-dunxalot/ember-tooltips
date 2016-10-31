@@ -62,7 +62,10 @@
 <div class="some-component">
   Hover for more info
 
-  {{#tooltip-on-element enableLazyRendering=true}}
+  {{#tooltip-on-element
+    enableLazyRendering=true
+    effect="fade"
+  }}
     Here is the info!
   {{/tooltip-on-element}}
 </div>

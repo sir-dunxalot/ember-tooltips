@@ -27,7 +27,7 @@ export const PASSABLE_PROPERTY_NAMES = [
 	'delay',
 	'delayOnChange',
 	'duration',
-	// 'effect', //TODO add tests for this
+	'effect',
 	'event',
 	'hideOn',
 	'keepInWindow',
