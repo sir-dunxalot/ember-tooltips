@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
-// TODO const more things
-const { get, $ } = Ember;
+const { computed, get, run, $ } = Ember;
 
 // https://github.com/emberjs/rfcs/issues/168
 export default function getParent(view) {
@@ -61,26 +60,24 @@ const PASSABLE_OPTIONS = PASSABLE_PROPERTIES.concat(PASSABLE_ACTIONS);
 export default Ember.Component.extend({
 	tagName: '',
 
-	passedProperties: Ember.computed(...PASSABLE_OPTIONS, function() {
-		// this will return an object of approved options attributes
-		// which may be passed to this object
+	passedPropertiesObject: computed(...PASSABLE_OPTIONS, function() {
+		// TODO write unit tests for passedPropertiesObject
 
-		// TODO write unit tests for passedProperties
-		// TODO make PASSABLE_PROPERTIES an attribute on tooltip-on-element so people can pass thru whatever
-		// TODO rename all of these things
+		return PASSABLE_OPTIONS.reduce((passablePropertiesObject, key) => {
+			// if a property has been declared by Component extension ( TooltipOnElement.extend )
+			// or by handlebars instantiation ( {{tooltip-on-element}} ) then that property needs
+			// to be passed from this wrapper to the lazy-rendered tooltip or popover component
 
-		return PASSABLE_OPTIONS.reduce((passablePropertiesObject, propName) => {
-			let passedProperty = this.get(propName);
+			let value = this.get(key);
 
-			if (!Ember.isNone(passedProperty)) {
-				if (PASSABLE_ACTIONS.indexOf(propName) >= 0) {
-					/* if a user has declared an action like onShow='someFunc'
-					then we must pass down the correctly-scoped action instead of the string */
+			if (!Ember.isNone(value)) {
+				if (PASSABLE_ACTIONS.indexOf(key) >= 0) {
+					// if a user has declared a lifecycle action property (onShow='someFunc')
+					// then we must pass down the correctly-scoped action instead of value
 
-					this.set(propName, passedProperty);
-					passablePropertiesObject[propName] = () => this.sendAction(propName);
+					passablePropertiesObject[key] = () => this.sendAction(key);
 				} else {
-					passablePropertiesObject[propName] = passedProperty;
+					passablePropertiesObject[key] = value;
 				}
 			}
 
@@ -91,7 +88,7 @@ export default Ember.Component.extend({
 	enableLazyRendering: false, // TODO add docs for this
 	_hasUserInteracted: false,
 	_hasRendered: false,
-	_shouldRender: Ember.computed('isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
+	_shouldRender: computed('isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
 		// if isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
 		// we return true and change _shouldRender from a computed property to a boolean.
 		// We do this because there is never a scenario where this wrapper should destroy the tooltip
@@ -135,7 +132,7 @@ export default Ember.Component.extend({
 					$parent.off(`${eventType}.lazy-ember-popover`);
 				} else {
 					this.set('_hasUserInteracted', true);
-					Ember.run.next(() => {
+					run.next(() => {
 						$parent.trigger(eventType);
 					});
 				}

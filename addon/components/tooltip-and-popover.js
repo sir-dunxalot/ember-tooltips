@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import EmberTetherComponent from 'ember-tether/components/ember-tether';
 
-const { $, computed, run } = Ember;
+const { $, computed, run, on } = Ember;
 
 const defaultPosition = 'center';
 
@@ -27,13 +27,13 @@ function cleanNumber(stringOrNumber) {
 
 export default EmberTetherComponent.extend({
 
-  passedProperties: null,
-  setPropertiesWithPassedProperties: Ember.on('didReceiveAttrs', function() {
+  passedPropertiesObject: null,
+  setPropertiesWithpassedPropertiesObject: on('didReceiveAttrs', function() {
     this._super(...arguments);
 
-    let passedProperties = this.get('passedProperties');
-    if (passedProperties) {
-      this.setProperties(passedProperties);
+    let passedPropertiesObject = this.get('passedPropertiesObject');
+    if (passedPropertiesObject) {
+      this.setProperties(passedPropertiesObject);
     }
   }),
 
