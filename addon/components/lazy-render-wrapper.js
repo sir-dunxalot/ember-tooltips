@@ -61,8 +61,6 @@ export default Ember.Component.extend({
 	tagName: '',
 
 	passedPropertiesObject: computed(...PASSABLE_OPTIONS, function() {
-		// TODO write unit tests for passedPropertiesObject
-
 		return PASSABLE_OPTIONS.reduce((passablePropertiesObject, key) => {
 			// if a property has been declared by Component extension ( TooltipOnElement.extend )
 			// or by handlebars instantiation ( {{tooltip-on-element}} ) then that property needs
@@ -85,7 +83,7 @@ export default Ember.Component.extend({
 		}, {});
 	}),
 
-	enableLazyRendering: false, // TODO add docs for this
+	enableLazyRendering: false,
 	_hasUserInteracted: false,
 	_hasRendered: false,
 	_shouldRender: computed('isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
