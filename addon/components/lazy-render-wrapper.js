@@ -3,7 +3,6 @@ import Ember from 'ember';
 const { get, $ } = Ember;
 
 // https://github.com/emberjs/rfcs/issues/168
-// TODO how will this work with "-on-component" instances?
 export default function getParent(view) {
   if (get(view, 'tagName') === '') {
     // Beware: use of private API! :(
@@ -20,7 +19,6 @@ export default function getParent(view) {
 export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 
 const PASSABLE_PROPERTIES = [
-	// TODO maybe alphabetize this or organize according to presentation in docs
 	'delay',
 	'delayOnChange',
 	'duration',
@@ -35,22 +33,18 @@ const PASSABLE_PROPERTIES = [
 	'tooltipIsVisible',
 	'hideDelay',
 	'target',
-	'role',
-	'tabindex',
 
 	// non-publicized attributes
+	'updateFor',
 	'targetAttachment',
 	'attachment',
-	'updateFor',
+	'role',
+	'tabindex',
 
 	// TODO fix deprecation. didInitAttrs called in .... emberjs.com/deprecations/v2.x#toc_ember-component-didinitattrs
 	// TODO see if I can fix ember-beta and ember-canary test failures...
 		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101919
 		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101920
-
-	// TODO make PASSABLE_PROPERTIES editable
-
-	// TODO make sure that each test has `assert.expect` at the beginning
 ];
 
 const PASSABLE_ACTIONS = [

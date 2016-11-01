@@ -5,7 +5,7 @@ moduleForComponent('tooltip-on-component', 'Integration | Component | tooltip on
   integration: true
 });
 
-test('It renders with no content', function(assert) {
+test('tooltip-on-component renders with no content', function(assert) {
 
   this.render(hbs`{{tooltip-on-component}}`);
 
@@ -14,7 +14,7 @@ test('It renders with no content', function(assert) {
 
 });
 
-test('It renders with content', function(assert) {
+test('tooltip-on-component renders with content', function(assert) {
 
   this.render(hbs`
     {{#tooltip-on-component}}
