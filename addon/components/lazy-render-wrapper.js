@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+// TODO const more things
 const { get, $ } = Ember;
 
 // https://github.com/emberjs/rfcs/issues/168
@@ -73,7 +74,7 @@ export default Ember.Component.extend({
 
 			if (!Ember.isNone(passedProperty)) {
 				if (PASSABLE_ACTIONS.indexOf(propName) >= 0) {
-					/* if a user has declared an action like oneShow='someFunc'
+					/* if a user has declared an action like onShow='someFunc'
 					then we must pass down the correctly-scoped action instead of the string */
 
 					this.set(propName, passedProperty);
@@ -87,28 +88,41 @@ export default Ember.Component.extend({
 		}, {});
 	}),
 
-	enableLazyRendering: false,
-	hasUserInteracted: false,
-	shouldRender: Ember.computed('isShown', 'enableLazyRendering', 'hasUserInteracted', function() {
-		if (this.get('isShown')) {
-			this.set('hasUserInteracted', true); // when isShown is true we don't depend on hasUserInteracted events
+	enableLazyRendering: false, // TODO add docs for this
+	_hasUserInteracted: false,
+	_hasRendered: false,
+	_shouldRender: Ember.computed('isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
+		// if isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
+		// we return true and change _shouldRender from a computed property to a boolean.
+		// We do this because there is never a scenario where this wrapper should destroy the tooltip
+
+		const returnTrueAndEnsureAlwaysRendered = () => {
+			this.set('_shouldRender', true);
 			return true;
+		};
+
+		if (this.get('isShown') || this.get('tooltipIsVisible')) {
+
+			return returnTrueAndEnsureAlwaysRendered();
+
+		} else if (!this.get('enableLazyRendering')) {
+
+			return returnTrueAndEnsureAlwaysRendered();
+
+		} else if (this.get('_hasUserInteracted')) {
+
+			return returnTrueAndEnsureAlwaysRendered();
+
 		}
-		if (!this.get('enableLazyRendering')) {
-			// users must opt-in to enableLazyRendering
-			return true;
-		} else {
-			return this.get('hasUserInteracted');
-		}
+
+		return false;
 	}),
-
-
 
 	didInsertElement() {
 		this._super(...arguments);
 
-		if (this.get('shouldRender')) {
-			// if the tooltip is rendered we don't need
+		if (this.get('_shouldRender')) {
+			// if the tooltip _shouldRender then we don't need
 			// any special $parent event handling
 			return;
 		}
@@ -117,13 +131,13 @@ export default Ember.Component.extend({
 
 		INTERACTION_EVENT_TYPES.forEach((eventType) => {
 			$parent.on(`${eventType}.lazy-ember-popover`, () => {
-				if (!this.get('hasUserInteracted')) {
-					this.set('hasUserInteracted', true);
+				if (this.get('_hasUserInteracted')) {
+					$parent.off(`${eventType}.lazy-ember-popover`);
+				} else {
+					this.set('_hasUserInteracted', true);
 					Ember.run.next(() => {
 						$parent.trigger(eventType);
 					});
-				} else {
-					$parent.off(`${eventType}.lazy-ember-popover`);
 				}
 			});
 		});

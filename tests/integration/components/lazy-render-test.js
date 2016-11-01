@@ -11,9 +11,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on e
 INTERACTION_EVENT_TYPES.forEach(function(eventType) {
   test(`it renders lazily after ${eventType} when enabledLazyRendering=true`, function(assert) {
 
-    this.render(hbs`
-      {{tooltip-on-element enableLazyRendering=true}}
-    `);
+    this.render(hbs`{{tooltip-on-element enableLazyRendering=true}}`);
 
     const done = assert.async();
 
@@ -31,9 +29,19 @@ INTERACTION_EVENT_TYPES.forEach(function(eventType) {
 });
 
 test('it renders automatically when enabledLazyRendering=false', function(assert) {
-  this.render(hbs`
-    {{tooltip-on-element enableLazyRendering=false}}
-  `);
+  this.render(hbs`{{tooltip-on-element enableLazyRendering=false}}`);
+
+  assertRendered(assert, this);
+});
+
+test('it renders automatically when isShown=true', function(assert) {
+  this.render(hbs`{{tooltip-on-element enableLazyRendering=true isShown=true}}`);
+
+  assertRendered(assert, this);
+});
+
+test('it renders automatically when tooltipIsVisible=true', function(assert) {
+  this.render(hbs`{{tooltip-on-element enableLazyRendering=true tooltipIsVisible=true}}`);
 
   assertRendered(assert, this);
 });

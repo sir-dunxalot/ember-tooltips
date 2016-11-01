@@ -11,7 +11,10 @@ export default TooltipAndPopoverComponent.extend({
   /* Properties */
   classNames: ['ember-popover'],
   _isMouseInside: false,
+
   didRender() {
+    // the lazy-render popover component instance needs access to the childView
+    // so that it can call the childView's hide action
     this._super(...arguments);
 
     const parentView = this.get('parentView');

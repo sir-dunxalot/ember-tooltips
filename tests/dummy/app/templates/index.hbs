@@ -25,6 +25,7 @@
   isShown=showLogoTooltip
   side='right'
   spacing=15
+  enableLazyRendering=true
 }}
   Tooltips
 {{/tooltip-on-element}}
@@ -59,16 +60,13 @@
   <h3 id="component">Basic usage with components</h3>
 
 {{!-- BEGIN-SNIPPET basic-usage-components --}}
-<div class="some-component">
+{{#some-component}}
   Hover for more info
 
-  {{#tooltip-on-element
-    enableLazyRendering=true
-    effect="fade"
-  }}
+  {{#tooltip-on-component enableLazyRendering=true}}
     Here is the info!
-  {{/tooltip-on-element}}
-</div>
+  {{/tooltip-on-component}}
+{{/some-component}}
 {{!-- END-SNIPPET --}}
 
   {{code-snippet name='basic-usage-components.hbs'}}
@@ -82,7 +80,7 @@
 <div class="some-component">
   Click for more info
 
-  {{#tooltip-on-element event='click'}}
+  {{#tooltip-on-element event='click' enableLazyRendering=true}}
     Here is the info!
   {{/tooltip-on-element}}
 </div>
@@ -98,7 +96,7 @@
 {{!-- BEGIN-SNIPPET basic-usage-target --}}
 {{input id='my-input' value='Some value'}}
 
-{{#tooltip-on-element target='#my-input' event='focus'}}
+{{#tooltip-on-element target='#my-input' event='focus' enableLazyRendering=true}}
   Here is the info!
 {{/tooltip-on-element}}
 {{!-- END-SNIPPET --}}
@@ -113,7 +111,7 @@
 {{#some-component}}
   Tooltip will show after 1000ms
 
-  {{#tooltip-on-component delay=1000}}
+  {{#tooltip-on-component delay=1000 enableLazyRendering=true}}
     Here is the info!
   {{/tooltip-on-component}}
 {{/some-component}}
@@ -129,7 +127,7 @@
 {{#some-component}}
   Tooltip will disappear after 1000ms
 
-  {{#tooltip-on-component duration=1000}}
+  {{#tooltip-on-component duration=1000 enableLazyRendering=true}}
     Here is the info!
   {{/tooltip-on-component}}
 {{/some-component}}
@@ -153,7 +151,7 @@
 {{#some-component}}
   Show an error
 
-  {{#tooltip-on-component class='tooltip-error'}}
+  {{#tooltip-on-component class='tooltip-error' enableLazyRendering=true}}
     Here is the error!
   {{/tooltip-on-component}}
 {{/some-component}}
@@ -174,7 +172,7 @@
 {{#some-component}}
   Tooltip has async content
 
-  {{#tooltip-on-component updateFor=asyncContent onShow='setAsyncContent'}}
+  {{#tooltip-on-component updateFor=asyncContent onShow='setAsyncContent' enableLazyRendering=true}}
     {{#if asyncContent}}
       {{asyncContent}}
     {{else}}
@@ -192,16 +190,16 @@
   <h3 id="popover">Using a popover instead of a tooltip</h3>
 
 {{!-- BEGIN-SNIPPET popover --}}
-<div class="some-component">
+{{#some-component}}
   View more information
 
-  {{#popover-on-element as |popover|}}
+  {{#popover-on-component enableLazyRendering=true as |popover|}}
     <h3>More info</h3>
     <p>Here is more information!</p>
 
     <button {{action popover.hide}}>Hide</button>
-  {{/popover-on-element}}
-</div>
+  {{/popover-on-component}}
+{{/some-component}}
 {{!-- END-SNIPPET --}}
 
   {{code-snippet name='popover.hbs'}}

@@ -9,6 +9,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | isShown', {
   integration: true
 });
 
+
 test('It toggles with isShown', function(assert) {
 
   assert.expect(4);
