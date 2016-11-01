@@ -40,10 +40,6 @@ const PASSABLE_PROPERTIES = [
 	'attachment',
 	'role',
 	'tabindex',
-
-	// TODO see if I can fix ember-beta and ember-canary test failures...
-		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101919
-		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101920
 ];
 
 const PASSABLE_ACTIONS = [

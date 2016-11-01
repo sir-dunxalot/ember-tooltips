@@ -47,6 +47,8 @@ test('It supports deprecated lifecycle actions', function(assert) {
     {{/unless}}
   `);
 
+  const done = assert.async();
+
   /* Check render */
 
   assert.equal(actionsCalledHash.onTooltipRenderFoo, 1,
@@ -84,6 +86,12 @@ test('It supports deprecated lifecycle actions', function(assert) {
   // for some reason the tooltip is rendered twice after it's been destroyed
   // this is only observable in the ember-beta and ember-canary scenarios
   // I'm commenting out the assert.expect to unblock
+  // I'm also waiting for 1000ms so that this behavior doesn't
+  // break other tests in ember-beta and ember-canary
+
+  Ember.run.later(() => {
+    done();
+  }, 1000);
 
 });
 
