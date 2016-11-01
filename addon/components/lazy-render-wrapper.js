@@ -20,10 +20,6 @@ export default function getParent(view) {
 export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 
 const PASSABLE_PROPERTIES = [
-	// 'id',
-	// 'class', //TODO add tests for class
-	// 'classNames', //TODO add tests for classNames
-	// TODO add tests for classNameBindings
 	// TODO maybe alphabetize this or organize according to presentation in docs
 	'delay',
 	'delayOnChange',
@@ -39,9 +35,8 @@ const PASSABLE_PROPERTIES = [
 	'tooltipIsVisible',
 	'hideDelay',
 	'target',
-	// 'role', // TODO add tests
-	// 'tabindex', // TODO add tests
-	// 'attribueBindings', // TODO add tests
+	'role',
+	'tabindex',
 
 	// non-publicized attributes
 	'targetAttachment',
