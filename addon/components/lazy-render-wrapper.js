@@ -41,7 +41,6 @@ const PASSABLE_PROPERTIES = [
 	'role',
 	'tabindex',
 
-	// TODO fix deprecation. didInitAttrs called in .... emberjs.com/deprecations/v2.x#toc_ember-component-didinitattrs
 	// TODO see if I can fix ember-beta and ember-canary test failures...
 		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101919
 		// https://travis-ci.org/sir-dunxalot/ember-tooltips/jobs/172101920

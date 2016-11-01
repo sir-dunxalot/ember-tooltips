@@ -28,7 +28,9 @@ function cleanNumber(stringOrNumber) {
 export default EmberTetherComponent.extend({
 
   passedProperties: null,
-  setPropertiesWithPassedProperties: Ember.on('didInitAttrs', 'willUpdate', function() {
+  setPropertiesWithPassedProperties: Ember.on('didReceiveAttrs', function() {
+    this._super(...arguments);
+
     let passedProperties = this.get('passedProperties');
     if (passedProperties) {
       this.setProperties(passedProperties);
