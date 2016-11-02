@@ -34,7 +34,7 @@ You can use and see the pre-1.0 version on [this branch](https://github.com/sir-
 
 ## 2.4.0 Release
 
-Version 2.4.0 introduces lazy rendering. Tooltips and popovers generally don't need to be rendered until the user has interacted with the `$target` element. Adding `enableLazyRendering=true` to your component will enable this future. In version 3.0.0 `enableLazyRendering` will default to `true` and you'll be able to opt-out of lazy rendering as necessary.
+Version 2.4.0 introduces lazy rendering. Tooltips and popovers generally don't need to be rendered until the user has interacted with the `$target` element. Adding `enableLazyRendering=true` to your component will enable this feature. In version 3.0.0 `enableLazyRendering` will default to `true` and you'll be able to opt-out of lazy rendering as necessary.
 
 ## Usage
 

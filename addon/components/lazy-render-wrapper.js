@@ -3,6 +3,7 @@ import Ember from 'ember';
 const { computed, get, run, $ } = Ember;
 
 // https://github.com/emberjs/rfcs/issues/168
+// https://github.com/emberjs/ember.js/pull/12500
 export default function getParent(view) {
   if (get(view, 'tagName') === '') {
     // Beware: use of private API! :(
@@ -16,6 +17,8 @@ export default function getParent(view) {
   }
 }
 
+// this const is also used in lazy-render-test.js
+// to ensure each interaction type causes a render
 export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 
 const PASSABLE_PROPERTIES = [

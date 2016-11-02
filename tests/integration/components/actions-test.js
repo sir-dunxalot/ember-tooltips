@@ -167,6 +167,8 @@ test('It calls lifecycle actions', function(assert) {
 });
 
 test('It supports lifecycle closure actions with multiple arguments', function(assert) {
+  // closure actions allow you to pass multiple parameters
+  // when you declare the action variable. This test covers that case.
 
   assert.expect(1);
 
