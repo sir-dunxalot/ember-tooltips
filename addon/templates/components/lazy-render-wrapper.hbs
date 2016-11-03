@@ -1,10 +1,12 @@
 {{#if _shouldRender}}
-	{{#lazy-tooltip-on-element
+	{{#component tetherComponentName
 		passedPropertiesObject=passedPropertiesObject
 		class=class
 		id=id
 	}}
-		{{yield}}
-	{{/lazy-tooltip-on-element}}
+		{{yield (hash
+			hide=(action "hide")
+		)}}
+	{{/component}}
 {{/if}}
 

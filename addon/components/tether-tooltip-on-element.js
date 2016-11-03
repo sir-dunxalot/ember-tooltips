@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import TooltipAndPopoverComponent from 'ember-tooltips/components/tooltip-and-popover';
+import TooltipAndPopoverComponent from 'ember-tooltips/components/tether-tooltip-and-popover';
 
 const { $ } = Ember;
 

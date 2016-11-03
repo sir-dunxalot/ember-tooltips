@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import layout from 'ember-tooltips/templates/components/lazy-render-wrapper';
 
 const { computed, get, run, $ } = Ember;
 
@@ -62,6 +63,7 @@ const PASSABLE_OPTIONS = PASSABLE_PROPERTIES.concat(PASSABLE_ACTIONS);
 
 export default Ember.Component.extend({
 	tagName: '',
+	layout,
 
 	passedPropertiesObject: computed(...PASSABLE_OPTIONS, function() {
 		return PASSABLE_OPTIONS.reduce((passablePropertiesObject, key) => {
