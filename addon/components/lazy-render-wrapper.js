@@ -5,7 +5,7 @@ const { computed, get, run, $ } = Ember;
 
 // https://github.com/emberjs/rfcs/issues/168
 // https://github.com/emberjs/ember.js/pull/12500
-export default function getParent(view) {
+function getParent(view) {
   if (get(view, 'tagName') === '') {
     // Beware: use of private API! :(
     if (Ember.ViewUtils && Ember.ViewUtils.getViewBounds) {
