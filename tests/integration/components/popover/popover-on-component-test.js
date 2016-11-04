@@ -1,31 +1,33 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { assertNotRendered, assertRendered } from '../../../helpers/sync/assert-visibility';
 
 moduleForComponent('popover-on-component', 'Integration | Component | popover on component', {
   integration: true
 });
 
-test('popover-on-component renders with no content', function(assert) {
-
-  this.render(hbs`{{popover-on-component}}`);
-
-  assert.equal(this.$().text().trim(), '',
-    'Should render with no content');
-
-});
-
-test('popover-on-component renders with content', function(assert) {
+test('popover-on-component does render when enableLazyRendering=false', function(assert) {
 
   this.render(hbs`
-    {{#popover-on-component}}
-      template block text
-    {{/popover-on-component}}
+    {{#some-component}}
+      {{#popover-on-component enableLazyRendering=false}}
+        template block text
+      {{/popover-on-component}}
+    {{/some-component}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text',
-    'Should render with content');
+  assertRendered(assert, this);
+});
 
-  assert.ok(this.$().find('.ember-popover').length,
-    'Should create a popover element');
+test('popover-on-component does initially render when enableLazyRendering=true', function(assert) {
 
+  this.render(hbs`
+    {{#some-component}}
+      {{#popover-on-component enableLazyRendering=true}}
+        template block text
+      {{/popover-on-component}}
+    {{/some-component}}
+  `);
+
+  assertNotRendered(assert, this);
 });

@@ -93,25 +93,27 @@ export default Ember.Component.extend({
 	_hasRendered: false,
 	_shouldRender: computed('isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
 		// if isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
-		// we return true and change _shouldRender from a computed property to a boolean.
-		// We do this because there is never a scenario where this wrapper should destroy the tooltip
+		// we return true and set _hasRendered to true because
+		// there is never a scenario where this wrapper should destroy the tooltip
 
-		const returnTrueAndEnsureAlwaysRendered = () => {
-			this.set('_shouldRender', true);
+		if (this.get('_hasRendered')) {
+
 			return true;
-		};
 
-		if (this.get('isShown') || this.get('tooltipIsVisible')) {
+		} else if (this.get('isShown') || this.get('tooltipIsVisible')) {
 
-			return returnTrueAndEnsureAlwaysRendered();
+			this.set('_hasRendered', true);
+			return true;
 
 		} else if (!this.get('enableLazyRendering')) {
 
-			return returnTrueAndEnsureAlwaysRendered();
+			this.set('_hasRendered', true);
+			return true;
 
 		} else if (this.get('_hasUserInteracted')) {
 
-			return returnTrueAndEnsureAlwaysRendered();
+			this.set('_hasRendered', true);
+			return true;
 
 		}
 

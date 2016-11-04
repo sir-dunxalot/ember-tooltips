@@ -1,15 +1,24 @@
+const TARGET_CLASS = 'ember-tooltip-or-popover-target';
+const TARGET_SELECTOR = `.${TARGET_CLASS}`;
+const TOOLTIP_OR_POPOVER_SELECTORS = '.ember-tooltip, .ember-popover';
+
 export function assertNotRendered(assert, context) {
-  assert.notOk(context.$().hasClass('ember-tooltip-or-popover-target'),
-      'initially the $parent SHOULD NOT be the tooltip-or-popover-target');
-  assert.notOk(context.$().find('.ember-tooltip').length,
-      'initially the ember-tooltip SHOULD NOT be rendered');
+  let $context = context.$();
+
+  assert.notOk($context.hasClass(TARGET_CLASS) || $context.find(TARGET_SELECTOR).length,
+      'the the $target SHOULD NOT have the tooltip-or-popover-target class');
+
+  assert.notOk($context.parents('body').find(TOOLTIP_OR_POPOVER_SELECTORS).length,
+      'the ember-tooltip SHOULD NOT be rendered');
 }
 
 export function assertRendered(assert, context) {
-  assert.ok(context.$().hasClass('ember-tooltip-or-popover-target'),
-      'the $parent SHOULD be the tooltip-or-popover-target');
+  let $context = context.$();
 
-  assert.ok(context.$().find('.ember-tooltip').length,
+  assert.ok($context.hasClass(TARGET_CLASS) || $context.find(TARGET_SELECTOR).length,
+      'the the $target SHOULD have the tooltip-or-popover-target class');
+
+  assert.ok($context.parents('body').find(TOOLTIP_OR_POPOVER_SELECTORS).length,
       'the ember-tooltip SHOULD be rendered');
 }
 

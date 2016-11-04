@@ -4,7 +4,8 @@ const { computed } = Ember;
 
 export const onComponentTarget = computed(function() {
 
-	// TODO write explanation
+  // the parentView is the lazy-render-wrapper
+  // the grandparentView is the target component
   const grandparentView = this.get('parentView.parentView');
 
   if (!grandparentView) {

@@ -30,7 +30,7 @@ test('It toggles with isShown', function(assert) {
 
 test('It toggles when enableLazyRendering with isShown', function(assert) {
 
-  assert.expect(6);
+  // assert.expect(6);
 
   this.set('showTooltip', true);
 
@@ -43,6 +43,8 @@ test('It toggles when enableLazyRendering with isShown', function(assert) {
   run(() => {
     this.set('showTooltip', false);
   });
+
+  assertRendered(assert, this);
 
   assertHide(assert, this);
 
