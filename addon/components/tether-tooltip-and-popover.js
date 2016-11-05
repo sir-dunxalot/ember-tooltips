@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import EmberTetherComponent from 'ember-tether/components/ember-tether';
 
-const { $, computed, run } = Ember;
+const { $, computed, run, on } = Ember;
 
 const defaultPosition = 'center';
 
@@ -26,6 +26,16 @@ function cleanNumber(stringOrNumber) {
 }
 
 export default EmberTetherComponent.extend({
+
+  passedPropertiesObject: null,
+  setPropertiesWithPassedPropertiesObject: on('didReceiveAttrs', function() {
+    this._super(...arguments);
+
+    let passedPropertiesObject = this.get('passedPropertiesObject');
+    if (passedPropertiesObject) {
+      this.setProperties(passedPropertiesObject);
+    }
+  }),
 
   /* Options */
 
@@ -88,7 +98,7 @@ export default EmberTetherComponent.extend({
   attributeBindings: ['aria-hidden', 'role', 'tabindex', 'data-tether-enabled'],
   classNameBindings: ['effectClass'],
   classPrefix: 'ember-tooltip-or-popover',
-  
+
   _didUpdateTimeoutLength: 1000, // 1000 ms or 0 ms, depending whether in test mode
   _hideTimer: null,
   _showTimer: null,

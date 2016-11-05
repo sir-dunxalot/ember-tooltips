@@ -1,0 +1,12 @@
+{{#if _shouldRender}}
+	{{#component tetherComponentName
+		passedPropertiesObject=passedPropertiesObject
+		class=class
+		id=id
+	}}
+		{{yield (hash
+			hide=(action "hide")
+		)}}
+	{{/component}}
+{{/if}}
+
