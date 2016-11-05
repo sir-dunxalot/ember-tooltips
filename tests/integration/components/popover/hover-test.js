@@ -11,7 +11,7 @@ moduleForComponent('popover-on-element', 'Integration | Option | hover', {
 
 test('Popover: hover target, hover elsewhere', function(assert) {
 
-  this.render(hbs`{{popover-on-element event="hover" hideDelay="250"}}`);
+  this.render(hbs`{{popover-on-element event="hover" hideDelay="100"}}`);
 
   const done = assert.async();
   const $target = this.$();
@@ -33,7 +33,7 @@ test('Popover: hover target, hover elsewhere', function(assert) {
   run.later(() => {
     assertPopoverHide(assert, this);
     done();
-  }, 300);
+  }, 200);
 
   assert.expect(8);
 
@@ -41,7 +41,7 @@ test('Popover: hover target, hover elsewhere', function(assert) {
 
 test('Popover: hover target, hover popover (too slow)', function(assert) {
 
-  this.render(hbs`{{popover-on-element event="hover" hideDelay="250"}}`);
+  this.render(hbs`{{popover-on-element event="hover"}}`);
 
   const done = assert.async();
   const $target = this.$();
@@ -61,7 +61,7 @@ test('Popover: hover target, hover popover (too slow)', function(assert) {
 
   run.later(() => {
     $popover.trigger('mouseover');
-    // hideDelay is 250ms, it took the 'user' 500ms to mouseover the popover
+    // hideDelay is 250ms by default, it took the 'user' 500ms to mouseover the popover
   }, 500);
 
   run.later(() => {
@@ -76,7 +76,7 @@ test('Popover: hover target, hover popover (too slow)', function(assert) {
 test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', function(assert) {
   /*
     Timeline: the popover should only hide if neither elements
-    have been moused-over within the 250ms hideDelay
+    have been moused-over within the 250ms default hideDelay
     0 hidden
     0 target.mouseover
     0 shown
@@ -89,7 +89,7 @@ test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', f
     1000 hidden
   */
 
-  this.render(hbs`{{popover-on-element event="hover" hideDelay="250"}}`);
+  this.render(hbs`{{popover-on-element event="hover"}}`);
 
   const done = assert.async();
   const $target = this.$();

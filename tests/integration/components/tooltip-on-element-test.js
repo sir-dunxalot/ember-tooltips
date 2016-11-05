@@ -7,11 +7,6 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on e
 
 test('It renders', function(assert) {
 
-  this.render(hbs`{{tooltip-on-element}}`);
-
-  assert.equal(this.$().text().trim(), '',
-    'Should render with no content');
-
   this.render(hbs`
     {{#tooltip-on-element}}
       template block text

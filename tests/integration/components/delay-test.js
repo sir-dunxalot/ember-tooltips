@@ -61,7 +61,7 @@ test('It animates with delay passed as a string', function(assert) {
     this.$().trigger('mouseover');
   });
 
-  /* Check the tooltip is shwon after the correct delay */
+  /* Check the tooltip is shown after the correct delay */
 
   run.later(() => {
     // tether should be enabled, because the tooltip must be positioned
