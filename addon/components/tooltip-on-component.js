@@ -2,4 +2,6 @@ import TooltipOnElementComponent from 'ember-tooltips/components/tooltip-on-elem
 
 export default TooltipOnElementComponent.extend({
 	tetherComponentName: 'tether-tooltip-on-component',
+
+	_shouldTargetGrandparentView: true,
 });

@@ -2,4 +2,6 @@ import PopoverOnElementComponent from 'ember-tooltips/components/popover-on-elem
 
 export default PopoverOnElementComponent.extend({
 	tetherComponentName: 'tether-popover-on-component',
+
+	_shouldTargetGrandparentView: true,
 });
