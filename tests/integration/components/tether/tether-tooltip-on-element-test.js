@@ -12,11 +12,9 @@ test('tether-tooltip-on-element renders', function(assert) {
   assert.expect(2);
 
   this.render(hbs`
-    {{#some-component}}
-      {{#tether-tooltip-on-element}}
-        template block text
-      {{/tether-tooltip-on-element}}
-    {{/some-component}}
+    {{#tether-tooltip-on-element}}
+      template block text
+    {{/tether-tooltip-on-element}}
   `);
 
   assertRendered(assert, this);
@@ -27,27 +25,25 @@ test("tether-tooltip-on-element targets it's parent view", function(assert) {
   assert.expect(7);
 
   this.render(hbs`
-    {{#some-component class="target-component"}}
-      {{#tether-tooltip-on-element event="click"}}
-        template block text
-      {{/tether-tooltip-on-element}}
-    {{/some-component}}
+    {{#tether-tooltip-on-element event="click"}}
+      template block text
+    {{/tether-tooltip-on-element}}
   `);
 
-  const $targetComponent = this.$().find('.target-component');
+  const $target = this.$();
 
   assertRendered(assert, this);
 
-  assert.ok($targetComponent.hasClass('ember-tooltip-or-popover-target'));
+  assert.ok($target.hasClass('ember-tooltip-or-popover-target'));
 
   Ember.run(() => {
-    $targetComponent.trigger('click');
+    $target.trigger('click');
   });
 
   assertShow(assert, this);
 
   Ember.run(() => {
-    $targetComponent.trigger('click');
+    $target.trigger('click');
   });
 
   assertHide(assert, this);

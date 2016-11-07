@@ -1,6 +1,6 @@
-var TARGET_CLASS = 'ember-tooltip-or-popover-target';
-var TARGET_SELECTOR = `.${TARGET_CLASS}`;
-var TOOLTIP_OR_POPOVER_SELECTORS = '.ember-tooltip, .ember-popover';
+const TARGET_CLASS = 'ember-tooltip-or-popover-target';
+const TARGET_SELECTOR = `.${TARGET_CLASS}`;
+const TOOLTIP_OR_POPOVER_SELECTORS = '.ember-tooltip, .ember-popover';
 
 export function assertNotRendered(assert, context) {
   let $context = context.$();
