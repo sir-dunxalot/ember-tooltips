@@ -44,6 +44,7 @@ const PASSABLE_PROPERTIES = [
 	'attachment',
 	'role',
 	'tabindex',
+	'_shouldTargetGrandparentView',
 ];
 
 const PASSABLE_ACTIONS = [
