@@ -1,12 +1,14 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertNotRendered, assertRendered } from '../../../helpers/sync/assert-visibility';
+import { assertTooltipNotRendered, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
 moduleForComponent('popover-on-component', 'Integration | Component | popover on component', {
   integration: true
 });
 
 test('popover-on-component does render when enableLazyRendering=false', function(assert) {
+
+  assert.expect(1);
 
   this.render(hbs`
     {{#some-component}}
@@ -16,10 +18,14 @@ test('popover-on-component does render when enableLazyRendering=false', function
     {{/some-component}}
   `);
 
-  assertRendered(assert, this);
+  const $body = this.$().parents('body');
+
+  assertTooltipRendered($body, assert);
 });
 
-test('popover-on-component does initially render when enableLazyRendering=true', function(assert) {
+test('popover-on-component does not eagerly render when enableLazyRendering=true', function(assert) {
+
+  assert.expect(1);
 
   this.render(hbs`
     {{#some-component}}
@@ -29,5 +35,7 @@ test('popover-on-component does initially render when enableLazyRendering=true',
     {{/some-component}}
   `);
 
-  assertNotRendered(assert, this);
+  const $body = this.$().parents('body');
+
+  assertTooltipNotRendered($body, assert);
 });

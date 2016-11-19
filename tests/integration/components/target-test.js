@@ -1,11 +1,11 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
+moduleForComponent('tooltip-on-element', 'Integration | Component | target', {
   integration: true
 });
 
-test('tooltip target test', function(assert) {
+test('tooltip-on-element target test', function(assert) {
 
   this.render(hbs`
     <div id="some-target"></div>

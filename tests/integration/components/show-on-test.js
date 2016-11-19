@@ -1,36 +1,32 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow } from '../../helpers/sync/assert-visibility';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | showOn', {
   integration: true
 });
 
-test('It shows with showOn', function(assert) {
+test('tooltip-on-element shows with showOn', function(assert) {
 
-  assert.expect(6);
+  assert.expect(3);
 
   this.render(hbs`{{tooltip-on-element showOn='click'}}`);
 
-  assertHide(assert, this);
+  const $tooltipTarget = this.$();
+  const $body = $tooltipTarget.parents('body');
+
+  assertTooltipNotVisible($body, assert);
 
   /* Check hover doesn't trigger tooltip */
 
-  run(() => {
-    this.$().trigger('mouseover');
-  });
+  triggerTooltipEvent($tooltipTarget, 'mouseenter');
 
-  assertHide(assert, this);
+  assertTooltipNotVisible($body, assert);
 
   /* Check click does trigger tooltip */
 
-  run(() => {
-    this.$().trigger('click');
-  });
+  triggerTooltipEvent($tooltipTarget, 'click');
 
-  assertShow(assert, this);
+  assertTooltipVisible($body, assert);
 
 });

@@ -24,7 +24,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | spacing', {
   integration: true
 });
 
-test('It shows with showOn spacing=default', function(assert) {
+test('tooltip-on-element shows with showOn spacing=default', function(assert) {
 
   assert.expect(1);
 
@@ -36,7 +36,7 @@ test('It shows with showOn spacing=default', function(assert) {
 
 });
 
-test('It shows with showOn spacing=default', function(assert) {
+test('tooltip-on-element shows with showOn spacing=default', function(assert) {
 
   assert.expect(1);
 

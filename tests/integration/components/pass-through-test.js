@@ -1,11 +1,11 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
+moduleForComponent('tooltip-on-element', 'Integration | Component | pass through properties', {
   integration: true
 });
 
-test('pass through attributes test', function(assert) {
+test('tooltip-on-element pass through attributes test', function(assert) {
 
 	this.setProperties({
 		bar: false,
@@ -39,4 +39,5 @@ test('pass through attributes test', function(assert) {
   assert.equal($tooltip.attr('role'), 'foo');
 
   assert.equal($tooltip.attr('tabindex'), '2');
+
 });

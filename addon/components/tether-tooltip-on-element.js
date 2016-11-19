@@ -45,7 +45,7 @@ export default TooltipAndPopoverComponent.extend({
       }
 
       /* Hide and show the tooltip on focus and escape
-      for acessibility */
+      for accessibility */
 
       if (event !== 'focus') {
 

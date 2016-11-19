@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from 'ember-tooltips/templates/components/lazy-render-wrapper';
 
-const { computed, get, run, $ } = Ember;
+const { computed, get, $ } = Ember;
 
 // https://github.com/emberjs/rfcs/issues/168
 // https://github.com/emberjs/ember.js/pull/12500
@@ -17,10 +17,6 @@ function getParent(view) {
     return view.$().parent();
   }
 }
-
-// this const is also used in lazy-render-test.js
-// to ensure each interaction type causes a render
-export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 
 const PASSABLE_PROPERTIES = [
 	'delay',
@@ -120,6 +116,20 @@ export default Ember.Component.extend({
 
 		return false;
 	}),
+	_shouldShowOnRender: false,
+
+	event: 'hover', // hover, click, focus, none
+	entryInteractionEvents: computed('event', function() {
+		let entryInteractionEvents = ['focusin'];
+		let event = this.get('event');
+		if (event === 'hover') {
+			entryInteractionEvents.push('mouseenter');
+		} else if (event === 'click') {
+			entryInteractionEvents.push('click');
+		}
+
+		return entryInteractionEvents;
+	}),
 
 	didInsertElement() {
 		this._super(...arguments);
@@ -132,26 +142,40 @@ export default Ember.Component.extend({
 
 		const $parent = getParent(this);
 
-		INTERACTION_EVENT_TYPES.forEach((eventType) => {
-			$parent.on(`${eventType}.lazy-ember-popover`, () => {
+		if (this.get('event') === 'hover') {
+			$parent.on('mouseleave.target-lazy-render-wrapper', () => {
+				this.set('_shouldShowOnRender', false);
+			});
+		}
+
+		this.get('entryInteractionEvents').forEach((entryInteractionEvent) => {
+			$parent.on(`${entryInteractionEvent}.target-lazy-render-wrapper`, () => {
 				if (this.get('_hasUserInteracted')) {
-					$parent.off(`${eventType}.lazy-ember-popover`);
+					$parent.off(`${entryInteractionEvent}.target-lazy-render-wrapper`);
 				} else {
 					this.set('_hasUserInteracted', true);
-					run.next(() => {
-						$parent.trigger(eventType);
-					});
+					this.set('_shouldShowOnRender', true);
 				}
 			});
 		});
+	},
+
+	childView: null, // this is set during the childView's didRender and is needed for the hide action
+	actions: {
+		hide() {
+			const childView = this.get('childView');
+			childView.send('hide');
+		},
 	},
 
 	willDestroyElement() {
 		this._super(...arguments);
 
 		const $parent = getParent(this);
-		INTERACTION_EVENT_TYPES.forEach((eventType) => {
-			$parent.off(`${eventType}.lazy-ember-popover`);
+		this.get('entryInteractionEvents').forEach((entryInteractionEvent) => {
+			$parent.off(`${entryInteractionEvent}.target-lazy-render-wrapper`);
 		});
+
+		$parent.off('mouseleave.target-lazy-render-wrapper');
 	},
 });

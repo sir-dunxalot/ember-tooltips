@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow, assertRendered} from '../../helpers/sync/assert-visibility';
+import { assertTooltipNotVisible, assertTooltipVisible, assertTooltipRendered } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -10,62 +10,62 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | isShown', {
 });
 
 
-test('It toggles with isShown', function(assert) {
+test('tooltip-on-element toggles with isShown', function(assert) {
 
-  assert.expect(4);
+  assert.expect(2);
 
   this.set('showTooltip', true);
 
   this.render(hbs`{{tooltip-on-element isShown=showTooltip}}`);
 
-  assertShow(assert, this);
+  const $body = this.$().parents('body');
 
-  run(() => {
-    this.set('showTooltip', false);
-  });
+  assertTooltipVisible($body, assert);
 
-  assertHide(assert, this);
+  this.set('showTooltip', false);
+
+  assertTooltipNotVisible($body, assert);
 
 });
 
-test('It toggles when enableLazyRendering with isShown', function(assert) {
+test('tooltip-on-element toggles when enableLazyRendering with isShown', function(assert) {
 
-  // assert.expect(6);
+  assert.expect(3);
 
   this.set('showTooltip', true);
 
   this.render(hbs`{{tooltip-on-element isShown=showTooltip enableLazyRendering=true}}`);
 
-  assertRendered(assert, this);
+  const $body = this.$().parents('body');
 
-  assertShow(assert, this);
+  assertTooltipRendered($body, assert);
 
-  run(() => {
-    this.set('showTooltip', false);
-  });
+  assertTooltipVisible($body, assert);
 
-  assertRendered(assert, this);
+  this.set('showTooltip', false);
 
-  assertHide(assert, this);
+  assertTooltipNotVisible($body, assert);
 
 });
 
-test('It toggles with tooltipIsVisible', function(assert) {
+test('tooltip-on-element toggles with tooltipIsVisible', function(assert) {
 	// tooltipIsVisible is deprecated in favor of isShown
 	// tooltipIsVisible will be supported until v3.0.0
 
-  assert.expect(4);
+  assert.expect(2);
 
   this.set('showTooltip', true);
 
   this.render(hbs`{{tooltip-on-element tooltipIsVisible=showTooltip}}`);
 
-  assertShow(assert, this);
+  const $body = this.$().parents('body');
+
+  assertTooltipVisible($body, assert);
 
   run(() => {
     this.set('showTooltip', false);
   });
 
-  assertHide(assert, this);
+  assertTooltipNotVisible($body, assert);
 
 });
