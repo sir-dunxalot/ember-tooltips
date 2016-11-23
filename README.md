@@ -46,7 +46,7 @@ The easiest way to add a tooltip to any component is with the `{{tooltip-on-comp
 {{#my-component}}
   Hover for more info
 
-  {{tooltip-on-component 'Here is more info!'}}
+  {{tooltip-on-component text='Here is more info!'}}
 {{/my-component}}
 ```
 
