@@ -1,11 +1,11 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | text', {
+moduleForComponent('tooltip-on-element', 'Integration | Component | inline', {
   integration: true
 });
 
-test('It renders', function(assert) {
+test('tooltip-on-element renders with text param', function(assert) {
 
   this.render(hbs`
     {{tooltip-on-element text='Here is more info'}}
