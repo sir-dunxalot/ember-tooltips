@@ -52,6 +52,7 @@
     <li><a href="#styling">Using custom styling</a></li>
     <li><a href="#async">Using async content</a></li>
     <li><a href="#popover">Using a popover instead of a tooltip</a></li>
+    <li><a href="#inline">Using in inline form</a></li>
   </ul>
 </div>
 
@@ -203,5 +204,20 @@
 {{!-- END-SNIPPET --}}
 
   {{code-snippet name='popover.hbs'}}
+
+</div>
+
+<div class="page-content">
+  <h3 id="inline">Using in inline form</h3>
+
+{{!-- BEGIN-SNIPPET inline-content --}}
+{{#some-component}}
+  Tooltip has async content
+
+  {{tooltip-on-component text='More info here'}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='inline-content.hbs'}}
 
 </div>

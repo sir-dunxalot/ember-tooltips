@@ -4,9 +4,13 @@
 		class=class
 		id=id
 	}}
-		{{yield (hash
-			hide=(action "hide")
-		)}}
+    {{#if hasBlock}}
+      {{yield (hash
+        hide=(action "hide")
+      )}}
+    {{else}}
+      {{text}}
+    {{/if}}
 	{{/component}}
 {{/if}}
 

@@ -46,6 +46,16 @@ The easiest way to add a tooltip to any component is with the `{{tooltip-on-comp
 {{#my-component}}
   Hover for more info
 
+  {{tooltip-on-component text='Here is more info!'}}
+{{/my-component}}
+```
+
+Or in block form:
+
+```hbs
+{{#my-component}}
+  Hover for more info
+
   {{#tooltip-on-component}}
     Here is the info in a tooltip!
   {{/tooltip-on-component}}
@@ -71,6 +81,16 @@ Documentation for supported options is located [here](#options).
 If you want to add a tooltip to an element that is not an Ember component, you can do so with `{{tooltip-on-element}}`.
 
 By default, the tooltip will attach itself to its parent element:
+
+```hbs
+<div>
+  Hover for more info
+
+  {{tooltip-on-element text='Here is more info!'}}
+</div>
+```
+
+Or in block form:
 
 ```hbs
 <div>

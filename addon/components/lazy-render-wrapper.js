@@ -37,6 +37,7 @@ const PASSABLE_PROPERTIES = [
 	'tooltipIsVisible',
 	'hideDelay',
 	'target',
+	'text',
 
 	// non-publicized attributes
 	'updateFor',
