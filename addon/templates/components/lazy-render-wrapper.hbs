@@ -4,12 +4,12 @@
 		class=class
 		id=id
 	}}
-    {{#if text}}
-      {{text}}
-    {{else}}
+    {{#if hasBlock}}
       {{yield (hash
         hide=(action "hide")
       )}}
+    {{else}}
+      {{text}}
     {{/if}}
 	{{/component}}
 {{/if}}
