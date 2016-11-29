@@ -32,6 +32,7 @@ const PASSABLE_PROPERTIES = [
 	'keepInWindow',
 	'side',
 	'showOn',
+  'disabled',
 	'spacing',
 	'isShown',
 	'tooltipIsVisible',

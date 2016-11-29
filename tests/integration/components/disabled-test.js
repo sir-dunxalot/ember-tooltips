@@ -26,7 +26,7 @@ test('It disables tooltip', function(assert) {
   assertHide(assert, this);
 
   /* Check hover triggers tooltip when not disabled */
-  this.set('disabled', true);
+  this.set('disabled', false);
 
   run(() => {
     this.$().trigger('mouseover');
