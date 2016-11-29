@@ -107,8 +107,10 @@ export default EmberTetherComponent.extend({
 
   /* CPs */
 
-  'data-tether-enabled': computed('_isTetherEnabled', function() {
-    return this.get('_isTetherEnabled') ? 'true' : 'false';
+  'data-tether-enabled': computed('_isTetherEnabled', 'disabled', function() {
+    let disabled = this.get('disabled');
+    let isTetherEnabled = this.get('_isTetherEnabled');
+    return !disabled && isTetherEnabled ? 'true' : 'false';
   }),
 
   'aria-hidden': computed('isShown', 'disabled', function() {
@@ -333,9 +335,12 @@ export default EmberTetherComponent.extend({
 
   didUpdate() {
     this._super(...arguments);
+    let disabled = this.get('disabled');
 
     run.later(() => {
-      this.positionTether();
+      if (!disabled) {
+        this.positionTether();
+      }
       this.sendAction('onRender', this);
     }, this.get('_didUpdateTimeoutLength'));
   },
@@ -378,11 +383,14 @@ export default EmberTetherComponent.extend({
   }),
 
   show() {
+    if (this.get('disabled')) {
+      return;
+    }
     // this.positionTether() fixes the issues raised in
     // https://github.com/sir-dunxalot/ember-tooltips/issues/75
     this.positionTether();
 
-    if (this.get('isDestroying') || this.get('disabled')) {
+    if (this.get('isDestroying')) {
       return;
     }
 
