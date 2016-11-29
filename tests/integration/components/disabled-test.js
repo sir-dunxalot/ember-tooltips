@@ -35,3 +35,20 @@ test('It disables tooltip', function(assert) {
   assertShow(assert, this);
 
 });
+
+test('It disables tooltip even if isShown', function(assert) {
+
+  assert.expect(4);
+
+  this.set('disabled', true);
+  this.render(hbs`{{tooltip-on-element disabled=disabled isShown=true}}`);
+
+  assertHide(assert, this);
+
+  run(() => {
+    this.set('disabled', false);
+  });
+
+  assertShow(assert, this);
+
+});

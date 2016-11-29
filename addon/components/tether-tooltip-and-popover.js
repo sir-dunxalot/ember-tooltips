@@ -111,8 +111,10 @@ export default EmberTetherComponent.extend({
     return this.get('_isTetherEnabled') ? 'true' : 'false';
   }),
 
-  'aria-hidden': computed('isShown', function() {
-    return this.get('isShown') ? 'false' : 'true';
+  'aria-hidden': computed('isShown', 'disabled', function() {
+    let disabled = this.get('disabled');
+    let isShown = this.get('isShown');
+    return !disabled && isShown ? 'false' : 'true';
   }),
 
   attachment: computed(function() {
@@ -345,8 +347,13 @@ export default EmberTetherComponent.extend({
   @method setTimer
   */
 
-  setTimer: Ember.observer('isShown', function() {
+  setTimer: Ember.observer('isShown', 'disabled', function() {
     const isShown = this.get('isShown');
+    const disabled = this.get('disabled');
+
+    if (disabled) {
+      return;
+    }
 
     if (isShown) {
       this.startTether();
