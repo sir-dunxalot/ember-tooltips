@@ -94,8 +94,8 @@ export default Ember.Component.extend({
 	enableLazyRendering: false,
 	_hasUserInteracted: false,
 	_hasRendered: false,
-	_shouldRender: computed('isShown', 'disabled', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
-		// if isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
+	_shouldRender: computed('disabled', 'isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
+		// if not disabled, isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
 		// we return true and set _hasRendered to true because
 		// there is never a scenario where this wrapper should destroy the tooltip
 
