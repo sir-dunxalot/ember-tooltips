@@ -51,6 +51,7 @@ export default EmberTetherComponent.extend({
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
   isShown: false,
+  disabled: false,
   tooltipIsVisible: computed.deprecatingAlias('isShown', {
     id: 'tooltip-and-popover.tooltipIsVisible',
     until: '3.0.0',
@@ -106,12 +107,16 @@ export default EmberTetherComponent.extend({
 
   /* CPs */
 
-  'data-tether-enabled': computed('_isTetherEnabled', function() {
-    return this.get('_isTetherEnabled') ? 'true' : 'false';
+  'data-tether-enabled': computed('_isTetherEnabled', 'disabled', function() {
+    let disabled = this.get('disabled');
+    let isTetherEnabled = this.get('_isTetherEnabled');
+    return !disabled && isTetherEnabled ? 'true' : 'false';
   }),
 
-  'aria-hidden': computed('isShown', function() {
-    return this.get('isShown') ? 'false' : 'true';
+  'aria-hidden': computed('isShown', 'disabled', function() {
+    let disabled = this.get('disabled');
+    let isShown = this.get('isShown');
+    return !disabled && isShown ? 'false' : 'true';
   }),
 
   attachment: computed(function() {
@@ -330,9 +335,12 @@ export default EmberTetherComponent.extend({
 
   didUpdate() {
     this._super(...arguments);
+    let disabled = this.get('disabled');
 
     run.later(() => {
-      this.positionTether();
+      if (!disabled) {
+        this.positionTether();
+      }
       this.sendAction('onRender', this);
     }, this.get('_didUpdateTimeoutLength'));
   },
@@ -344,8 +352,13 @@ export default EmberTetherComponent.extend({
   @method setTimer
   */
 
-  setTimer: Ember.observer('isShown', function() {
+  setTimer: Ember.observer('isShown', 'disabled', function() {
     const isShown = this.get('isShown');
+    const disabled = this.get('disabled');
+
+    if (disabled) {
+      return;
+    }
 
     if (isShown) {
       this.startTether();
@@ -370,6 +383,9 @@ export default EmberTetherComponent.extend({
   }),
 
   show() {
+    if (this.get('disabled')) {
+      return;
+    }
     // this.positionTether() fixes the issues raised in
     // https://github.com/sir-dunxalot/ember-tooltips/issues/75
     this.positionTether();

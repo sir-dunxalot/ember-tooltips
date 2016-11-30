@@ -144,6 +144,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [showOn](#show-on)
 - [spacing](#spacing)
 - [isShown](#is-shown)
+- [disabled](#disabled)
 - [hideDelay (popover only)](#hide-delay)
 - [enableLazyRendering](#enable-lazy-rendering)
 
@@ -357,6 +358,22 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 ```hbs
 {{!--Binds the tooltip visibility to the showTooltip property--}}
 {{tooltip-on-component isShown=showTooltip}}
+```
+
+#### Disabled
+
+| Type    | Boolean |
+|---------|---------|
+| Default | false   |
+
+Gives you a way to disable any and all showing of the tooltip, even programatically via the `isShown` property.
+Setting this property to `true` will *not* show the tooltip, but will allow it to be shown using any of the available methods.
+
+This attribute is useful for disabling the tooltip in certain circumstances, like mobile if using ember-responsive or a similar addon.
+
+```hbs
+{{!--Binds the tooltip disabled attribute to the conditionalTooltipDisabled property--}}
+{{tooltip-on-component disabled=conditionalTooltipDisabled}}
 ```
 
 #### Hide delay
