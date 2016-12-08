@@ -482,10 +482,13 @@ export default EmberTetherComponent.extend({
 
   stopTether() {
     run.schedule('afterRender', () => {
-      // can't depend on `_tether.enabled` because it's not an
-      // Ember property (so won't trigger cp update when changed)
-      this.set('_isTetherEnabled', false);
-      this.get('_tether').disable();
+      if (!this.isDestroyed && !this.isDestroying) {
+
+        // can't depend on `_tether.enabled` because it's not an
+        // Ember property (so won't trigger cp update when changed)
+        this.set('_isTetherEnabled', false);
+        this.get('_tether').disable();
+      }
     });
   },
 
