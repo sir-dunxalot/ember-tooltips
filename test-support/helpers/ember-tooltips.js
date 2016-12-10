@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-
 const getTooltipFromBody = function($body, selector='.ember-tooltip, .ember-popover', oneTooltipMustExist=true) {
   // we have to .find() tooltips from $body because sometimes
   // tooltips and popovers are rendered as children of <body>

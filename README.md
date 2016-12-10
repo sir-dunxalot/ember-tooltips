@@ -24,6 +24,7 @@ Documentation for usage is below:
 - [Options](#options)
   - [Setting defaults](#setting-defaults)
 - [Actions](#actions)
+- [Test Helpers](#test-helpers)
 - [Accessibility](#accessibility)
 
 ## 1.0.0 Release
@@ -388,6 +389,22 @@ Four actions are available for you to hook onto through the tooltip/popover life
   onRender='onRender'
   onShow='onShow'
 }}
+```
+
+## Test Helpers
+
+This addon exposes testing helpers which can be used inside of the consuming app's acceptance and integration tests. We use a tooltip-centric naming convention but these can also be used to test popovers.
+
+* `assertTooltipVisible($body, assert)`: asserts if the tooltip is visible. It checks two attributes: aria-hidden and data-tether-enabled.
+* `assertTooltipNotVisible($body, assert)`: asserts if the tooltip is not visible. It checks two attributes: aria-hidden and data-tether-enabled.
+* `assertTooltipRendered($body, assert)`: asserts if the tooltip has been rendered. When enableLazyRendering is true the tooltip will only be rendered after the user has interacted with the $target element.
+* `assertTooltipNotRendered($body, assert)`: asserts if the tooltip has not been rendered. When enableLazyRendering is true the tooltip will only be rendered after the user has interacted with the $target element.
+* `triggerTooltipEvent($targetElement, 'click')`: triggers an event on the passed element. The event will be triggered within an Ember.run so that the tooltip's asynchronicity is accounted for.
+* `$body` is necessary because the tooltip elements can be rendered as children of the `$targetElement` or as children of the `$body`
+* Each test helper also accepts a third parameter of an `options` object. If a `selector` property is provided the assertions and actions will be run against the single element found from that selector.
+
+```
+import { assertTooltipVisible, assertTooltipNotVisible } from '../helpers/ember-tooltips';
 ```
 
 ## Accessibility
