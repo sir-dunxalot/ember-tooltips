@@ -5,9 +5,13 @@
 		id=id
 		_shouldShowOnRender=_shouldShowOnRender
 	}}
-		{{yield (hash
-			hide=(action "hide")
-		)}}
+    {{#if hasBlock}}
+      {{yield (hash
+        hide=(action "hide")
+      )}}
+    {{else}}
+      {{text}}
+    {{/if}}
 	{{/component}}
 {{/if}}
 
