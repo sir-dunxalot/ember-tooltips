@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { triggerTooltipEvent } from '../../helpers/ember-tooltips';
+import { triggerTooltipEvent, assertTooltipNotRendered } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | actions', {
   integration: true
@@ -16,6 +16,7 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
     onHideBaz: 0,
     onDestroyFubar: 0,
   };
+  const $body = this.$().parents('body');
 
   /* Setup the actions and handlers... */
 
@@ -42,6 +43,8 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
     {{/unless}}
   `);
 
+  assertTooltipNotRendered($body, assert);
+
   assert.equal(actionsCalledHash.onRenderFoo, 0,
     'Should not have called render due to enableLazyRendering being true');
 
@@ -52,22 +55,18 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
         onShow='onShowBar'
         onHide='onHideBaz'
         onDestroy='onDestroyFubar'
-        enableLazyRendering=false
       }}
     {{/unless}}
   `);
 
   /* Check render */
 
+  triggerTooltipEvent(this.$(), 'mouseenter');
+
   assert.equal(actionsCalledHash.onRenderFoo, 1,
     'Should have called render');
 
-  assert.equal(actionsCalledHash.onShowBar, 0,
-    'Should not have called show');
-
   /* Check show */
-
-  triggerTooltipEvent(this.$(), 'mouseenter');
 
   assert.equal(actionsCalledHash.onShowBar, 1,
     'Should have called show');

@@ -18,9 +18,9 @@ test('tooltip-on-element animates with delay passed as a number', function(asser
   const done = assert.async();
   const $body = this.$().parents('body');
 
-  assertTooltipNotVisible($body, assert);
-
   triggerTooltipEvent(this.$(), 'mouseenter');
+
+  assertTooltipNotVisible($body, assert);
 
   /* Check the tooltip is shown after the correct delay */
 
@@ -51,9 +51,9 @@ test('tooltip-on-element animates with delay passed as a string', function(asser
   const done = assert.async();
   const $body = this.$().parents('body');
 
-  assertTooltipNotVisible($body, assert);
-
   triggerTooltipEvent(this.$(), 'mouseenter');
+
+  assertTooltipNotVisible($body, assert);
 
   /* Check the tooltip is shown after the correct delay */
 
