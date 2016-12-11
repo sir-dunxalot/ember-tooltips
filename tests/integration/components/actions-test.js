@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { triggerTooltipEvent } from '../../helpers/ember-tooltips';
@@ -9,7 +8,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | actions', {
 
 test('tooltip-on-element calls lifecycle actions', function(assert) {
 
-  assert.expect(10);
+  assert.expect(11);
 
   const actionsCalledHash = {
     onRenderFoo: 0,
@@ -39,6 +38,21 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
         onShow='onShowBar'
         onHide='onHideBaz'
         onDestroy='onDestroyFubar'
+      }}
+    {{/unless}}
+  `);
+
+  assert.equal(actionsCalledHash.onRenderFoo, 0,
+    'Should not have called render due to enableLazyRendering being true');
+
+  this.render(hbs`
+    {{#unless destroyTooltip}}
+      {{tooltip-on-element
+        onRender='onRenderFoo'
+        onShow='onShowBar'
+        onHide='onHideBaz'
+        onDestroy='onDestroyFubar'
+        enableLazyRendering=false
       }}
     {{/unless}}
   `);
@@ -92,6 +106,8 @@ test('tooltip-on-element supports lifecycle closure actions with multiple argume
       onRender=(action 'onRenderFoo' 'trick password' 'real password')
     }}
   `);
+
+  triggerTooltipEvent(this.$(), 'mouseenter');
 
   assert.equal(onRenderPassword, 'real password',
     'tooltip should support closure actions with multiple arguments');
