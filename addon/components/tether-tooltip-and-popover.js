@@ -51,10 +51,6 @@ export default EmberTetherComponent.extend({
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
   isShown: false,
-  tooltipIsVisible: computed.deprecatingAlias('isShown', {
-    id: 'tooltip-and-popover.tooltipIsVisible',
-    until: '3.0.0',
-  }),
   keepInWindow: true,
 
   /*
@@ -75,23 +71,6 @@ export default EmberTetherComponent.extend({
   onHide: null,
   onRender: null,
   onShow: null,
-
-  onTooltipDestroy: computed.deprecatingAlias('onDestroy', {
-    id: 'tooltip-and-popover.onTooltipDestroy',
-    until: '3.0.0',
-  }),
-  onTooltipHide: computed.deprecatingAlias('onHide', {
-    id: 'tooltip-and-popover.onTooltipHide',
-    until: '3.0.0',
-  }),
-  onTooltipRender: computed.deprecatingAlias('onRender', {
-    id: 'tooltip-and-popover.onTooltipRender',
-    until: '3.0.0',
-  }),
-  onTooltipShow: computed.deprecatingAlias('onShow', {
-    id: 'tooltip-and-popover.onTooltipShow',
-    until: '3.0.0',
-  }),
 
   /* Properties */
 
