@@ -90,7 +90,7 @@ export default Ember.Component.extend({
 		}, {});
 	}),
 
-	enableLazyRendering: false,
+	enableLazyRendering: true,
 	_hasUserInteracted: false,
 	_hasRendered: false,
 	_shouldRender: computed('isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
