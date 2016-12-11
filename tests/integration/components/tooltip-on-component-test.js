@@ -22,11 +22,11 @@ test('tooltip-on-component does render when enableLazyRendering=false', function
 
 });
 
-test('tooltip-on-component does not eagerly render when enableLazyRendering=true', function(assert) {
+test('tooltip-on-component does not eagerly render when enableLazyRendering defaults to true', function(assert) {
 
   this.render(hbs`
     {{#some-component}}
-      {{#tooltip-on-component enableLazyRendering=true}}
+      {{#tooltip-on-component}}
         template block text
       {{/tooltip-on-component}}
     {{/some-component}}

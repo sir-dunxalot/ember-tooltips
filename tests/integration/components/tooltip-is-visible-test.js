@@ -34,7 +34,7 @@ test('tooltip-on-element toggles when enableLazyRendering with isShown', functio
 
   this.set('showTooltip', true);
 
-  this.render(hbs`{{tooltip-on-element isShown=showTooltip enableLazyRendering=true}}`);
+  this.render(hbs`{{tooltip-on-element isShown=showTooltip}}`);
 
   const $body = this.$().parents('body');
 

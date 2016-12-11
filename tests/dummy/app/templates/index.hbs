@@ -25,7 +25,6 @@
   isShown=showLogoTooltip
   side='right'
   spacing=15
-  enableLazyRendering=true
 }}
   Tooltips
 {{/tooltip-on-element}}
@@ -64,7 +63,7 @@
 {{#some-component}}
   Hover for more info
 
-  {{#tooltip-on-component enableLazyRendering=true}}
+  {{#tooltip-on-component}}
     Here is the info!
   {{/tooltip-on-component}}
 {{/some-component}}
@@ -81,7 +80,7 @@
 <div class="some-component">
   Click for more info
 
-  {{#tooltip-on-element event='click' enableLazyRendering=true}}
+  {{#tooltip-on-element event='click'}}
     Here is the info!
   {{/tooltip-on-element}}
 </div>
@@ -97,7 +96,7 @@
 {{!-- BEGIN-SNIPPET basic-usage-target --}}
 {{input id='my-input' value='Some value'}}
 
-{{#tooltip-on-element target='#my-input' event='focus' enableLazyRendering=true}}
+{{#tooltip-on-element target='#my-input' event='focus'}}
   Here is the info!
 {{/tooltip-on-element}}
 {{!-- END-SNIPPET --}}
@@ -112,7 +111,7 @@
 {{#some-component}}
   Tooltip will show after 1000ms
 
-  {{#tooltip-on-component showDelay=1000 enableLazyRendering=true}}
+  {{#tooltip-on-component showDelay=1000}}
     Here is the info!
   {{/tooltip-on-component}}
 {{/some-component}}
@@ -128,7 +127,7 @@
 {{#some-component}}
   Tooltip will disappear after 1000ms
 
-  {{#tooltip-on-component duration=1000 enableLazyRendering=true}}
+  {{#tooltip-on-component duration=1000}}
     Here is the info!
   {{/tooltip-on-component}}
 {{/some-component}}
@@ -152,7 +151,7 @@
 {{#some-component}}
   Show an error
 
-  {{#tooltip-on-component class='tooltip-error' enableLazyRendering=true}}
+  {{#tooltip-on-component class='tooltip-error'}}
     Here is the error!
   {{/tooltip-on-component}}
 {{/some-component}}
@@ -173,7 +172,7 @@
 {{#some-component}}
   Tooltip has async content
 
-  {{#tooltip-on-component updateFor=asyncContent onShow='setAsyncContent' enableLazyRendering=true}}
+  {{#tooltip-on-component updateFor=asyncContent onShow='setAsyncContent'}}
     {{#if asyncContent}}
       {{asyncContent}}
     {{else}}
@@ -194,7 +193,7 @@
 {{#some-component}}
   View more information
 
-  {{#popover-on-component enableLazyRendering=true as |popover|}}
+  {{#popover-on-component as |popover|}}
     <h3>More info</h3>
     <p>Here is more information!</p>
 
