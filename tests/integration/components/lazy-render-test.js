@@ -49,16 +49,6 @@ test('tooltip-on-element renders automatically when isShown=true', function(asse
 
 });
 
-test('tooltip-on-element renders automatically when tooltipIsVisible=true', function(assert) {
-
-  this.render(hbs`{{tooltip-on-element enableLazyRendering=true tooltipIsVisible=true}}`);
-
-  const $body = this.$().parents('body');
-
-  assertTooltipRendered($body, assert);
-
-});
-
 test('tooltip-on-element event=click will only trigger one click event', function(assert) {
 
   assert.expect(3);
