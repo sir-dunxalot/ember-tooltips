@@ -45,13 +45,13 @@ export default EmberTetherComponent.extend({
   effect: 'slide', // fade, slide, none
   event: 'hover', // hover, click, focus, none
   hideOn: null,
+  isShown: false,
+  keepInWindow: true,
   role: 'tooltip',
   side: 'top',
   showOn: null,
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
-  isShown: false,
-  keepInWindow: true,
 
   /*
   When this property changes it repositions the tooltip.
