@@ -1,7 +1,6 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertRendered, assertPopoverShow, assertPopoverHide } from '../../../helpers/sync/assert-visibility';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
 moduleForComponent('tether-popover-on-element', 'Integration | Component | tether popover on component', {
   integration: true
@@ -9,7 +8,7 @@ moduleForComponent('tether-popover-on-element', 'Integration | Component | tethe
 
 test('tether-popover-on-element renders', function(assert) {
 
-  assert.expect(2);
+  assert.expect(1);
 
   this.render(hbs`
     {{#tether-popover-on-element}}
@@ -17,12 +16,15 @@ test('tether-popover-on-element renders', function(assert) {
     {{/tether-popover-on-element}}
   `);
 
-  assertRendered(assert, this);
+  const $body = this.$().parents('body');
+
+  assertTooltipRendered($body, assert);
+
 });
 
 test("tether-popover-on-element targets it's parent view", function(assert) {
 
-  assert.expect(7);
+  assert.expect(4);
 
   this.render(hbs`
     {{#tether-popover-on-element event="click"}}
@@ -30,30 +32,26 @@ test("tether-popover-on-element targets it's parent view", function(assert) {
     {{/tether-popover-on-element}}
   `);
 
-  const $target = this.$();
+  const $popoverTarget = this.$();
+  const $body = $popoverTarget.parents('body');
 
-  assertRendered(assert, this);
+  assertTooltipRendered($body, assert);
 
-  assert.ok($target.hasClass('ember-tooltip-or-popover-target'));
+  assert.ok($popoverTarget.hasClass('ember-tooltip-or-popover-target'));
 
-  Ember.run(() => {
-    $target.trigger('mousedown');
-    $target.trigger('mouseup');
-  });
+  triggerTooltipEvent($popoverTarget, 'click');
 
-  assertPopoverShow(assert, this);
+  assertTooltipVisible($body, assert);
 
-  Ember.run(() => {
-    $target.trigger('mousedown');
-    $target.trigger('mouseup');
-  });
+  triggerTooltipEvent($popoverTarget, 'click');
 
-  assertPopoverHide(assert, this);
+  assertTooltipNotVisible($body, assert);
+
 });
 
 test('tether-popover-on-element can use hide API', function(assert) {
 
-  assert.expect(8);
+  assert.expect(4);
 
   this.render(hbs`
     {{#tether-popover-on-element event="click" as |popover|}}
@@ -61,25 +59,19 @@ test('tether-popover-on-element can use hide API', function(assert) {
     {{/tether-popover-on-element}}
   `);
 
-  const $target = this.$();
-  const $hideButton = $target.find('.hide-button');
+  const $popoverTarget = this.$();
+  const $body = $popoverTarget.parents('body');
 
-  assertRendered(assert, this);
+  assertTooltipRendered($body, assert);
 
-  assertPopoverHide(assert, this);
+  assertTooltipNotVisible($body, assert);
 
-  Ember.run(() => {
-    $target.trigger('mousedown');
-    $target.trigger('mouseup');
-  });
+  triggerTooltipEvent($popoverTarget, 'click');
 
-  assertPopoverShow(assert, this);
+  assertTooltipVisible($body, assert);
 
+  triggerTooltipEvent($popoverTarget, 'click', {selector: '.hide-button'});
 
-  Ember.run(() => {
-    $hideButton.trigger('click');
-  });
-
-  assertPopoverHide(assert, this);
+  assertTooltipNotVisible($body, assert);
 
 });

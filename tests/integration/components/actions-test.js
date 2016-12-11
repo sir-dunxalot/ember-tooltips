@@ -1,16 +1,17 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run } = Ember;
+import { triggerTooltipEvent } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | actions', {
   integration: true
 });
 
-test('It supports deprecated lifecycle actions', function(assert) {
+test('tooltip-on-element supports deprecated lifecycle actions', function(assert) {
   // onTooltip____ actions are deprecated in favor of on on_____ actions
   // these actions will be supported until v3.0.0
+
+  // assert.expect(10); see note below
 
   // actions can have unique names
   const actionsCalledHash = {
@@ -19,8 +20,6 @@ test('It supports deprecated lifecycle actions', function(assert) {
     onTooltipDestroyBaz: 0,
     onTooltipHideFubar: 0,
   };
-
-  // assert.expect(10);
 
   /* Setup the actions and handlers... */
 
@@ -59,9 +58,7 @@ test('It supports deprecated lifecycle actions', function(assert) {
 
   /* Check show */
 
-  run(() => {
-    this.$().trigger('mouseover');
-  });
+  triggerTooltipEvent(this.$(), 'mouseenter');
 
   assert.equal(actionsCalledHash.onTooltipShowBar, 1,
     'Should have called show');
@@ -69,9 +66,7 @@ test('It supports deprecated lifecycle actions', function(assert) {
   assert.equal(actionsCalledHash.onTooltipHideFubar, 0,
     'Should not have called hide');
 
-  run(() => {
-    this.$().trigger('mouseleave');
-  });
+  triggerTooltipEvent(this.$(), 'mouseleave');
 
   assert.equal(actionsCalledHash.onTooltipHideFubar, 1,
     'Should have called hide');
@@ -95,15 +90,16 @@ test('It supports deprecated lifecycle actions', function(assert) {
 
 });
 
-test('It calls lifecycle actions', function(assert) {
+test('tooltip-on-element calls lifecycle actions', function(assert) {
+
+  assert.expect(10);
+
   const actionsCalledHash = {
     onRenderFoo: 0,
     onShowBar: 0,
     onHideBaz: 0,
     onDestroyFubar: 0,
   };
-
-  // assert.expect(10);
 
   /* Setup the actions and handlers... */
 
@@ -140,9 +136,7 @@ test('It calls lifecycle actions', function(assert) {
 
   /* Check show */
 
-  run(() => {
-    this.$().trigger('mouseover');
-  });
+  triggerTooltipEvent(this.$(), 'mouseenter');
 
   assert.equal(actionsCalledHash.onShowBar, 1,
     'Should have called show');
@@ -150,9 +144,7 @@ test('It calls lifecycle actions', function(assert) {
   assert.equal(actionsCalledHash.onHideBaz, 0,
     'Should not have called hide');
 
-  run(() => {
-    this.$().trigger('mouseleave');
-  });
+  triggerTooltipEvent(this.$(), 'mouseleave');
 
   assert.equal(actionsCalledHash.onHideBaz, 1,
     'Should have called hide');
@@ -166,7 +158,7 @@ test('It calls lifecycle actions', function(assert) {
 
 });
 
-test('It supports lifecycle closure actions with multiple arguments', function(assert) {
+test('tooltip-on-element supports lifecycle closure actions with multiple arguments', function(assert) {
   // closure actions allow you to pass multiple parameters
   // when you declare the action variable. This test covers that case.
 

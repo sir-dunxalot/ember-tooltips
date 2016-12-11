@@ -6,7 +6,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on e
 });
 
 ['hover', 'fade', 'none'].forEach((effectType) => {
-	test(`tooltip effect=${effectType} class test`, function(assert) {
+	test(`tooltip-on-element effect=${effectType} class test`, function(assert) {
 
 		this.set('effectType', effectType);
 		this.render(hbs`{{tooltip-on-element effect=effectType}}`);

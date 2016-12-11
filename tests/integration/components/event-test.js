@@ -1,116 +1,101 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow } from '../../helpers/sync/assert-visibility';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | event', {
   integration: true
 });
 
-test('It toggles with hover', function(assert) {
+test('tooltip-on-element toggles with hover', function(assert) {
 
-  assert.expect(6);
+  assert.expect(3);
 
   this.render(hbs`{{tooltip-on-element}}`);
 
-  assertHide(assert, this);
+  const $tooltipTarget = this.$();
+  const $body = $tooltipTarget.parents('body');
 
-  run(() => {
-    this.$().trigger('mouseover');
-  });
+  assertTooltipNotVisible($body, assert);
 
-  assertShow(assert, this);
+  triggerTooltipEvent($tooltipTarget, 'mouseenter');
 
-  run(() => {
-    this.$().trigger('mouseleave');
-  });
+  assertTooltipVisible($body, assert);
 
-  assertHide(assert, this);
+  triggerTooltipEvent($tooltipTarget, 'mouseleave');
+
+  assertTooltipNotVisible($body, assert);
 
 });
 
-test('It toggles with click', function(assert) {
+test('tooltip-on-element toggles with click', function(assert) {
 
-  assert.expect(6);
+  assert.expect(3);
 
   this.render(hbs`{{tooltip-on-element event='click'}}`);
 
-  assertHide(assert, this);
+  const $tooltipTarget = this.$();
+  const $body = $tooltipTarget.parents('body');
 
-  run(() => {
-    this.$().click();
-  });
+  assertTooltipNotVisible($body, assert);
 
-  assertShow(assert, this);
+  triggerTooltipEvent($tooltipTarget, 'click');
 
-  run(this, () => {
-    this.$().click();
-  });
+  assertTooltipVisible($body, assert);
 
-  assertHide(assert, this);
+  triggerTooltipEvent($tooltipTarget, 'click');
 
-});
-
-test('It toggles with focus', function(assert) {
-
-  assert.expect(6);
-
-  this.render(hbs`
-    <div id="target">
-      {{tooltip-on-element event='focus'}}
-    </div>
-  `);
-
-  const target = window.document.getElementById('target');
-
-  assertHide(assert, this);
-
-  run(() => {
-    target.dispatchEvent(new window.Event('focus'));
-  });
-
-  assertShow(assert, this);
-
-  run(this, () => {
-    target.dispatchEvent(new window.Event('blur'));
-  });
-
-  assertHide(assert, this);
+  assertTooltipNotVisible($body, assert);
 
 });
 
-test('It does not show with none', function(assert) {
+test('tooltip-on-element toggles with focus', function(assert) {
 
-  assert.expect(8);
+  assert.expect(3);
+
+  this.render(hbs`{{tooltip-on-element event='focus'}}`);
+
+  const $tooltipTarget = this.$();
+  const $body = $tooltipTarget.parents('body');
+
+  assertTooltipNotVisible($body, assert);
+
+  triggerTooltipEvent($tooltipTarget, 'focus');
+
+  assertTooltipVisible($body, assert);
+
+  triggerTooltipEvent($tooltipTarget, 'blur');
+
+  assertTooltipNotVisible($body, assert);
+
+});
+
+test('tooltip-on-element does not show when event=none', function(assert) {
+
+  assert.expect(4);
 
   this.render(hbs`{{tooltip-on-element event='none'}}`);
 
-  assertHide(assert, this);
+  const $tooltipTarget = this.$();
+  const $body = $tooltipTarget.parents('body');
+
+  assertTooltipNotVisible($body, assert);
 
   /* Check focus */
 
-  run(() => {
-    this.$().trigger('focus');
-  });
+  triggerTooltipEvent($tooltipTarget, 'focus');
 
-  assertHide(assert, this);
+  assertTooltipNotVisible($body, assert);
 
   /* Check hover */
 
-  run(this, () => {
-    this.$().trigger('mouseover');
-  });
+  triggerTooltipEvent($tooltipTarget, 'mouseenter');
 
-  assertHide(assert, this);
+  assertTooltipNotVisible($body, assert);
 
   /* Check click */
 
-  run(this, () => {
-    this.$().click();
-  });
+  triggerTooltipEvent($tooltipTarget, 'click');
 
-  assertHide(assert, this);
+  assertTooltipNotVisible($body, assert);
 
 });

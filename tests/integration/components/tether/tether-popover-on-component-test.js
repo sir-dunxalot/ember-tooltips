@@ -1,7 +1,6 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertRendered, assertPopoverShow, assertPopoverHide } from '../../../helpers/sync/assert-visibility';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
 moduleForComponent('tether-popover-on-component', 'Integration | Component | tether popover on component', {
   integration: true
@@ -9,7 +8,7 @@ moduleForComponent('tether-popover-on-component', 'Integration | Component | tet
 
 test('tether-popover-on-component renders', function(assert) {
 
-  assert.expect(2);
+  assert.expect(1);
 
   this.render(hbs`
     {{#some-component}}
@@ -19,12 +18,15 @@ test('tether-popover-on-component renders', function(assert) {
     {{/some-component}}
   `);
 
-  assertRendered(assert, this);
+  const $body = this.$().parents('body');
+
+  assertTooltipRendered($body, assert);
+
 });
 
 test("tether-popover-on-component targets it's parent view", function(assert) {
 
-  assert.expect(7);
+  assert.expect(4);
 
   this.render(hbs`
     {{#some-component class="target-component"}}
@@ -34,23 +36,19 @@ test("tether-popover-on-component targets it's parent view", function(assert) {
     {{/some-component}}
   `);
 
-  assertRendered(assert, this);
+  const $popoverTarget = this.$().find('.target-component');
+  const $body = $popoverTarget.parents('body');
 
-  const $targetComponent = this.$().find('.target-component');
+  assertTooltipRendered($body, assert);
 
-  assert.ok($targetComponent.hasClass('ember-tooltip-or-popover-target'));
+  assert.ok($popoverTarget.hasClass('ember-tooltip-or-popover-target'));
 
-  Ember.run(() => {
-    $targetComponent.trigger('mousedown');
-    $targetComponent.trigger('mouseup');
-  });
+  triggerTooltipEvent(this.$(), 'click', {selector: '.target-component'});
 
-  assertPopoverShow(assert, this);
+  assertTooltipVisible($body, assert);
 
-  Ember.run(() => {
-    $targetComponent.trigger('mousedown');
-    $targetComponent.trigger('mouseup');
-  });
+  triggerTooltipEvent(this.$(), 'click', {selector: '.target-component'});
 
-  assertPopoverHide(assert, this);
+  assertTooltipNotVisible($body, assert);
+
 });

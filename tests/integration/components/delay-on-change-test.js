@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent } from '../../helpers/ember-tooltips';
 
 const { run } = Ember;
 
@@ -8,8 +9,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | delayOnChange',
   integration: true
 });
 
-test('It animates with a delay', function(assert) {
-  const done = assert.async();
+test('tooltip-on-element animates with a delay', function(assert) {
 
   assert.expect(2);
 
@@ -20,21 +20,19 @@ test('It animates with a delay', function(assert) {
     {{tooltip-on-element isShown=true showDelay=300 delayOnChange=false event='none'}}
   `);
 
-  assert.equal(this.$().find('.test-tooltip').attr('aria-hidden'), 'true',
-    'Tooltip should be hidden by default');
+  const done = assert.async();
+  const $body = this.$().parents('body');
+
+  assertTooltipNotVisible($body, assert, {selector: '.test-tooltip'});
 
   /* We still need a small delay, but now we check the
   test tooltip is shown *almost* immediately after hover
   instead of after a 300ms delay */
 
-  run(() => {
-    this.$().trigger('mouseover');
-  });
+  triggerTooltipEvent(this.$(), 'mouseenter');
 
   run.later(() => {
-
-    assert.equal(this.$().find('.test-tooltip').attr('aria-hidden'), 'false',
-      'Tooltip should be shown immediately');
+    assertTooltipVisible($body, assert, {selector: '.test-tooltip'});
 
     done();
   }, 50);
