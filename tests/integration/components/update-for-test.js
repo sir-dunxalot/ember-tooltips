@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
+import { triggerTooltipEvent } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -33,9 +34,10 @@ test('updateFor test', function(assert) {
     {{/tooltip-on-element}}
   `);
 
+  triggerTooltipEvent(this.$(), 'mouseenter');
+
   const done = assert.async();
   const $tooltip = this.$();
-
 
   assert.equal($tooltip.text().trim(), '...',
     'Should render ...');
