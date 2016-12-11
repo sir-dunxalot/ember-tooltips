@@ -39,7 +39,6 @@ export default EmberTetherComponent.extend({
 
   /* Options */
 
-  delay: 0,
   delayOnChange: true,
   duration: 0,
   effect: 'slide', // fade, slide, none
@@ -49,6 +48,7 @@ export default EmberTetherComponent.extend({
   keepInWindow: true,
   role: 'tooltip',
   side: 'top',
+  showDelay: 0,
   showOn: null,
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
@@ -359,11 +359,11 @@ export default EmberTetherComponent.extend({
 
     const _showTimer = this.get('_showTimer');
 
-    let delay = cleanNumber(this.get('delay'));
+    let showDelay = cleanNumber(this.get('showDelay'));
 
     run.cancel(_showTimer);
 
-    if (delay) {
+    if (showDelay) {
       if (!this.get('delayOnChange')) {
 
         /* If the `delayOnChange` property is set to false, we
@@ -374,7 +374,7 @@ export default EmberTetherComponent.extend({
         let shownTooltipsOrPopovers = Ember.$(`.${this.get('classPrefix')}-element[aria-hidden="false"]`).length;
 
         if (shownTooltipsOrPopovers) {
-          delay = 0;
+          showDelay = 0;
         }
       }
 
@@ -383,7 +383,7 @@ export default EmberTetherComponent.extend({
           this.startTether();
           this.set('isShown', true);
         }
-      }, delay);
+      }, showDelay);
 
       this.set('_showTimer', _showTimer);
     } else {

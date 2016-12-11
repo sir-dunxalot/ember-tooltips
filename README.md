@@ -133,7 +133,6 @@ Popovers also benefit from a `hide` API made publically acessible:
 Options are set as attributes on the tooltip/popover components. Current tooltip/popover properties this addon supports are:
 
 - [class](#class)
-- [delay](#delay)
 - [delayOnChange](#delay-on-change)
 - [duration](#duration)
 - [effect](#effect)
@@ -141,6 +140,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [hideOn](#hideOn)
 - [keepInWindow](#keep-in-window)
 - [side](#side)
+- [showDelay](#show-delay)
 - [showOn](#show-on)
 - [spacing](#spacing)
 - [isShown](#is-shown)
@@ -158,22 +158,6 @@ Adds a class to any tooltip:
 ```hbs
 {{tooltip-on-component class='tooltip-warning'}}
 ```
-
-#### Delay
-
-| Type    | Number  |
-|---------|---------|
-| Default | 0       |
-
-Delays showing the tooltip by the given number of milliseconds.
-
-```hbs
-{{!--Delays the show animation by 500ms--}}
-
-{{tooltip-on-component delay=500}}
-```
-
-This does not affect the hiding of the tooltip. See also, [delayOnChange](#delay-on-change).
 
 #### Delay on change
 
@@ -310,6 +294,22 @@ Possible options are:
   side='right'
 }}
 ```
+
+#### Show delay
+
+| Type    | Number  |
+|---------|---------|
+| Default | 0       |
+
+Delays showing the tooltip by the given number of milliseconds.
+
+```hbs
+{{!--Delays the show animation by 500ms--}}
+
+{{tooltip-on-component showDelay=500}}
+```
+
+This does not affect the hiding of the tooltip. See also, [delayOnChange](#delay-on-change).
 
 #### Show on
 

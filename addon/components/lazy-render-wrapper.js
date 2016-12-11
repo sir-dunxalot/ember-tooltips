@@ -23,7 +23,6 @@ function getParent(view) {
 export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 
 const PASSABLE_PROPERTIES = [
-	'delay',
 	'delayOnChange',
 	'duration',
 	'effect',
@@ -35,6 +34,7 @@ const PASSABLE_PROPERTIES = [
 	'spacing',
 	'isShown',
 	'tooltipIsVisible',
+	'showDelay',
 	'hideDelay',
 	'target',
 	'text',
