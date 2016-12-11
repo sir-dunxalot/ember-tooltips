@@ -40,3 +40,18 @@ test('it has the proper aria-describedby tag', function(assert) {
   assert.equal(this.$(`#${describedBy}`).text().trim(), 'Some info in a tooltip.');
   assert.equal(describedBy.indexOf('#'), '-1');
 });
+
+test('it renders passed in classes', function(assert) {
+  this.render(hbs`
+    <div class="target">
+      {{#tooltip-on-element classNames='got-it another-class'}}
+        Got it
+      {{/tooltip-on-element}}
+    </div>
+  `);
+
+  const $tooltip = this.$().find('.ember-tooltip');
+
+  assert.ok($tooltip.hasClass('got-it'), 'tooltip has the got-it class');
+  assert.ok($tooltip.hasClass('another-class'), 'tooltip has the another-class class');
+});
