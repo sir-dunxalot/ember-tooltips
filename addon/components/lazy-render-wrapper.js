@@ -49,12 +49,6 @@ const PASSABLE_ACTIONS = [
 	'onHide',
 	'onRender',
 	'onShow',
-
-	// deprecated lifecycle actions
-	'onTooltipDestroy',
-	'onTooltipHide',
-	'onTooltipRender',
-	'onTooltipShow',
 ];
 
 const PASSABLE_OPTIONS = PASSABLE_PROPERTIES.concat(PASSABLE_ACTIONS);
