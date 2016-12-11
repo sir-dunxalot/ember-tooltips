@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent } from '../../../helpers/ember-tooltips';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent, assertTooltipNotRendered } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -20,7 +20,7 @@ test('Popover: target focus, popover focus, popover blur', function(assert) {
 	const $popoverTarget = this.$();
   const $body = $popoverTarget.parents('body');
 
-	assertTooltipNotVisible($body, assert);
+	assertTooltipNotRendered($body, assert);
 
 	triggerTooltipEvent($popoverTarget, 'focus');
 
@@ -53,7 +53,7 @@ test('Popover: target focus, target-interior focus, popover focus, popover blur'
 	const $popoverTarget = this.$();
   const $body = $popoverTarget.parents('body');
 
-	assertTooltipNotVisible($body, assert);
+	assertTooltipNotRendered($body, assert);
 
 	triggerTooltipEvent($popoverTarget, 'focus');
 
@@ -90,7 +90,7 @@ test('Popover: target focus, popover focus, popover-interior focus, popover blur
 	const $popoverTarget = this.$();
   const $body = $popoverTarget.parents('body');
 
-	assertTooltipNotVisible($body, assert);
+	assertTooltipNotRendered($body, assert);
 
 	triggerTooltipEvent($popoverTarget, 'focus');
 

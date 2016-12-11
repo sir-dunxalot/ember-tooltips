@@ -1,5 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent } from '../../../helpers/ember-tooltips';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent, assertTooltipNotRendered } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('popover-on-element', 'Integration | Option | API', {
@@ -19,7 +19,7 @@ test('Popover: click target, click hide-action', function(assert) {
   const $popoverTarget = this.$();
   const $body = $popoverTarget.parents('body');
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotRendered($body, assert);
 
   triggerTooltipEvent($popoverTarget, 'click');
 
@@ -44,7 +44,7 @@ test('Popover: click target, click hide-action, click target', function(assert) 
   const $popoverTarget = this.$();
   const $body = $popoverTarget.parents('body');
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotRendered($body, assert);
 
   triggerTooltipEvent($popoverTarget, 'click');
 
@@ -73,7 +73,7 @@ test('Popover: click target, click popover, click hide-action, click target', fu
   const $popoverTarget = this.$();
   const $body = $popoverTarget.parents('body');
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotRendered($body, assert);
 
   triggerTooltipEvent($popoverTarget, 'click');
 

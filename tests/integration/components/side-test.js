@@ -1,10 +1,15 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import { triggerTooltipEvent } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 function assertPosition(assert, context, expectedSide) {
   const $this = context.$();
+
+  triggerTooltipEvent($this, 'mouseenter');
+
   const targetPosition = $this.position();
   const tooltipPosition = $this.find('.ember-tooltip').position();
+
 
   if (expectedSide === 'top') {
     assert.ok(targetPosition.top > tooltipPosition.top,

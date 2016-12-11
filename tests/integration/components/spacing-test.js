@@ -1,8 +1,12 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import { triggerTooltipEvent } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 function assertSpacing(assert, context, expectedSpacing) {
   const $this = context.$();
+
+  triggerTooltipEvent($this, 'mouseenter');
+
   const targetPosition = $this.position();
   const $tooltip = $this.find('.ember-tooltip');
   const tooltipPosition = $tooltip.position();
