@@ -54,7 +54,7 @@ test('all acceptance tests', function(assert) {
     assert.ok(true, '-------------- begin section 2 --------------');
 
     const $tooltipTarget = Ember.$('.js-test-tooltip-target-enableLazyRendering-true');
-        const options = {
+    const options = {
       selector: '.js-test-tooltip-enableLazyRendering-true'
     };
 

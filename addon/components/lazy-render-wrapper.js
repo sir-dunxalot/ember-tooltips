@@ -172,7 +172,10 @@ export default Ember.Component.extend({
 	actions: {
 		hide() {
 			const childView = this.get('childView');
-			if (childView && childView.actions && childView.actions.hide) {
+
+			// childView.actions is not available in Ember 1.13
+			// We will use childView._actions until we drop support for Ember 1.13
+			if (childView && childView._actions && childView._actions.hide) {
 				childView.send('hide');
 			}
 		},

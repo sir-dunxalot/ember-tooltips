@@ -68,12 +68,12 @@ export function assertTooltipRendered(assert, options={}) {
 
 export function assertTooltipNotVisible(assert, options={}) {
   const $tooltip = getTooltipFromBody(options.selector);
-  const isTooltipInvisible = $tooltip.attr('aria-hidden') == 'true';
+  const isTooltipNotVisible = $tooltip.attr('aria-hidden') == 'true';
   const isTooltipTetherDisabled = $tooltip.attr('data-tether-enabled') == 'false';
 
-  assert.ok(isTooltipInvisible && isTooltipTetherDisabled,
+  assert.ok(isTooltipNotVisible && isTooltipTetherDisabled,
       `assertTooltipNotVisible(): the ember-tooltip shouldn't be visible and the tether should be disabled:
-        isTooltipNotVisible -> ${isTooltipInvisible} ;
+        isTooltipNotVisible -> ${isTooltipNotVisible} ;
         isTooltipTetherDisabled -> ${isTooltipTetherDisabled}`);
 }
 
