@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
 moduleForComponent('tether-popover-on-element', 'Integration | Component | tether popover on component', {
   integration: true
@@ -16,9 +16,8 @@ test('tether-popover-on-element renders', function(assert) {
     {{/tether-popover-on-element}}
   `);
 
-  const $body = this.$().parents('body');
 
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
 });
 
@@ -33,19 +32,18 @@ test("tether-popover-on-element targets it's parent view", function(assert) {
   `);
 
   const $popoverTarget = this.$();
-  const $body = $popoverTarget.parents('body');
 
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
   assert.ok($popoverTarget.hasClass('ember-tooltip-or-popover-target'));
 
-  triggerTooltipEvent($popoverTarget, 'click');
+  triggerTooltipTargetEvent($popoverTarget, 'click');
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click');
+  triggerTooltipTargetEvent($popoverTarget, 'click');
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
 });
 
@@ -60,18 +58,17 @@ test('tether-popover-on-element can use hide API', function(assert) {
   `);
 
   const $popoverTarget = this.$();
-  const $body = $popoverTarget.parents('body');
 
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click');
+  triggerTooltipTargetEvent($popoverTarget, 'click');
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click', {selector: '.hide-button'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.hide-button'});
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
 });

@@ -14,11 +14,10 @@ test('tooltip-on-element renders with text param', function(assert) {
     {{tooltip-on-element text='Here is more info'}}
   `);
 
-  const $body = this.$().parents('body');
 
   assert.equal(this.$().text().trim(), 'Here is more info',
     'Should render with content equal to the text property');
 
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
 });

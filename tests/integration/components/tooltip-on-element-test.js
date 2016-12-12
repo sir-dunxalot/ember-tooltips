@@ -16,12 +16,11 @@ test('tooltip-on-element renders', function(assert) {
     {{/tooltip-on-element}}
   `);
 
-  const $body = this.$().parents('body');
 
   assert.equal(this.$().text().trim(), 'template block text',
     'Should render with content');
 
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
 });
 

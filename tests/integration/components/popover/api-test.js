@@ -1,5 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipEvent } from '../../../helpers/ember-tooltips';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('popover-on-element', 'Integration | Option | API', {
@@ -17,17 +17,16 @@ test('Popover: click target, click hide-action', function(assert) {
   `);
 
   const $popoverTarget = this.$();
-  const $body = $popoverTarget.parents('body');
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click');
+  triggerTooltipTargetEvent($popoverTarget, 'click');
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click', {selector: '.hide-action'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.hide-action'});
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
 });
 
@@ -42,21 +41,20 @@ test('Popover: click target, click hide-action, click target', function(assert) 
   `);
 
   const $popoverTarget = this.$();
-  const $body = $popoverTarget.parents('body');
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click');
+  triggerTooltipTargetEvent($popoverTarget, 'click');
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click', {selector: '.hide-action'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.hide-action'});
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click');
+  triggerTooltipTargetEvent($popoverTarget, 'click');
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
 });
 
@@ -71,24 +69,23 @@ test('Popover: click target, click popover, click hide-action, click target', fu
   `);
 
   const $popoverTarget = this.$();
-  const $body = $popoverTarget.parents('body');
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click');
+  triggerTooltipTargetEvent($popoverTarget, 'click');
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click', {selector: '.ember-popover'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.ember-popover'});
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click', {selector: '.hide-action'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.hide-action'});
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
-  triggerTooltipEvent($popoverTarget, 'click');
+  triggerTooltipTargetEvent($popoverTarget, 'click');
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
 });

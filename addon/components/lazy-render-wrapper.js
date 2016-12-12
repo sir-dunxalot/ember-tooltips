@@ -121,6 +121,10 @@ export default Ember.Component.extend({
 
 	event: 'hover', // hover, click, focus, none
 	entryInteractionEvents: computed('event', function() {
+		// the lazy-render wrapper will only render the tooltip when
+		// the $parent element is interacted with. This CP defines which
+		// events will trigger the rendering. We always include focusin
+		// to keep the component accessible.
 		let entryInteractionEvents = ['focusin'];
 		let event = this.get('event');
 		if (event === 'hover') {
@@ -144,6 +148,9 @@ export default Ember.Component.extend({
 		const $parent = getParent(this);
 
 		if (this.get('event') === 'hover') {
+			// We've seen instances where a user quickly mouseenter and mouseleave the $parent.
+			// By providing this event handler we ensure that the tooltip will only *show*
+			// if the user has mouseenter and not mouseleave immediately afterwards.
 			$parent.on('mouseleave.target-lazy-render-wrapper', () => {
 				this.set('_shouldShowOnRender', false);
 			});
@@ -165,7 +172,9 @@ export default Ember.Component.extend({
 	actions: {
 		hide() {
 			const childView = this.get('childView');
-			childView.send('hide');
+			if (childView && childView.actions && childView.actions.hide) {
+				childView.send('hide');
+			}
 		},
 	},
 

@@ -5,7 +5,7 @@ import {
 	assertTooltipNotRendered,
 	assertTooltipRendered,
 	assertTooltipNotVisible,
-	triggerTooltipEvent,
+	triggerTooltipTargetEvent,
 	assertTooltipVisible
 } from '../../tests/helpers/ember-tooltips';
 
@@ -28,24 +28,23 @@ test('all acceptance tests', function(assert) {
     assert.ok(true, '-------------- begin section 1 --------------');
 
     const $tooltipTarget = Ember.$('.js-test-tooltip-target-enableLazyRendering-false');
-    const $body = Ember.$('body');
     const options = {
     	selector: '.js-test-tooltip-enableLazyRendering-false'
     };
 
     assert.equal($tooltipTarget.length, 1, 'there should be one $tooltipTarget');
 
-    assertTooltipRendered($body, assert, options);
+    assertTooltipRendered(assert, options);
 
-    assertTooltipNotVisible($body, assert, options);
+    assertTooltipNotVisible(assert, options);
 
-    triggerTooltipEvent($tooltipTarget, 'mouseenter');
+    triggerTooltipTargetEvent($tooltipTarget, 'mouseenter');
 
-    assertTooltipVisible($body, assert, options);
+    assertTooltipVisible(assert, options);
 
-    triggerTooltipEvent($tooltipTarget, 'mouseleave');
+    triggerTooltipTargetEvent($tooltipTarget, 'mouseleave');
 
-    assertTooltipNotVisible($body, assert, options);
+    assertTooltipNotVisible(assert, options);
 
   });
 
@@ -55,24 +54,23 @@ test('all acceptance tests', function(assert) {
     assert.ok(true, '-------------- begin section 2 --------------');
 
     const $tooltipTarget = Ember.$('.js-test-tooltip-target-enableLazyRendering-true');
-    const $body = Ember.$('body');
-    const options = {
+        const options = {
       selector: '.js-test-tooltip-enableLazyRendering-true'
     };
 
     assert.equal($tooltipTarget.length, 1, 'there should be one $tooltipTarget');
 
-    assertTooltipNotRendered($body, assert, options);
+    assertTooltipNotRendered(assert, options);
 
-    triggerTooltipEvent($tooltipTarget, 'mouseenter');
+    triggerTooltipTargetEvent($tooltipTarget, 'mouseenter');
 
-    assertTooltipRendered($body, assert, options);
+    assertTooltipRendered(assert, options);
 
-    assertTooltipVisible($body, assert, options);
+    assertTooltipVisible(assert, options);
 
-    triggerTooltipEvent($tooltipTarget, 'mouseleave');
+    triggerTooltipTargetEvent($tooltipTarget, 'mouseleave');
 
-    assertTooltipNotVisible($body, assert, options);
+    assertTooltipNotVisible(assert, options);
 
   });
 
@@ -82,25 +80,24 @@ test('all acceptance tests', function(assert) {
     assert.ok(true, '-------------- begin section 3 --------------');
 
     const $popoverTarget = Ember.$('.js-test-popover-target-enableLazyRendering-false');
-    const $body = Ember.$('body');
     const options = {
       selector: '.js-test-popover-enableLazyRendering-false'
     };
 
     assert.equal($popoverTarget.length, 1, 'there should be one $popoverTarget');
 
-    assertTooltipRendered($body, assert, options);
+    assertTooltipRendered(assert, options);
 
-    assertTooltipNotVisible($body, assert, options);
+    assertTooltipNotVisible(assert, options);
 
-    triggerTooltipEvent($popoverTarget, 'mouseenter');
+    triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 
-    assertTooltipVisible($body, assert, options);
+    assertTooltipVisible(assert, options);
 
-    triggerTooltipEvent($popoverTarget, 'mouseleave');
+    triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
     Ember.run.later(() => {
-      assertTooltipNotVisible($body, assert, options);
+      assertTooltipNotVisible(assert, options);
     }, 300); //default hideDelay = 250
 
   });
@@ -111,23 +108,22 @@ test('all acceptance tests', function(assert) {
     assert.ok(true, '-------------- begin section 4 --------------');
 
     const $popoverTarget = Ember.$('.js-test-popover-target-enableLazyRendering-true');
-    const $body = Ember.$('body');
     const options = {
       selector: '.js-test-popover-enableLazyRendering-true'
     };
 
     assert.equal($popoverTarget.length, 1, 'there should be one $popover');
 
-    assertTooltipNotRendered($body, assert, options);
+    assertTooltipNotRendered(assert, options);
 
-    triggerTooltipEvent($popoverTarget, 'mouseenter');
+    triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 
-    assertTooltipVisible($body, assert, options);
+    assertTooltipVisible(assert, options);
 
-    triggerTooltipEvent($popoverTarget, 'mouseleave');
+    triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
     Ember.run.later(() => {
-      assertTooltipNotVisible($body, assert, options);
+      assertTooltipNotVisible(assert, options);
     }, 300); //default hideDelay = 250
 
   });
@@ -138,30 +134,29 @@ test('all acceptance tests', function(assert) {
     assert.ok(true, '-------------- begin section 5 --------------');
 
     const $popoverTarget = Ember.$('.js-test-popover-target-enableLazyRendering-true-no-delay');
-    const $body = Ember.$('body');
     const options = {
       selector: '.js-test-popover-enableLazyRendering-true-no-delay'
     };
 
     assert.equal($popoverTarget.length, 1, 'there should be one $popover');
 
-    assertTooltipNotRendered($body, assert, options);
+    assertTooltipNotRendered(assert, options);
 
-    triggerTooltipEvent($popoverTarget, 'mouseenter');
+    triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 
-    assertTooltipVisible($body, assert, options);
+    assertTooltipVisible(assert, options);
 
-    triggerTooltipEvent($popoverTarget, 'mouseleave');
+    triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
-    assertTooltipNotVisible($body, assert, options);
+    assertTooltipNotVisible(assert, options);
 
-    triggerTooltipEvent($popoverTarget, 'mouseenter');
+    triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 
-    assertTooltipVisible($body, assert, options);
+    assertTooltipVisible(assert, options);
 
-    triggerTooltipEvent($popoverTarget, 'mouseleave');
+    triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
-    assertTooltipNotVisible($body, assert, options);
+    assertTooltipNotVisible(assert, options);
 
   });
 

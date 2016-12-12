@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { triggerTooltipEvent, assertTooltipRendered, assertTooltipNotRendered, assertTooltipNotVisible } from '../../helpers/ember-tooltips';
+import { triggerTooltipTargetEvent, assertTooltipRendered, assertTooltipNotRendered, assertTooltipNotVisible } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | enableLazyRendering', {
   integration: true
@@ -18,13 +18,11 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | enableLazyRe
 
     this.render(hbs`{{tooltip-on-element event=eventType enableLazyRendering=true}}`);
 
-    const $body = this.$().parents('body');
+    assertTooltipNotRendered(assert);
 
-    assertTooltipNotRendered($body, assert);
+    triggerTooltipTargetEvent(this.$(), eventObject.showOn);
 
-    triggerTooltipEvent(this.$(), eventObject.showOn);
-
-    assertTooltipRendered($body, assert);
+    assertTooltipRendered(assert);
 
   });
 });
@@ -33,9 +31,7 @@ test('tooltip-on-element renders automatically when enableLazyRendering=false', 
 
   this.render(hbs`{{tooltip-on-element enableLazyRendering=false}}`);
 
-  const $body = this.$().parents('body');
-
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
 });
 
@@ -43,9 +39,7 @@ test('tooltip-on-element renders automatically when isShown=true', function(asse
 
   this.render(hbs`{{tooltip-on-element enableLazyRendering=true isShown=true}}`);
 
-  const $body = this.$().parents('body');
-
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
 });
 
@@ -53,9 +47,7 @@ test('tooltip-on-element renders automatically when tooltipIsVisible=true', func
 
   this.render(hbs`{{tooltip-on-element enableLazyRendering=true tooltipIsVisible=true}}`);
 
-  const $body = this.$().parents('body');
-
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
 });
 
@@ -77,7 +69,7 @@ test('tooltip-on-element event=click will only trigger one click event', functio
   assert.equal(timesClicked, 0,
       'timesClicked should be zero before the click event');
 
-  triggerTooltipEvent($tooltipTarget, 'click');
+  triggerTooltipTargetEvent($tooltipTarget, 'click');
 
   assert.equal(timesClicked, 1,
       'timesClicked should be one after the click event');
@@ -98,21 +90,20 @@ test('tooltip-on-element behaves when a mouseenter/mouseleave occurs quickly', f
   this.render(hbs`{{tooltip-on-element enableLazyRendering=true}}`);
 
   const $tooltipTarget = this.$();
-  const $body = this.$().parents('body');
 
-  assertTooltipNotRendered($body, assert);
+  assertTooltipNotRendered(assert);
 
   Ember.run(() => {
     // we intentionally use $tooltipTarget.trigger instead of
-    // triggerTooltipEvent because mouseenter and mouseleave need
+    // triggerTooltipTargetEvent because mouseenter and mouseleave need
     // to happen within the same run loop. This mimics the
-    // interaction when a user quickly hovers through the $target
+    // interaction when a user quickly hovers through the $tooltipTarget
     $tooltipTarget.trigger('mouseenter');
     $tooltipTarget.trigger('mouseleave');
   });
 
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
 });
