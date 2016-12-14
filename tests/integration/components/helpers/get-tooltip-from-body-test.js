@@ -33,10 +33,9 @@ moduleForComponent('tooltip-on-element', 'Integration | Helpers | getTooltipFrom
 
     this.render(hbs``);
 
-    const $body = this.$().parents('body');
 
     let funcToError = () => {
-      helperInstance($body, assert);
+      helperInstance(assert);
     };
 
     assert.throws(funcToError, Error,
@@ -54,10 +53,9 @@ moduleForComponent('tooltip-on-element', 'Integration | Helpers | getTooltipFrom
       {{tooltip-on-element}}
     `);
 
-    const $body = this.$().parents('body');
 
     let funcToError = () => {
-      helperInstance($body, assert);
+      helperInstance(assert);
     };
 
     assert.throws(funcToError, Error,
@@ -70,9 +68,8 @@ test('getTooltipFromBody will not throw en error with assertTooltipNotRendered',
 
   this.render(hbs``);
 
-  const $body = this.$().parents('body');
 
-  assertTooltipNotRendered($body, assert);
+  assertTooltipNotRendered(assert);
 
 });
 

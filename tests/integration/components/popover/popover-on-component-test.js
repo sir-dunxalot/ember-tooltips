@@ -18,9 +18,8 @@ test('popover-on-component does render when enableLazyRendering=false', function
     {{/some-component}}
   `);
 
-  const $body = this.$().parents('body');
 
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 });
 
 test('popover-on-component does not eagerly render when enableLazyRendering defaults to true', function(assert) {
@@ -35,7 +34,6 @@ test('popover-on-component does not eagerly render when enableLazyRendering defa
     {{/some-component}}
   `);
 
-  const $body = this.$().parents('body');
 
-  assertTooltipNotRendered($body, assert);
+  assertTooltipNotRendered(assert);
 });

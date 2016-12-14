@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { triggerTooltipEvent, assertTooltipNotRendered } from '../../helpers/ember-tooltips';
+import { triggerTooltipTargetEvent, assertTooltipNotRendered } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | actions', {
   integration: true
@@ -8,7 +8,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | actions', {
 
 test('tooltip-on-element calls lifecycle actions', function(assert) {
 
-  assert.expect(11);
+  assert.expect(10);
 
   const actionsCalledHash = {
     onRenderFoo: 0,
@@ -16,7 +16,6 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
     onHideBaz: 0,
     onDestroyFubar: 0,
   };
-  const $body = this.$().parents('body');
 
   /* Setup the actions and handlers... */
 
@@ -43,25 +42,11 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
     {{/unless}}
   `);
 
-  assertTooltipNotRendered($body, assert);
-
-  assert.equal(actionsCalledHash.onRenderFoo, 0,
-    'Should not have called render due to enableLazyRendering being true');
-
-  this.render(hbs`
-    {{#unless destroyTooltip}}
-      {{tooltip-on-element
-        onRender='onRenderFoo'
-        onShow='onShowBar'
-        onHide='onHideBaz'
-        onDestroy='onDestroyFubar'
-      }}
-    {{/unless}}
-  `);
-
   /* Check render */
 
-  triggerTooltipEvent(this.$(), 'mouseenter');
+  assertTooltipNotRendered(assert);
+
+  triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
   assert.equal(actionsCalledHash.onRenderFoo, 1,
     'Should have called render');
@@ -74,7 +59,7 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
   assert.equal(actionsCalledHash.onHideBaz, 0,
     'Should not have called hide');
 
-  triggerTooltipEvent(this.$(), 'mouseleave');
+  triggerTooltipTargetEvent(this.$(), 'mouseleave');
 
   assert.equal(actionsCalledHash.onHideBaz, 1,
     'Should have called hide');
@@ -87,6 +72,7 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
     'Should have called destroy');
 
 });
+
 
 test('tooltip-on-element supports lifecycle closure actions with multiple arguments', function(assert) {
   // closure actions allow you to pass multiple parameters

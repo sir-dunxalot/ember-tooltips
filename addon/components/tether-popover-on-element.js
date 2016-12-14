@@ -4,6 +4,10 @@ import layout from 'ember-tooltips/templates/components/tether-popover';
 
 const { $, run } = Ember;
 
+// These isElement________ functions are used to determine where an element
+// is in relation to the $popover and the $target elements. This is needed to
+// handle the visible state when a user interacts with any of these elements.
+
 export const isElementInPopover = function(element, $popover) {
   // determines if element is $popover or contained within $popover
   if (!$popover) {

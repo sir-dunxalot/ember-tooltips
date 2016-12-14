@@ -15,13 +15,12 @@ test('tooltip-on-element toggles with isShown', function(assert) {
 
   this.render(hbs`{{tooltip-on-element isShown=showTooltip}}`);
 
-  const $body = this.$().parents('body');
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
   this.set('showTooltip', false);
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
 });
 
@@ -33,14 +32,13 @@ test('tooltip-on-element toggles when enableLazyRendering with isShown', functio
 
   this.render(hbs`{{tooltip-on-element isShown=showTooltip}}`);
 
-  const $body = this.$().parents('body');
 
-  assertTooltipRendered($body, assert);
+  assertTooltipRendered(assert);
 
-  assertTooltipVisible($body, assert);
+  assertTooltipVisible(assert);
 
   this.set('showTooltip', false);
 
-  assertTooltipNotVisible($body, assert);
+  assertTooltipNotVisible(assert);
 
 });

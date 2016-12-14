@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import EmberTetherComponent from 'ember-tether/components/ember-tether';
 
-const { $, computed, run, on } = Ember;
+const { $, computed, observer, run, on } = Ember;
 
 const defaultPosition = 'center';
 
@@ -87,7 +87,7 @@ export default EmberTetherComponent.extend({
 
   // attributeBindings are handled asynchronously http://stackoverflow.com/a/18731021/3304337
   // this observer makes it sync, which makes testing more consistent
-  dataTetherEnabledHandler: Ember.observer('_isTetherEnabled', function() {
+  dataTetherEnabledHandler: observer('_isTetherEnabled', function() {
     let tetherEnabledString = this.get('_isTetherEnabled') ? 'true' : 'false';
     let $element = this.$();
     if ($element && $element.attr) {
@@ -95,7 +95,7 @@ export default EmberTetherComponent.extend({
     }
   }),
 
-  ariaHiddenHandler: Ember.observer('isShown', function() {
+  ariaHiddenHandler: observer('isShown', function() {
     let ariaHiddenString = this.get('isShown') ? 'false' : 'true';
     let $element = this.$();
     if ($element && $element.attr) {
@@ -343,7 +343,7 @@ export default EmberTetherComponent.extend({
   @method setTimer
   */
 
-  setTimer: Ember.observer('isShown', function() {
+  setTimer: observer('isShown', function() {
     const isShown = this.get('isShown');
 
     if (isShown) {
