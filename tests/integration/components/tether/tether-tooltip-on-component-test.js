@@ -1,15 +1,14 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertRendered, assertShow, assertHide } from '../../../helpers/sync/assert-visibility';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
-moduleForComponent('tether-tooltip-on-component', 'Integration | Component | tether popover on component', {
+moduleForComponent('tether-tooltip-on-component', 'Integration | Component | tether tooltip on component', {
   integration: true
 });
 
 test('tether-tooltip-on-component renders', function(assert) {
 
-  assert.expect(2);
+  assert.expect(1);
 
   this.render(hbs`
     {{#some-component}}
@@ -19,12 +18,14 @@ test('tether-tooltip-on-component renders', function(assert) {
     {{/some-component}}
   `);
 
-  assertRendered(assert, this);
+
+  assertTooltipRendered(assert);
+
 });
 
 test("tether-tooltip-on-component targets it's parent view", function(assert) {
 
-  assert.expect(7);
+  assert.expect(4);
 
   this.render(hbs`
     {{#some-component class="target-component"}}
@@ -34,21 +35,18 @@ test("tether-tooltip-on-component targets it's parent view", function(assert) {
     {{/some-component}}
   `);
 
-  const $targetComponent = this.$().find('.target-component');
+  const $tooltipTarget = this.$();
 
-  assertRendered(assert, this);
+  assertTooltipRendered(assert);
 
-  assert.ok($targetComponent.hasClass('ember-tooltip-or-popover-target'));
+  assert.ok($tooltipTarget.find('.target-component').hasClass('ember-tooltip-or-popover-target'));
 
-  Ember.run(() => {
-    $targetComponent.trigger('click');
-  });
+  triggerTooltipTargetEvent($tooltipTarget, 'click', {selector: '.target-component'});
 
-  assertShow(assert, this);
+  assertTooltipVisible(assert);
 
-  Ember.run(() => {
-    $targetComponent.trigger('click');
-  });
+  triggerTooltipTargetEvent($tooltipTarget, 'click', {selector: '.target-component'});
 
-  assertHide(assert, this);
+  assertTooltipNotVisible(assert);
+
 });

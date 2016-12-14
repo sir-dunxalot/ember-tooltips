@@ -1,9 +1,6 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertPopoverHide } from '../../../helpers/sync/assert-visibility';
+import { assertTooltipNotVisible, triggerTooltipTargetEvent } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run } = Ember;
 
 moduleForComponent('popover-on-element', 'Integration | Option | event', {
   integration: true
@@ -11,37 +8,30 @@ moduleForComponent('popover-on-element', 'Integration | Option | event', {
 
 test('Popover: never shows with none', function(assert) {
 
+  assert.expect(4);
+
   this.render(hbs`{{popover-on-element event='none'}}`);
 
-  const $target = this.$();
+  const $popoverTarget = this.$();
 
-  assertPopoverHide(assert, this);
+  assertTooltipNotVisible(assert);
 
   /* Check focus */
 
-  run(() => {
-    $target.trigger('focus');
-  });
+  triggerTooltipTargetEvent($popoverTarget, 'focus');
 
-  assertPopoverHide(assert, this);
+  assertTooltipNotVisible(assert);
 
   /* Check hover */
 
-  run(this, () => {
-    $target.trigger('mouseover');
-  });
+  triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 
-  assertPopoverHide(assert, this);
+  assertTooltipNotVisible(assert);
 
   /* Check click */
 
-  run(this, () => {
-    $target.trigger('mousedown');
-    $target.trigger('mouseup');
-  });
+  triggerTooltipTargetEvent($popoverTarget, 'click');
 
-  assertPopoverHide(assert, this);
-
-  assert.expect(8);
+  assertTooltipNotVisible(assert);
 
 });

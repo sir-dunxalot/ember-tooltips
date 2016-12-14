@@ -4,12 +4,10 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | actions', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | updateFor', {
   integration: true
 });
 
-
-// I'm not sure updateFor is necessary....
 test('updateFor test', function(assert) {
 
   assert.expect(2);

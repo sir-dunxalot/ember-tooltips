@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from 'ember-tooltips/templates/components/lazy-render-wrapper';
 
-const { computed, get, run, $ } = Ember;
+const { computed, get, $ } = Ember;
 
 // https://github.com/emberjs/rfcs/issues/168
 // https://github.com/emberjs/ember.js/pull/12500
@@ -17,10 +17,6 @@ function getParent(view) {
     return view.$().parent();
   }
 }
-
-// this const is also used in lazy-render-test.js
-// to ensure each interaction type causes a render
-export const INTERACTION_EVENT_TYPES = ['mouseenter', 'click', 'focusin'];
 
 const PASSABLE_PROPERTIES = [
 	'delay',
@@ -121,6 +117,24 @@ export default Ember.Component.extend({
 
 		return false;
 	}),
+	_shouldShowOnRender: false,
+
+	event: 'hover', // hover, click, focus, none
+	entryInteractionEvents: computed('event', function() {
+		// the lazy-render wrapper will only render the tooltip when
+		// the $parent element is interacted with. This CP defines which
+		// events will trigger the rendering. We always include focusin
+		// to keep the component accessible.
+		let entryInteractionEvents = ['focusin'];
+		let event = this.get('event');
+		if (event === 'hover') {
+			entryInteractionEvents.push('mouseenter');
+		} else if (event === 'click') {
+			entryInteractionEvents.push('click');
+		}
+
+		return entryInteractionEvents;
+	}),
 
 	didInsertElement() {
 		this._super(...arguments);
@@ -133,26 +147,48 @@ export default Ember.Component.extend({
 
 		const $parent = getParent(this);
 
-		INTERACTION_EVENT_TYPES.forEach((eventType) => {
-			$parent.on(`${eventType}.lazy-ember-popover`, () => {
+		if (this.get('event') === 'hover') {
+			// We've seen instances where a user quickly mouseenter and mouseleave the $parent.
+			// By providing this event handler we ensure that the tooltip will only *show*
+			// if the user has mouseenter and not mouseleave immediately afterwards.
+			$parent.on('mouseleave.target-lazy-render-wrapper', () => {
+				this.set('_shouldShowOnRender', false);
+			});
+		}
+
+		this.get('entryInteractionEvents').forEach((entryInteractionEvent) => {
+			$parent.on(`${entryInteractionEvent}.target-lazy-render-wrapper`, () => {
 				if (this.get('_hasUserInteracted')) {
-					$parent.off(`${eventType}.lazy-ember-popover`);
+					$parent.off(`${entryInteractionEvent}.target-lazy-render-wrapper`);
 				} else {
 					this.set('_hasUserInteracted', true);
-					run.next(() => {
-						$parent.trigger(eventType);
-					});
+					this.set('_shouldShowOnRender', true);
 				}
 			});
 		});
+	},
+
+	childView: null, // this is set during the childView's didRender and is needed for the hide action
+	actions: {
+		hide() {
+			const childView = this.get('childView');
+
+			// childView.actions is not available in Ember 1.13
+			// We will use childView._actions until we drop support for Ember 1.13
+			if (childView && childView._actions && childView._actions.hide) {
+				childView.send('hide');
+			}
+		},
 	},
 
 	willDestroyElement() {
 		this._super(...arguments);
 
 		const $parent = getParent(this);
-		INTERACTION_EVENT_TYPES.forEach((eventType) => {
-			$parent.off(`${eventType}.lazy-ember-popover`);
+		this.get('entryInteractionEvents').forEach((entryInteractionEvent) => {
+			$parent.off(`${entryInteractionEvent}.target-lazy-render-wrapper`);
 		});
+
+		$parent.off('mouseleave.target-lazy-render-wrapper');
 	},
 });

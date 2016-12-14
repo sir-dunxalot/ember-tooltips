@@ -1,8 +1,8 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertNotRendered, assertRendered } from '../../helpers/sync/assert-visibility';
+import { assertTooltipNotRendered, assertTooltipRendered } from '../../helpers/ember-tooltips';
 
-moduleForComponent('tooltip-on-component', 'Integration | Component | tooltip on component', {
+moduleForComponent('tooltip-on-component', 'Integration | Component | tooltip-on-component', {
   integration: true
 });
 
@@ -16,10 +16,12 @@ test('tooltip-on-component does render when enableLazyRendering=false', function
     {{/some-component}}
   `);
 
-  assertRendered(assert, this);
+
+  assertTooltipRendered(assert);
+
 });
 
-test('tooltip-on-component does initially render when enableLazyRendering=true', function(assert) {
+test('tooltip-on-component does not eagerly render when enableLazyRendering=true', function(assert) {
 
   this.render(hbs`
     {{#some-component}}
@@ -29,5 +31,6 @@ test('tooltip-on-component does initially render when enableLazyRendering=true',
     {{/some-component}}
   `);
 
-  assertNotRendered(assert, this);
+
+  assertTooltipNotRendered(assert);
 });

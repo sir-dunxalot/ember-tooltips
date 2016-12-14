@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertHide, assertShow, assertRendered} from '../../helpers/sync/assert-visibility';
+import { assertTooltipNotVisible, assertTooltipVisible, assertTooltipRendered } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -10,62 +10,59 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | isShown', {
 });
 
 
-test('It toggles with isShown', function(assert) {
+test('tooltip-on-element toggles with isShown', function(assert) {
 
-  assert.expect(4);
+  assert.expect(2);
 
   this.set('showTooltip', true);
 
   this.render(hbs`{{tooltip-on-element isShown=showTooltip}}`);
 
-  assertShow(assert, this);
 
-  run(() => {
-    this.set('showTooltip', false);
-  });
+  assertTooltipVisible(assert);
 
-  assertHide(assert, this);
+  this.set('showTooltip', false);
+
+  assertTooltipNotVisible(assert);
 
 });
 
-test('It toggles when enableLazyRendering with isShown', function(assert) {
+test('tooltip-on-element toggles when enableLazyRendering with isShown', function(assert) {
 
-  // assert.expect(6);
+  assert.expect(3);
 
   this.set('showTooltip', true);
 
   this.render(hbs`{{tooltip-on-element isShown=showTooltip enableLazyRendering=true}}`);
 
-  assertRendered(assert, this);
 
-  assertShow(assert, this);
+  assertTooltipRendered(assert);
 
-  run(() => {
-    this.set('showTooltip', false);
-  });
+  assertTooltipVisible(assert);
 
-  assertRendered(assert, this);
+  this.set('showTooltip', false);
 
-  assertHide(assert, this);
+  assertTooltipNotVisible(assert);
 
 });
 
-test('It toggles with tooltipIsVisible', function(assert) {
+test('tooltip-on-element toggles with tooltipIsVisible', function(assert) {
 	// tooltipIsVisible is deprecated in favor of isShown
 	// tooltipIsVisible will be supported until v3.0.0
 
-  assert.expect(4);
+  assert.expect(2);
 
   this.set('showTooltip', true);
 
   this.render(hbs`{{tooltip-on-element tooltipIsVisible=showTooltip}}`);
 
-  assertShow(assert, this);
+
+  assertTooltipVisible(assert);
 
   run(() => {
     this.set('showTooltip', false);
   });
 
-  assertHide(assert, this);
+  assertTooltipNotVisible(assert);
 
 });

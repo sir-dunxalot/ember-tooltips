@@ -7,6 +7,8 @@ moduleForComponent('popover-on-element', 'Integration | Component | popover on e
 
 test(`attachment and targetAttachment override test`, function(assert) {
 
+	assert.expect(4);
+
 	this.render(hbs`{{popover-on-element targetAttachment='top right' attachment='top left' keepInWindow=false}}`);
 
 	const $target = this.$();

@@ -1,15 +1,14 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertRendered, assertShow, assertHide } from '../../../helpers/sync/assert-visibility';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
-moduleForComponent('tether-tooltip-on-element', 'Integration | Component | tether popover on component', {
+moduleForComponent('tether-tooltip-on-element', 'Integration | Component | tether tooltip on element', {
   integration: true
 });
 
 test('tether-tooltip-on-element renders', function(assert) {
 
-  assert.expect(2);
+  assert.expect(1);
 
   this.render(hbs`
     {{#tether-tooltip-on-element}}
@@ -17,12 +16,14 @@ test('tether-tooltip-on-element renders', function(assert) {
     {{/tether-tooltip-on-element}}
   `);
 
-  assertRendered(assert, this);
+
+  assertTooltipRendered(assert);
+
 });
 
 test("tether-tooltip-on-element targets it's parent view", function(assert) {
 
-  assert.expect(7);
+  assert.expect(4);
 
   this.render(hbs`
     {{#tether-tooltip-on-element event="click"}}
@@ -30,21 +31,18 @@ test("tether-tooltip-on-element targets it's parent view", function(assert) {
     {{/tether-tooltip-on-element}}
   `);
 
-  const $target = this.$();
+  const $tooltipTarget = this.$();
 
-  assertRendered(assert, this);
+  assertTooltipRendered(assert);
 
-  assert.ok($target.hasClass('ember-tooltip-or-popover-target'));
+  assert.ok($tooltipTarget.hasClass('ember-tooltip-or-popover-target'));
 
-  Ember.run(() => {
-    $target.trigger('click');
-  });
+  triggerTooltipTargetEvent($tooltipTarget, 'click');
 
-  assertShow(assert, this);
+  assertTooltipVisible(assert);
 
-  Ember.run(() => {
-    $target.trigger('click');
-  });
+  triggerTooltipTargetEvent($tooltipTarget, 'click');
 
-  assertHide(assert, this);
+  assertTooltipNotVisible(assert);
+
 });
