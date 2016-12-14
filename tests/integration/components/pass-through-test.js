@@ -1,4 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import { triggerTooltipEvent } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | pass through properties', {
@@ -22,22 +23,29 @@ test('tooltip-on-element pass through attributes test', function(assert) {
   	}}
   `);
 
-
-  const $tooltip = this.$().find('.ember-tooltip');
+  triggerTooltipEvent(this.$(), 'mouseenter');
 
   // assert that the attributes are passed from
   // the lazy-render-wrapper component to the $tooltip
 
-  assert.equal($tooltip.attr('id'), 'some-id');
+  const $tooltip = this.$().find('.ember-tooltip');
 
-  assert.ok($tooltip.hasClass('foo'));
+  assert.equal($tooltip.attr('id'), 'some-id',
+    'id should be passed through');
 
-  assert.ok($tooltip.hasClass('bar-falsy'));
+  assert.ok($tooltip.hasClass('foo'),
+    'class should be passed through');
 
-  assert.ok($tooltip.hasClass('baz-truthy'));
+  assert.ok($tooltip.hasClass('bar-falsy'),
+    'Falsy class name bindings should be passed through');
 
-  assert.equal($tooltip.attr('role'), 'foo');
+  assert.ok($tooltip.hasClass('baz-truthy'),
+    'Truthy class name bindings should be passed through');
 
-  assert.equal($tooltip.attr('tabindex'), '2');
+  assert.equal($tooltip.attr('role'), 'foo',
+    'role should be passed through');
+
+  assert.equal($tooltip.attr('tabindex'), '2',
+    'tabindex should be passed through');
 
 });

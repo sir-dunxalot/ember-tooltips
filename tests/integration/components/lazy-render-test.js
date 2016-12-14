@@ -12,11 +12,11 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | enableLazyRe
   {eventType: 'click', showOn: 'click'},
   {eventType: 'focus', showOn: 'focusin'},
 ].forEach(function(eventObject) {
-  test(`tooltip-on-element renders lazily after ${eventObject.showOn} when enableLazyRendering=true`, function(assert) {
+  test(`tooltip-on-element renders lazily after ${eventObject.showOn} when enableLazyRendering defaults to true`, function(assert) {
 
     this.set('eventType', eventObject.eventType);
 
-    this.render(hbs`{{tooltip-on-element event=eventType enableLazyRendering=true}}`);
+    this.render(hbs`{{tooltip-on-element event=eventType}}`);
 
     assertTooltipNotRendered(assert);
 
@@ -27,7 +27,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | enableLazyRe
   });
 });
 
-test('tooltip-on-element renders automatically when enableLazyRendering=false', function(assert) {
+test('tooltip-on-element renders when enableLazyRendering=false', function(assert) {
 
   this.render(hbs`{{tooltip-on-element enableLazyRendering=false}}`);
 
@@ -37,15 +37,7 @@ test('tooltip-on-element renders automatically when enableLazyRendering=false', 
 
 test('tooltip-on-element renders automatically when isShown=true', function(assert) {
 
-  this.render(hbs`{{tooltip-on-element enableLazyRendering=true isShown=true}}`);
-
-  assertTooltipRendered(assert);
-
-});
-
-test('tooltip-on-element renders automatically when tooltipIsVisible=true', function(assert) {
-
-  this.render(hbs`{{tooltip-on-element enableLazyRendering=true tooltipIsVisible=true}}`);
+  this.render(hbs`{{tooltip-on-element isShown=true}}`);
 
   assertTooltipRendered(assert);
 
@@ -57,7 +49,7 @@ test('tooltip-on-element event=click will only trigger one click event', functio
 
   let timesClicked = 0;
 
-  this.render(hbs`{{tooltip-on-element event="click" enableLazyRendering=true}}`);
+  this.render(hbs`{{tooltip-on-element event="click"}}`);
 
   const $tooltipTarget = this.$();
   const done = assert.async();
@@ -87,7 +79,7 @@ test('tooltip-on-element behaves when a mouseenter/mouseleave occurs quickly', f
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-element enableLazyRendering=true}}`);
+  this.render(hbs`{{tooltip-on-element}}`);
 
   const $tooltipTarget = this.$();
 

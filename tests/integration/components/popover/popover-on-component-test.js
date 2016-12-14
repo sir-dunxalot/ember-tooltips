@@ -22,13 +22,13 @@ test('popover-on-component does render when enableLazyRendering=false', function
   assertTooltipRendered(assert);
 });
 
-test('popover-on-component does not eagerly render when enableLazyRendering=true', function(assert) {
+test('popover-on-component does not eagerly render when enableLazyRendering defaults to true', function(assert) {
 
   assert.expect(1);
 
   this.render(hbs`
     {{#some-component}}
-      {{#popover-on-component enableLazyRendering=true}}
+      {{#popover-on-component}}
         template block text
       {{/popover-on-component}}
     {{/some-component}}

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent } from '../../../helpers/ember-tooltips';
+import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent, assertTooltipNotRendered } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
@@ -18,7 +18,7 @@ test('Popover: hover target, hover elsewhere', function(assert) {
   const done = assert.async();
   const $popoverTarget = this.$();
 
-  assertTooltipNotVisible(assert);
+  assertTooltipNotRendered(assert);
 
   triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 
@@ -44,7 +44,7 @@ test('Popover: hover target, hover popover (too slow)', function(assert) {
   const done = assert.async();
   const $popoverTarget = this.$();
 
-  assertTooltipNotVisible(assert);
+  assertTooltipNotRendered(assert);
 
   triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 
@@ -87,7 +87,7 @@ test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', f
   const done = assert.async();
   const $popoverTarget = this.$();
 
-  assertTooltipNotVisible(assert);
+  assertTooltipNotRendered(assert);
 
   triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 

@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | delay', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | showDelay', {
   integration: true
 });
 
@@ -13,13 +13,13 @@ test('tooltip-on-element animates with delay passed as a number', function(asser
 
   assert.expect(4);
 
-  this.render(hbs`{{tooltip-on-element delay=300}}`);
+  this.render(hbs`{{tooltip-on-element showDelay=300}}`);
 
   const done = assert.async();
 
-  assertTooltipNotVisible(assert);
-
   triggerTooltipTargetEvent(this.$(), 'mouseenter');
+
+  assertTooltipNotVisible(assert);
 
   /* Check the tooltip is shown after the correct delay */
 
@@ -45,13 +45,13 @@ test('tooltip-on-element animates with delay passed as a string', function(asser
 
   assert.expect(4);
 
-  this.render(hbs`{{tooltip-on-element delay='300'}}`);
+  this.render(hbs`{{tooltip-on-element showDelay='300'}}`);
 
   const done = assert.async();
 
-  assertTooltipNotVisible(assert);
-
   triggerTooltipTargetEvent(this.$(), 'mouseenter');
+
+  assertTooltipNotVisible(assert);
 
   /* Check the tooltip is shown after the correct delay */
 

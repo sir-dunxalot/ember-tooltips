@@ -1,5 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, triggerTooltipTargetEvent } from '../../../helpers/ember-tooltips';
+import { assertTooltipNotVisible, triggerTooltipTargetEvent, assertTooltipNotRendered } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('popover-on-element', 'Integration | Option | event', {
@@ -14,7 +14,7 @@ test('Popover: never shows with none', function(assert) {
 
   const $popoverTarget = this.$();
 
-  assertTooltipNotVisible(assert);
+  assertTooltipNotRendered(assert);
 
   /* Check focus */
 

@@ -19,7 +19,6 @@ function getParent(view) {
 }
 
 const PASSABLE_PROPERTIES = [
-	'delay',
 	'delayOnChange',
 	'duration',
 	'effect',
@@ -30,7 +29,7 @@ const PASSABLE_PROPERTIES = [
 	'showOn',
 	'spacing',
 	'isShown',
-	'tooltipIsVisible',
+	'showDelay',
 	'hideDelay',
 	'target',
 	'text',
@@ -49,12 +48,6 @@ const PASSABLE_ACTIONS = [
 	'onHide',
 	'onRender',
 	'onShow',
-
-	// deprecated lifecycle actions
-	'onTooltipDestroy',
-	'onTooltipHide',
-	'onTooltipRender',
-	'onTooltipShow',
 ];
 
 const PASSABLE_OPTIONS = PASSABLE_PROPERTIES.concat(PASSABLE_ACTIONS);
@@ -86,11 +79,11 @@ export default Ember.Component.extend({
 		}, {});
 	}),
 
-	enableLazyRendering: false,
+	enableLazyRendering: true,
 	_hasUserInteracted: false,
 	_hasRendered: false,
-	_shouldRender: computed('isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
-		// if isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
+	_shouldRender: computed('isShown', 'enableLazyRendering', '_hasUserInteracted', function() {
+		// if isShown, !enableLazyRendering, or _hasUserInteracted then
 		// we return true and set _hasRendered to true because
 		// there is never a scenario where this wrapper should destroy the tooltip
 
@@ -98,7 +91,7 @@ export default Ember.Component.extend({
 
 			return true;
 
-		} else if (this.get('isShown') || this.get('tooltipIsVisible')) {
+		} else if (this.get('isShown')) {
 
 			this.set('_hasRendered', true);
 			return true;
