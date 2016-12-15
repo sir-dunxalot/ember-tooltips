@@ -139,7 +139,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [duration](#duration)
 - [effect](#effect)
 - [event](#event)
-- [hideOn](#hideOn)
+- [hideOn](#hide-on)
 - [keepInWindow](#keep-in-window)
 - [side](#side)
 - [showOn](#show-on)
