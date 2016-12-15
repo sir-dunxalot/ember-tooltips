@@ -17,6 +17,7 @@ test('tooltip-on-element pass through attributes test', function(assert) {
   		id="some-id"
 			class='foo'
 			classNameBindings='bar:bar-truthy:bar-falsy baz:baz-truthy:baz-falsy'
+      classNames="foobar"
 			role='foo'
 			tabindex='2'
   	}}
@@ -35,6 +36,8 @@ test('tooltip-on-element pass through attributes test', function(assert) {
   assert.ok($tooltip.hasClass('bar-falsy'));
 
   assert.ok($tooltip.hasClass('baz-truthy'));
+
+  assert.ok($tooltip.hasClass('foobar'));
 
   assert.equal($tooltip.attr('role'), 'foo');
 
