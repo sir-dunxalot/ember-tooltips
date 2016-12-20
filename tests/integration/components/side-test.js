@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertTooltipSide } from '../../tests/helpers/ember-tooltips';
+import { assertTooltipSide } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | side and keepInWindow', {
   integration: true
