@@ -184,9 +184,14 @@ export default EmberTetherComponent.extend({
   }),
 
   target: computed(function() {
-    const parentElement = this.$().parent();
+    const $element = this.$();
+    // it's not possible to access the DOM when running in Fastboot
+    if (!$element) {
+      return null;
+    }
 
-    let parentElementId = parentElement.attr('id');
+    const parentElement = $element.parent();
+    let parentElementId = parentElement && parentElement.attr('id');
 
     if (!parentElementId) {
       parentElementId = `target-for-tooltip-or-popover-${tooltipOrPopoverCounterId}`;
@@ -452,13 +457,16 @@ export default EmberTetherComponent.extend({
   },
 
   willDestroy() {
-    const $target = $(this.get('target'));
+    // there's no jQuery when running in Fastboot
+    const $target = $ && $(this.get('target'));
 
     this.set('effect', null);
     this.hide();
 
-    $target.removeAttr('aria-describedby');
-    $target.off();
+    if ($target) {
+      $target.removeAttr('aria-describedby');
+      $target.off();
+    }
 
     this._super(...arguments); // Removes tether
 
