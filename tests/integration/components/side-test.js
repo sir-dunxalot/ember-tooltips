@@ -1,5 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { assertTooltipSide } from '../../tests/helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | side and keepInWindow', {
   integration: true
@@ -14,7 +15,7 @@ test('tooltip-on-element shows', function(assert) {
 
   this.render(hbs`{{tooltip-on-element side='top' keepInWindow=false}}`);
 
-  assertPosition(assert, this, 'top');
+  assertTooltipSide(assert, 'top');
 
 });
 
@@ -24,7 +25,7 @@ test('tooltip-on-element shows with showOn right', function(assert) {
 
   this.render(hbs`{{tooltip-on-element side='right' keepInWindow=false}}`);
 
-  assertPosition(assert, this, 'right');
+  assertTooltipSide(assert, 'right');
 
 });
 
@@ -34,7 +35,7 @@ test('tooltip-on-element shows with showOn bottom', function(assert) {
 
   this.render(hbs`{{tooltip-on-element side='bottom' keepInWindow=false}}`);
 
-  assertPosition(assert, this, 'bottom');
+  assertTooltipSide(assert, 'bottom');
 
 });
 
@@ -44,7 +45,7 @@ test('tooltip-on-element shows with showOn left', function(assert) {
 
   this.render(hbs`{{tooltip-on-element side='left' keepInWindow=false}}`);
 
-  assertPosition(assert, this, 'left');
+  assertTooltipSide(assert, 'left');
 
 });
 

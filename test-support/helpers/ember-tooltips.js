@@ -100,7 +100,7 @@ export function assertTooltipVisible(assert, options={}) {
         isTooltipTetherEnabled -> ${isTooltipTetherEnabled}`);
 }
 
-export function assertTooltipPosition(assert, options = {}) {
+export function assertTooltipSide(assert, options = {}) {
   const expectedSide = options.side || 'top';
   const $target = getTooltipTargetFromBody(options.targetSelector);
   const targetPosition = $target.position();
