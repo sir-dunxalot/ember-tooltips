@@ -5,7 +5,7 @@ const { $, run } = Ember;
 const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
 const tooltipOrPopoverTargetSelector = '.ember-tooltip-or-popover-target';
 
-const getTooltipFromBody = function(selector=tooltipOrPopoverSelector) {
+function getTooltipFromBody(selector=tooltipOrPopoverSelector) {
   // we have to .find() tooltips from $body because sometimes
   // tooltips and popovers are rendered as children of <body>
   // instead of children of the $targetElement
@@ -22,7 +22,7 @@ const getTooltipFromBody = function(selector=tooltipOrPopoverSelector) {
   return $tooltip;
 }
 
-const getTooltipTargetFromBody = function(selector = tooltipOrPopoverTargetSelector) {
+function getTooltipTargetFromBody(selector = tooltipOrPopoverTargetSelector) {
   const $body = $(document.body);
   const $tooltipTarget = $body.find(selector) ;
 
@@ -31,6 +31,22 @@ const getTooltipTargetFromBody = function(selector = tooltipOrPopoverTargetSelec
   }
 
   return $tooltipTarget;
+}
+
+function validateSide(side) {
+  const sideIsValid = (
+    side === 'top' ||
+    side === 'right' ||
+    side === 'bottom' ||
+    side === 'left'
+  );
+
+  /* We make sure the side being tested is valid. We
+  use Ember.assert because assert is passed in from QUnit */
+
+  if (!sideIsValid) {
+    Ember.assert(`You must pass side like assertTooltipSide(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`);
+  }
 }
 
 export function triggerTooltipTargetEvent($element, type, options={}) {
@@ -102,40 +118,41 @@ export function assertTooltipVisible(assert, options={}) {
         isTooltipTetherEnabled -> ${isTooltipTetherEnabled}`);
 }
 
-export function assertTooltipSide(assert, options = {}) {
-  const { side } = options;
-
-  const sideIsValid = (
-    side === 'top' ||
-    side === 'right' ||
-    side === 'bottom' ||
-    side === 'left'
-  );
-
-  /* We make sure the side being tested is valid. We
-  use Ember.assert because assert is passed in from QUnit */
-
-  if (!sideIsValid) {
-    Ember.assert(`You must pass side like assertTooltipSide(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`);
-  }
-
-  const expectedSide = options.side || 'top';
+export function getTooltipPosition(options = {}) {
   const $target = getTooltipTargetFromBody(options.targetSelector);
   const targetPosition = $target[0].getBoundingClientRect();
   const $tooltip = getTooltipFromBody(options.selector);
   const tooltipPosition = $tooltip[0].getBoundingClientRect();
 
-  if (expectedSide === 'top') {
-    assert.ok(targetPosition.top > tooltipPosition.bottom,
-      'Tooltip should be above the target');
-  } else if (expectedSide === 'right') {
-    assert.ok(targetPosition.right < tooltipPosition.left,
-      'Tooltip should be right of the target');
-  } else if (expectedSide === 'bottom') {
-    assert.ok(targetPosition.bottom < tooltipPosition.top,
-      'Tooltip should be below the target');
-  } else if (expectedSide === 'left') {
-    assert.ok(targetPosition.left > tooltipPosition.right,
-      'Tooltip should be left of the target');
+  return {
+    targetPosition,
+    tooltipPosition,
+  };
+}
+
+export function assertTooltipSide(assert, options = {}) {
+  const { side } = options;
+
+  validateSide(side);
+
+  const { targetPosition, tooltipPosition } = getTooltipPosition();
+
+  let passIfTrue;
+
+  /* When the side is top or left, the greater number
+  is the target's position. Thus, we check that the
+  target's position is greater than the tooltip's
+  position. */
+
+  if (side === 'top') {
+    passIfTrue = targetPosition.top > tooltipPosition.bottom;
+  } else if (side === 'right') {
+    passIfTrue = targetPosition.right < tooltipPosition.left;
+  } else if (side === 'bottom') {
+    passIfTrue = targetPosition.bottom < tooltipPosition.top;
+  } else if (side === 'left') {
+    passIfTrue = targetPosition.left > tooltipPosition.right;
   }
+
+  assert.ok(passIfTrue, `Tooltip should be on the ${side} side of the target`);
 }
