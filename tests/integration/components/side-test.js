@@ -73,6 +73,6 @@ test('tooltip-on-element shows with showOn left', function(assert) {
 //     {{/tooltip-on-element}}
 //   `);
 
-//    assertPosition(assert, this, 'right');
+//    assertTooltipSide(assert, { side: 'right' });
 
 // });

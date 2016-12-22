@@ -126,16 +126,16 @@ export function assertTooltipSide(assert, options = {}) {
   const tooltipPosition = $tooltip[0].getBoundingClientRect();
 
   if (expectedSide === 'top') {
-    assert.ok(targetPosition.top > tooltipPosition.top,
+    assert.ok(targetPosition.top > tooltipPosition.bottom,
       'Tooltip should be above the target');
   } else if (expectedSide === 'right') {
-    assert.ok(targetPosition.left < tooltipPosition.left,
+    assert.ok(targetPosition.right < tooltipPosition.left,
       'Tooltip should be right of the target');
   } else if (expectedSide === 'bottom') {
-    assert.ok(targetPosition.top < tooltipPosition.top,
+    assert.ok(targetPosition.bottom < tooltipPosition.top,
       'Tooltip should be below the target');
   } else if (expectedSide === 'left') {
-    assert.ok(targetPosition.left > tooltipPosition.left,
+    assert.ok(targetPosition.left > tooltipPosition.right,
       'Tooltip should be left of the target');
   }
 }
