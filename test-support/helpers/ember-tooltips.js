@@ -5,6 +5,46 @@ const { $, run } = Ember;
 const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
 const tooltipOrPopoverTargetSelector = '.ember-tooltip-or-popover-target';
 
+/**
+@method getPositionDifferences
+@param String side The side the tooltip should be on relative to the target
+
+Given a side, which represents the side of the target that
+the tooltip should render on this method identifies whether
+the tooltip or the target should be further away from the
+top left of the window.
+
+For example, if the side is 'top' then the target should
+be further away from the top left of the window than the
+tooltip because the tooltip should render above the target.
+
+If the side is 'right' then the tooltip should be further
+away from the top left of the window than the target
+because the tooltip should render to the right of the
+target.
+
+This method then returns an object with two numbers:
+
+- `greaterNumber` (expected greater number given the side)
+- `lesserNumber` (expected lesser number given the side)
+
+These numbers can be used for calculations like determining
+whether a tooltip is on the correct side of the target or
+determining whether a tooltip is the correct distance from
+the target on the given side.
+*/
+
+function getPositionDifferences(side) {
+  const { targetPosition, tooltipPosition } = getTooltipPosition();
+  const one = targetPosition[side];
+  const two = tooltipPosition[getOppositeSide(side)];
+  const shouldBeBeforeTarget = side === 'top' || side === 'left';
+  const greaterNumber = shouldBeBeforeTarget ? one : two;
+  const lesserNumber = shouldBeBeforeTarget ? two : one;
+
+  return { greaterNumber, lesserNumber };
+}
+
 function getTooltipFromBody(selector=tooltipOrPopoverSelector) {
   // we have to .find() tooltips from $body because sometimes
   // tooltips and popovers are rendered as children of <body>
@@ -33,7 +73,16 @@ function getTooltipTargetFromBody(selector = tooltipOrPopoverTargetSelector) {
   return $tooltipTarget;
 }
 
-function validateSide(side) {
+function getOppositeSide(side) {
+  switch (side) {
+    case 'top': return 'bottom'; break;
+    case 'right': return 'left'; break;
+    case 'bottom': return 'top'; break;
+    case 'left': return 'right'; break;
+  }
+}
+
+function validateSide(side, testHelper = 'assertTooltipSide') {
   const sideIsValid = (
     side === 'top' ||
     side === 'right' ||
@@ -45,7 +94,7 @@ function validateSide(side) {
   use Ember.assert because assert is passed in from QUnit */
 
   if (!sideIsValid) {
-    Ember.assert(`You must pass side like assertTooltipSide(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`);
+    Ember.assert(`You must pass side like ${testHelper}(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`);
   }
 }
 
@@ -135,24 +184,37 @@ export function assertTooltipSide(assert, options = {}) {
 
   validateSide(side);
 
-  const { targetPosition, tooltipPosition } = getTooltipPosition();
-
-  let passIfTrue;
+  const { greaterNumber, lesserNumber } = getPositionDifferences(side);
 
   /* When the side is top or left, the greater number
   is the target's position. Thus, we check that the
   target's position is greater than the tooltip's
   position. */
 
-  if (side === 'top') {
-    passIfTrue = targetPosition.top > tooltipPosition.bottom;
-  } else if (side === 'right') {
-    passIfTrue = targetPosition.right < tooltipPosition.left;
-  } else if (side === 'bottom') {
-    passIfTrue = targetPosition.bottom < tooltipPosition.top;
-  } else if (side === 'left') {
-    passIfTrue = targetPosition.left > tooltipPosition.right;
+  assert.ok(greaterNumber > lesserNumber,
+    `Tooltip should be on the ${side} side of the target`);
+}
+
+export function assertTooltipSpacing(assert, options) {
+  const { side, spacing } = options;
+
+  validateSide(side, 'assertTooltipSpacing');
+
+  if (typeof spacing !== 'number') {
+    Ember.assert(`You must pass spacing as a number like assertTooltipSpacing(assert, { side: 'top', spacing: 10 });`);
   }
 
-  assert.ok(passIfTrue, `Tooltip should be on the ${side} side of the target`);
+  const { greaterNumber, lesserNumber } = getPositionDifferences(side);
+  const actualSpacing = Math.round(greaterNumber - lesserNumber);
+
+  /* When the side is top or left, the greater number
+  is the target's position. Thus, we check that the
+  target's position is greater than the tooltip's
+  position. */
+
+  assert.ok(greaterNumber > lesserNumber,
+    `Tooltip should be on the ${side} side of the target`);
+
+  assert.equal(actualSpacing, spacing,
+    `Tooltip should be ${spacing}px from the target but it was ${actualSpacing}px`);
 }
