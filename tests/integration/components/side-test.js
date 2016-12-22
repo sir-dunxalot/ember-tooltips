@@ -9,13 +9,23 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | side and keepIn
 /* Test the positions without forcing the tooltip
 to stay in the window. */
 
-test('tooltip-on-element shows', function(assert) {
+test('tooltip-on-element shows on the top by default', function(assert) {
+
+  assert.expect(1);
+
+  this.render(hbs`{{tooltip-on-element keepInWindow=false}}`);
+
+  assertTooltipSide(assert, { side: 'top' });
+
+});
+
+test('tooltip-on-element shows on the top', function(assert) {
 
   assert.expect(1);
 
   this.render(hbs`{{tooltip-on-element side='top' keepInWindow=false}}`);
 
-  assertTooltipSide(assert, 'top');
+  assertTooltipSide(assert, { side: 'top' });
 
 });
 
@@ -25,7 +35,7 @@ test('tooltip-on-element shows with showOn right', function(assert) {
 
   this.render(hbs`{{tooltip-on-element side='right' keepInWindow=false}}`);
 
-  assertTooltipSide(assert, 'right');
+  assertTooltipSide(assert, { side: 'right' });
 
 });
 
@@ -35,7 +45,7 @@ test('tooltip-on-element shows with showOn bottom', function(assert) {
 
   this.render(hbs`{{tooltip-on-element side='bottom' keepInWindow=false}}`);
 
-  assertTooltipSide(assert, 'bottom');
+  assertTooltipSide(assert, { side: 'bottom' });
 
 });
 
@@ -45,7 +55,7 @@ test('tooltip-on-element shows with showOn left', function(assert) {
 
   this.render(hbs`{{tooltip-on-element side='left' keepInWindow=false}}`);
 
-  assertTooltipSide(assert, 'left');
+  assertTooltipSide(assert, { side: 'left' });
 
 });
 
