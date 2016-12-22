@@ -100,7 +100,7 @@ function validateSide(side, testHelper = 'assertTooltipSide') {
   }
 }
 
-export function getTooltipPosition(options = {}) {
+function getTooltipPosition(options = {}) {
   const $target = getTooltipTargetFromBody(options.targetSelector);
   const targetPosition = $target[0].getBoundingClientRect();
   const $tooltip = getTooltipFromBody(options.selector);
