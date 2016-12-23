@@ -421,6 +421,7 @@ This addon exposes testing helpers which can be used inside of the consuming app
 * `assertTooltipNotRendered(assert)`: asserts if the tooltip has not been rendered. When enableLazyRendering is true the tooltip will only be rendered after the user has interacted with the $target element.
 * `assertTooltipSide(assert, { side: 'right' }): asserts that the tooltip is shown on the correct side of the target. Additional options that can be passed are `selector` and `targetSelector`.
 * `assertTooltipSpacing(assert, { side: 'right', spacing: 10 }): asserts that the tooltip is a given distance from the target (on a given side). `side` and `spacing` must be passed. Additional options that can be passed are `selector` and `targetSelector`.
+* `assertContent(assert, contentString): asserts that the content of the tooltip matches a given string. 
 * `triggerTooltipTargetEvent($targetElement, eventName)`: triggers an event on the passed element. The event will be triggered within an Ember.run so that the tooltip's asynchronicity is accounted for. eventName can be mouseenter, mouseleave, click, focus, focusin, and blur.
 
 Each test helper also accepts an `options` object as a final parameter. If a `selector` property is provided the assertions and actions will be run against the single element found from that selector.
