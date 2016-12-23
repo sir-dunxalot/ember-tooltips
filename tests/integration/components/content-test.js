@@ -8,7 +8,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | content', {
 
 test('assertTooltipContent correctly matches expected tootltip content', function(assert) {
 
-  assert.expect(1);
+  assert.expect(2);
 
   this.render(hbs`
     <div>
@@ -19,6 +19,19 @@ test('assertTooltipContent correctly matches expected tootltip content', functio
 
   assertTooltipContent(assert, {
     contentString: 'Smiley face'
+  });
+
+  this.render(hbs`
+    <div>
+      :(
+      {{#tooltip-on-element}}
+        Frowning face
+      {{/tooltip-on-element}}
+    </div>
+  `);
+
+  assertTooltipContent(assert, {
+    contentString: 'Frowning face'
   });
 });
 
