@@ -223,7 +223,8 @@ export function assertTooltipSpacing(assert, options) {
         - On the ${side} side of the target, the tooltip should be ${spacing}px from the target but it was ${actualSpacing}px`);
 }
 
-export function assertContent(assert, contentString, options = {}) {
+export function assertTooltipContent(assert, options = {}) {
+  const { contentString } = options;
   const $tooltip = getTooltipFromBody(options.selector);
   const tooltipContent = $tooltip.text().trim();
 

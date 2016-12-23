@@ -1,12 +1,12 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertContent } from '../../helpers/ember-tooltips';
+import { assertTooltipContent } from '../../helpers/ember-tooltips';
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | content ryanlabouve', {
+moduleForComponent('tooltip-on-element', 'Integration | Option | content', {
   integration: true
 });
 
-test('assertContent correctly matches expected content', function(assert) {
+test('assertTooltipContent correctly matches expected tootltip content', function(assert) {
 
   assert.expect(1);
 
@@ -17,10 +17,12 @@ test('assertContent correctly matches expected content', function(assert) {
     </div>
   `);
 
-  assertContent(assert, 'Smiley face');
+  assertTooltipContent(assert, {
+    contentString: 'Smiley face'
+  });
 });
 
-test('assertContent correctly compares expected and discovered content of tooltip', function(assert) {
+test('assertTooltipContent correctly compares expected and discovered tooltip content of tooltip', function(assert) {
 
   assert.expect(2);
 
@@ -47,5 +49,7 @@ test('assertContent correctly compares expected and discovered content of toolti
     }
   };
 
-  assertContent(stubbedAssert, 'Frowning face');
+  assertTooltipContent(stubbedAssert, {
+    contentString: 'Frowning face'
+  });
 });
