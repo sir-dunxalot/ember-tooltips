@@ -204,6 +204,39 @@ export function assertTooltipVisible(assert, options={}) {
         isTooltipTetherEnabled -> ${isTooltipTetherEnabled}`);
 }
 
+export function assertRelativeSidePosition(assert, options = {}) {
+  const { relativeSidePosition } = options;
+
+  const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(options);
+  const targetHorizontalCenter = targetPosition.width / 2 + targetPosition.left;
+  const targetVerticalCenter = targetPosition.height / 2 + targetPosition.left;
+
+  const tooltipHorizontalCenter = tooltipPosition.width / 2 + tooltipPosition.left;
+  const tooltipVerticalCenter = tooltipPosition.height / 2 + tooltipPosition.left;
+
+  /* When relativeSidePosition is right, the right side of the tooltip
+  should be to the left of target center. */
+  if (relativeSidePosition === 'right') {
+    assert.ok(tooltipHorizontalCenter < targetHorizontalCenter,
+      'Tooltip should be left of target horizontal center');
+  /* When relativeSidePosition is left, the left side of the tooltip
+  should be to the right of target center. */
+  } else if (relativeSidePosition === 'left') {
+    assert.ok(tooltipHorizontalCenter > targetHorizontalCenter,
+      'Tooltip should be right of target horizontal center');
+  /* When relativeSidePosition is bottom, the bottom side of the tooltip
+  should be above of target center. */
+  } else if (relativeSidePosition === 'bottom') {
+    assert.ok(tooltipVerticalCenter > targetVerticalCenter,
+      'Tooltip should be below the target vertical center'); // Should not be an acceptable value
+  /* When relativeSidePosition is top, the top side of the tooltip
+  should be to below the target center. */
+  } else if (relativeSidePosition === 'top') {
+    assert.ok(tooltipVerticalCenter > targetVerticalCenter,
+      'Tooltip should be above of the target vertical cenet'); // Should not be an acceptable value
+  }
+}
+
 export function assertTooltipSide(assert, options = {}) {
   const { side } = options;
 

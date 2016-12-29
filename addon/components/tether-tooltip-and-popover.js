@@ -10,7 +10,13 @@ const {
   run,
 } = Ember;
 
-const positionTranslation = { 'top': 'bottom', 'right': 'left', 'bottom': 'top', 'left': 'right', 'center': 'center' };
+const positionTranslation = {
+  'top': 'bottom',
+  'right': 'left',
+  'bottom': 'top',
+  'left': 'right',
+  'center': 'center',
+};
 
 let tooltipOrPopoverCounterId = 0;
 
@@ -55,7 +61,7 @@ export default EmberTetherComponent.extend({
   hideOn: null,
   role: 'tooltip',
   side: 'top',
-  defaultPosition: 'center',
+  relativeSidePosition: 'center',
 
   showOn: null,
   spacing: 10,
@@ -107,7 +113,7 @@ export default EmberTetherComponent.extend({
   /* Properties */
 
   attributeBindings: ['role', 'tabindex'],
-  classNameBindings: ['effectClass'],
+  classNameBindings: ['effectClass', 'attachmentClass'],
   classPrefix: 'ember-tooltip-or-popover',
 
   _didUpdateTimeoutLength: 1000, // 1000 ms or 0 ms, depending whether in test mode
@@ -147,33 +153,21 @@ export default EmberTetherComponent.extend({
     }
   }),
 
-  attachment: computed(function() {
-    const side = this.get('side');
-    const defaultPosition = this.get('defaultPosition');
+  attachment: computed(
+    'side',
+    'relativeSidePosition',
+    function() {
+      const side = this.get('side');
+      const translatedSide = positionTranslation[side];
+      const relativeSidePosition = this.get('relativeSidePosition');
 
-    let horizontalPosition;
-    let verticalPosition;
-
-    switch (side) {
-      case 'top':
-        horizontalPosition = positionTranslation[defaultPosition];
-        verticalPosition = 'bottom';
-        break;
-      case 'right':
-        horizontalPosition = 'left';
-        verticalPosition = positionTranslation[defaultPosition];
-        break;
-      case 'bottom':
-        horizontalPosition = positionTranslation[defaultPosition];
-        verticalPosition = 'top';
-        break;
-      case 'left':
-        horizontalPosition = 'right';
-        verticalPosition = positionTranslation[defaultPosition];
-        break;
+      if (this.get('sideIsVertical')) {
+        return `${translatedSide} ${relativeSidePosition}`;
+      } else {
+        return `${relativeSidePosition} ${translatedSide}`; // Top and Bottom
+      }
     }
-    return `${verticalPosition} ${horizontalPosition}`;
-  }),
+  ),
 
   constraints: computed('keepInWindow', function() {
     let constraints;
@@ -193,6 +187,16 @@ export default EmberTetherComponent.extend({
   effectClass: computed(function() {
     return `${this.get('classPrefix')}-${this.get('effect')}`;
   }),
+
+  attachmentClass: computed(
+    'side',
+    'relativeSidePosition',
+    function() {
+      const side = this.get('side');
+      const relativeSidePosition = this.get('relativeSidePosition');
+
+      return `${this.get('classPrefix')}-attachment-${side}-${relativeSidePosition}`;
+    }),
 
   positionClass: computed(function() {
     const targetAttachment = this.get('targetAttachment');

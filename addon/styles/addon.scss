@@ -91,6 +91,22 @@
   &.ember-tooltip-or-popover-target-attached-right-bottom:after {
     top: 15px;
   }
+  &.ember-tooltip-or-popover-attachment-right-top:after,
+  &.ember-tooltip-or-popover-attachment-left-top:after {
+    top: 12%;
+  }
+  &.ember-tooltip-or-popover-attachment-right-bottom:after,
+  &.ember-tooltip-or-popover-attachment-left-bottom:after {
+    top: 88%;
+  }
+  &.ember-tooltip-or-popover-attachment-top-left:after,
+  &.ember-tooltip-or-popover-attachment-bottom-left:after {
+    left: 6%;
+  }
+  &.ember-tooltip-or-popover-attachment-top-right:after,
+  &.ember-tooltip-or-popover-attachment-bottom-right:after {
+    left: 94%;
+  }
 }
 
 /* Fade */
