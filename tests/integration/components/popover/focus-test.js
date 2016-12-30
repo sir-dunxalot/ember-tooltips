@@ -109,3 +109,30 @@ test('Popover: target focus, popover focus, popover-interior focus, popover blur
 	}, MS_FOR_BLUR);
 
 });
+
+test('Popover: input focus, input blur', function(assert) {
+
+	assert.expect(3);
+
+	this.render(hbs`
+		<input id="some-input">
+		{{popover-on-element target="#some-input"}}
+	`);
+
+	const $popoverTarget = this.$('#some-input');
+	const done = assert.async();
+
+	assertTooltipNotVisible(assert);
+
+	triggerTooltipTargetEvent($popoverTarget, 'focus');
+
+	assertTooltipVisible(assert);
+
+	triggerTooltipTargetEvent($popoverTarget, 'blur');
+
+	run.later(() => {
+		assertTooltipNotVisible(assert);
+		done();
+	}, MS_FOR_BLUR);
+
+});

@@ -128,8 +128,8 @@ export default TooltipAndPopoverComponent.extend({
       this.show();
     });
 
-    $popover.on('focusout', () => {
-      // use a run.later() to allow the 'focusout' event to finish handling
+    $target.add($popover).on('focusout', () => {
+      // use a run.later() to give the 'focusout' event enough time to finish handling
       run.later(() => {
         const isFocusedElementElsewhere = isElementElsewhere(document.activeElement, $target, $popover);
         if (isFocusedElementElsewhere) {
