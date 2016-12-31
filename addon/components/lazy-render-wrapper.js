@@ -2,6 +2,7 @@ import Ember from 'ember';
 import layout from 'ember-tooltips/templates/components/lazy-render-wrapper';
 
 const { computed, get, $ } = Ember;
+export const targetEventNameSpace = 'target-lazy-render-wrapper';
 
 // https://github.com/emberjs/rfcs/issues/168
 // https://github.com/emberjs/ember.js/pull/12500
@@ -120,20 +121,62 @@ export default Ember.Component.extend({
 	_shouldShowOnRender: false,
 
 	event: 'hover', // hover, click, focus, none
-	entryInteractionEvents: computed('event', function() {
+	_lazyRenderEvents: computed('event', function() {
 		// the lazy-render wrapper will only render the tooltip when
-		// the $parent element is interacted with. This CP defines which
-		// events will trigger the rendering. We always include focusin
-		// to keep the component accessible.
-		let entryInteractionEvents = ['focusin'];
+		// the $target element is interacted with. This CP defines which
+		// events will trigger the rendering. Unless event="none" we always
+		// include focusin to keep the component accessible.
 		let event = this.get('event');
-		if (event === 'hover') {
-			entryInteractionEvents.push('mouseenter');
-		} else if (event === 'click') {
-			entryInteractionEvents.push('click');
+
+		if (event === 'none') {
+			return [];
 		}
 
-		return entryInteractionEvents;
+		let _lazyRenderEvents = ['focusin'];
+
+		if (event === 'hover') {
+			_lazyRenderEvents.push('mouseenter');
+		} else if (event === 'click') {
+			_lazyRenderEvents.push('click');
+		}
+
+		return _lazyRenderEvents;
+	}),
+
+	/**
+	 * A jQuery element that the _lazyRenderEvents will be
+	 * attached to during didInsertElement and
+	 * removed from during willDestroyElement
+	 * @property $target
+	 * @type jQuery element
+	 * @default the parent jQuery element
+	 */
+	$target: computed('target', 'tetherComponentName', function() {
+		const target = this.get('target'); // #some-id
+		let $target;
+
+		if (target) {
+			$target = $(target);
+		} else if (this.get('tetherComponentName').indexOf('-on-component') >= 0) {
+			// TODO(Andrew) refactor this once we've gotten rid of the -on-component approach
+			// share the functionality with `onComponentTarget`
+			const targetView = this.get('parentView');
+
+			if (!targetView) {
+				console.warn('No targetView found');
+				return null;
+			} else if (!targetView.get('elementId')) {
+				console.warn('No targetView.elementId');
+				return null;
+			}
+
+			const targetViewElementId = targetView.get('elementId');
+			$target = $(`#${targetViewElementId}`);
+		} else {
+			$target = getParent(this);
+		}
+
+		return $target;
 	}),
 
 	didInsertElement() {
@@ -141,25 +184,25 @@ export default Ember.Component.extend({
 
 		if (this.get('_shouldRender')) {
 			// if the tooltip _shouldRender then we don't need
-			// any special $parent event handling
+			// any special $target event handling
 			return;
 		}
 
-		const $parent = getParent(this);
+		let $target = this.get('$target');
 
 		if (this.get('event') === 'hover') {
-			// We've seen instances where a user quickly mouseenter and mouseleave the $parent.
+			// We've seen instances where a user quickly mouseenter and mouseleave the $target.
 			// By providing this event handler we ensure that the tooltip will only *show*
 			// if the user has mouseenter and not mouseleave immediately afterwards.
-			$parent.on('mouseleave.target-lazy-render-wrapper', () => {
+			$target.on(`mouseleave.${targetEventNameSpace}`, () => {
 				this.set('_shouldShowOnRender', false);
 			});
 		}
 
-		this.get('entryInteractionEvents').forEach((entryInteractionEvent) => {
-			$parent.on(`${entryInteractionEvent}.target-lazy-render-wrapper`, () => {
+		this.get('_lazyRenderEvents').forEach((entryInteractionEvent) => {
+			$target.on(`${entryInteractionEvent}.${targetEventNameSpace}`, () => {
 				if (this.get('_hasUserInteracted')) {
-					$parent.off(`${entryInteractionEvent}.target-lazy-render-wrapper`);
+					$target.off(`${entryInteractionEvent}.${targetEventNameSpace}`);
 				} else {
 					this.set('_hasUserInteracted', true);
 					this.set('_shouldShowOnRender', true);
@@ -184,11 +227,11 @@ export default Ember.Component.extend({
 	willDestroyElement() {
 		this._super(...arguments);
 
-		const $parent = getParent(this);
-		this.get('entryInteractionEvents').forEach((entryInteractionEvent) => {
-			$parent.off(`${entryInteractionEvent}.target-lazy-render-wrapper`);
+		const $target = this.get('$target');
+		this.get('_lazyRenderEvents').forEach((entryInteractionEvent) => {
+			$target.off(`${entryInteractionEvent}.${targetEventNameSpace}`);
 		});
 
-		$parent.off('mouseleave.target-lazy-render-wrapper');
+		$target.off(`mouseleave.${targetEventNameSpace}`);
 	},
 });
