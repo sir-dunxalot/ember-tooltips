@@ -42,11 +42,38 @@ test('tooltip-on-element shows with spacing=20 and side=right', function(assert)
 
   /* Check custom spacing */
 
-  this.render(hbs`{{tooltip-on-element spacing=20 side='right'}}`);
+  this.render(hbs`
+    {{tooltip-on-element
+      spacing=20
+      side='right'
+      keepInWindow=false
+    }}
+  `);
 
   assertTooltipSpacing(assert, {
     side: 'right',
     spacing: 20,
+  });
+
+});
+
+test('tooltip-on-element shows with spacing=53 and side=bottom', function(assert) {
+
+  assert.expect(1);
+
+  /* Check custom spacing */
+
+  this.render(hbs`
+    {{tooltip-on-element
+      spacing=53
+      side='bottom'
+      keepInWindow=false
+    }}
+  `);
+
+  assertTooltipSpacing(assert, {
+    side: 'bottom',
+    spacing: 53,
   });
 
 });
