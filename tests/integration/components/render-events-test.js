@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { targetEventNameSpace } from 'ember-tooltips/components/lazy-render-wrapper';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | event handlers', {
   integration: true
@@ -27,11 +28,15 @@ function assertTargetHasLazyRenderEvents(assert, $target, eventType="hover") {
     assert.equal(eventHandler.origType, event,
         `the eventHandler's origType property should equal ${event}`);
 
-    assert.ok(eventHandler.namespace.indexOf('target-lazy-render-wrapper') >= 0,
+    assert.ok(eventHandler.namespace.indexOf(targetEventNameSpace) >= 0,
         'the eventHandler\'s namespace property be unique to ember-tooltips');
   }
 
   function assertNumEventsExist(num) {
+    // This function asserts that a certain number of event handlers are attached to an object.
+    // Event handlers are stored in arrays on the eventsObject like so...
+    // eventsObject = { focusin: [x, x], click: [x] } would equal 3 events
+
     let numEvents = Object.keys(eventsObject || {}).reduce(function(n, keyName) {
       return n + eventsObject[keyName].length;
     }, 0);

@@ -184,9 +184,14 @@ export default EmberTetherComponent.extend({
   }),
 
   target: computed(function() {
-    const parentElement = this.$().parent();
+    const $element = this.$();
+    // it's not possible to access the DOM when running in Fastboot
+    if (!$element) {
+      return null;
+    }
 
-    let parentElementId = parentElement.attr('id');
+    const parentElement = $element.parent();
+    let parentElementId = parentElement && parentElement.attr('id');
 
     if (!parentElementId) {
       parentElementId = `target-for-tooltip-or-popover-${tooltipOrPopoverCounterId}`;
@@ -452,13 +457,16 @@ export default EmberTetherComponent.extend({
   },
 
   willDestroy() {
-    const $target = $(this.get('target'));
+    // there's no jQuery when running in Fastboot
+    const $target = $ && $(this.get('target'));
 
     this.set('effect', null);
     this.hide();
 
-    $target.removeAttr('aria-describedby');
-    $target.off();
+    if ($target) {
+      $target.removeAttr('aria-describedby');
+      $target.off();
+    }
 
     this._super(...arguments); // Removes tether
 
@@ -474,10 +482,13 @@ export default EmberTetherComponent.extend({
 
   stopTether() {
     run.schedule('afterRender', () => {
-      // can't depend on `_tether.enabled` because it's not an
-      // Ember property (so won't trigger cp update when changed)
-      this.set('_isTetherEnabled', false);
-      this.get('_tether').disable();
+      if (!this.isDestroyed && !this.isDestroying) {
+
+        // can't depend on `_tether.enabled` because it's not an
+        // Ember property (so won't trigger cp update when changed)
+        this.set('_isTetherEnabled', false);
+        this.get('_tether').disable();
+      }
     });
   },
 
