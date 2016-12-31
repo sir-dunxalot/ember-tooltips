@@ -121,9 +121,9 @@ export default TooltipAndPopoverComponent.extend({
     }
 
     $target.on('focus', () => {
-      // the focus event occurs before the click event
-      // when this happens we don't want to call focus then click
-      // _isInProcessOfShowing prevents that from happening
+      // The focus event occurs before the click event.
+      // when this happens we don't want to call focus then click.
+      // _isInProcessOfShowing prevents that from happening.
       this.set('_isInProcessOfShowing', true);
       this.show();
     });

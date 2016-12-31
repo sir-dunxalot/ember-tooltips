@@ -116,7 +116,7 @@ test('Popover: input focus, input blur', function(assert) {
 
 	this.render(hbs`
 		<input id="some-input">
-		{{popover-on-element target="#some-input"}}
+		{{popover-on-element event="focus" target="#some-input"}}
 	`);
 
 	const $popoverTarget = this.$('#some-input');

@@ -25,7 +25,14 @@ export default TooltipAndPopoverComponent.extend({
 
       if (_showOn === _hideOn) {
         $target.on(_showOn, () => {
-          this.toggle();
+          // When using enableLazyRendering the focus event occurs before the click event.
+          // When this happens we don't want to call focus then click.
+          // _isInProcessOfShowing prevents that from happening.
+          if (this.get('_isInProcessOfShowing')) {
+            this.set('_isInProcessOfShowing', false);
+          } else {
+            this.toggle();
+          }
         });
       } else {
 
