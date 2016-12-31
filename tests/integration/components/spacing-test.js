@@ -6,9 +6,9 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | spacing', {
   integration: true
 });
 
-test('tooltip-on-element shows with showOn spacing=default', function(assert) {
+test('tooltip-on-element shows with spacing=default', function(assert) {
 
-  assert.expect(2);
+  assert.expect(1);
 
   /* Check the default spacing */
 
@@ -21,9 +21,9 @@ test('tooltip-on-element shows with showOn spacing=default', function(assert) {
 
 });
 
-test('tooltip-on-element shows with showOn spacing=default', function(assert) {
+test('tooltip-on-element shows with spacing=20', function(assert) {
 
-  assert.expect(2);
+  assert.expect(1);
 
   /* Check custom spacing */
 
@@ -31,6 +31,21 @@ test('tooltip-on-element shows with showOn spacing=default', function(assert) {
 
   assertTooltipSpacing(assert, {
     side: 'top',
+    spacing: 20,
+  });
+
+});
+
+test('tooltip-on-element shows with spacing=20 and side=right', function(assert) {
+
+  assert.expect(1);
+
+  /* Check custom spacing */
+
+  this.render(hbs`{{tooltip-on-element spacing=20 side='right'}}`);
+
+  assertTooltipSpacing(assert, {
+    side: 'right',
     spacing: 20,
   });
 

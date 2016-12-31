@@ -10,7 +10,7 @@ const tooltipOrPopoverTargetSelector = '.ember-tooltip-or-popover-target';
 @param String side The side the tooltip should be on relative to the target
 
 Given a side, which represents the side of the target that
-the tooltip should render on this method identifies whether
+the tooltip should render, this method identifies whether
 the tooltip or the target should be further away from the
 top left of the window.
 
@@ -35,7 +35,7 @@ the target on the given side.
 */
 
 function getPositionDifferences(options = {}) {
-  const { targetPosition, tooltipPosition } = getTooltipPosition(options);
+  const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(options);
   const { side } = options;
 
   const distanceToTarget = targetPosition[side];
@@ -100,7 +100,7 @@ function validateSide(side, testHelper = 'assertTooltipSide') {
   }
 }
 
-function getTooltipPosition(options = {}) {
+function getTooltipAndTargetPosition(options = {}) {
   const $target = getTooltipTargetFromBody(options.targetSelector);
   const targetPosition = $target[0].getBoundingClientRect();
   const $tooltip = getTooltipFromBody(options.selector);
@@ -214,9 +214,11 @@ export function assertTooltipSpacing(assert, options) {
   target's position is greater than the tooltip's
   position. */
 
-  assert.ok(expectedGreaterDistance > expectedLesserDistance,
-    `Tooltip should be on the ${side} side of the target`);
+  const isSideCorrect = expectedGreaterDistance > expectedLesserDistance;
+  const isSpacingCorrect = actualSpacing === spacing;
 
-  assert.equal(actualSpacing, spacing,
-    `Tooltip should be ${spacing}px from the target but it was ${actualSpacing}px`);
+  assert.ok(isSideCorrect && isSpacingCorrect,
+    `assertTooltipSpacing(): the tooltip should be in the correct position:
+        - Tooltip should be on the ${side} side of the target: ${isSideCorrect}.
+        - On the ${side} side of the target, the tooltip should be ${spacing}px from the target but it was ${actualSpacing}px`);
 }
