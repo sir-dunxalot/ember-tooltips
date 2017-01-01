@@ -4,53 +4,96 @@ import layout from 'ember-tooltips/templates/components/tether-popover';
 
 const { $, run } = Ember;
 
-// These isElement________ functions are used to determine where an element
-// is in relation to the $popover and the $target elements. This is needed to
-// handle the visible state when a user interacts with any of these elements.
+/* These isElement________ functions are used to determine where an element
+is in relation to the $popover and the $target elements. This is needed to
+handle the visible state when a user interacts with any of these elements.
+*/
+
+/**
+ * Determines if element is $popover or contained within $popover
+ *
+ * @method isElementInPopover
+ * @param {DOM element} element
+ * @param {jQuery element} $popover
+ * @return {boolean}
+ * @public
+ */
 
 export const isElementInPopover = function(element, $popover) {
-  // determines if element is $popover or contained within $popover
   if (!$popover) {
     return false;
   }
+
   return $popover.is(element) || !!$popover.find(element).length;
 };
 
+/**
+ * Determines if the element is $target or (in $target and not
+ * contained within $popover)
+ *
+ * @method isElementInTargetAndNotInPopover
+ * @param {DOM element} element
+ * @param {jQuery element} $target
+ * @param {jQuery element} $popover
+ * @return {boolean}
+ * @public
+ */
+
 export const isElementInTargetAndNotInPopover = function(element, $target, $popover) {
-  // determines if the element is $target or (in $target and not contained within $popover)
   if (!$target || !$popover) {
     return false;
   }
+
   if ($target.is(element)) {
     return true;
   }
+
   return !!$target.find(element).length && !isElementInPopover(element, $popover);
 };
 
+/**
+ * Determines if element is not $popover, not $target, and
+ * not contained within either.
+ *
+ * @method isElementElsewhere
+ * @param {DOM element} element
+ * @param {jQuery element} $target
+ * @param {jQuery element} $popover
+ * @return {boolean}
+ * @public
+ */
+
 export const isElementElsewhere = function(element, $target, $popover) {
-  // determines if element is not $popover, not $target, and not contained within either
   const isElementOutsidePopover = !isElementInPopover(element, $popover);
   const isElementOutsideTarget = !isElementInTargetAndNotInPopover(element, $target, $popover);
+
   return isElementOutsideTarget && isElementOutsidePopover;
 };
 
 export default TooltipAndPopoverComponent.extend({
 
   /* Options */
+
   hideDelay: 250,
 
   /* Properties */
+
   classNames: ['ember-popover'],
-  _isMouseInside: false,
   layout,
 
+  _isMouseInside: false,
+
   didRender() {
-    // the lazy-render popover component instance needs access to the childView
-    // so that it can call the childView's hide action
+
+    /* The lazy-render popover component instance needs
+    access to the childView so that it can call the
+    childView's hide action.
+    */
+
     this._super(...arguments);
 
-
     const parentView = this.get('parentView');
+
     if (parentView) {
       parentView.set('childView', this);
     }
@@ -83,6 +126,7 @@ export default TooltipAndPopoverComponent.extend({
             this.hide();
           }
         };
+
         if (hideDelay) {
           run.later(() => {
             hideIfOutside();
@@ -92,25 +136,37 @@ export default TooltipAndPopoverComponent.extend({
         }
       });
 
-      // we must use mouseover because it correctly
-      // registers hover interactivity when spacing='0'
+      /* We must use mouseover because it correctly
+      registers hover interactivity when spacing='0'
+      */
+
       $target.add($popover).on('mouseover', () => this.set('_isMouseInside', true));
 
     } else if (event === 'click') {
 
       $(document).on(`click.${target}`, (event) => {
-        // this lightweight, name-spaced click handler is necessary to determine
-        // where a click occurs -> https://css-tricks.com/dangers-stopping-event-propagation/
+
+        /* This lightweight, name-spaced click handler is
+        necessary to determine where a click occurs
+
+        https://css-tricks.com/dangers-stopping-event-propagation/
+        */
+
         const isClickedElementElsewhere = isElementElsewhere(event.target, $target, $popover);
         const isClickedElementInTarget = isElementInTargetAndNotInPopover(event.target, $target, $popover);
         const isClickedElementInPopover = isElementInPopover(event.target, $popover);
         const isPopoverShown = this.get('isShown');
 
         if (isClickedElementElsewhere && isPopoverShown) {
-          // clickElement is elsewhere and the popover should hide()
+
+          /* The clickedElement is elsewhere and the popover
+          should hide() */
+
           this.hide();
         } else if (!isClickedElementInPopover && isClickedElementInTarget) {
-          // see notes in the .on('focus')
+
+          /* See notes in the .on('focus') */
+
           if (this.get('_isInProcessOfShowing')) {
             this.set('_isInProcessOfShowing', false);
           } else {
@@ -121,17 +177,25 @@ export default TooltipAndPopoverComponent.extend({
     }
 
     $target.on('focus', () => {
-      // the focus event occurs before the click event
-      // when this happens we don't want to call focus then click
-      // _isInProcessOfShowing prevents that from happening
+
+      /* The focus event occurs before the click event
+      when this happens we don't want to call focus then click
+      _isInProcessOfShowing prevents that from happening
+      */
+
       this.set('_isInProcessOfShowing', true);
       this.show();
     });
 
     $popover.on('focusout', () => {
-      // use a run.later() to allow the 'focusout' event to finish handling
+
+      /* Use a run.later() to allow the 'focusout' event
+      to finish handling.
+      */
+
       run.later(() => {
         const isFocusedElementElsewhere = isElementElsewhere(document.activeElement, $target, $popover);
+
         if (isFocusedElementElsewhere) {
           this.hide();
         }
@@ -154,6 +218,6 @@ export default TooltipAndPopoverComponent.extend({
   actions: {
     hide() {
       this.hide();
-    }
+    },
   },
 });
