@@ -3,7 +3,7 @@ import { assertTooltipNotVisible, triggerTooltipTargetEvent } from '../../../hel
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('popover-on-element', 'Integration | Option | event', {
-  integration: true
+  integration: true,
 });
 
 test('Popover: never shows with none', function(assert) {

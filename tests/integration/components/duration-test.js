@@ -6,7 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 const { run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | duration', {
-  integration: true
+  integration: true,
 });
 
 test('tooltip-on-element hides after the given duration', function(assert) {

@@ -3,7 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipNotRendered, assertTooltipRendered } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-component', 'Integration | Component | tooltip-on-component', {
-  integration: true
+  integration: true,
 });
 
 test('tooltip-on-component does render when enableLazyRendering=false', function(assert) {
@@ -15,7 +15,6 @@ test('tooltip-on-component does render when enableLazyRendering=false', function
       {{/tooltip-on-component}}
     {{/some-component}}
   `);
-
 
   assertTooltipRendered(assert);
 
@@ -30,7 +29,6 @@ test('tooltip-on-component does not eagerly render when enableLazyRendering=true
       {{/tooltip-on-component}}
     {{/some-component}}
   `);
-
 
   assertTooltipNotRendered(assert);
 });

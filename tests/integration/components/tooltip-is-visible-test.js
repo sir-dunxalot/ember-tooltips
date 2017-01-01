@@ -6,9 +6,8 @@ import hbs from 'htmlbars-inline-precompile';
 const { run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | isShown', {
-  integration: true
+  integration: true,
 });
-
 
 test('tooltip-on-element toggles with isShown', function(assert) {
 
@@ -17,7 +16,6 @@ test('tooltip-on-element toggles with isShown', function(assert) {
   this.set('showTooltip', true);
 
   this.render(hbs`{{tooltip-on-element isShown=showTooltip}}`);
-
 
   assertTooltipVisible(assert);
 
@@ -35,7 +33,6 @@ test('tooltip-on-element toggles when enableLazyRendering with isShown', functio
 
   this.render(hbs`{{tooltip-on-element isShown=showTooltip enableLazyRendering=true}}`);
 
-
   assertTooltipRendered(assert);
 
   assertTooltipVisible(assert);
@@ -47,15 +44,16 @@ test('tooltip-on-element toggles when enableLazyRendering with isShown', functio
 });
 
 test('tooltip-on-element toggles with tooltipIsVisible', function(assert) {
-	// tooltipIsVisible is deprecated in favor of isShown
-	// tooltipIsVisible will be supported until v3.0.0
+
+  /* The tooltipIsVisible property is deprecated in favor
+  of isShown tooltipIsVisible will be supported until v3.0.0
+  */
 
   assert.expect(2);
 
   this.set('showTooltip', true);
 
   this.render(hbs`{{tooltip-on-element tooltipIsVisible=showTooltip}}`);
-
 
   assertTooltipVisible(assert);
 

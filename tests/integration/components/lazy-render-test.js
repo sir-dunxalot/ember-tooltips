@@ -3,14 +3,23 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { triggerTooltipTargetEvent, assertTooltipRendered, assertTooltipNotRendered, assertTooltipNotVisible } from '../../helpers/ember-tooltips';
 
+const { run } = Ember;
+
 moduleForComponent('tooltip-on-element', 'Integration | Component | enableLazyRendering', {
-  integration: true
+  integration: true,
 });
 
 [
-  {eventType: 'hover', showOn: 'mouseenter'},
-  {eventType: 'click', showOn: 'click'},
-  {eventType: 'focus', showOn: 'focusin'},
+  {
+    eventType: 'hover',
+    showOn: 'mouseenter',
+  }, {
+    eventType: 'click',
+    showOn: 'click',
+  }, {
+    eventType: 'focus',
+    showOn: 'focusin',
+  },
 ].forEach(function(eventObject) {
   test(`tooltip-on-element renders lazily after ${eventObject.showOn} when enableLazyRendering=true`, function(assert) {
 
@@ -74,7 +83,7 @@ test('tooltip-on-element event=click will only trigger one click event', functio
   assert.equal(timesClicked, 1,
       'timesClicked should be one after the click event');
 
-  Ember.run.later(() => {
+  run.later(() => {
     assert.equal(timesClicked, 1,
         'timesClicked should still be one after any async actions are completed');
 
@@ -93,11 +102,15 @@ test('tooltip-on-element behaves when a mouseenter/mouseleave occurs quickly', f
 
   assertTooltipNotRendered(assert);
 
-  Ember.run(() => {
-    // we intentionally use $tooltipTarget.trigger instead of
-    // triggerTooltipTargetEvent because mouseenter and mouseleave need
-    // to happen within the same run loop. This mimics the
-    // interaction when a user quickly hovers through the $tooltipTarget
+  run(() => {
+
+    /* We intentionally use $tooltipTarget.trigger
+    instead of triggerTooltipTargetEvent because mouseenter
+    and mouseleave need to happen within the same run loop.
+    This mimics the interaction when a user quickly hovers
+    through the $tooltipTarget
+    */
+
     $tooltipTarget.trigger('mouseenter');
     $tooltipTarget.trigger('mouseleave');
   });

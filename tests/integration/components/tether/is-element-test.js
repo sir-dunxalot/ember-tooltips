@@ -6,11 +6,16 @@ import {
   isElementElsewhere,
 } from 'ember-tooltips/components/tether-popover-on-element';
 
-
-let $target, $targetInterior, $popover, $popoverInterior, $elsewhere, $parentElsewhere;
+let $elsewhere;
+let $parentElsewhere;
+let $popover;
+let $popoverInterior;
+let $target;
+let $targetInterior;
 
 moduleForComponent('tether-popover-on-element', 'Integration | Utility | isElement', {
   integration: true,
+
   beforeEach() {
     this.render(hbs`
       <div class="parent-elsewhere">

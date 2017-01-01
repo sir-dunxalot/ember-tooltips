@@ -2,10 +2,10 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-const { run } = Ember;
+const { RSVP, run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | updateFor', {
-  integration: true
+  integration: true,
 });
 
 test('updateFor test', function(assert) {
@@ -15,7 +15,7 @@ test('updateFor test', function(assert) {
   this.set('asyncContent', null);
 
   this.on('setAsyncContent', () => {
-    return new Ember.RSVP.Promise((resolve) => {
+    return new RSVP.Promise((resolve) => {
       run.later(() => {
         this.set('asyncContent', 'Some model');
         resolve();
@@ -35,7 +35,6 @@ test('updateFor test', function(assert) {
 
   const done = assert.async();
   const $tooltip = this.$();
-
 
   assert.equal($tooltip.text().trim(), '...',
     'Should render ...');

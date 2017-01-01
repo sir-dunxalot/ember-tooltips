@@ -3,7 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
 moduleForComponent('tether-tooltip-on-component', 'Integration | Component | tether tooltip on component', {
-  integration: true
+  integration: true,
 });
 
 test('tether-tooltip-on-component renders', function(assert) {
@@ -17,7 +17,6 @@ test('tether-tooltip-on-component renders', function(assert) {
       {{/tether-tooltip-on-component}}
     {{/some-component}}
   `);
-
 
   assertTooltipRendered(assert);
 
@@ -41,11 +40,11 @@ test("tether-tooltip-on-component targets it's parent view", function(assert) {
 
   assert.ok($tooltipTarget.find('.target-component').hasClass('ember-tooltip-or-popover-target'));
 
-  triggerTooltipTargetEvent($tooltipTarget, 'click', {selector: '.target-component'});
+  triggerTooltipTargetEvent($tooltipTarget, 'click', { selector: '.target-component' });
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($tooltipTarget, 'click', {selector: '.target-component'});
+  triggerTooltipTargetEvent($tooltipTarget, 'click', { selector: '.target-component' });
 
   assertTooltipNotVisible(assert);
 

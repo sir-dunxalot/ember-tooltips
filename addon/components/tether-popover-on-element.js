@@ -19,13 +19,13 @@ handle the visible state when a user interacts with any of these elements.
  * @public
  */
 
-export const isElementInPopover = function(element, $popover) {
+export function isElementInPopover(element, $popover) {
   if (!$popover) {
     return false;
   }
 
   return $popover.is(element) || !!$popover.find(element).length;
-};
+}
 
 /**
  * Determines if the element is $target or (in $target and not
@@ -39,7 +39,7 @@ export const isElementInPopover = function(element, $popover) {
  * @public
  */
 
-export const isElementInTargetAndNotInPopover = function(element, $target, $popover) {
+export function isElementInTargetAndNotInPopover(element, $target, $popover) {
   if (!$target || !$popover) {
     return false;
   }
@@ -49,7 +49,7 @@ export const isElementInTargetAndNotInPopover = function(element, $target, $popo
   }
 
   return !!$target.find(element).length && !isElementInPopover(element, $popover);
-};
+}
 
 /**
  * Determines if element is not $popover, not $target, and
@@ -63,12 +63,12 @@ export const isElementInTargetAndNotInPopover = function(element, $target, $popo
  * @public
  */
 
-export const isElementElsewhere = function(element, $target, $popover) {
+export function isElementElsewhere(element, $target, $popover) {
   const isElementOutsidePopover = !isElementInPopover(element, $popover);
   const isElementOutsideTarget = !isElementInTargetAndNotInPopover(element, $target, $popover);
 
   return isElementOutsideTarget && isElementOutsidePopover;
-};
+}
 
 export default TooltipAndPopoverComponent.extend({
 

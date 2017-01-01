@@ -6,7 +6,7 @@ import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEven
 const { run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | delayOnChange', {
-  integration: true
+  integration: true,
 });
 
 test('tooltip-on-element animates with a delay', function(assert) {
@@ -22,7 +22,7 @@ test('tooltip-on-element animates with a delay', function(assert) {
 
   const done = assert.async();
 
-  assertTooltipNotVisible(assert, {selector: '.test-tooltip'});
+  assertTooltipNotVisible(assert, { selector: '.test-tooltip' });
 
   /* We still need a small delay, but now we check the
   test tooltip is shown *almost* immediately after hover
@@ -31,7 +31,7 @@ test('tooltip-on-element animates with a delay', function(assert) {
   triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
   run.later(() => {
-    assertTooltipVisible(assert, {selector: '.test-tooltip'});
+    assertTooltipVisible(assert, { selector: '.test-tooltip' });
 
     done();
   }, 50);
