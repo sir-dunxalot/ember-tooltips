@@ -1,5 +1,10 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, assertTooltipVisible, assertTooltipRendered, triggerTooltipTargetEvent } from '../../../helpers/ember-tooltips';
+import {
+  assertTooltipNotVisible,
+  assertTooltipVisible,
+  assertTooltipRendered,
+  triggerTooltipTargetEvent,
+} from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('popover-on-element', 'Integration | Option | Event bubbling', {
@@ -11,56 +16,47 @@ can be bubbled from inside the popover. Read more here:
 
 https://github.com/sir-dunxalot/ember-tooltips/issues/141
 https://github.com/sir-dunxalot/ember-tooltips/issues/157
+
+We put a button in the popover that is expected to send
+an action to the test's context when the button is clicked.
+The test will pass when the action sent from inside the
+popover is captured by the context of the test.
 */
 
 test('Popover: bubble click event', function(assert) {
-  const done = assert.async();
 
-  assert.expect(5);
+  assert.expect(4);
 
-  this.on('click', function() {
-    console.debug('button clicked!');
-    assert.ok(true, 'the eventhandler is fired');
+  this.on('testaction', function() {
+
+    /* the testaction action is fired when the
+    button is clicked */
+
+    assert.ok(true,
+      'The eventhandler should be fired');
+
   });
 
-  const testComp = true;
+  this.render(hbs`
+    {{#some-component class='ember-tooltip-or-popover-target-short-circuit'}}
+      {{#popover-on-component}}
+        <button class="test-button-with-action" {{action 'testaction'}}>test button</button>
+      {{/popover-on-component}}
+    {{/some-component}}
+  `);
 
-  if (testComp) {
-    this.render(hbs`
-      {{#some-component}}
-        {{#popover-on-component}}
-          <button class="my-button" {{action 'click'}}>test button</button>
-        {{/popover-on-component}}
-      {{/some-component}}
-    `);
-  } else {
-    this.render(hbs`
-      {{#some-component}}
-        <button class="my-button" {{action 'click'}}>test button</button>
-      {{/some-component}}
-    `);
-  }
-
-  let $target = $('.some-component');
+  const $button = $('.test-button-with-action');
+  const $target = $('.some-component');
 
   assertTooltipNotVisible(assert);
   triggerTooltipTargetEvent($target, 'mouseenter');
   assertTooltipRendered(assert);
-  assertTooltipVisible(assert);
-
-  let $button = $('.my-button');
-
-  console.log($('#ember-testing'));
-
-  $button.on('click', () => {
-    console.log('clicked');
-  });
 
   assert.equal($button.length, 1, 'the button can be found');
-  $button.trigger('click');
 
-  Ember.run.later(() => {
-    done();
-  }, 500);
+  /* Click the button to fire testaction. This will
+  call the final assertion and the test will end. */
+
+  $button.trigger('click');
 
 });

@@ -132,3 +132,9 @@
     }
   }
 }
+
+.ember-tooltip-or-popover-target-short-circuit {
+  /* Set position static to short-circuit Hubspot Tether's positioning */
+  /* https://github.com/HubSpot/tether/pull/98/ */
+  position: static !important;
+}
