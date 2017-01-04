@@ -3,7 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
 moduleForComponent('tether-tooltip-on-element', 'Integration | Component | tether tooltip on element', {
-  integration: true
+  integration: true,
 });
 
 test('tether-tooltip-on-element renders', function(assert) {
@@ -15,7 +15,6 @@ test('tether-tooltip-on-element renders', function(assert) {
       template block text
     {{/tether-tooltip-on-element}}
   `);
-
 
   assertTooltipRendered(assert);
 

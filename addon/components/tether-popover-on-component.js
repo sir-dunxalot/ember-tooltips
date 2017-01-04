@@ -2,7 +2,5 @@ import TetherPopoverOnElement from 'ember-tooltips/components/tether-popover-on-
 import { onComponentTarget } from 'ember-tooltips/utils';
 
 export default TetherPopoverOnElement.extend({
-
-	target: onComponentTarget,
-
+  target: onComponentTarget,
 });

@@ -3,7 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipSide } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | side and keepInWindow', {
-  integration: true
+  integration: true,
 });
 
 /* Test the positions without forcing the tooltip
@@ -59,20 +59,21 @@ test('tooltip-on-element shows with showOn left', function(assert) {
 
 });
 
-/* TODO - figure out how to test keepInWindow reliably in PhantomJS  */
+/* TODO(Unclaimed)
 
-// test('It stays in the window', function(assert) {
+Figure out how to test keepInWindow reliably in PhantomJS
 
-//   assert.expect(1);
+test('It stays in the window', function(assert) {
 
-//   /* Test the position switches form left to right automatically. */
+  assert.expect(1);
 
-//   this.render(hbs`
-//     {{#tooltip-on-element side='left'}}
-//       This is some long text to push the tooltip off the page
-//     {{/tooltip-on-element}}
-//   `);
+  this.render(hbs`
+    {{#tooltip-on-element side='left'}}
+      This is some long text to push the tooltip off the page
+    {{/tooltip-on-element}}
+  `);
 
-//    assertTooltipSide(assert, { side: 'right' });
+   assertTooltipSide(assert, { side: 'right' });
 
-// });
+});
+*/

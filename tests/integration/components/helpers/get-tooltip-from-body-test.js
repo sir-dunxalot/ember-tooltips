@@ -27,12 +27,10 @@ moduleForComponent('tooltip-on-element', 'Integration | Helpers | getTooltipFrom
   });
 });
 
-
 [assertTooltipRendered, assertTooltipNotVisible, assertTooltipVisible].forEach(function(helperInstance) {
   test("each helperInstance's getTooltipFromBody throws error when no tooltip is found", function(assert) {
 
     this.render(hbs``);
-
 
     let funcToError = () => {
       helperInstance(assert);
@@ -53,7 +51,6 @@ moduleForComponent('tooltip-on-element', 'Integration | Helpers | getTooltipFrom
       {{tooltip-on-element}}
     `);
 
-
     let funcToError = () => {
       helperInstance(assert);
     };
@@ -68,8 +65,6 @@ test('getTooltipFromBody will not throw en error with assertTooltipNotRendered',
 
   this.render(hbs``);
 
-
   assertTooltipNotRendered(assert);
 
 });
-

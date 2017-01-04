@@ -1,14 +1,18 @@
 import Ember from 'ember';
 
-const { run } = Ember;
+const {
+  Controller,
+  RSVP,
+  run,
+} = Ember;
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   asyncContent: null,
   showTooltips: false,
 
   actions: {
     setAsyncContent() {
-      return new Ember.RSVP.Promise((resolve) => {
+      return new RSVP.Promise((resolve) => {
         run.later(() => {
           this.set('asyncContent', 'Some model');
           resolve();

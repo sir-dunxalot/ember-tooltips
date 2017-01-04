@@ -3,7 +3,7 @@ import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEven
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('popover-on-element', 'Integration | Option | API', {
-  integration: true
+  integration: true,
 });
 
 test('Popover: click target, click hide-action', function(assert) {
@@ -24,7 +24,7 @@ test('Popover: click target, click hide-action', function(assert) {
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.hide-action'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.hide-action' });
 
   assertTooltipNotVisible(assert);
 
@@ -48,7 +48,7 @@ test('Popover: click target, click hide-action, click target', function(assert) 
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.hide-action'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.hide-action' });
 
   assertTooltipNotVisible(assert);
 
@@ -76,11 +76,11 @@ test('Popover: click target, click popover, click hide-action, click target', fu
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.ember-popover'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.ember-popover' });
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.hide-action'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.hide-action' });
 
   assertTooltipNotVisible(assert);
 

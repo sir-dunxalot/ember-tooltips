@@ -6,7 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 const { run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | delay', {
-  integration: true
+  integration: true,
 });
 
 test('tooltip-on-element animates with delay passed as a number', function(assert) {
@@ -56,8 +56,10 @@ test('tooltip-on-element animates with delay passed as a string', function(asser
   /* Check the tooltip is shown after the correct delay */
 
   run.later(() => {
-    // tether should be enabled, because the tooltip must be positioned
-    // before it is shown
+
+    /* Tether should be enabled, because the tooltip must
+    be positioned before it is shown */
+
     assertTooltipNotVisible(assert);
   }, 290);
 

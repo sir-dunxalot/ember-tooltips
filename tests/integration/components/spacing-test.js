@@ -3,7 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipSpacing } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | spacing', {
-  integration: true
+  integration: true,
 });
 
 test('tooltip-on-element shows with spacing=default', function(assert) {

@@ -3,17 +3,24 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { triggerTooltipTargetEvent } from '../../helpers/ember-tooltips';
 
+const { run } = Ember;
+
 moduleForComponent('tooltip-on-element', 'Integration | Option | actions', {
-  integration: true
+  integration: true,
 });
 
 test('tooltip-on-element supports deprecated lifecycle actions', function(assert) {
-  // onTooltip____ actions are deprecated in favor of on on_____ actions
-  // these actions will be supported until v3.0.0
 
-  // assert.expect(10); see note below
+  /* The onTooltip____ actions are deprecated in favor
+  of on on_____ actions. These actions will be supported
+  until v3.0.0.
+  */
 
-  // actions can have unique names
+  /* We are not calling assert.expect(10); See the
+  note below (REF A) */
+
+  /* Actions can have unique names */
+
   const actionsCalledHash = {
     onTooltipRenderFoo: 0,
     onTooltipShowBar: 0,
@@ -78,13 +85,14 @@ test('tooltip-on-element supports deprecated lifecycle actions', function(assert
   assert.equal(actionsCalledHash.onTooltipDestroyBaz, 1,
     'Should have called destroy');
 
-  // for some reason the tooltip is rendered twice after it's been destroyed
-  // this is only observable in the ember-beta and ember-canary scenarios
-  // I'm commenting out the assert.expect to unblock
-  // I'm also waiting for 1000ms so that this behavior doesn't
-  // break other tests in ember-beta and ember-canary
+  /* REF A: For some reason the tooltip is rendered twice after it's been destroyed
+  this is only observable in the ember-beta and ember-canary scenarios
+  I'm commenting out the assert.expect to unblock
+  I'm also waiting for 1000ms so that this behavior doesn't
+  break other tests in ember-beta and ember-canary
+  */
 
-  Ember.run.later(() => {
+  run.later(() => {
     done();
   }, 1000);
 
@@ -159,8 +167,10 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
 });
 
 test('tooltip-on-element supports lifecycle closure actions with multiple arguments', function(assert) {
-  // closure actions allow you to pass multiple parameters
-  // when you declare the action variable. This test covers that case.
+
+  /* Closure actions allow you to pass multiple parameters
+  when you declare the action variable. This test covers that case.
+  */
 
   assert.expect(1);
 

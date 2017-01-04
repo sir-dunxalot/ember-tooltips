@@ -3,7 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipNotRendered, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
 moduleForComponent('popover-on-component', 'Integration | Component | popover on component', {
-  integration: true
+  integration: true,
 });
 
 test('popover-on-component does render when enableLazyRendering=false', function(assert) {
@@ -17,7 +17,6 @@ test('popover-on-component does render when enableLazyRendering=false', function
       {{/popover-on-component}}
     {{/some-component}}
   `);
-
 
   assertTooltipRendered(assert);
 });
@@ -33,7 +32,6 @@ test('popover-on-component does not eagerly render when enableLazyRendering=true
       {{/popover-on-component}}
     {{/some-component}}
   `);
-
 
   assertTooltipNotRendered(assert);
 });

@@ -2,7 +2,5 @@ import TooltipOnElementComponent from 'ember-tooltips/components/tether-tooltip-
 import { onComponentTarget } from 'ember-tooltips/utils';
 
 export default TooltipOnElementComponent.extend({
-
-	target: onComponentTarget,
-
+  target: onComponentTarget,
 });

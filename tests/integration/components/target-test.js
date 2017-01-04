@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | target', {
-  integration: true
+  integration: true,
 });
 
 test('tooltip-on-element target test', function(assert) {
