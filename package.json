@@ -1,6 +1,6 @@
 {
   "name": "ember-tooltips",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Easy and extendible tooltips for Ember",
   "directories": {
     "doc": "doc",
