@@ -24,6 +24,9 @@ Documentation for usage is below:
 - [Options](#options)
   - [Setting defaults](#setting-defaults)
 - [Actions](#actions)
+- [Testing](#testing)
+  - [Test helpers](#test-helpers)
+  - [Bubbling events](#bubbling-events)
 - [Test Helpers](#test-helpers)
 - [Accessibility](#accessibility)
 
@@ -411,9 +414,150 @@ Four actions are available for you to hook onto through the tooltip/popover life
 }}
 ```
 
-## Test Helpers
+## Testing
+
+### Test helpers
 
 This addon exposes testing helpers which can be used inside of the consuming app's acceptance and integration tests. We use a tooltip-centric naming convention but these can also be used to test popovers.
+
+Publically available test helpers are:
+
+- [assertTooltipRendered()](#asserttooltiprendered)
+- [assertTooltipNotRendered()](#assertTooltipNotRendered)
+- [assertTooltipVisible()](#assertTooltipVisible)
+- [assertTooltipNotVisible()](#assertTooltipNotVisible)
+- [assertTooltipSide()](#assertTooltipSide)
+- [assertTooltipSpacing()](#assertTooltipSpacing)
+- [triggerTooltipTargetEvent()](#triggerTooltipTargetEvent)
+
+All assert helpers require `assert` to be passed as the first param and accept a second, optinal param for additional test options. For detailed usage instructions and examples, see the documentation for each test helper below.
+
+#### assertTooltipRendered()
+
+Asserts that a tooltip or popover has been rendered in the DOM. Note: this does not assert that it is visible to the user.
+
+```js
+import { assertTooltipRendered } from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  assertTooltipRendered(assert);
+});
+```
+
+### Test helper options
+
+Most test helpers accept a second, optional param called `options`. This is an object you can pass that customizes various options in a test. The properties you can pass via `options` for each test helper is listed above. Below you will find more information for each property.
+
+#### selector
+
+The selector of the tooltip or popover you are testing.
+
+If more than one tooltip or popover is found in the DOM when you run an assertion, you will be asked to specify this.
+
+| Type    | string |
+| Default | '.ember-tooltip, .ember-popover' |
+
+Usage example:
+
+```js
+import { assertTooltipRendered } from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`
+    {{tooltip-on-element class='test-tooltip'}}
+    {{tooltip-on-element}}
+  `);
+
+  assertTooltipRendered(assert, {
+    selector: '.test-tooltip',
+  });
+});
+```
+
+#### targetSelector
+
+The selector of the tooltip or popover target you are testing.
+
+The target is the element that the tooltip or popover is attached to. For example, if you add a tooltip to a button, the button is the target.
+
+If more than one tooltip or popover target is found in the DOM when you run an assertion, you will be asked to specify this.
+
+| Type    | string |
+| Default | '.ember-tooltip-or-popover-target' |
+
+Usage example:
+
+```js
+import { assertTooltipSpacing } from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`
+    <div class="test-target">
+      {{tooltip-on-element}}
+    </div>
+
+    <div>
+      {{tooltip-on-element}}
+    </div>
+  `);
+
+  assertTooltipSpacing(assert, {
+    targetSelector: '.test-target',
+  });
+});
+```
+
+#### side
+
+The value for the tooltip or popover's [`side` option](#side) that you are asserting.
+
+| Type    | string |
+| Default | 'top' |
+
+For example, if you specify for the tooltip or popover be shown on the right of the target using `side='right'`, you will pass `side: 'right'` in assertions that test side. Here is the code for this example:
+
+```js
+import { assertTooltipSide } from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`
+    {{tooltip-on-element side='right'}}
+  `);
+
+  assertTooltipSide(assert, {
+    side: 'right',
+  });
+});
+```
+
+#### spacing
+
+The value for the tooltip or popover's [`spacing` option](#spacing) that you are asserting. Specify as a number of pixels expected (without a `px` unit).
+
+| Type    | number |
+| Default | none |
+
+For example, if you specify for the tooltip or popover be shown on the right of the target using `side='right'`, you will pass `side: 'right'` in assertions that test side. Here is the code for this example:
+
+```js
+import { assertTooltipSide } from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`
+    {{tooltip-on-element spacing='35'}}
+  `);
+
+  assertTooltipSpacing(assert, {
+    spacing: 35,
+  });
+});
+```
+### Bubbling events
 
 * `assertTooltipVisible(assert)`: asserts if the tooltip is visible. It checks two attributes on the $tooltip: aria-hidden and data-tether-enabled.
 * `assertTooltipNotVisible(assert)`: asserts if the tooltip is not visible. It checks two attributes on the $tooltip: aria-hidden and data-tether-enabled.
