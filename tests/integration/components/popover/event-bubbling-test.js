@@ -1,11 +1,13 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import {
   assertTooltipNotVisible,
-  assertTooltipVisible,
   assertTooltipRendered,
   triggerTooltipTargetEvent,
 } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
+
+const { $ } = Ember;
 
 moduleForComponent('popover-on-element', 'Integration | Option | Event bubbling', {
   integration: true,
@@ -29,7 +31,7 @@ test('Popover: bubble click event', function(assert) {
 
   this.on('testaction', function() {
 
-    /* the testaction action is fired when the
+    /* The testaction action is fired when the
     button is clicked */
 
     assert.ok(true,
