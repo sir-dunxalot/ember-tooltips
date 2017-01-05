@@ -957,7 +957,61 @@ test('Example test', function(assert) {
 
 ### Bubbling events
 
-TODO
+Under the hood this addon uses [Tether](#TODO). Tether attaches tooltips and popovers to the body element and uses Javascript to position them relative to their [targets](#targets). This leads to a reliable positioning of tooltips but it makes event handling tricky in test environments where the `rootElement` of the Ember app being tested is changed from `body` to `#ember-testing`.
+
+Specifically, if you want to bubble events from within a popover to the test environment, you will need to add the following class to the [target](#targets) of the popover from within which your event is being bubbled.
+
+```css
+.ember-tooltip-or-popover-target-short-circuit
+```
+
+For example:
+
+```
+import etc...
+
+moduleForComponent('popover-on-element', 'Integration | Option | Event bubbling', {
+  inte
+
+test('Popover: bubble click event', function(assert) {
+
+  assert.expect(4);
+
+  this.on('testaction', function() {
+
+    /* the testaction action is fired when the
+    button is clicked */
+
+    assert.ok(true,
+      'The eventhandler should be fired');
+
+  });
+
+  /* some-component will be the popover's target. If some-component doesn't have the .short-circuit class then this test will fail because the 'testaction' action will never reach the test's context. */
+
+  this.render(hbs`
+    {{#some-component class='ember-tooltip-or-popover-target-short-circuit'}}
+      {{#popover-on-component}}
+        <button class="test-button-with-action" {{action 'testaction'}}>test button</button>
+      {{/popover-on-component}}
+    {{/some-component}}
+  `);
+
+  const $button = $('.test-button-with-action');
+  const $target = $('.some-component');
+
+  assertTooltipNotVisible(assert);
+  triggerTooltipTargetEvent($target, 'mouseenter');
+  assertTooltipRendered(assert);
+
+  assert.equal($button.length, 1, 'the button can be found');
+
+  /* Click the button to fire testaction. This will call the final assertion and the test will end. */
+
+  $button.trigger('click');
+
+});
+```
 
 ## Accessibility
 
