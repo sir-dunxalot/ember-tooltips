@@ -157,6 +157,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [side](#side)
 - [showOn](#show-on)
 - [spacing](#spacing)
+- [text](#text)
 - [isShown](#is-shown)
 - [hideDelay (popover only)](#hide-delay)
 - [enableLazyRendering](#enable-lazy-rendering)
@@ -356,6 +357,22 @@ Sets the number of pixels the tooltip will render from the target element. A hig
 ```hbs
 {{!--Render the tooltip 20px from the target element--}}
 {{tooltip-on-component spacing=20}}
+```
+
+#### Text
+
+| Type    | String  |
+|---------|---------|
+| Default | null    |
+
+**TOOLTIP ONLY:** Sets the text of any tooltip without needing the tooltip to be written in block form.
+
+```hbs
+{{#my-component}}
+  Hover for more info
+
+  {{tooltip-on-component text='Here is more info!'}}
+{{/my-component}}
 ```
 
 #### Is Shown
