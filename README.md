@@ -21,13 +21,13 @@ Documentation for usage is below:
   - [tooltip-on-element](#tooltip-on-element)
   - [popover-on-component](#popover-on-element)
   - [popover-on-element](#popover-on-element)
+  - [Targets](#targets)
 - [Options](#options)
   - [Setting defaults](#setting-defaults)
 - [Actions](#actions)
 - [Testing](#testing)
   - [Test helpers](#test-helpers)
   - [Bubbling events](#bubbling-events)
-- [Test Helpers](#test-helpers)
 - [Accessibility](#accessibility)
 
 ## 1.0.0 Release
@@ -131,6 +131,16 @@ Popovers also benefit from a `hide` API made publically acessible:
   Click <a href {{action popover.hide}}>here</a> to hide the popover
 {{/popover-on-element}}
 ```
+
+## Targets
+
+The concept of a 'target' is used through this addon. A target is the element that the tooltip of popover is attached to. Each tooltip or popvers has its own target. Interacting with this target will render and/or show the tooltip or popover.
+
+For example, if you want to show a tooltip over a button when the user hovers over the button, the button is the target. If you want to show a popover over an input when the user focuses on the input, the input is the target.
+
+Given this addon's lazy rendering capabilities, when `enableLazyRendering` is set to `true`, tooltips and popovers will not be rendered until the target is interacted with. As such, tooltips and popovers can be rendered by but not necessarily made visible by user events.
+
+See [the `enableLazyRendering` option](#enableLazyRendering) for instructions on how to enable lazy rendering in your app.
 
 ## Options
 
@@ -430,20 +440,319 @@ Publically available test helpers are:
 - [assertTooltipSpacing()](#assertTooltipSpacing)
 - [triggerTooltipTargetEvent()](#triggerTooltipTargetEvent)
 
-All assert helpers require `assert` to be passed as the first param and accept a second, optinal param for additional test options. For detailed usage instructions and examples, see the documentation for each test helper below.
+All assert helpers require `assert` to be passed as the first param and accept a second, optional param for additional test options. For detailed usage instructions and examples, see the documentation for each test helper below.
+
+All test helpers can be imported from the following path:
+
+```js
+'appname/tests/helpers/ember-tooltips';
+```
+
+For example:
+
+```js
+// appname/tests/integration/components/some-component.js
+
+import {
+  assertTooltipRendered,
+} from 'appname/tests/helpers/ember-tooltips';
+import { moduleForComponent, test } from 'ember-qunit';
+
+moduleForComponent('some-component', 'Integration | Component | Some', {
+  integration: true,
+});
+
+test('tooltip-on-element animates with a delay', function(assert) {
+
+  // ... Test content...
+
+  assertTooltipRendered(assert);
+
+  // ... More test content...
+
+});
+```
 
 #### assertTooltipRendered()
 
-Asserts that a tooltip or popover has been rendered in the DOM. Note: this does not assert that it is visible to the user.
+Asserts that a tooltip or popover has been rendered in the DOM.
 
 ```js
-import { assertTooltipRendered } from 'appname/tests/helpers/ember-tooltips';
+import {
+  assertTooltipRendered,
+} from 'appname/tests/helpers/ember-tooltips';
 
 test('Example test', function(assert) {
+
+  this.render(hbs`{{tooltip-on-element}}`);
 
   assertTooltipRendered(assert);
 });
 ```
+
+This does not assert that the tooltip or popover is visible to the user - use [assertTooltipVisible()](#assertTooltipVisible) for that.
+
+Given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips may not be rendered until the target is interacted with. As such, this helper is often used in conjunction with [triggerTooltipTargetEvent()](#triggerTooltipTargetEvent) to test those user events.
+
+For example:
+
+```js
+import {
+  assertTooltipRendered,
+  triggerTooltipTargetEvent,
+} from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`
+    {{tooltip-on-element enableLazyRendering=true}}
+  `);
+
+  /* Tooltip won't be rendered in the DOM yet because enableLazyRendering delays the rendering until the user interacts with the target */
+
+  triggerTooltipTargetEvent($(this), 'mouseenter');
+
+  /* Now the user has interacted with the target, so the tooltip should be visible... */
+
+  assertTooltipRendered(assert);
+});
+```
+
+The [options hash](#test-helper-options) accepts:
+
+- [`selector`](#selector)
+
+#### assertTooltipNotRendered()
+
+Asserts that a tooltip or popover has not been rendered in the DOM.
+
+Why is this test helper useful? Well, given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips may not be rendered until the target is interacted with.
+
+```js
+import {
+  assertTooltipNotRendered,
+  assertTooltipRendered,
+  triggerTooltipTargetEvent,
+} from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`{{tooltip-on-element enableLazyRendering=true}}`);
+
+  assertTooltipNotRendered(assert);
+
+  triggerTooltipTargetEvent($(this), 'mouseenter');
+
+  assertTooltipRendered(assert);
+
+});
+```
+
+This helper does not assert that the tooltip or popover is not visible to the user. The assertion will fail if the tooltip or popover is not visible to the user but is still rendered in the DOM. If you want to assert that a tooltip or popover is not visible once it's rendered in the DOM, use [assertTooltipNotVisible()](#assertTooltipNotVisible).
+
+The [options hash](#test-helper-options) accepts:
+
+- [`selector`](#selector)
+
+#### assertTooltipVisible()
+
+Asserts that a tooltip or popover is visible.
+
+This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#triggerTooltipTargetEvent) to assert that a particular user interaction shows a tooltip to the user.
+
+For example:
+
+```js
+import {
+  assertTooltipVisible,
+  triggerTooltipTargetEvent,
+} from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`{{tooltip-on-element}}`);
+
+  triggerTooltipTargetEvent($(this), 'mouseenter');
+
+  /* Asserts that the tooltip is shown when the user hovers over the target, which is this test's element */
+
+  assertTooltipVisible(assert);
+});
+```
+
+You may use this helper with a variety of different user interactions. Here's an example that asserts that a tooltip is shown when the user focusses on an input:
+
+```js
+import {
+  assertTooltipVisible,
+  triggerTooltipTargetEvent,
+} from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`
+    <input id="url-input">
+    {{tooltip-on-element target='url-input'}}
+  `);
+
+  triggerTooltipTargetEvent($('#url-input'), 'focus');
+
+  /* Asserts that the tooltip is made visible when the user focuses on the input */
+
+  assertTooltipVisible(assert);
+});
+```
+
+This does not assert that the tooltip or popover is rendered in the DOM (regardless of visibility to the user) - use [assertTooltipRendered()](#assertTooltipRendered) for that.
+
+The [options hash](#test-helper-options) accepts:
+
+- [`selector`](#selector)
+
+#### assertTooltipNotVisible()
+
+Asserts that a tooltip or popover is not visible.
+
+This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#triggerTooltipTargetEvent) to assert that a particular user interaction hides a tooltip to the user.
+
+For example:
+
+```js
+import {
+  assertTooltipNotVisible,
+  assertTooltipVisible,
+  triggerTooltipTargetEvent,
+} from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`{{tooltip-on-element}}`);
+
+  /* Hover over the target to show the tooltip... */
+
+  triggerTooltipTargetEvent($(this), 'mouseenter');
+
+  assertTooltipVisible(assert);
+
+  /* Stop hovering over the target in order to hide the tooltip... */
+
+  triggerTooltipTargetEvent($(this), 'mouseleave');
+
+  assertTooltipNotVisible(assert);
+
+});
+```
+
+This helper is also used to assert that a tooltip is not visible even if it's been rendered in the DOM when this addon's [enableLazyRendering option](#enable-lazy-rendering) is enabled.
+
+For example:
+
+```js
+import {
+  assertTooltipNotVisible,
+  assertTooltipRendered,
+  triggerTooltipTargetEvent,
+} from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`
+    {{tooltip-on-element
+      enableLazyRendering=true
+      event='click'
+    }}
+  `);
+
+  triggerTooltipTargetEvent($(this), 'mouseenter');
+
+  /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
+
+  assertTooltipRendered(assert);
+
+  assertTooltipNotVisible(assert);
+
+  /* We'd proabbly go on to test that another user interaction - in this case clicking this test's element - makes the tooltip visible using assertTooltipVisible() */
+
+});
+```
+
+The [options hash](#test-helper-options) accepts:
+
+- [`selector`](#selector)
+
+#### assertTooltipSide()
+
+Asserts that a tooltip or popover is rendered on the correct side of [the target](#targets).
+
+This helper tests [the side option](#side) that can be passed to tooltips and popovers.
+
+An options hash is required and it must contain a `side` property. For example:
+
+```js
+import {
+  assertTooltipSide,
+  triggerTooltipTargetEvent,
+} from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`
+    {{tooltip-on-element side='right'}}
+  `);
+
+  triggerTooltipTargetEvent($(this), 'mouseenter');
+
+  /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
+
+  assertTooltipSide(assert, {
+    side: 'right', // SIDE IS REQUIRED
+  });
+
+});
+
+The [options hash](#test-helper-options) accepts:
+
+- [`side`](#side) - REQUIRED
+- [`selector`](#selector)
+- [`targetSelector`](#target-selector)
+
+#### assertTooltipSpacing()
+
+Asserts that a tooltip or popover is rendered a given number of pixels from [the target](#targets).
+
+This helper tests [the spacing option](#spacing) that can be passed to tooltips and popovers.
+
+An options hash is required and it must contain `spacing` and `side` properties. For example:
+
+```js
+import {
+  assertTooltipSpacing,
+  triggerTooltipTargetEvent,
+} from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`
+    {{tooltip-on-element spacing=35}}
+  `);
+
+  triggerTooltipTargetEvent($(this), 'mouseenter');
+
+  /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
+
+  assertTooltipSide(assert, {
+    side: 'right', // SIDE IS REQUIRED
+    spacing: 35, // SPACING IS REQUIRED
+  });
+
+});
+
+The [options hash](#test-helper-options) accepts:
+
+- [`side`](#side) - REQUIRED
+- [`selector`](#selector)
+- [`spacing`](#spacing) - REQUIRED
+- [`targetSelector`](#target-selector)
 
 ### Test helper options
 
@@ -478,9 +787,7 @@ test('Example test', function(assert) {
 
 #### targetSelector
 
-The selector of the tooltip or popover target you are testing.
-
-The target is the element that the tooltip or popover is attached to. For example, if you add a tooltip to a button, the button is the target.
+The selector of the tooltip or popover target you are testing. See [Targets](#targets) for an explanation on what a 'target' is.
 
 If more than one tooltip or popover target is found in the DOM when you run an assertion, you will be asked to specify this.
 
