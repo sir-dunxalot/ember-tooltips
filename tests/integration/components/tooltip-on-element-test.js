@@ -43,7 +43,6 @@ test('tooltip-on-element has the proper aria-describedby tag', function(assert) 
   const describedBy = $tooltipTarget.attr('aria-describedby');
 
   assertTooltipContent(assert, {
-    // targetSelector: '.target',
     selector: `#${describedBy}`,
     contentString: 'Some info in a tooltip.'
   });

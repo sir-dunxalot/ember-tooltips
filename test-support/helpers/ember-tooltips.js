@@ -225,6 +225,11 @@ export function assertTooltipSpacing(assert, options) {
 
 export function assertTooltipContent(assert, options = {}) {
   const { contentString } = options;
+
+  if (contentString === undefined) {
+    Ember.assert('You must specify a contentString property in the options parameter');
+  }
+
   const $tooltip = getTooltipFromBody(options.selector);
   const tooltipContent = $tooltip.text().trim();
 
