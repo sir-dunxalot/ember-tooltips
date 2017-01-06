@@ -3,7 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipContent } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | content', {
-  integration: true
+  integration: true,
 });
 
 test('assertTooltipContent correctly matches expected tootltip content', function(assert) {
@@ -18,7 +18,7 @@ test('assertTooltipContent correctly matches expected tootltip content', functio
   `);
 
   assertTooltipContent(assert, {
-    contentString: 'Smiley face'
+    contentString: 'Smiley face',
   });
 
   this.render(hbs`
@@ -31,7 +31,7 @@ test('assertTooltipContent correctly matches expected tootltip content', functio
   `);
 
   assertTooltipContent(assert, {
-    contentString: 'Frowning face'
+    contentString: 'Frowning face',
   });
 });
 
@@ -47,7 +47,7 @@ test('assertTooltipContent correctly compares expected and discovered tooltip co
   `);
 
   const stubbedAssert = {
-    equal(arg1, arg2/*, msg*/) {
+    equal(arg1, arg2/* , msg */) {
       assert.equal(
         arg1,
         'Smiley face',
@@ -59,10 +59,10 @@ test('assertTooltipContent correctly compares expected and discovered tooltip co
         'Frowning face',
         'Helper correctly intends to compare to string we provide'
       );
-    }
+    },
   };
 
   assertTooltipContent(stubbedAssert, {
-    contentString: 'Frowning face'
+    contentString: 'Frowning face',
   });
 });

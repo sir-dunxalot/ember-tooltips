@@ -19,7 +19,7 @@ test('tooltip-on-element renders', function(assert) {
   `);
 
   assertTooltipContent(assert, {
-    contentString: 'template block text'
+    contentString: 'template block text',
   });
 
   assertTooltipRendered(assert);
@@ -44,7 +44,7 @@ test('tooltip-on-element has the proper aria-describedby tag', function(assert) 
 
   assertTooltipContent(assert, {
     selector: `#${describedBy}`,
-    contentString: 'Some info in a tooltip.'
+    contentString: 'Some info in a tooltip.',
   });
   assert.equal(describedBy.indexOf('#'), '-1');
 

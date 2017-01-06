@@ -2,7 +2,11 @@ import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-const { RSVP, run } = Ember;
+const {
+  RSVP,
+  run,
+} = Ember;
+
 import { assertTooltipContent } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | updateFor', {
@@ -37,12 +41,12 @@ test('updateFor test', function(assert) {
   const done = assert.async();
 
   assertTooltipContent(assert, {
-    contentString: '...'
+    contentString: '...',
   });
 
   run.later(() => {
     assertTooltipContent(assert, {
-      contentString: 'Some model'
+      contentString: 'Some model',
     });
 
     done();

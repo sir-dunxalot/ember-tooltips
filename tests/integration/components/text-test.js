@@ -15,7 +15,7 @@ test('tooltip-on-element renders with text param', function(assert) {
   `);
 
   assertTooltipContent(assert, {
-    contentString: 'Here is more info'
+    contentString: 'Here is more info',
   });
 
   assertTooltipRendered(assert);

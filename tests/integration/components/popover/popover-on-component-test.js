@@ -3,9 +3,8 @@ import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
   assertTooltipRendered,
-  assertTooltipContent
+  assertTooltipContent,
 } from '../../../helpers/ember-tooltips';
-
 
 moduleForComponent('popover-on-component', 'Integration | Component | popover on component', {
   integration: true,
@@ -24,7 +23,7 @@ test('popover-on-component does render when enableLazyRendering=false', function
   `);
 
   assertTooltipContent(assert, {
-    contentString: 'template block text'
+    contentString: 'template block text',
   });
 
   assertTooltipRendered(assert);
