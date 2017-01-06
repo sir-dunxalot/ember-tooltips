@@ -3,7 +3,7 @@ import { assertTooltipRendered } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
-  integration: true
+  integration: true,
 });
 
 test('tooltip-on-element renders', function(assert) {
@@ -15,7 +15,6 @@ test('tooltip-on-element renders', function(assert) {
       template block text
     {{/tooltip-on-element}}
   `);
-
 
   assert.equal(this.$().text().trim(), 'template block text',
     'Should render with content');

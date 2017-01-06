@@ -426,7 +426,7 @@ This addon exposes testing helpers which can be used inside of the consuming app
 Each test helper also accepts an `options` object as a final parameter. If a `selector` property is provided the assertions and actions will be run against the single element found from that selector.
 
 ```
-import { assertTooltipVisible, assertTooltipNotVisible, assertTooltipRendered, assertTooltipNotRendered, triggerTooltipTargetEvent } from '../helpers/ember-tooltips';
+import { assertTooltipVisible, assertTooltipNotVisible, assertTooltipRendered, assertTooltipNotRendered, triggerTooltipTargetEvent } from '../../helpers/ember-tooltips';
 
 
 ...

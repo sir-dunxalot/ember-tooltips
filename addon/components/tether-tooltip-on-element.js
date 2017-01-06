@@ -5,16 +5,16 @@ const { $ } = Ember;
 
 export default TooltipAndPopoverComponent.extend({
 
-	classNames: ['ember-tooltip'],
-	didInsertElement() {
-		this._super(...arguments);
+  classNames: ['ember-tooltip'],
+  didInsertElement() {
+    this._super(...arguments);
 
-		/* Setup event handling to hide and show the tooltip */
+    /* Setup event handling to hide and show the tooltip */
 
-		const $target = $(this.get('target'));
-		const event = this.get('event');
+    const $target = $(this.get('target'));
+    const event = this.get('event');
 
-		/* Setup event handling to hide and show the tooltip */
+    /* Setup event handling to hide and show the tooltip */
 
     if (event !== 'none') {
       const _hideOn = this.get('_hideOn');
@@ -25,9 +25,11 @@ export default TooltipAndPopoverComponent.extend({
 
       if (_showOn === _hideOn) {
         $target.on(_showOn, () => {
-          // When using enableLazyRendering the focus event occurs before the click event.
-          // When this happens we don't want to call focus then click.
-          // _isInProcessOfShowing prevents that from happening.
+
+          /* When using enableLazyRendering the focus event occurs before the click event.
+          When this happens we don't want to call focus then click.
+          _isInProcessOfShowing prevents that from happening. */
+
           if (this.get('_isInProcessOfShowing')) {
             this.set('_isInProcessOfShowing', false);
           } else {
@@ -79,5 +81,5 @@ export default TooltipAndPopoverComponent.extend({
         }
       });
     }
-	},
+  },
 });

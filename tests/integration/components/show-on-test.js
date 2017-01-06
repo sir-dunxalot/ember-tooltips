@@ -3,7 +3,7 @@ import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEven
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | showOn', {
-  integration: true
+  integration: true,
 });
 
 test('tooltip-on-element shows with showOn', function(assert) {

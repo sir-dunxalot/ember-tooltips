@@ -2,12 +2,14 @@ import Ember from 'ember';
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 import {
-	assertTooltipNotRendered,
-	assertTooltipRendered,
-	assertTooltipNotVisible,
-	triggerTooltipTargetEvent,
-	assertTooltipVisible
+  assertTooltipNotRendered,
+  assertTooltipRendered,
+  assertTooltipNotVisible,
+  triggerTooltipTargetEvent,
+  assertTooltipVisible,
 } from '../../tests/helpers/ember-tooltips';
+
+const { $, run } = Ember;
 
 moduleForAcceptance('Acceptance | acceptance');
 
@@ -16,20 +18,18 @@ test('all acceptance tests', function(assert) {
 
   const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
 
-
   andThen(() => {
-    assert.equal(Ember.$(tooltipOrPopoverSelector).length, 2,
+    assert.equal($(tooltipOrPopoverSelector).length, 2,
         'initially there should only be 2 tooltips or popovers rendered');
   });
-
 
   andThen(() => {
 
     assert.ok(true, '-------------- begin section 1 --------------');
 
-    const $tooltipTarget = Ember.$('.js-test-tooltip-target-enableLazyRendering-false');
+    const $tooltipTarget = $('.js-test-tooltip-target-enableLazyRendering-false');
     const options = {
-    	selector: '.js-test-tooltip-enableLazyRendering-false'
+      selector: '.js-test-tooltip-enableLazyRendering-false',
     };
 
     assert.equal($tooltipTarget.length, 1, 'there should be one $tooltipTarget');
@@ -48,14 +48,13 @@ test('all acceptance tests', function(assert) {
 
   });
 
-
   andThen(() => {
 
     assert.ok(true, '-------------- begin section 2 --------------');
 
-    const $tooltipTarget = Ember.$('.js-test-tooltip-target-enableLazyRendering-true');
+    const $tooltipTarget = $('.js-test-tooltip-target-enableLazyRendering-true');
     const options = {
-      selector: '.js-test-tooltip-enableLazyRendering-true'
+      selector: '.js-test-tooltip-enableLazyRendering-true',
     };
 
     assert.equal($tooltipTarget.length, 1, 'there should be one $tooltipTarget');
@@ -74,14 +73,13 @@ test('all acceptance tests', function(assert) {
 
   });
 
-
   andThen(() => {
 
     assert.ok(true, '-------------- begin section 3 --------------');
 
-    const $popoverTarget = Ember.$('.js-test-popover-target-enableLazyRendering-false');
+    const $popoverTarget = $('.js-test-popover-target-enableLazyRendering-false');
     const options = {
-      selector: '.js-test-popover-enableLazyRendering-false'
+      selector: '.js-test-popover-enableLazyRendering-false',
     };
 
     assert.equal($popoverTarget.length, 1, 'there should be one $popoverTarget');
@@ -96,20 +94,19 @@ test('all acceptance tests', function(assert) {
 
     triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
-    Ember.run.later(() => {
+    run.later(() => {
       assertTooltipNotVisible(assert, options);
-    }, 300); //default hideDelay = 250
+    }, 300); // Default hideDelay = 250
 
   });
-
 
   andThen(() => {
 
     assert.ok(true, '-------------- begin section 4 --------------');
 
-    const $popoverTarget = Ember.$('.js-test-popover-target-enableLazyRendering-true');
+    const $popoverTarget = $('.js-test-popover-target-enableLazyRendering-true');
     const options = {
-      selector: '.js-test-popover-enableLazyRendering-true'
+      selector: '.js-test-popover-enableLazyRendering-true',
     };
 
     assert.equal($popoverTarget.length, 1, 'there should be one $popover');
@@ -122,20 +119,19 @@ test('all acceptance tests', function(assert) {
 
     triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
-    Ember.run.later(() => {
+    run.later(() => {
       assertTooltipNotVisible(assert, options);
-    }, 300); //default hideDelay = 250
+    }, 300); // Default hideDelay = 250
 
   });
-
 
   andThen(() => {
 
     assert.ok(true, '-------------- begin section 5 --------------');
 
-    const $popoverTarget = Ember.$('.js-test-popover-target-enableLazyRendering-true-no-delay');
+    const $popoverTarget = $('.js-test-popover-target-enableLazyRendering-true-no-delay');
     const options = {
-      selector: '.js-test-popover-enableLazyRendering-true-no-delay'
+      selector: '.js-test-popover-enableLazyRendering-true-no-delay',
     };
 
     assert.equal($popoverTarget.length, 1, 'there should be one $popover');
@@ -160,9 +156,8 @@ test('all acceptance tests', function(assert) {
 
   });
 
-
   andThen(() => {
-    assert.equal(Ember.$(tooltipOrPopoverSelector).length, 5,
+    assert.equal($(tooltipOrPopoverSelector).length, 5,
         'initially there should only be 2 tooltips or popovers rendered');
   });
 

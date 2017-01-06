@@ -3,17 +3,17 @@ import {
 	assertTooltipNotVisible,
 	assertTooltipVisible,
 	triggerTooltipTargetEvent,
-	assertTooltipNotRendered
+	assertTooltipNotRendered,
 } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | click', {
-  integration: true
+  integration: true,
 });
 
 test('Tooltip: focusin/click input, click input', function(assert) {
 
-	assert.expect(3);
+  assert.expect(3);
 
   this.render(hbs`
     <input id="some-input">
@@ -24,9 +24,10 @@ test('Tooltip: focusin/click input, click input', function(assert) {
 
   assertTooltipNotRendered(assert);
 
-  // We intentionally trigger a focusin and click on the $tooltipTarget because
-  // when a user clicks an input both events occur in that order.
-  // We have fixed this with _isInProcessOfShowing and this test protects that.
+  /* We intentionally trigger a focusin and click on the $tooltipTarget because
+  when a user clicks an input both events occur in that order.
+  We have fixed this with _isInProcessOfShowing and this test protects that. */
+
   triggerTooltipTargetEvent($tooltipTarget, 'focusin');
   triggerTooltipTargetEvent($tooltipTarget, 'click');
 

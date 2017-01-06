@@ -3,7 +3,7 @@ import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEven
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('popover-on-element', 'Integration | Option | click', {
-  integration: true
+  integration: true,
 });
 
 test('Popover: click target, click target', function(assert) {
@@ -40,7 +40,7 @@ test('Popover: click target, click popover, click target', function(assert) {
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.ember-popover'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.ember-popover' });
 
   assertTooltipVisible(assert);
 
@@ -66,11 +66,11 @@ test('Popover: click target, click elsewhere', function(assert) {
 
   assertTooltipNotVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.target'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.target' });
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.elsewhere'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.elsewhere' });
 
   assertTooltipNotVisible(assert);
 
@@ -92,15 +92,15 @@ test('Popover: click target, click popover, click elsewhere', function(assert) {
 
   assertTooltipNotVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.target'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.target' });
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.ember-popover'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.ember-popover' });
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.elsewhere'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.elsewhere' });
 
   assertTooltipNotVisible(assert);
 
@@ -119,11 +119,11 @@ test('Popover: click target-interior, click target-interior', function(assert) {
 
   assertTooltipNotVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.target-interior'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.target-interior' });
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.target-interior'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.target-interior' });
 
   assertTooltipNotVisible(assert);
 
@@ -142,9 +142,10 @@ test('Popover: focusin/click input, click input', function(assert) {
 
   assertTooltipNotRendered(assert);
 
-  // We intentionally trigger a focusin and click on the $popoverTarget because
-  // when a user clicks an input both events occur in that order.
-  // We have fixed this with _isInProcessOfShowing and this test protects that.
+  /* We intentionally trigger a focusin and click on the $popoverTarget because
+  when a user clicks an input both events occur in that order.
+  We have fixed this with _isInProcessOfShowing and this test protects that. */
+
   triggerTooltipTargetEvent($popoverTarget, 'focusin');
   triggerTooltipTargetEvent($popoverTarget, 'click');
 

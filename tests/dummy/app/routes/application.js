@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+const { Route, String } = Ember;
+
+export default Route.extend({
 
   actions: {
 
@@ -10,8 +12,8 @@ export default Ember.Route.extend({
 
     transitionTo(routeName) {
       const nameParts = routeName.split('-');
-      const [ one, two, three ] = nameParts;
-      const oneCapitalized = Ember.String.capitalize(one);
+      const [one, two, three] = nameParts;
+      const oneCapitalized = String.capitalize(one);
 
       this.transitionTo(routeName);
       this.controller.set('pageTitle', `${oneCapitalized}s ${two} ${three}s`);

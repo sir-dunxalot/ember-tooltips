@@ -3,7 +3,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 
 moduleForComponent('tether-popover-on-element', 'Integration | Component | tether popover on component', {
-  integration: true
+  integration: true,
 });
 
 test('tether-popover-on-element renders', function(assert) {
@@ -15,7 +15,6 @@ test('tether-popover-on-element renders', function(assert) {
       template block text
     {{/tether-popover-on-element}}
   `);
-
 
   assertTooltipRendered(assert);
 
@@ -67,7 +66,7 @@ test('tether-popover-on-element can use hide API', function(assert) {
 
   assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', {selector: '.hide-button'});
+  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.hide-button' });
 
   assertTooltipNotVisible(assert);
 
