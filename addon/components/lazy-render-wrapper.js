@@ -244,6 +244,7 @@ export default Component.extend({
         } else {
           this.set('_hasUserInteracted', true);
           this.set('_shouldShowOnRender', true);
+          this.set('_isInProcessOfShowing', true);
         }
       });
     });
