@@ -13,6 +13,12 @@ module.exports = {
     if (rootElement) {
       const rootElementId = rootElement.replace('#', '');
 
+      /*
+      This config overrides tether's bodyElement option.
+
+      https://github.com/HubSpot/tether/blob/4de1f5cb421e0e6149269a347ee261b06bdbd139/src/js/tether.js#L762
+      */
+
       config['ember-tether'] = {
         bodyElementId: rootElementId,
       };

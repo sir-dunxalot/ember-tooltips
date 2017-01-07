@@ -14,12 +14,18 @@ moduleForComponent('popover-on-element', 'Integration | Option | Event bubbling'
 });
 
 /* This module tests whether actions not related to popovers
-can be bubbled from inside the popover. Read more here:
+can be bubbled from inside the popover.
 
-https://github.com/sir-dunxalot/ember-tooltips/issues/141
-https://github.com/sir-dunxalot/ember-tooltips/issues/157
+This is testing the ember-tether config applied by this addon.
 
-We put a button in the popover that is expected to send
+https://github.com/sir-dunxalot/ember-tooltips/commit/e2e39db2868422b6c2484fe35e9951418f06d8a0#diff-168726dbe96b3ce427e7fedce31bb0bcR7
+
+This fixes issues like the following:
+
+- https://github.com/sir-dunxalot/ember-tooltips/issues/141
+- https://github.com/sir-dunxalot/ember-tooltips/issues/157
+
+In this test, we put a button in the popover that is expected to send
 an action to the test's context when the button is clicked.
 The test will pass when the action sent from inside the
 popover is captured by the context of the test.
