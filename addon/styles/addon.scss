@@ -18,7 +18,7 @@
 }
 
 .ember-popover[aria-hidden="false"] {
-  pointer-events: initial;
+  pointer-events: auto;
   cursor: initial;
   -webkit-touch-callout: auto;
   -webkit-user-select: auto;
