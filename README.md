@@ -756,7 +756,7 @@ The [options hash](#test-helper-options) accepts:
 
 - [`side`](#test-helper-option-side) - REQUIRED
 - [`selector`](#test-helper-option-selector)
-- [`targetSelector`](#test-helper-option-target-selector)
+- [`targetSelector`](#test-helper-option-targetselector)
 
 #### assertTooltipSpacing()
 
@@ -851,7 +851,7 @@ Most test helpers accept a second, optional param called `options`. This is an o
 
 - [Content string](#test-helper-option-contentstring)
 - [Selector](#test-helper-option-selector)
-- [Target selector](#test-helper-option-target-selector)
+- [Target selector](#test-helper-option-targetselector)
 - [Side](#test-helper-option-side)
 - [Spacing](#test-helper-option-spacing)
 - [Event](#test-helper-option-event)
@@ -880,7 +880,7 @@ test('Example test', function(assert) {
 });
 ```
 
-#### Test helper option: selector
+#### Test helper option: `selector`
 
 The selector of the tooltip or popover you are testing.
 
@@ -908,7 +908,7 @@ test('Example test', function(assert) {
 });
 ```
 
-#### Test helper option: targetSelector
+#### Test helper option: `targetSelector`
 
 The selector of the tooltip or popover target you are testing. See [Targets](#targets) for an explanation on what a 'target' is.
 
@@ -941,7 +941,7 @@ test('Example test', function(assert) {
 });
 ```
 
-#### Test helper option: side
+#### Test helper option: `side`
 
 The value for the tooltip or popover's [`side` option](#side) that you are asserting.
 
@@ -966,7 +966,7 @@ test('Example test', function(assert) {
 });
 ```
 
-#### Test helper option: spacing
+#### Test helper option: `spacing`
 
 The value for the tooltip or popover's [`spacing` option](#spacing) that you are asserting. Specify as a number of pixels expected (without a `px` unit).
 
@@ -991,7 +991,7 @@ test('Example test', function(assert) {
 });
 ```
 
-#### Test helper option: event
+#### Test helper option: `event`
 
 The name of the event that you would like to trigger on an element.
 
