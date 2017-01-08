@@ -10,28 +10,16 @@ test('assertTooltipContent correctly matches expected tootltip content', functio
 
   assert.expect(2);
 
-  this.render(hbs`
-    <div>
-      :)
-      {{tooltip-on-element text='Smiley face'}}
-    </div>
-  `);
+  this.render(hbs`{{tooltip-on-element text='foo'}}`);
 
   assertTooltipContent(assert, {
-    contentString: 'Smiley face',
+    contentString: 'foo',
   });
 
-  this.render(hbs`
-    <div>
-      :(
-      {{#tooltip-on-element}}
-        Frowning face
-      {{/tooltip-on-element}}
-    </div>
-  `);
+  this.render(hbs`{{#tooltip-on-element}}foo{{/tooltip-on-element}}`);
 
   assertTooltipContent(assert, {
-    contentString: 'Frowning face',
+    contentString: 'foo',
   });
 });
 
@@ -39,30 +27,25 @@ test('assertTooltipContent correctly compares expected and discovered tooltip co
 
   assert.expect(2);
 
-  this.render(hbs`
-    <div>
-      :)
-      {{tooltip-on-element text='Smiley face'}}
-    </div>
-  `);
+  this.render(hbs`{{tooltip-on-element text='foo'}}`);
 
   const stubbedAssert = {
     equal(arg1, arg2/* , msg */) {
       assert.equal(
         arg1,
-        'Smiley face',
+        'foo',
         'Helper correctly finds actual content of tooltip'
       );
 
       assert.equal(
         arg2,
-        'Frowning face',
+        'foo',
         'Helper correctly intends to compare to string we provide'
       );
     },
   };
 
   assertTooltipContent(stubbedAssert, {
-    contentString: 'Frowning face',
+    contentString: 'foo',
   });
 });

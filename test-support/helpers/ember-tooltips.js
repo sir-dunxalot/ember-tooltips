@@ -226,16 +226,12 @@ export function assertTooltipSpacing(assert, options) {
 export function assertTooltipContent(assert, options = {}) {
   const { contentString } = options;
 
-  if (contentString === undefined) {
+  if (Ember.isNone(contentString)) {
     Ember.assert('You must specify a contentString property in the options parameter');
   }
 
   const $tooltip = getTooltipFromBody(options.selector);
   const tooltipContent = $tooltip.text().trim();
 
-  assert.equal(
-    tooltipContent,
-    contentString,
-    `Content of tooltip (${tooltipContent}) matched expected (${contentString})`
-  );
+  assert.equal(tooltipContent, contentString, `Content of tooltip (${tooltipContent}) matched expected (${contentString})`);
 }
