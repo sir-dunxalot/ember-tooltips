@@ -116,9 +116,13 @@ function getTooltipAndTargetPosition(options = {}) {
   };
 }
 
+/* TODO(Duncan): Document */
+
 export function findTooltip(selector = tooltipOrPopoverSelector) {
   return getTooltipFromBody(selector);
 }
+
+/* TODO(Duncan): Document */
 
 export function findTooltipTarget(selector = tooltipOrPopoverTargetSelector) {
   return getTooltipTargetFromBody(selector);
