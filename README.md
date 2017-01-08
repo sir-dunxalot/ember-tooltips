@@ -496,7 +496,7 @@ Asserts that a tooltip or popover has content that matches a given string.
 
 ```js
 import {
-  assertTooltipRendered,
+  assertTooltipContent,
 } from 'appname/tests/helpers/ember-tooltips';
 
 test('Example test', function(assert) {
