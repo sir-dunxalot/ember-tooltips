@@ -448,13 +448,14 @@ This addon exposes testing helpers which can be used inside of the consuming app
 
 Publically available test helpers are:
 
+- [assertTooltipContent()](#asserttooltipcontent)
 - [assertTooltipRendered()](#asserttooltiprendered)
-- [assertTooltipNotRendered()](#assertTooltipNotRendered)
-- [assertTooltipVisible()](#assertTooltipVisible)
-- [assertTooltipNotVisible()](#assertTooltipNotVisible)
-- [assertTooltipSide()](#assertTooltipSide)
-- [assertTooltipSpacing()](#assertTooltipSpacing)
-- [triggerTooltipTargetEvent()](#triggerTooltipTargetEvent)
+- [assertTooltipNotRendered()](#asserttooltipnotrendered)
+- [assertTooltipVisible()](#asserttooltipvisible)
+- [assertTooltipNotVisible()](#asserttooltipnotvisible)
+- [assertTooltipSide()](#asserttooltipside)
+- [assertTooltipSpacing()](#asserttooltipspacing)
+- [triggerTooltipTargetEvent()](#triggertooltiptargetevent)
 
 All assert helpers require `assert` to be passed as the first param and accept a second, optional param for additional test options. For detailed usage instructions and examples, see the documentation for each test helper below.
 
@@ -488,6 +489,30 @@ test('tooltip-on-element animates with a delay', function(assert) {
 
 });
 ```
+
+#### assertTooltipContent()
+
+Asserts that a tooltip or popover has content that matches a given string.
+
+```js
+import {
+  assertTooltipRendered,
+} from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`{{tooltip-on-element text='More info'}}`);
+
+  assertTooltipContent(assert, {
+    contentString: 'More info',
+  });
+});
+```
+
+The [options hash](#test-helper-options) accepts:
+
+- [`contentString`](#test-helper-option-contentstring)
+- [`selector`](#test-helper-option-selector)
 
 #### assertTooltipRendered()
 
@@ -770,7 +795,7 @@ The [options hash](#test-helper-options) accepts:
 - [`side`](#test-helper-option-side) - REQUIRED
 - [`selector`](#test-helper-option-selector)
 - [`spacing`](#test-helper-option-spacing) - REQUIRED
-- [`targetSelector`](#test-helper-option-target-selector)
+- [`targetSelector`](#test-helper-option-targetselector)
 
 #### triggerTooltipTargetEvent()
 
@@ -824,11 +849,36 @@ The [options hash](#test-helper-options) accepts:
 
 Most test helpers accept a second, optional param called `options`. This is an object you can pass that customizes various options in a test. The properties you can pass via `options` for each test helper is listed above. Below you will find more information for each property.
 
+- [Content string](#test-helper-option-contentstring)
 - [Selector](#test-helper-option-selector)
 - [Target selector](#test-helper-option-target-selector)
 - [Side](#test-helper-option-side)
 - [Spacing](#test-helper-option-spacing)
 - [Event](#test-helper-option-event)
+
+#### Test helper option: `contentString`
+
+The content string you expect the tooltip or popover to have.
+
+| Type    | String |
+|---------|---------|
+| Default | null |
+
+Usage example:
+
+```js
+import { assertTooltipRendered } from 'appname/tests/helpers/ember-tooltips';
+
+test('Example test', function(assert) {
+
+  this.render(hbs`{{tooltip-on-element test='More info'}}`);
+
+  assertTooltipContent(assert, {
+    contentString: 'More info',
+  });
+
+});
+```
 
 #### Test helper option: selector
 
