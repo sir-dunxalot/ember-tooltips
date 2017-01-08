@@ -156,7 +156,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [side](#side)
 - [showOn](#show-on)
 - [spacing](#spacing)
-- [text](#text)
+- [text (tooltip only)](#text)
 - [isShown](#is-shown)
 - [hideDelay (popover only)](#hide-delay)
 - [enableLazyRendering](#enable-lazy-rendering)
@@ -386,7 +386,7 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 
 ```hbs
 {{!--Binds the tooltip visibility to the showTooltip property--}}
-{{tooltip-on-component isShown=showTooltip}}
+{{tooltip-on-component isShown=true}}
 ```
 
 #### Hide delay
@@ -398,7 +398,7 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 **POPOVER ONLY:** The number of milliseconds before the popover will hide after the user hovers away from the popover and the popover target. This is only applicable when `event='hover'`.
 
 ```hbs
-{{popover-on-component event="hover" hideDelay=300}}
+{{popover-on-component event='hover' hideDelay=300}}
 ```
 
 ![popover-hover](https://cloud.githubusercontent.com/assets/7050871/18113238/e010ee64-6ee2-11e6-9ff1-a0c674a6d702.gif)
@@ -511,7 +511,7 @@ test('Example test', function(assert) {
 
 The [options hash](#test-helper-options) accepts:
 
-- [`contentString`](#test-helper-option-contentstring)
+- [`contentString`](#test-helper-option-contentstring) - REQUIRED
 - [`selector`](#test-helper-option-selector)
 
 #### assertTooltipRendered()
