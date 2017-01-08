@@ -222,3 +222,16 @@ export function assertTooltipSpacing(assert, options) {
         - Tooltip should be on the ${side} side of the target: ${isSideCorrect}.
         - On the ${side} side of the target, the tooltip should be ${spacing}px from the target but it was ${actualSpacing}px`);
 }
+
+export function assertTooltipContent(assert, options = {}) {
+  const { contentString } = options;
+
+  if (Ember.isNone(contentString)) {
+    Ember.assert('You must specify a contentString property in the options parameter');
+  }
+
+  const $tooltip = getTooltipFromBody(options.selector);
+  const tooltipContent = $tooltip.text().trim();
+
+  assert.equal(tooltipContent, contentString, `Content of tooltip (${tooltipContent}) matched expected (${contentString})`);
+}
