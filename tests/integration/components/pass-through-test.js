@@ -1,5 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import { findTooltip } from '../../helpers/ember-tooltips';
+import { findTooltip } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | pass through properties', {
