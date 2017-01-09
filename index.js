@@ -5,13 +5,10 @@ module.exports = {
   name: 'ember-tooltips',
 
   config: function(env, baseConfig) {
-    const { APP } = baseConfig;
-    const { rootElement } = APP;
-
-    let config = {};
+    var rootElement = baseConfig.APP.rootElement;
+    var config = {};
 
     if (rootElement) {
-      const rootElementId = rootElement.replace('#', '');
 
       /*
       This config overrides tether's bodyElement option.
@@ -20,7 +17,7 @@ module.exports = {
       */
 
       config['ember-tether'] = {
-        bodyElementId: rootElementId,
+        bodyElementId: rootElement.replace('#', ''),
       };
     }
 
@@ -29,6 +26,6 @@ module.exports = {
 
   included: function(app) {
     this._super.included(app); // For ember-cli-sass
-  }
+  },
 
 };
