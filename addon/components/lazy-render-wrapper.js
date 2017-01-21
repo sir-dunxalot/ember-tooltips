@@ -11,7 +11,7 @@ const {
   warn,
 } = Ember;
 
-export const targetEventNameSpace = 'target-lazy-render-wrapper';
+export const TARGET_EVENT_NAMESPACE = 'target-lazy-render-wrapper';
 
 /* Beware: use of private API! :(
 
@@ -84,7 +84,7 @@ export default Component.extend({
   layout,
   enableLazyRendering: false,
   event: 'hover', // Options are: hover, click, focus, none
-  childView: null, // This is set during the childView's didRender and is needed for the hide action
+  _childView: null, // This is set during the childView's didRender and is needed for the hide action
 
   _hasUserInteracted: false,
   _hasRendered: false,
@@ -247,15 +247,15 @@ export default Component.extend({
       if the user has mouseenter and not mouseleave immediately afterwards.
       */
 
-      $target.on(`mouseleave.${targetEventNameSpace}`, () => {
+      $target.on(`mouseleave.${TARGET_EVENT_NAMESPACE}`, () => {
         this.set('_shouldShowOnRender', false);
       });
     }
 
-    this.get('_lazyRenderEvents').forEach((entryInteractionEvent) => {
-      $target.on(`${entryInteractionEvent}.${targetEventNameSpace}`, () => {
+    this.get('_lazyRenderEvents').forEach((_lazyRenderEvent) => {
+      $target.on(`${_lazyRenderEvent}.${TARGET_EVENT_NAMESPACE}`, () => {
         if (this.get('_hasUserInteracted')) {
-          $target.off(`${entryInteractionEvent}.${targetEventNameSpace}`);
+          $target.off(`${_lazyRenderEvent}.${TARGET_EVENT_NAMESPACE}`);
         } else {
           this.set('_hasUserInteracted', true);
           this.set('_shouldShowOnRender', true);
@@ -270,25 +270,25 @@ export default Component.extend({
 
     const $target = this.get('$target');
 
-    this.get('_lazyRenderEvents').forEach((entryInteractionEvent) => {
-      $target.off(`${entryInteractionEvent}.${targetEventNameSpace}`);
+    this.get('_lazyRenderEvents').forEach((_lazyRenderEvent) => {
+      $target.off(`${_lazyRenderEvent}.${TARGET_EVENT_NAMESPACE}`);
     });
 
-    $target.off(`mouseleave.${targetEventNameSpace}`);
+    $target.off(`mouseleave.${TARGET_EVENT_NAMESPACE}`);
   },
 
   /* 7. All actions */
 
   actions: {
     hide() {
-      const childView = this.get('childView');
+      const _childView = this.get('_childView');
 
-      /* The childView.actions property is not available in Ember 1.13
-      We will use childView._actions until we drop support for Ember 1.13
+      /* The _childView.actions property is not available in Ember 1.13
+      We will use _childView._actions until we drop support for Ember 1.13
       */
 
-      if (childView && childView._actions && childView._actions.hide) {
-        childView.send('hide');
+      if (_childView && _childView._actions && _childView._actions.hide) {
+        _childView.send('hide');
       }
     },
   },
