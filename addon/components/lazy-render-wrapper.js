@@ -75,8 +75,24 @@ const PASSABLE_ACTIONS = [
 const PASSABLE_OPTIONS = PASSABLE_PROPERTIES.concat(PASSABLE_ACTIONS);
 
 export default Component.extend({
+
+  /* 1. Services */
+
+  /* 2. Defaults */
+
   tagName: '',
   layout,
+  enableLazyRendering: false,
+  event: 'hover', // Options are: hover, click, focus, none
+  childView: null, // This is set during the childView's didRender and is needed for the hide action
+
+  _hasUserInteracted: false,
+  _hasRendered: false,
+  _shouldShowOnRender: false,
+
+  /* 3. Single line Computed Property */
+
+  /* 4. Multiline Computed Property */
 
   passedPropertiesObject: computed(...PASSABLE_OPTIONS, function() {
     return PASSABLE_OPTIONS.reduce((passablePropertiesObject, key) => {
@@ -103,65 +119,6 @@ export default Component.extend({
 
       return passablePropertiesObject;
     }, {});
-  }),
-
-  enableLazyRendering: false,
-  _hasUserInteracted: false,
-  _hasRendered: false,
-  _shouldRender: computed('isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
-
-    /* If isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
-    we return true and set _hasRendered to true because
-    there is never a scenario where this wrapper should destroy the tooltip
-    */
-
-    if (this.get('_hasRendered')) {
-      return true;
-    } else if (this.get('isShown') || this.get('tooltipIsVisible')) {
-
-      this.set('_hasRendered', true);
-
-      return true;
-    } else if (!this.get('enableLazyRendering')) {
-
-      this.set('_hasRendered', true);
-
-      return true;
-    } else if (this.get('_hasUserInteracted')) {
-
-      this.set('_hasRendered', true);
-
-      return true;
-    }
-
-    return false;
-  }),
-  _shouldShowOnRender: false,
-
-  event: 'hover', // Options are: hover, click, focus, none
-  _lazyRenderEvents: computed('event', function() {
-
-    /* The lazy-render wrapper will only render the tooltip when
-    the $target element is interacted with. This CP defines which
-    events will trigger the rendering. Unless event="none" we always
-    include focusin to keep the component accessible.
-    */
-
-    let event = this.get('event');
-
-    if (event === 'none') {
-      return [];
-    }
-
-    let _lazyRenderEvents = ['focusin'];
-
-    if (event === 'hover') {
-      _lazyRenderEvents.push('mouseenter');
-    } else if (event === 'click') {
-      _lazyRenderEvents.push('click');
-    }
-
-    return _lazyRenderEvents;
   }),
 
   /**
@@ -211,6 +168,64 @@ export default Component.extend({
     return $target;
   }),
 
+  _shouldRender: computed('isShown', 'tooltipIsVisible', 'enableLazyRendering', '_hasUserInteracted', function() {
+
+    /* If isShown, tooltipIsVisible, !enableLazyRendering, or _hasUserInteracted then
+    we return true and set _hasRendered to true because
+    there is never a scenario where this wrapper should destroy the tooltip
+    */
+
+    if (this.get('_hasRendered')) {
+      return true;
+    } else if (this.get('isShown') || this.get('tooltipIsVisible')) {
+
+      this.set('_hasRendered', true);
+
+      return true;
+    } else if (!this.get('enableLazyRendering')) {
+
+      this.set('_hasRendered', true);
+
+      return true;
+    } else if (this.get('_hasUserInteracted')) {
+
+      this.set('_hasRendered', true);
+
+      return true;
+    }
+
+    return false;
+  }),
+
+  _lazyRenderEvents: computed('event', function() {
+
+    /* The lazy-render wrapper will only render the tooltip when
+    the $target element is interacted with. This CP defines which
+    events will trigger the rendering. Unless event="none" we always
+    include focusin to keep the component accessible.
+    */
+
+    let event = this.get('event');
+
+    if (event === 'none') {
+      return [];
+    }
+
+    let _lazyRenderEvents = ['focusin'];
+
+    if (event === 'hover') {
+      _lazyRenderEvents.push('mouseenter');
+    } else if (event === 'click') {
+      _lazyRenderEvents.push('click');
+    }
+
+    return _lazyRenderEvents;
+  }),
+
+  /* 5. Observers */
+
+  /* 6. Lifecycle Hooks */
+
   didInsertElement() {
     this._super(...arguments);
 
@@ -250,7 +265,20 @@ export default Component.extend({
     });
   },
 
-  childView: null, // This is set during the childView's didRender and is needed for the hide action
+  willDestroyElement() {
+    this._super(...arguments);
+
+    const $target = this.get('$target');
+
+    this.get('_lazyRenderEvents').forEach((entryInteractionEvent) => {
+      $target.off(`${entryInteractionEvent}.${targetEventNameSpace}`);
+    });
+
+    $target.off(`mouseleave.${targetEventNameSpace}`);
+  },
+
+  /* 7. All actions */
+
   actions: {
     hide() {
       const childView = this.get('childView');
@@ -265,15 +293,6 @@ export default Component.extend({
     },
   },
 
-  willDestroyElement() {
-    this._super(...arguments);
+  /* 8. Custom / private methods */
 
-    const $target = this.get('$target');
-
-    this.get('_lazyRenderEvents').forEach((entryInteractionEvent) => {
-      $target.off(`${entryInteractionEvent}.${targetEventNameSpace}`);
-    });
-
-    $target.off(`mouseleave.${targetEventNameSpace}`);
-  },
 });
