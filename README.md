@@ -133,7 +133,7 @@ Popovers also benefit from a `hide` API made publically acessible:
 
 ## Targets
 
-The concept of a 'target' is used through this addon. A target is the element that the tooltip of popover is attached to. Each tooltip or popvers has its own target. Interacting with this target will render and/or show the tooltip or popover.
+The concept of a 'target' is used through this addon. A target is the element that the tooltip or popover is attached to. Each tooltip or popvers has its own target. Interacting with this target will render and/or show the tooltip or popover.
 
 For example, if you want to show a tooltip over a button when the user hovers over the button, the button is the target. If you want to show a popover over an input when the user focuses on the input, the input is the target.
 
@@ -457,7 +457,7 @@ Publically available test helpers are:
 - [assertTooltipSpacing()](#asserttooltipspacing)
 - [triggerTooltipTargetEvent()](#triggertooltiptargetevent)
 
-All assert helpers require `assert` to be passed as the first param and accept a second, optional param for additional test options. For detailed usage instructions and examples, see the documentation for each test helper below.
+All assert helpers require `assert` to be passed as the first param and some accept a second, optional param for additional test options. For detailed usage instructions and examples, see the documentation for each test helper below.
 
 All test helpers can be imported from the following path:
 
@@ -553,7 +553,7 @@ test('Example test', function(assert) {
 
   triggerTooltipTargetEvent($(this), 'mouseenter');
 
-  /* Now the user has interacted with the target, so the tooltip should be visible... */
+  /* Now the user has interacted with the target, so the tooltip should be rendered... */
 
   assertTooltipRendered(assert);
 });
@@ -704,7 +704,7 @@ test('Example test', function(assert) {
     }}
   `);
 
-  triggerTooltipTargetEvent($(this), 'mouseenter');
+  triggerTooltipTargetEvent($(this), 'click');
 
   /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
@@ -712,7 +712,7 @@ test('Example test', function(assert) {
 
   assertTooltipNotVisible(assert);
 
-  /* We'd proabbly go on to test that another user interaction - in this case clicking this test's element - makes the tooltip visible using assertTooltipVisible() */
+  /* We'd probably go on to test that another user interaction - in this case clicking this test's element - makes the tooltip visible using assertTooltipVisible() */
 
 });
 ```
@@ -817,7 +817,7 @@ test('Example test', function(assert) {
 });
 ```
 
-An options hash can be passed for more complex interactions:
+Other events can be passed for more complex interactions:
 
 ```js
 import {
@@ -840,6 +840,15 @@ test('Example test', function(assert) {
 
 });
 ```
+
+Allowed event names are:
+
+- `'mouseenter'`
+- `'mouseleave'`
+- `'click'`
+- `'focus'`
+- `'focusin'`
+- `'blur'`
 
 The [options hash](#test-helper-options) accepts:
 

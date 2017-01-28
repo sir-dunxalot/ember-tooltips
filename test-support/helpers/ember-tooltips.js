@@ -115,7 +115,7 @@ function getTooltipAndTargetPosition(options = {}) {
 /* TODO(Duncan):
 
 Update triggerTooltipTargetEvent() to use getTooltipTargetFromBody
-and change type to side and move side into the options hash */
+and move side into the options hash */
 
 export function triggerTooltipTargetEvent($element, type, options={}) {
 
