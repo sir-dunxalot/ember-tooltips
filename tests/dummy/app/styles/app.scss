@@ -1,7 +1,3 @@
-@import 'compass-boilerplate-vendor/normalize';
-@import 'compass-boilerplate-vendor/html5bp';
-@import 'compass-boilerplate';
-
 @import 'variables';
 @import 'components/code';
 
@@ -10,7 +6,7 @@ html {
 }
 
 body {
-  @include rem(font-size, $bodyFontSize);
+  font-size: #{$bodyFontSize}rem;
 
   /* So text looks much better in Crome/Safari */
 
@@ -40,29 +36,29 @@ h3 {
   background-image: linear-gradient(-134deg, #3023AE 0%, #A56DD7 100%);
   -webkit-display: flex;
   display: flex;
-  @include justify-content(center);
-  @include align-items(center);
-  @include flex-direction(column);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 #ember-logo {
   width: 200px;
   height: auto;
-  @include rem(margin-right, 10);
-  @include inline-block;
+  margin-right: 10rem;
+  display: inline-block;
 }
 
 .badges {
-  @include rem(margin-top, 4);
+  margin-top: 4rem;
   text-align: center;
 
   a + * {
-    @include rem(margin-left, 1);
+    margin-left: 1rem;
   }
 }
 
 .logo-tooltip {
-  @include rem(font-size, 2);
+  font-size: 2rem;
   top: 16px !important;
 }
 
@@ -71,7 +67,7 @@ h3 {
   $_gutter: 10px;
 
   width: 100%;
-  @include rem(padding, $spacing);
+  padding: 3rem;
   padding-left: calc((100% - #{$_width}) / 2);
   padding-right: calc((100% - #{$_width}) / 2);
   box-sizing: border-box;
@@ -85,24 +81,24 @@ h3 {
 
 .some-component {
   border: 1px solid #666;
-  @include rem(border-radius, 0.3);
-  @include inline-block;
-  @include rem(padding, 0.6, 1);
+  border-radius: 0.3rem;
+  display: inline-block;
+  padding: 0.6rem 1rem;
   cursor: pointer;
   background-color: rgba($white, 0.5);
   position: relative;
 }
 
 hr {
-  @include rem(margin, 6, 0);
+  margin: 6rem 0;
 }
 
 input {
-  @include rem(padding, 0.4, 0.6);
+  padding: 0.4rem 0.6rem;
 }
 
 p {
-  @include rem(margin, 3, 0);
+  margin: 3rem 0rem;
 }
 
 a {
@@ -112,12 +108,12 @@ a {
 }
 
 li {
-  @include rem(padding, 0.4, 0);
+  padding: 0.4rem 0rem;
 }
 
 .ember-popover {
   h3, p {
-    @include rem(margin, 1, 0);
+    margin: 1rem 0;
   }
 
   h3 {

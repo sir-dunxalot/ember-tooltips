@@ -8,9 +8,6 @@ module.exports = function(defaults) {
 
     sassOptions: {
       extension: 'scss',
-      includePaths: [
-        'node_modules/compass-boilerplate/lib',
-      ],
     },
 
   });

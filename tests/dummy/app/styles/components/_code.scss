@@ -7,7 +7,7 @@ pre code, code {
 }
 
 pre, code {
-  @include rem(border-radius, 0.3);
+  border-radius: 0.3rem;
 
   ::-moz-selection {
     background-color: $black !important;
@@ -21,8 +21,8 @@ pre, code {
 pre,
 .hljs {
   background-color: $darkBlue;
-  @include rem(margin, 3, 0);
-  @include rem(padding, 1.5);
+  margin: 3rem 0rem;
+  padding: 1.5rem;
 }
 
 /**
@@ -30,11 +30,11 @@ Inline code
 */
 
 code {
-  @include rem(padding, 0, 0.4);
-  @include rem(margin, 0, 0.2);
+  padding: 0 0.4rem;
+  margin: 0 0.2rem;
   background-color: rgba($offwhite, 0.5);
   border: 1px solid rgba($faintGray, 0.5);
-  @include rem(font-size, 1.4);
+  font-size: 1.4rem;
   color: $body;
 }
 
@@ -43,12 +43,12 @@ Block code
 */
 
 pre {
-  @include rem(padding, 2);
+  padding: 2rem;
   position: relative;
 }
 
 pre code {
-  @include rem(font-size, 1.5);
+  font-size: 1.5rem;
   background-color: transparent;
   padding: 0;
   margin: 0;
@@ -61,11 +61,10 @@ pre code {
   &:after {
     color: $offwhite;
     background-color: darken($darkBlue, 5%);
-    // font-family: $lato;
     letter-spacing: 0.1;
     text-transform: uppercase;
-    @include rem(font-size, 1.2);
-    @include rem(padding, 0.5, 1);
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
     display: inline-block;
     margin: 0;
 
@@ -74,8 +73,8 @@ pre code {
     right: 0;
 
     border: 1px solid rgba($black, 0.3);
-    @include rem(border-bottom-left-radius, 0.3);
-    @include rem(border-bottom-right-radius, 0.3);
+    border-bottom-left-radius: 0.3rem;
+    border-bottom-right-radius: 0.3rem;
   }
 }
 
