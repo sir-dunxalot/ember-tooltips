@@ -19,8 +19,6 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",
-    "compass-boilerplate": "^0.1.2",
-    "compass-mixins": "^0.12.10",
     "ember-ajax": "2.0.1",
     "ember-cli": "^2.6.3",
     "ember-cli-app-version": "^1.0.0",
