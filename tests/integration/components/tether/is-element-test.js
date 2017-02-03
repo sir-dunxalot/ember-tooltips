@@ -1,10 +1,14 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { findTooltip, findTooltipTarget } from 'dummy/tests/helpers/ember-tooltips';
 import {
   isElementInPopover,
   isElementInTargetAndNotInPopover,
   isElementElsewhere,
 } from 'ember-tooltips/components/tether-popover-on-element';
+
+const { $ } = Ember;
 
 let $elsewhere;
 let $parentElsewhere;
@@ -29,12 +33,12 @@ moduleForComponent('tether-popover-on-element', 'Integration | Utility | isEleme
       </div>
     `);
 
-    $target = this.$('.target');
-    $targetInterior = this.$('.target-interior');
-    $popover = this.$('.ember-popover');
-    $popoverInterior = this.$('.popover-interior');
-    $elsewhere = this.$('.elsewhere');
-    $parentElsewhere = this.$('.parent-elsewhere');
+    $target = findTooltipTarget();
+    $targetInterior = $('.target-interior');
+    $popover = findTooltip();
+    $popoverInterior = $('.popover-interior');
+    $elsewhere = $('.elsewhere');
+    $parentElsewhere = $('.parent-elsewhere');
   },
 });
 

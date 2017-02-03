@@ -1,5 +1,8 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+
+const { $ } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
   integration: true,
@@ -11,7 +14,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on e
     this.set('effectType', effectType);
     this.render(hbs`{{tooltip-on-element effect=effectType}}`);
 
-    const $tooltip = this.$().find('.ember-tooltip');
+    const $tooltip = $('.ember-tooltip');
 
     assert.ok($tooltip.hasClass(`ember-tooltip-or-popover-${effectType}`),
         `the tooltip should have the ${effectType} effect class`);
