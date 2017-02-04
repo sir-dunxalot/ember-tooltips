@@ -44,7 +44,7 @@ test('tooltip-on-element shows with spacing=20 and side=right', function(assert)
 
   this.render(hbs`
     {{tooltip-on-element
-       effect='none'
+      effect='none'
       spacing=20
       side='right'
       keepInWindow=false

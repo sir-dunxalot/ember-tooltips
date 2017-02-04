@@ -10,7 +10,7 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | side and keepIn
 to stay in the window.
 
 It's necessary to use effect='none' because the `effect` class causes
-spacing to be incorrect. The default `'fade'` effect moves about `10px`
+spacing to be incorrect. The default 'fade' effect moves about `10px`
 closer to the target prior to the tooltip being animated when the
 tooltip is shown.
 */

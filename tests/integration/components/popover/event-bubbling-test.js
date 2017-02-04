@@ -4,7 +4,7 @@ import {
   assertTooltipNotVisible,
   assertTooltipRendered,
   triggerTooltipTargetEvent,
-} from '../../../helpers/ember-tooltips';
+} from 'ember-tooltips/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 const { $ } = Ember;
@@ -35,9 +35,9 @@ test('Popover: bubble click event', function(assert) {
 
   assert.expect(4);
 
-  this.on('testaction', function() {
+  this.on('testAction', function() {
 
-    /* The testaction action is fired when the
+    /* The testAction action is fired when the
     button is clicked */
 
     assert.ok(true,
@@ -48,7 +48,7 @@ test('Popover: bubble click event', function(assert) {
   this.render(hbs`
     {{#some-component}}
       {{#popover-on-component}}
-        <button class="test-button-with-action" {{action 'testaction'}}>test button</button>
+        <button class="test-button-with-action" {{action 'testAction'}}>test button</button>
       {{/popover-on-component}}
     {{/some-component}}
   `);
@@ -62,7 +62,7 @@ test('Popover: bubble click event', function(assert) {
 
   assert.equal($button.length, 1, 'the button can be found');
 
-  /* Click the button to fire testaction. This will
+  /* Click the button to fire testAction. This will
   call the final assertion and the test will end. */
 
   $button.trigger('click');
