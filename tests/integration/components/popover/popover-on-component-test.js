@@ -1,6 +1,10 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertTooltipNotRendered, assertTooltipRendered } from '../../../helpers/ember-tooltips';
+import {
+  assertTooltipNotRendered,
+  assertTooltipRendered,
+  assertTooltipContent,
+} from '../../../helpers/ember-tooltips';
 
 moduleForComponent('popover-on-component', 'Integration | Component | popover on component', {
   integration: true,
@@ -8,7 +12,7 @@ moduleForComponent('popover-on-component', 'Integration | Component | popover on
 
 test('popover-on-component does render when enableLazyRendering=false', function(assert) {
 
-  assert.expect(1);
+  assert.expect(2);
 
   this.render(hbs`
     {{#some-component}}
@@ -17,6 +21,10 @@ test('popover-on-component does render when enableLazyRendering=false', function
       {{/popover-on-component}}
     {{/some-component}}
   `);
+
+  assertTooltipContent(assert, {
+    contentString: 'template block text',
+  });
 
   assertTooltipRendered(assert);
 });

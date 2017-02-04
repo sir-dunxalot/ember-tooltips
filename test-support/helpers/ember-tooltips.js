@@ -116,6 +116,7 @@ function getTooltipAndTargetPosition(options = {}) {
   };
 }
 
+
 /* TODO(Duncan): Document */
 
 export function findTooltip(selector = tooltipOrPopoverSelector) {
@@ -127,6 +128,11 @@ export function findTooltip(selector = tooltipOrPopoverSelector) {
 export function findTooltipTarget(selector = tooltipOrPopoverTargetSelector) {
   return getTooltipTargetFromBody(selector);
 }
+
+/* TODO(Duncan):
+
+Update triggerTooltipTargetEvent() to use getTooltipTargetFromBody
+and move side into the options hash */
 
 export function triggerTooltipTargetEvent($element, type, options={}) {
 
@@ -238,4 +244,17 @@ export function assertTooltipSpacing(assert, options) {
     `assertTooltipSpacing(): the tooltip should be in the correct position:
         - Tooltip should be on the ${side} side of the target: ${isSideCorrect}.
         - On the ${side} side of the target, the tooltip should be ${spacing}px from the target but it was ${actualSpacing}px`);
+}
+
+export function assertTooltipContent(assert, options = {}) {
+  const { contentString } = options;
+
+  if (Ember.isNone(contentString)) {
+    Ember.assert('You must specify a contentString property in the options parameter');
+  }
+
+  const $tooltip = getTooltipFromBody(options.selector);
+  const tooltipContent = $tooltip.text().trim();
+
+  assert.equal(tooltipContent, contentString, `Content of tooltip (${tooltipContent}) matched expected (${contentString})`);
 }

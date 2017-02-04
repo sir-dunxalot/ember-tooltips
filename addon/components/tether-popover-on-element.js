@@ -95,7 +95,7 @@ export default TooltipAndPopoverComponent.extend({
     const parentView = this.get('parentView');
 
     if (parentView) {
-      parentView.set('childView', this);
+      parentView.set('_childView', this);
     }
   },
   didInsertElement() {

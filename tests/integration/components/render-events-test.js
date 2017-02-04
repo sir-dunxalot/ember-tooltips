@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { targetEventNameSpace } from 'ember-tooltips/components/lazy-render-wrapper';
+import { TARGET_EVENT_NAMESPACE } from 'ember-tooltips/components/lazy-render-wrapper';
 
 const { $, run } = Ember;
 
@@ -34,7 +34,7 @@ function assertTargetHasLazyRenderEvents(assert, $target, eventType = 'hover') {
     assert.equal(eventHandler.origType, event,
         `the eventHandler's origType property should equal ${event}`);
 
-    assert.ok(eventHandler.namespace.indexOf(targetEventNameSpace) >= 0,
+    assert.ok(eventHandler.namespace.indexOf(TARGET_EVENT_NAMESPACE) >= 0,
         'the eventHandler\'s namespace property be unique to ember-tooltips');
   }
 

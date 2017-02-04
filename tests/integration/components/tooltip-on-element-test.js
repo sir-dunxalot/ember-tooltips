@@ -1,9 +1,10 @@
-import Ember from 'ember';
-import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipRendered, findTooltipTarget } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
-
-const { $ } = Ember;
+import { moduleForComponent, test } from 'ember-qunit';
+import {
+  assertTooltipContent,
+  assertTooltipRendered,
+  findTooltipTarget,
+} from 'dummy/tests/helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
   integration: true,
@@ -19,11 +20,11 @@ test('tooltip-on-element renders', function(assert) {
     {{/tooltip-on-element}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text',
-    'Should render with content');
+  assertTooltipContent(assert, {
+    contentString: 'template block text',
+  });
 
   assertTooltipRendered(assert);
-
 });
 
 test('tooltip-on-element has the proper aria-describedby tag', function(assert) {
@@ -43,7 +44,11 @@ test('tooltip-on-element has the proper aria-describedby tag', function(assert) 
   const $tooltipTarget = findTooltipTarget();
   const describedBy = $tooltipTarget.attr('aria-describedby');
 
-  assert.equal($(`#${describedBy}`).text().trim(), 'Some info in a tooltip.');
+  assertTooltipContent(assert, {
+    selector: `#${describedBy}`,
+    contentString: 'Some info in a tooltip.',
+  });
+
   assert.equal(describedBy.indexOf('#'), '-1');
 
 });
