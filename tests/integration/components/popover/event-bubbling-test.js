@@ -4,7 +4,7 @@ import {
   assertTooltipNotVisible,
   assertTooltipRendered,
   triggerTooltipTargetEvent,
-} from 'ember-tooltips/tests/helpers/ember-tooltips';
+} from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 const { $ } = Ember;

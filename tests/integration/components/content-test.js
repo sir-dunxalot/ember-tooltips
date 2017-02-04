@@ -6,9 +6,9 @@ moduleForComponent('tooltip-on-element', 'Integration | Option | content', {
   integration: true,
 });
 
-test('assertTooltipContent correctly matches expected tootltip content', function(assert) {
+test('assertTooltipContent correctly matches expected tootltip content for inline tooltip', function(assert) {
 
-  assert.expect(2);
+  assert.expect(1);
 
   this.render(hbs`{{tooltip-on-element text='foo'}}`);
 
@@ -16,7 +16,13 @@ test('assertTooltipContent correctly matches expected tootltip content', functio
     contentString: 'foo',
   });
 
-  this.render(hbs`{{#tooltip-on-element}}foo{{/tooltip-on-element}}`); // HERE - throwing error
+});
+
+test('assertTooltipContent correctly matches expected tootltip content for block tooltip', function(assert) {
+
+  assert.expect(1);
+
+  this.render(hbs`{{#tooltip-on-element}}foo{{/tooltip-on-element}}`);
 
   assertTooltipContent(assert, {
     contentString: 'foo',
