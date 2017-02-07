@@ -112,6 +112,11 @@ function getTooltipAndTargetPosition(options = {}) {
   };
 }
 
+/* TODO(Duncan):
+
+Update triggerTooltipTargetEvent() to use getTooltipTargetFromBody
+and move side into the options hash */
+
 export function triggerTooltipTargetEvent($element, type, options={}) {
 
   // TODO why do we allow focusin? why not just focus?

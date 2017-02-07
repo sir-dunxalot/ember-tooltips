@@ -1,6 +1,7 @@
 /*jshint node:true*/
 /* global require, module */
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
+var autoprefixer = require('autoprefixer');
 
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
@@ -8,10 +9,24 @@ module.exports = function(defaults) {
 
     sassOptions: {
       extension: 'scss',
-      includePaths: [
-        'node_modules/compass-boilerplate/lib',
-      ],
     },
+
+    postcssOptions: {
+      compile: {
+        enabled: false
+      },
+      filter: {
+        enabled: true,
+        plugins: [
+          {
+            module: autoprefixer,
+            options: {
+              browsers: ['last 2 version']
+            }
+          }
+        ]
+      }
+    }
 
   });
 
