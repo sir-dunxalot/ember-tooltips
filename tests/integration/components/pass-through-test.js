@@ -1,4 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import { findTooltip } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | pass through properties', {
@@ -23,7 +24,7 @@ test('tooltip-on-element pass through attributes test', function(assert) {
     }}
   `);
 
-  const $tooltip = this.$().find('.ember-tooltip');
+  const $tooltip = findTooltip();
 
   /* Assert that the attributes are passed from
   the lazy-render-wrapper component to the $tooltip
