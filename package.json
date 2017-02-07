@@ -41,7 +41,7 @@
     "ember-export-application-global": "^1.0.5",
     "ember-load-initializers": "^0.5.1",
     "ember-resolver": "^2.0.3",
-    "ember-tether": "0.3.1",
+    "ember-tether": "^0.4.0",
     "eslint-plugin-ember-suave": "^1.0.0",
     "eslint-plugin-netguru-ember": "^1.6.5",
     "loader.js": "^4.0.1"
@@ -61,7 +61,7 @@
     "ember-hash-helper-polyfill": "^0.1.1"
   },
   "peerDependencies": {
-    "ember-tether": "0.3.1"
+    "ember-tether": "^0.4.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config",
