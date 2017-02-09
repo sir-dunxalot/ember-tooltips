@@ -1,6 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import { assertTooltipSpacing } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
-import { assertTooltipSpacing } from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | spacing', {
   integration: true,
@@ -12,7 +12,7 @@ test('tooltip-on-element shows with spacing=default', function(assert) {
 
   /* Check the default spacing */
 
-  this.render(hbs`{{tooltip-on-element}}`);
+  this.render(hbs`{{tooltip-on-element effect='none'}}`);
 
   assertTooltipSpacing(assert, {
     side: 'top',
@@ -27,7 +27,7 @@ test('tooltip-on-element shows with spacing=20', function(assert) {
 
   /* Check custom spacing */
 
-  this.render(hbs`{{tooltip-on-element spacing=20}}`);
+  this.render(hbs`{{tooltip-on-element spacing=20 effect='none'}}`);
 
   assertTooltipSpacing(assert, {
     side: 'top',
@@ -44,6 +44,7 @@ test('tooltip-on-element shows with spacing=20 and side=right', function(assert)
 
   this.render(hbs`
     {{tooltip-on-element
+      effect='none'
       spacing=20
       side='right'
       keepInWindow=false
@@ -65,6 +66,7 @@ test('tooltip-on-element shows with spacing=53 and side=bottom', function(assert
 
   this.render(hbs`
     {{tooltip-on-element
+      effect='none'
       spacing=53
       side='bottom'
       keepInWindow=false

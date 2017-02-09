@@ -57,6 +57,8 @@ function getTooltipFromBody(selector=tooltipOrPopoverSelector) {
 
   if (!$tooltip.hasClass('ember-tooltip') && !$tooltip.hasClass('ember-popover')) {
     throw Error(`getTooltipFromBody(): returned an element that is not a tooltip`);
+  } else if ($tooltip.length === 0) {
+    throw Error('getTooltipFromBody(): No tooltips were found.');
   } else if ($tooltip.length > 1) {
     throw Error('getTooltipFromBody(): Multiple tooltips were found. Please provide an {option.selector = ".specific-tooltip-class"}');
   }
@@ -68,7 +70,9 @@ function getTooltipTargetFromBody(selector = tooltipOrPopoverTargetSelector) {
   const $body = $(document.body);
   const $tooltipTarget = $body.find(selector) ;
 
-  if ($tooltipTarget.length > 1) {
+  if ($tooltipTarget.length === 0) {
+    throw Error('getTooltipTargetFromBody(): No tooltip targets were found.');
+  } else if ($tooltipTarget.length > 1) {
     throw Error('getTooltipTargetFromBody(): Multiple tooltip targets were found. Please provide an {option.targetSelector = ".specific-tooltip-target-class"}');
   }
 
@@ -101,15 +105,28 @@ function validateSide(side, testHelper = 'assertTooltipSide') {
 }
 
 function getTooltipAndTargetPosition(options = {}) {
-  const $target = getTooltipTargetFromBody(options.targetSelector);
+  const $target = getTooltipTargetFromBody(options.targetSelector || tooltipOrPopoverTargetSelector);
   const targetPosition = $target[0].getBoundingClientRect();
-  const $tooltip = getTooltipFromBody(options.selector);
+  const $tooltip = getTooltipFromBody(options.selector || tooltipOrPopoverSelector);
   const tooltipPosition = $tooltip[0].getBoundingClientRect();
 
   return {
     targetPosition,
     tooltipPosition,
   };
+}
+
+
+/* TODO(Duncan): Document */
+
+export function findTooltip(selector = tooltipOrPopoverSelector) {
+  return getTooltipFromBody(selector);
+}
+
+/* TODO(Duncan): Document */
+
+export function findTooltipTarget(selector = tooltipOrPopoverTargetSelector) {
+  return getTooltipTargetFromBody(selector);
 }
 
 /* TODO(Duncan):
@@ -128,7 +145,7 @@ export function triggerTooltipTargetEvent($element, type, options={}) {
   let wasEventTriggered = false;
 
   if (options.selector) {
-    $element = $element.find(options.selector);
+    $element = getTooltipTargetFromBody(options.selector);
   }
 
   // we need to need to wrap any code with asynchronous side-effects in a run
@@ -139,6 +156,7 @@ export function triggerTooltipTargetEvent($element, type, options={}) {
       return;
     }
     if (type === 'focus' || type === 'blur') {
+
       // we don't know why but this is necessary when type is 'focus' or 'blur'
       $element[0].dispatchEvent(new window.Event(type));
     } else {

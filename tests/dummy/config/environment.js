@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'dummy',
     environment: environment,
-    baseURL: '/',
+    rootURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -36,7 +36,7 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    ENV.baseURL = '/';
+    ENV.rootURL = '/';
     ENV.locationType = 'none';
 
     // keep test console output quieter
@@ -48,8 +48,8 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.locationType = 'hash';
-    ENV.baseURL = '/ember-tooltips/';
-    ENV.baseURL = '/ember-tooltips';
+    ENV.rootURL = '/ember-tooltips/';
+    ENV.rootURL = '/ember-tooltips';
   }
 
   return ENV;

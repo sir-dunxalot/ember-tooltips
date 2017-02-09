@@ -1,8 +1,10 @@
-import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipRendered } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
-
-import { assertTooltipContent } from '../../helpers/ember-tooltips';
+import { moduleForComponent, test } from 'ember-qunit';
+import {
+  assertTooltipContent,
+  assertTooltipRendered,
+  findTooltipTarget,
+} from 'dummy/tests/helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
   integration: true,
@@ -39,13 +41,14 @@ test('tooltip-on-element has the proper aria-describedby tag', function(assert) 
     </div>
   `);
 
-  const $tooltipTarget = this.$('.target');
+  const $tooltipTarget = findTooltipTarget();
   const describedBy = $tooltipTarget.attr('aria-describedby');
 
   assertTooltipContent(assert, {
     selector: `#${describedBy}`,
     contentString: 'Some info in a tooltip.',
   });
+
   assert.equal(describedBy.indexOf('#'), '-1');
 
 });

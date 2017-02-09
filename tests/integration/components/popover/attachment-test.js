@@ -1,4 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import { findTooltip } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('popover-on-element', 'Integration | Component | popover on element', {
@@ -12,7 +13,7 @@ test('attachment and targetAttachment override test', function(assert) {
   this.render(hbs`{{popover-on-element targetAttachment='top right' attachment='top left' keepInWindow=false}}`);
 
   const $target = this.$();
-  const $popover = $target.find('.ember-popover');
+  const $popover = findTooltip();
 
   const classPrefix = 'ember-tooltip-or-popover';
   const targetClassPrefix =  `${classPrefix}-target-attached`;
