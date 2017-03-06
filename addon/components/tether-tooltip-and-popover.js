@@ -317,6 +317,12 @@ export default EmberTetherComponent.extend({
     this._super(...arguments);
 
     if (this.get('_shouldShowOnRender')) {
+
+      /* When using enableLazyRendering the focus event occurs before the click event.
+        When this happens we don't want to call focus then click.
+        _isInProcessOfShowing prevents that from happening. */
+
+      this.set('_isInProcessOfShowing', true);
       this.show();
     }
 
