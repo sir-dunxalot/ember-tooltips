@@ -181,6 +181,7 @@ export default EmberTetherComponent.extend({
         {
           to: 'window',
           attachment: 'together',
+          pin: true,
         },
       ];
     }
