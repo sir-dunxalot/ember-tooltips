@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tether-tooltip-and-popover';
 
-const { $ } = Ember;
+const { $, run } = Ember;
 
 export default TooltipAndPopoverComponent.extend({
 
@@ -24,7 +24,7 @@ export default TooltipAndPopoverComponent.extend({
       the visibility */
 
       if (_showOn === _hideOn) {
-        $target.on(_showOn, () => {
+        $target.on(_showOn, run.bind(this, function() {
 
           /* When using enableLazyRendering the focus event occurs before the click event.
           When this happens we don't want to call focus then click.
@@ -35,21 +35,21 @@ export default TooltipAndPopoverComponent.extend({
           } else {
             this.toggle();
           }
-        });
+        }));
       } else {
 
         /* Else, add the show and hide events individually */
 
         if (_showOn !== 'none') {
-          $target.on(_showOn, () => {
+          $target.on(_showOn, run.bind(this, function() {
             this.show();
-          });
+          }));
         }
 
         if (_hideOn !== 'none') {
-          $target.on(_hideOn, () => {
+          $target.on(_hideOn, run.bind(this, function() {
             this.hide();
-          });
+          }));
         }
       }
 
