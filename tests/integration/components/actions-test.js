@@ -100,7 +100,7 @@ test('tooltip-on-element supports deprecated lifecycle actions', function(assert
 
 test('tooltip-on-element calls lifecycle actions', function(assert) {
 
-  assert.expect(10);
+  assert.expect(14);
 
   const actionsCalledHash = {
     onRenderFoo: 0,
@@ -109,15 +109,24 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
     onDestroyFubar: 0,
   };
 
+  const actionsArgumentsHash = {
+    onRenderFoo: false,
+    onShowBar: false,
+    onHideBaz: false,
+    onDestroyFubar: false,
+  };
+
   /* Setup the actions and handlers... */
 
   Object.keys(actionsCalledHash).forEach((action) => {
-    this.on(action, () => {
+    this.on(action, (args) => {
       assert.ok(true, `Should call ${action}`);
 
       /* Count the calls... */
 
       actionsCalledHash[action]++;
+
+      actionsArgumentsHash[action] = args ? args.classNames.join(' ').indexOf('ember-tooltip') > 0 : false;
     });
   });
 
@@ -139,6 +148,9 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
   assert.equal(actionsCalledHash.onRenderFoo, 1,
     'Should have called render');
 
+  assert.equal(actionsArgumentsHash.onRenderFoo, true,
+    'Should have passed tooltip object to render');
+
   assert.equal(actionsCalledHash.onShowBar, 0,
     'Should not have called show');
 
@@ -149,6 +161,9 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
   assert.equal(actionsCalledHash.onShowBar, 1,
     'Should have called show');
 
+  assert.equal(actionsArgumentsHash.onShowBar, true,
+    'Should have passed tooltip object to show');
+
   assert.equal(actionsCalledHash.onHideBaz, 0,
     'Should not have called hide');
 
@@ -157,12 +172,18 @@ test('tooltip-on-element calls lifecycle actions', function(assert) {
   assert.equal(actionsCalledHash.onHideBaz, 1,
     'Should have called hide');
 
+  assert.equal(actionsArgumentsHash.onHideBaz, true,
+    'Should have passed tooltip object to hide');
+
   /* Check destroy */
 
   this.set('destroyTooltip', true);
 
   assert.equal(actionsCalledHash.onDestroyFubar, 1,
     'Should have called destroy');
+
+  assert.equal(actionsArgumentsHash.onDestroyFubar, true,
+    'Should have passed tooltip object to destroy');
 
 });
 
