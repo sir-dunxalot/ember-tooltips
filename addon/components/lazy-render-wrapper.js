@@ -111,7 +111,7 @@ export default Component.extend({
           then we must pass down the correctly-scoped action instead of value
           */
 
-          passablePropertiesObject[key] = () => this.sendAction(key);
+          passablePropertiesObject[key] = (context) => this.sendAction(key, context);
         } else {
           passablePropertiesObject[key] = value;
         }
