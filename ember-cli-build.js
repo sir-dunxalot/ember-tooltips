@@ -7,10 +7,6 @@ module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
     snippetSearchPaths: ['app', 'tests'],
 
-    sassOptions: {
-      extension: 'scss',
-    },
-
     postcssOptions: {
       compile: {
         enabled: false
