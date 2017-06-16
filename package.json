@@ -25,7 +25,6 @@
   "dependencies": {
     "ember-cli-babel": "^5.1.7",
     "ember-cli-htmlbars": "^1.1.1",
-    "ember-cli-sass": "6.0.0",
     "ember-hash-helper-polyfill": "^0.1.1"
   },
   "devDependencies": {
@@ -42,6 +41,7 @@
     "ember-cli-postcss": "3.1.1",
     "ember-cli-qunit": "^3.0.1",
     "ember-cli-release": "^0.2.9",
+    "ember-cli-sass": "^6.0.0",
     "ember-cli-shims": "^1.0.2",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-test-loader": "^1.1.0",
