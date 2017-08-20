@@ -531,9 +531,9 @@ test('Example test', function(assert) {
 });
 ```
 
-This does not assert that the tooltip or popover is visible to the user - use [assertTooltipVisible()](#assertTooltipVisible) for that.
+This does not assert that the tooltip or popover is visible to the user - use [assertTooltipVisible()](#asserttooltipvisible) for that.
 
-Given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips may not be rendered until the target is interacted with. As such, this helper is often used in conjunction with [triggerTooltipTargetEvent()](#triggerTooltipTargetEvent) to test those user events.
+Given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips may not be rendered until the target is interacted with. As such, this helper is often used in conjunction with [triggerTooltipTargetEvent()](#triggertooltiptargetevent) to test those user events.
 
 For example:
 
@@ -589,7 +589,7 @@ test('Example test', function(assert) {
 });
 ```
 
-This helper does not assert that the tooltip or popover is not visible to the user. The assertion will fail if the tooltip or popover is not visible to the user but is still rendered in the DOM. If you want to assert that a tooltip or popover is not visible once it's rendered in the DOM, use [assertTooltipNotVisible()](#assertTooltipNotVisible).
+This helper does not assert that the tooltip or popover is not visible to the user. The assertion will fail if the tooltip or popover is not visible to the user but is still rendered in the DOM. If you want to assert that a tooltip or popover is not visible once it's rendered in the DOM, use [assertTooltipNotVisible()](#asserttooltipnotvisible).
 
 The [options hash](#test-helper-options) accepts:
 
@@ -599,7 +599,7 @@ The [options hash](#test-helper-options) accepts:
 
 Asserts that a tooltip or popover is visible.
 
-This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#triggerTooltipTargetEvent) to assert that a particular user interaction shows a tooltip to the user.
+This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#triggertooltiptargetevent) to assert that a particular user interaction shows a tooltip to the user.
 
 For example:
 
@@ -644,7 +644,7 @@ test('Example test', function(assert) {
 });
 ```
 
-This does not assert that the tooltip or popover is rendered in the DOM (regardless of visibility to the user) - use [assertTooltipRendered()](#assertTooltipRendered) for that.
+This does not assert that the tooltip or popover is rendered in the DOM (regardless of visibility to the user) - use [assertTooltipRendered()](#asserttooltiprendered) for that.
 
 The [options hash](#test-helper-options) accepts:
 
@@ -654,7 +654,7 @@ The [options hash](#test-helper-options) accepts:
 
 Asserts that a tooltip or popover is not visible.
 
-This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#triggerTooltipTargetEvent) to assert that a particular user interaction hides a tooltip to the user.
+This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#triggertooltiptargetevent) to assert that a particular user interaction hides a tooltip to the user.
 
 For example:
 
