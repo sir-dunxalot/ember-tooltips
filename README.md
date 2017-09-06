@@ -139,7 +139,7 @@ For example, if you want to show a tooltip over a button when the user hovers ov
 
 Given this addon's lazy rendering capabilities, when `enableLazyRendering` is set to `true`, tooltips and popovers will not be rendered until the target is interacted with. As such, tooltips and popovers can be rendered by but not necessarily made visible by user events.
 
-See [the `enableLazyRendering` option](#enableLazyRendering) for instructions on how to enable lazy rendering in your app.
+See [the `enableLazyRendering` option](#enable-lazy-rendering) for instructions on how to enable lazy rendering in your app.
 
 ## Options
 
