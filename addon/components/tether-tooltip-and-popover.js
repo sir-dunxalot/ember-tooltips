@@ -173,7 +173,7 @@ export default EmberTetherComponent.extend({
     return `${verticalPosition} ${horizontalPosition}`;
   }),
 
-  constraints: computed('keepInWindow', function() {
+  constraints: computed('keepInWindow', 'setPin', function() {
     let constraints;
 
     if (this.get('keepInWindow')) {
@@ -181,6 +181,7 @@ export default EmberTetherComponent.extend({
         {
           to: 'window',
           attachment: 'together',
+          pin: this.get('setPin'),
         },
       ];
     }
