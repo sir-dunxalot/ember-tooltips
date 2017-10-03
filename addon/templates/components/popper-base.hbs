@@ -1,0 +1,7 @@
+{{#if hasBlock}}
+  {{yield (hash
+    hide=(action "hide")
+  )}}
+{{else}}
+  {{text}}
+{{/if}}

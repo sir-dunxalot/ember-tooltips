@@ -7,6 +7,24 @@ const {
   run,
 } = Ember;
 
+function cleanNumber(stringOrNumber) {
+  let cleanNumber;
+
+  if (stringOrNumber && typeof stringOrNumber === 'string') {
+    cleanNumber = parseInt(stringOrNumber, 10);
+
+    /* Remove invalid parseInt results */
+
+    if (isNaN(cleanNumber) || !isFinite(cleanNumber)) {
+      cleanNumber = 0;
+    }
+  } else {
+    cleanNumber = stringOrNumber;
+  }
+
+  return cleanNumber;
+}
+
 export default EmberPopperComponent.extend({
 
   /* Options */
@@ -23,7 +41,6 @@ export default EmberPopperComponent.extend({
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
   isShown: false,
-  // keepInWindow: true,
 
   /* ember-popper overwrites */
 
@@ -171,7 +188,7 @@ export default EmberPopperComponent.extend({
     this.ariaHiddenHandler();
 
     if (!this.get('isShown')) {
-      this.stopTether();
+      // this.stopTether();
     }
   },
 
@@ -316,7 +333,11 @@ export default EmberPopperComponent.extend({
 /* TODO
 spacing
 remove startTether and stopTether ?
-effect class
+effects
+add css arrow
 attributeBindings
 ariaHiddenHandler
+remove attachment and targetAttachment
+remove tetherComponentName
+make lazyRenderWrapper work
 */

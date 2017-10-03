@@ -1,17 +1,17 @@
 import Ember from 'ember';
-import TooltipAndPopoverComponent from 'ember-tooltips/components/tether-tooltip-and-popover';
+import PopperBaseComponent from 'ember-tooltips/components/popper-base';
 
 const { $ } = Ember;
 
-export default TooltipAndPopoverComponent.extend({
+export default PopperBaseComponent.extend({
+  class: 'ember-tooltip', /* todo - check class vs classNames */
 
-  classNames: ['ember-tooltip'],
   didInsertElement() {
     this._super(...arguments);
 
     /* Setup event handling to hide and show the tooltip */
 
-    const $target = $(this.get('target'));
+    const $target = $(this._getPopperTarget());
     const event = this.get('event');
 
     /* Setup event handling to hide and show the tooltip */
@@ -82,4 +82,5 @@ export default TooltipAndPopoverComponent.extend({
       });
     }
   },
+
 });
