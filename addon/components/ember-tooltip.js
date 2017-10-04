@@ -1,86 +1,79 @@
 import Ember from 'ember';
-import PopperBaseComponent from 'ember-tooltips/components/popper-base';
+import EmberTooltipBase from 'ember-tooltips/components/ember-tooltip-base';
 
 const { $ } = Ember;
 
-export default PopperBaseComponent.extend({
-  class: 'ember-tooltip', /* todo - check class vs classNames */
+export default EmberTooltipBase.extend({
 
   didInsertElement() {
     this._super(...arguments);
 
     /* Setup event handling to hide and show the tooltip */
 
-    const $target = $(this._getPopperTarget());
     const event = this.get('event');
 
     /* Setup event handling to hide and show the tooltip */
 
-    if (event !== 'none') {
-      const _hideOn = this.get('_hideOn');
-      const _showOn = this.get('_showOn');
+    if (event === 'none') {
+      return;
+    }
 
-      /* If show and hide are the same (e.g. click), toggle
-      the visibility */
+    const hideOn = this.get('hideOn');
+    const showOn = this.get('showOn');
+    const target = this.get('target');
 
-      if (_showOn === _hideOn) {
-        $target.on(_showOn, () => {
+    /* If show and hide are the same (e.g. click) toggle
+    the visibility */
 
-          /* When using enableLazyRendering the focus event occurs before the click event.
-          When this happens we don't want to call focus then click.
-          _isInProcessOfShowing prevents that from happening. */
+    if (showOn === hideOn) {
+      this._addListenerToTarget(showOn, () => {
+        this.toggle();
+      });
+    } else {
 
-          if (this.get('_isInProcessOfShowing')) {
-            this.set('_isInProcessOfShowing', false);
-          } else {
-            this.toggle();
-          }
-        });
-      } else {
+      /* Else, add the show and hide events individually */
 
-        /* Else, add the show and hide events individually */
-
-        if (_showOn !== 'none') {
-          $target.on(_showOn, () => {
-            this.show();
-          });
-        }
-
-        if (_hideOn !== 'none') {
-          $target.on(_hideOn, () => {
-            this.hide();
-          });
-        }
-      }
-
-      /* Hide and show the tooltip on focus and escape
-      for accessibility */
-
-      if (event !== 'focus') {
-
-        /* If the event is click, we don't want the
-        click to also trigger focusin */
-
-        if (event !== 'click') {
-          $target.focusin(() => {
-            this.show();
-          });
-        }
-
-        $target.focusout(() => {
-          this.hide();
+      if (showOn !== 'none') {
+        this._addListenerToTarget(showOn, () => {
+          this.show();
         });
       }
 
-      $target.keydown((keyEvent) => {
-        if (keyEvent.which === 27) {
+      if (hideOn !== 'none') {
+        this._addListenerToTarget(hideOn, () => {
           this.hide();
-          keyEvent.preventDefault();
+        });
+      }
+    }
 
-          return false;
-        }
+    /* Hide and show the tooltip on focus and escape
+    for accessibility */
+
+    if (event !== 'focus') {
+
+      /* If the event is click, we don't want the
+      click to also trigger focusin */
+
+      if (event !== 'click') {
+        this._addListenerToTarget('focusin', () => {
+          this.show();
+        });
+      }
+
+      this._addListenerToTarget('focusout', () => {
+        this.hide();
       });
     }
+
+    this._addListenerToTarget('keydown', (keyEvent) => {
+      if (keyEvent.which === 27) {
+        this.hide();
+
+        keyEvent.preventDefault();
+
+        return false;
+      }
+    });
   },
 
 });

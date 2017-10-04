@@ -1,6 +1,6 @@
 $tooltipBackgroundColor: #3a3c47;
 
-.ember-tooltip-creator {
+.ember-tooltip-base {
   display: none;
   height: 0;
   width: 0;
@@ -8,10 +8,11 @@ $tooltipBackgroundColor: #3a3c47;
 
 .ember-tooltip,
 .ember-popover {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  pointer-events: none;
+  // -webkit-touch-callout: none;
+  // -webkit-user-select: none;
+  // user-select: none;
+  // pointer-events: none;
+  // transition: none;
 
   font-size: 14px;
   font-family: inherit;
@@ -131,7 +132,7 @@ $tooltipBackgroundColor: #3a3c47;
 
   &[aria-hidden="false"] {
     opacity: 1;
-    transition-duration: 100ms; // Shorter hide duration
+    // transition-duration: 100ms; // Shorter hide duration
 
     &.ember-tooltip-or-popover-slide {
       margin: 0px;
