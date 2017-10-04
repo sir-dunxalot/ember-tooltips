@@ -4,10 +4,18 @@ import layout from '../templates/components/ember-tooltip-simple';
 const { computed } = Ember;
 
 export default Ember.Component.extend({
+  classNames: ['ember-tooltip-creator'],
   text: null,
   side: 'right',
   spacing: 10,
   layout,
+
+  /* Actions */
+
+  onDestroy: null,
+  onHide: null,
+  onRender: null,
+  onShow: null,
 
   wormholeId: computed('elementId', function() {
     return `${this.get('elementId')}_wormhole`;
@@ -17,8 +25,10 @@ export default Ember.Component.extend({
   _tooltip: null,
 
   createTooltip() {
-    const tooltipContent = this.get('text') || ' ';
-    const tooltip = new Tooltip(this.element.parentNode, {
+    const parentNode = this.element.parentNode;
+    const tooltipContent = this.get('text') || '<span></span>';
+    const tooltip = new Tooltip(parentNode, {
+      container: parentNode,
       html: true,
       offset: this.get('spacing'),
       placement: this.get('side'),
@@ -27,20 +37,22 @@ export default Ember.Component.extend({
                   <div class="tooltip-arrow ember-tooltip-arrow"></div>
                   <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
                  </div>`,
+
       popperOptions: {
         onCreate: () => {
-          console.log('ok');
+          this.sendAction('onRender', this);
+
           this.set('_renderWormholeInPlace', false);
-          // this.get('_tooltip').popperInstance.update();
         },
       },
     });
 
     this.set('_tooltip', tooltip);
-    // this.show();
   },
 
   didInsertElement() {
+    this._super(...arguments);
+
     this.createTooltip();
   },
 
