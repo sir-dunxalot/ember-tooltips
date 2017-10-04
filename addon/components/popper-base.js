@@ -282,6 +282,7 @@ export default EmberPopperComponent.extend({
     this.sendAction('onShow', this);
   },
 
+
   startTether() {
     this._popper.update();
   },
