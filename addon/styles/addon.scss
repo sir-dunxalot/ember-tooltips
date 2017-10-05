@@ -1,5 +1,10 @@
 $tooltipBackgroundColor: #3a3c47;
 $tooltipSpacing: 10px;
+$tooltipTransitionDuration: 200ms;
+
+$_tooltipArrowSize: 5px;
+
+@import './mixins';
 
 .ember-tooltip-base {
   display: none;
@@ -46,84 +51,28 @@ $tooltipSpacing: 10px;
   height: 0;
   border-style: solid;
   position: absolute;
-  margin: 5px;
-  border: 5px solid transparent;
+  margin: $_tooltipArrowSize;
+  border: $_tooltipArrowSize solid transparent;
 }
 
 .ember-tooltip,
 .ember-popover {
-
-  &[x-placement^="top"] {
-    margin-bottom: 5px + $tooltipSpacing;
-
-    .ember-tooltip-arrow {
-      border-bottom-width: 0;
-      border-top-color: $tooltipBackgroundColor; /* TODO - make work for popovers */
-      bottom: -5px;
-      left: calc(50% - 5px);
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  &[x-placement^="bottom"] {
-    margin-top: 5px + $tooltipSpacing;
-
-    .ember-tooltip-arrow {
-      border-top-width: 0;
-      border-bottom-color: $tooltipBackgroundColor;
-      top: -5px;
-      left: calc(50% - 5px);
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
-
-  &[x-placement^="right"] {
-    margin-left: 5px + $tooltipSpacing;
-
-    .ember-tooltip-arrow {
-      border-left-width: 0;
-      border-right-color: $tooltipBackgroundColor;
-      left: -5px;
-      top: calc(50% - 5px);
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
-
-  &[x-placement^="left"] {
-    margin-right: 5px + $tooltipSpacing;
-
-    .ember-tooltip-arrow {
-      border-right-width: 0;
-      border-left-color: $tooltipBackgroundColor;
-      right: -5px;
-      top: calc(50% - 5px);
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
+  @include tooltipPlacement('top');
+  @include tooltipPlacement('right');
+  @include tooltipPlacement('bottom');
+  @include tooltipPlacement('left');
 }
 
 .ember-tooltip,
 .ember-popover {
   opacity: 0;
-  -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
-  transition: opacity 200ms ease-out, margin 200ms ease-out;
+  -webkit-transition: opacity #{$tooltipTransitionDuration} ease-out,
+                      margin #{$tooltipTransitionDuration} ease-out;
+  transition: opacity #{$tooltipTransitionDuration} ease-out,
+              margin #{$tooltipTransitionDuration} ease-out;
 
   &.ember-tooltip-effect-none,
   &.ember-tooltip-show {
     opacity: 1;
-  }
-
-  &.ember-tooltip-effect-fade {
-    -webkit-transition: opacity 200ms ease-out;
-    transition: opacity 200ms ease-out;
-  }
-
-  &.ember-tooltip-effect-slide {
-    -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
-    transition: opacity 200ms ease-out, margin 200ms ease-out;
   }
 }

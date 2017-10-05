@@ -1,0 +1,60 @@
+@mixin tooltipPlacement($side) {
+  $opposite: oppositeDirection($side);
+  $from: 'left';
+
+  @if ($side == 'left' or $side == 'right') {
+    $from: 'top';
+  }
+
+  &[x-placement^="#{$side}"] {
+    margin-#{$opposite}: $_tooltipArrowSize + $tooltipSpacing;
+
+    &.ember-tooltip-effect-slide {
+      margin-#{$opposite}: $tooltipSpacing;
+    }
+
+    &.ember-tooltip-effect-slide.ember-tooltip-show {
+      margin-#{$opposite}: $_tooltipArrowSize + $tooltipSpacing;
+    }
+
+    .ember-tooltip-arrow {
+      border-#{$opposite}-width: 0;
+      border-#{$side}-color: $tooltipBackgroundColor; /* TODO - make work for popovers */
+      #{$opposite}: -$_tooltipArrowSize;
+      #{$from}: calc(50% - $_tooltipArrowSize); // If vert, left, else top
+      margin-#{$side}: 0;
+      margin-#{$opposite}: 0;
+    }
+  }
+}
+
+/// https://css-tricks.com/snippets/sass/opposite-direction-function/
+/// Returns the opposite direction of each direction in a list
+/// @author Hugo Giraudel
+/// @param {List} $directions - List of initial directions
+/// @return {List} - List of opposite directions
+
+@function oppositeDirection($directions) {
+  $opposite-directions: ();
+  $direction-map: (
+    'top':    'bottom',
+    'right':  'left',
+    'bottom': 'top',
+    'left':   'right',
+    'center': 'center',
+    'ltr':    'rtl',
+    'rtl':    'ltr'
+  );
+
+  @each $direction in $directions {
+    $direction: to-lower-case($direction);
+
+    @if map-has-key($direction-map, $direction) {
+      $opposite-directions: append($opposite-directions, unquote(map-get($direction-map, $direction)));
+    } @else {
+      @warn "No opposite direction can be found for `#{$direction}`. Direction omitted.";
+    }
+  }
+
+  @return $opposite-directions;
+}
