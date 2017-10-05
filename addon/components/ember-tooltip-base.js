@@ -7,6 +7,9 @@ const {
   run,
 } = Ember;
 
+const ANIMATION_CLASS = 'ember-tooltip-show';
+const ANIMATION_DURATION = 200; // In ms
+
 function cleanNumber(stringOrNumber) {
   let cleanNumber;
 
@@ -27,16 +30,17 @@ function cleanNumber(stringOrNumber) {
 
 export default Ember.Component.extend({
   classNames: ['ember-tooltip-base'],
-  classNameBindings: ['isShown'],
-  event: 'hover',
+  effect: 'slide', // Options: fade, slide, none
+  event: 'hover', // Options: hover, click, focus, none
   hideOn: null,
   tooltipClassName: 'ember-tooltip', /* Custom classes */
   isShown: false,
   text: null,
   showOn: null,
   side: 'right',
-  spacing: 50,
+  spacing: 20,
   targetId: null,
+  // tagName: '', /* TODO - see if we can remove this element */
   layout,
 
   /* Actions */
@@ -123,12 +127,6 @@ export default Ember.Component.extend({
   didInsertElement() {
     this._super(...arguments);
     this.createTooltip();
-
-    /* TODO - set aria-describedby and tabindex */
-
-    if (!this.get('isShown')) {
-      this.hide();
-    }
   },
 
   didUpdateAttrs() {
@@ -166,16 +164,16 @@ export default Ember.Component.extend({
     const tooltipClassName = this.get('tooltipClassName');
     const tooltipContent = this.get('text') || '<span></span>';
     const tooltip = new Tooltip(target, {
-      container: target,
       html: true,
       offset: this.get('spacing'),
       placement: this.get('side'),
       title: tooltipContent,
       trigger: 'manual',
-      template: `<div class="tooltip ${tooltipClassName}" role="tooltip">
+      template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip">
                   <div class="tooltip-arrow ember-tooltip-arrow"></div>
                   <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
                  </div>`,
+
       popperOptions: {
         onCreate: (data) => {
           this.sendAction('onRender', this);
@@ -192,7 +190,7 @@ export default Ember.Component.extend({
       },
     });
 
-    target.classList.add(`${tooltipClassName}-target`);
+    target.classList.add('ember-tooltip-target');
 
     this.set('_tooltip', tooltip);
   },
@@ -203,15 +201,22 @@ export default Ember.Component.extend({
       return;
     }
 
+    const _tooltip = this.get('_tooltip');
+
     /* If the tooltip is about to be showed by
     a delay, stop is being shown. */
 
     run.cancel(this.get('_showTimer'));
 
-    this.get('_tooltip').hide();
-    this.set('isShown', false);
+    /* TODO - figure out why hide is called twice */
+    _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
 
-    this.sendAction('onHide', this);
+    run.later(() => {
+      _tooltip.hide();
+
+      this.set('isShown', false);
+      this.sendAction('onHide', this);
+    }, ANIMATION_DURATION);
   },
 
   /*
@@ -225,7 +230,8 @@ export default Ember.Component.extend({
     const isShown = this.get('isShown');
 
     if (isShown) {
-      // this.startTether();
+      this.show();
+
       const duration = cleanNumber(this.get('duration'));
 
       run.cancel(this.get('_hideTimer'));
@@ -242,7 +248,7 @@ export default Ember.Component.extend({
         this.set('_hideTimer', hideTimer);
       }
     } else {
-      // this.stopTether();
+      this.hide();
     }
   }),
 
@@ -252,10 +258,16 @@ export default Ember.Component.extend({
       return;
     }
 
+    const _tooltip = this.get('_tooltip');
     const _showTimer = this.get('_showTimer');
     const showTooltip = () => {
-      this.get('_tooltip').show();
-      this.set('isShown', true);
+      _tooltip.show();
+
+      this.set('isShown', true); /* TODO - remove isShown? */
+
+      run.later(() => {
+        _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
+      }, ANIMATION_DURATION);
     }
 
     let delay = cleanNumber(this.get('delay'));

@@ -1,4 +1,5 @@
 $tooltipBackgroundColor: #3a3c47;
+$tooltipSpacing: 10px;
 
 .ember-tooltip-base {
   display: none;
@@ -16,6 +17,7 @@ $tooltipBackgroundColor: #3a3c47;
   // pointer-events: none;
   // transition: none;
   position: absolute;
+  z-index: 2;
 
   font-size: 14px;
   font-family: inherit;
@@ -52,7 +54,7 @@ $tooltipBackgroundColor: #3a3c47;
 .ember-popover {
 
   &[x-placement^="top"] {
-    margin-bottom: 5px;
+    margin-bottom: 5px + $tooltipSpacing;
 
     .ember-tooltip-arrow {
       border-bottom-width: 0;
@@ -65,7 +67,7 @@ $tooltipBackgroundColor: #3a3c47;
   }
 
   &[x-placement^="bottom"] {
-    margin-top: 5px;
+    margin-top: 5px + $tooltipSpacing;
 
     .ember-tooltip-arrow {
       border-top-width: 0;
@@ -78,7 +80,7 @@ $tooltipBackgroundColor: #3a3c47;
   }
 
   &[x-placement^="right"] {
-    margin-left: 5px;
+    margin-left: 5px + $tooltipSpacing;
 
     .ember-tooltip-arrow {
       border-left-width: 0;
@@ -91,7 +93,7 @@ $tooltipBackgroundColor: #3a3c47;
   }
 
   &[x-placement^="left"] {
-    margin-right: 5px;
+    margin-right: 5px + $tooltipSpacing;
 
     .ember-tooltip-arrow {
       border-right-width: 0;
@@ -104,44 +106,24 @@ $tooltipBackgroundColor: #3a3c47;
   }
 }
 
-
-
-/* Fade TODO */
-
 .ember-tooltip,
 .ember-popover {
-  // opacity: 0;
+  opacity: 0;
+  -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
+  transition: opacity 200ms ease-out, margin 200ms ease-out;
 
-  &.ember-tooltip-or-popover-slide,
-  &.ember-tooltip-or-popover-fade {
+  &.ember-tooltip-effect-none,
+  &.ember-tooltip-show {
+    opacity: 1;
+  }
+
+  &.ember-tooltip-effect-fade {
+    -webkit-transition: opacity 200ms ease-out;
+    transition: opacity 200ms ease-out;
+  }
+
+  &.ember-tooltip-effect-slide {
     -webkit-transition: opacity 200ms ease-out, margin 200ms ease-out;
     transition: opacity 200ms ease-out, margin 200ms ease-out;
-  }
-
-  &.ember-tooltip-or-popover-slide {
-    &.ember-tooltip-or-popover-target-attached-top {
-      margin-top: 10px;
-    }
-
-    &.ember-tooltip-or-popover-target-attached-right {
-      margin-left: -10px;
-    }
-
-    &.ember-tooltip-or-popover-target-attached-bottom {
-      margin-top: -10px;
-    }
-
-    &.ember-tooltip-or-popover-target-attached-left {
-      margin-left: 10px;
-    }
-  }
-
-  &[aria-hidden="false"] {
-    opacity: 1;
-    // transition-duration: 100ms; // Shorter hide duration
-
-    &.ember-tooltip-or-popover-slide {
-      margin: 0px;
-    }
   }
 }

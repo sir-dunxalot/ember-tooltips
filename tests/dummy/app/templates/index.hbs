@@ -21,7 +21,7 @@
 </div>
 
 {{#ember-tooltip
-  class='logo-tooltip'
+  tooltipClassName='ember-tooltip logo-tooltip'
   event='none'
   targetId='ember-logo'
   isShown=showLogoTooltip
@@ -153,7 +153,7 @@
 {{#some-component}}
   Show an error
 
-  {{#ember-tooltip class='tooltip-error'}}
+  {{#ember-tooltip tooltipClassName='ember-tooltip tooltip-error'}}
     Here is the error!
   {{/ember-tooltip}}
 {{/some-component}}
