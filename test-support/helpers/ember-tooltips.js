@@ -3,7 +3,7 @@ import Ember from 'ember';
 const { $, run } = Ember;
 
 const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
-const tooltipOrPopoverTargetSelector = '.ember-tooltip-or-popover-target';
+const tooltipOrPopoverTargetSelector = '.ember-tooltip-target, .ember-popover-target';
 
 /**
 @method getPositionDifferences
@@ -47,7 +47,7 @@ function getPositionDifferences(options = {}) {
   return { expectedGreaterDistance, expectedLesserDistance };
 }
 
-function getTooltipFromBody(selector=tooltipOrPopoverSelector) {
+function getTooltipFromBody(selector = tooltipOrPopoverSelector) {
   // we have to .find() tooltips from $body because sometimes
   // tooltips and popovers are rendered as children of <body>
   // instead of children of the $targetElement
@@ -185,23 +185,19 @@ export function assertTooltipRendered(assert, options={}) {
 export function assertTooltipNotVisible(assert, options={}) {
   const $tooltip = getTooltipFromBody(options.selector);
   const isTooltipNotVisible = $tooltip.attr('aria-hidden') == 'true';
-  const isTooltipTetherDisabled = $tooltip.attr('data-tether-enabled') == 'false';
 
-  assert.ok(isTooltipNotVisible && isTooltipTetherDisabled,
+  assert.ok(isTooltipNotVisible,
       `assertTooltipNotVisible(): the ember-tooltip shouldn't be visible and the tether should be disabled:
-        isTooltipNotVisible -> ${isTooltipNotVisible} ;
-        isTooltipTetherDisabled -> ${isTooltipTetherDisabled}`);
+        isTooltipNotVisible -> ${isTooltipNotVisible}`);
 }
 
 export function assertTooltipVisible(assert, options={}) {
   const $tooltip = getTooltipFromBody(options.selector);
   const isTooltipVisible = $tooltip.attr('aria-hidden') == 'false';
-  const isTooltipTetherEnabled = $tooltip.attr('data-tether-enabled') == 'true';
 
-  assert.ok(isTooltipVisible && isTooltipTetherEnabled,
+  assert.ok(isTooltipVisible,
       `assertTooltipVisible(): the ember-tooltip should be visible and the tether should be enabled:
-        isTooltipVisible -> ${isTooltipVisible} ;
-        isTooltipTetherEnabled -> ${isTooltipTetherEnabled}`);
+        isTooltipVisible -> ${isTooltipVisible}`);
 }
 
 export function assertTooltipSide(assert, options = {}) {

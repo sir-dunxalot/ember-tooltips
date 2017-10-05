@@ -25,7 +25,7 @@ export default EmberTooltipBase.extend({
 
     const event = this.get('event');
     const target = this.get('target');
-    const popover = target.popper; /* TODO - get popover element */
+    const popover = target.popper;
 
     if (event === 'none') {
       return;

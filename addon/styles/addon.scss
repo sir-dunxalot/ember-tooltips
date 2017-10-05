@@ -4,10 +4,12 @@ $tooltipBackgroundColor: #3a3c47;
   display: none;
   height: 0;
   width: 0;
+  position: absolute;
 }
 
 .ember-tooltip,
 .ember-popover {
+  // Removed for development
   // -webkit-touch-callout: none;
   // -webkit-user-select: none;
   // user-select: none;
@@ -100,7 +102,7 @@ $tooltipBackgroundColor: #3a3c47;
 
 
 
-/* Fade */
+/* Fade TODO */
 
 .ember-tooltip,
 .ember-popover {

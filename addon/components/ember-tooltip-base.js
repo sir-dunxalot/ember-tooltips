@@ -35,7 +35,7 @@ export default Ember.Component.extend({
   text: null,
   showOn: null,
   side: 'right',
-  spacing: 10,
+  spacing: 50,
   targetId: null,
   layout,
 
@@ -106,9 +106,15 @@ export default Ember.Component.extend({
     return `${this.get('elementId')}_wormhole`;
   }),
 
+  _tooltipEvents: null,
   _tooltipElementRendered: false,
   _tooltipElementNotRendered: computed.not('_tooltipElementRendered'),
   _tooltip: null,
+
+  init() {
+    this._super(...arguments);
+    this.set('_tooltipEvents', []);
+  },
 
   didInsertElement() {
     this._super(...arguments);
@@ -118,14 +124,14 @@ export default Ember.Component.extend({
     /* TODO - set aria-describedby and tabindex */
 
     if (!this.get('isShown')) {
-      this._hide();
+      this.hide();
     }
   },
 
   didUpdateAttrs() {
     this._super(...arguments);
 
-    // this.get('_tooltip').popper.update(); /* MAYBE */
+    // this.get('_tooltip').popper.update(); /* MAYBE - ember-wormhole might cover this */
   },
 
   willDestroy() {
@@ -135,15 +141,26 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this.hide();
 
-    tooltip.dispose();
+    /* Remove event listeners used to show and hide the tooltip */
 
-    /* TODO - call off on target events*/
+    this.get('_tooltipEvents').each((tooltipEvent) => {
+      const {
+        callback,
+        target,
+        eventName,
+      } = tooltipEvent;
+
+      target.removeEventListener(eventName, callback);
+    });
+
+    tooltip.dispose();
 
     this.sendAction('onDestroy', this);
   },
 
   createTooltip() {
     const target = this.get('target');
+    const tooltipClassName = this.get('tooltipClassName');
     const tooltipContent = this.get('text') || '<span></span>';
     const tooltip = new Tooltip(target, {
       container: target,
@@ -152,12 +169,11 @@ export default Ember.Component.extend({
       placement: this.get('side'),
       title: tooltipContent,
       trigger: 'manual',
-      template: `<div class="tooltip ${this.get('tooltipClassName')}" role="tooltip">
+      template: `<div class="tooltip ${tooltipClassName}" role="tooltip">
                   <div class="tooltip-arrow ember-tooltip-arrow"></div>
                   <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
                  </div>`,
       popperOptions: {
-
         onCreate: (data) => {
           this.sendAction('onRender', this);
           this.set('_tooltipElementRendered', true);
@@ -173,6 +189,8 @@ export default Ember.Component.extend({
       },
     });
 
+    target.classList.add(`${tooltipClassName}-target`);
+
     this.set('_tooltip', tooltip);
   },
 
@@ -187,7 +205,9 @@ export default Ember.Component.extend({
 
     run.cancel(this.get('_showTimer'));
 
-    this._hide();
+    this.get('_tooltip').hide();
+    this.set('isShown', false);
+
     this.sendAction('onHide', this);
   },
 
@@ -230,6 +250,10 @@ export default Ember.Component.extend({
     }
 
     const _showTimer = this.get('_showTimer');
+    const showTooltip = () => {
+      this.get('_tooltip').show();
+      this.set('isShown', true);
+    }
 
     let delay = cleanNumber(this.get('delay'));
 
@@ -252,7 +276,7 @@ export default Ember.Component.extend({
 
       const _showTimer = run.later(this, () => {
         if (!this.get('destroying') && !this.get('isDestroyed')) {
-          this._show();
+          showTooltip();
         }
       }, delay);
 
@@ -261,7 +285,7 @@ export default Ember.Component.extend({
 
       /* If there is no delay, show the tooltip immediately */
 
-      this._show();
+      showTooltip();
     }
 
     this.sendAction('onShow', this);
@@ -283,23 +307,21 @@ export default Ember.Component.extend({
   _addEventListener(eventName, callback, element) {
     const target = element || this.get('target');
 
+    /* Remember event listeners so they can removed on teardown */
+
+    this.get('_tooltipEvents').push({
+      callback,
+      target,
+      eventName,
+    });
+
+    /* Add the event listeners */
+
     target.addEventListener(eventName, (event) => {
       run(() => {
         callback(event);
       });
     });
-
-    /* TODO - store events for removing them on teardown*/
-  },
-
-  _hide() {
-    this.get('_tooltip').hide();
-    this.set('isShown', false);
-  },
-
-  _show() {
-    this.get('_tooltip').show();
-    this.set('isShown', true);
   },
 
 });
