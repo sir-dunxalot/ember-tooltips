@@ -1,7 +1,4 @@
-import Ember from 'ember';
 import EmberTooltipBase from 'ember-tooltips/components/ember-tooltip-base';
-
-const { $ } = Ember;
 
 export default EmberTooltipBase.extend({
 
@@ -20,13 +17,12 @@ export default EmberTooltipBase.extend({
 
     const hideOn = this.get('hideOn');
     const showOn = this.get('showOn');
-    const target = this.get('target');
 
     /* If show and hide are the same (e.g. click) toggle
     the visibility */
 
     if (showOn === hideOn) {
-      this._addListenerToTarget(showOn, () => {
+      this._addEventListener(showOn, () => {
         this.toggle();
       });
     } else {
@@ -34,13 +30,13 @@ export default EmberTooltipBase.extend({
       /* Else, add the show and hide events individually */
 
       if (showOn !== 'none') {
-        this._addListenerToTarget(showOn, () => {
+        this._addEventListener(showOn, () => {
           this.show();
         });
       }
 
       if (hideOn !== 'none') {
-        this._addListenerToTarget(hideOn, () => {
+        this._addEventListener(hideOn, () => {
           this.hide();
         });
       }
@@ -55,17 +51,17 @@ export default EmberTooltipBase.extend({
       click to also trigger focusin */
 
       if (event !== 'click') {
-        this._addListenerToTarget('focusin', () => {
+        this._addEventListener('focusin', () => {
           this.show();
         });
       }
 
-      this._addListenerToTarget('focusout', () => {
+      this._addEventListener('focusout', () => {
         this.hide();
       });
     }
 
-    this._addListenerToTarget('keydown', (keyEvent) => {
+    this._addEventListener('keydown', (keyEvent) => {
       if (keyEvent.which === 27) {
         this.hide();
 

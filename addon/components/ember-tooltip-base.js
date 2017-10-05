@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import layout from '../templates/components/ember-tooltip-simple';
+import layout from '../templates/components/ember-tooltip-base';
 
 const {
   computed,
@@ -280,11 +280,13 @@ export default Ember.Component.extend({
     }
   },
 
-  _addListenerToTarget(eventName, callback) {
-    const target = this.get('target');
+  _addEventListener(eventName, callback, element) {
+    const target = element || this.get('target');
 
     target.addEventListener(eventName, (event) => {
-      callback(event);
+      run(() => {
+        callback(event);
+      });
     });
 
     /* TODO - store events for removing them on teardown*/
