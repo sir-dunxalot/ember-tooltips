@@ -15,6 +15,7 @@ $tooltipBackgroundColor: #3a3c47;
   // user-select: none;
   // pointer-events: none;
   // transition: none;
+  position: absolute;
 
   font-size: 14px;
   font-family: inherit;
@@ -47,58 +48,61 @@ $tooltipBackgroundColor: #3a3c47;
   border: 5px solid transparent;
 }
 
-.ember-tooltip[x-placement^="top"] {
-  margin-bottom: 5px;
+.ember-tooltip,
+.ember-popover {
 
-  .ember-tooltip-arrow {
-    border-bottom-width: 0;
-    border-top-color: $tooltipBackgroundColor;
-    bottom: -5px;
-    left: calc(50% - 5px);
-    margin-top: 0;
-    margin-bottom: 0;
+  &[x-placement^="top"] {
+    margin-bottom: 5px;
+
+    .ember-tooltip-arrow {
+      border-bottom-width: 0;
+      border-top-color: $tooltipBackgroundColor; /* TODO - make work for popovers */
+      bottom: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="bottom"] {
+    margin-top: 5px;
+
+    .ember-tooltip-arrow {
+      border-top-width: 0;
+      border-bottom-color: $tooltipBackgroundColor;
+      top: -5px;
+      left: calc(50% - 5px);
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &[x-placement^="right"] {
+    margin-left: 5px;
+
+    .ember-tooltip-arrow {
+      border-left-width: 0;
+      border-right-color: $tooltipBackgroundColor;
+      left: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &[x-placement^="left"] {
+    margin-right: 5px;
+
+    .ember-tooltip-arrow {
+      border-right-width: 0;
+      border-left-color: $tooltipBackgroundColor;
+      right: -5px;
+      top: calc(50% - 5px);
+      margin-left: 0;
+      margin-right: 0;
+    }
   }
 }
-
-.ember-tooltip[x-placement^="bottom"] {
-  margin-top: 5px;
-
-  .ember-tooltip-arrow {
-    border-top-width: 0;
-    border-bottom-color: $tooltipBackgroundColor;
-    top: -5px;
-    left: calc(50% - 5px);
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-}
-
-.ember-tooltip[x-placement^="right"] {
-  margin-left: 5px;
-
-  .ember-tooltip-arrow {
-    border-left-width: 0;
-    border-right-color: $tooltipBackgroundColor;
-    left: -5px;
-    top: calc(50% - 5px);
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
-.ember-tooltip[x-placement^="left"] {
-  margin-right: 5px;
-
-  .ember-tooltip-arrow {
-    border-right-width: 0;
-    border-left-color: $tooltipBackgroundColor;
-    right: -5px;
-    top: calc(50% - 5px);
-    margin-left: 0;
-    margin-right: 0;
-  }
-}
-
 
 
 

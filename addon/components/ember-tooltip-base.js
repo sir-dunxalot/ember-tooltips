@@ -30,7 +30,7 @@ export default Ember.Component.extend({
   classNameBindings: ['isShown'],
   event: 'hover',
   hideOn: null,
-  tooltipClassName: 'ember-tooltip',
+  tooltipClassName: 'ember-tooltip', /* Custom classes */
   isShown: false,
   text: null,
   showOn: null,
@@ -92,7 +92,11 @@ export default Ember.Component.extend({
     let target;
 
     if (targetId) {
-      target = document.getElementById(target);
+      target = document.getElementById(targetId);
+
+      if (!target) {
+        Ember.warn('No target found for targetId ', targetId);
+      }
     } else {
       target = this.element.parentNode;
     }
@@ -118,7 +122,6 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-
     this.createTooltip();
 
     /* TODO - set aria-describedby and tabindex */
