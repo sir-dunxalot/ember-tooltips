@@ -6,11 +6,19 @@ import {
   isElementElsewhere,
 } from 'ember-tooltips/utils/ember-popover';
 
-const { run } = Ember;
+const {
+  computed,
+  run
+} = Ember;
 
 export default EmberTooltipBase.extend({
   popoverHideDelay: 250,
   tooltipClassName: 'ember-popover',
+
+  hideDelay: computed.deprecatingAlias('popoverHideDelay', {
+    id: 'EmberTooltipBase.popoverHideDelay',
+    until: '3.2.0',
+  }),
 
   _isMouseInside: false,
 
@@ -40,17 +48,17 @@ export default EmberTooltipBase.extend({
       const hideOnCallback = () => {
         this.set('_isMouseInside', false);
 
-        const hideDelay = +this.get('hideDelay');
+        const popoverHideDelay = +this.get('popoverHideDelay');
         const hideIfOutside = () => {
           if (!this.get('_isMouseInside')) {
             this.hide();
           }
         };
 
-        if (hideDelay) {
+        if (popoverHideDelay) {
           run.later(() => {
             hideIfOutside();
-          }, hideDelay);
+          }, popoverHideDelay);
         } else {
           hideIfOutside();
         }

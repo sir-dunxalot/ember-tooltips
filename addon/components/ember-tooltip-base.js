@@ -3,7 +3,6 @@ import layout from '../templates/components/ember-tooltip-base';
 
 const {
   computed,
-  observer,
   run,
 } = Ember;
 
@@ -130,9 +129,11 @@ export default Ember.Component.extend({
   },
 
   didUpdateAttrs() {
-    this._super(...arguments);
-
-    // this.get('_tooltip').popper.update(); /* MAYBE - ember-wormhole might cover this */
+    if (this.get('isShown')) {
+      this.show();
+    } else {
+      this.hide();
+    }
   },
 
   willDestroy() {
@@ -219,91 +220,90 @@ export default Ember.Component.extend({
     }, ANIMATION_DURATION);
   },
 
-  /*
-  We use an observer so the user can set isShown
-  as a attribute.
-
-  @method setTimer
-  */
-
-  setTimer: observer('isShown', function() {
-    const isShown = this.get('isShown');
-
-    if (isShown) {
-      this.show();
-
-      const duration = cleanNumber(this.get('duration'));
-
-      run.cancel(this.get('_hideTimer'));
-
-      if (duration) {
-
-        /* Hide tooltip after specified duration */
-
-        const hideTimer = run.later(this, this.hide, duration);
-
-        /* Save timer ID for canceling should an event
-        hide the tooltip before the duration */
-
-        this.set('_hideTimer', hideTimer);
-      }
-    } else {
-      this.hide();
-    }
-  }),
-
   show() {
+
+    console.log('show');
 
     if (this.get('isDestroying')) {
       return;
     }
 
+    const delay = this.get('delay');
+    const duration = this.get('duration');
     const _tooltip = this.get('_tooltip');
     const _showTimer = this.get('_showTimer');
-    const showTooltip = () => {
-      _tooltip.show();
-
-      this.set('isShown', true); /* TODO - remove isShown? */
-
-      run.later(() => {
-        _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
-      }, ANIMATION_DURATION);
-    }
-
-    let delay = cleanNumber(this.get('delay'));
 
     run.cancel(_showTimer);
 
+    if (duration) {
+      this.setHideTimer(duration);
+    }
+
     if (delay) {
-      if (!this.get('delayOnChange')) {
-
-        /* If the `delayOnChange` property is set to false, we
-        don't want to delay opening this tooltip/popover if there is
-        already a tooltip/popover shown in the DOM. Check that here
-        and adjust the delay as needed. */
-
-        let shownTooltipsOrPopovers = $(`.${this.get('classPrefix')}-element[aria-hidden="false"]`).length;
-
-        if (shownTooltipsOrPopovers) {
-          delay = 0;
-        }
-      }
-
-      const _showTimer = run.later(this, () => {
-        if (!this.get('destroying') && !this.get('isDestroyed')) {
-          showTooltip();
-        }
-      }, delay);
-
-      this.set('_showTimer', _showTimer);
+      this.setShowTimer(delay);
     } else {
-
-      /* If there is no delay, show the tooltip immediately */
-
-      showTooltip();
+      this._showTooltip();
     }
 
     this.sendAction('onShow', this);
+  },
+
+  setHideTimer(duration) {
+    duration = cleanNumber(duration);
+
+    run.cancel(this.get('_hideTimer'));
+
+    if (duration) {
+
+      /* Hide tooltip after specified duration */
+
+      const hideTimer = run.later(this, this.hide, duration);
+
+      /* Save timer ID for canceling should an event
+      hide the tooltip before the duration */
+
+      this.set('_hideTimer', hideTimer);
+    }
+  },
+
+  setShowTimer(delay) {
+    delay = cleanNumber(delay);
+
+    if (!this.get('delayOnChange')) {
+
+      /* If the `delayOnChange` property is set to false, we
+      don't want to delay opening this tooltip/popover if there is
+      already a tooltip/popover shown in the DOM. Check that here
+      and adjust the delay as needed. */
+
+      let shownTooltipsOrPopovers = $(`.${ANIMATION_CLASS}`);
+
+      if (shownTooltipsOrPopovers.length) {
+        delay = 0;
+      }
+    }
+
+    const _showTimer = run.later(this, () => {
+      if (!this.get('destroying') && !this.get('isDestroyed')) {
+        this._showTooltip();
+      }
+    }, delay);
+
+    this.set('_showTimer', _showTimer);
+  },
+
+  _showTooltip() {
+    const _tooltip = this.get('_tooltip');
+
+    console.log('_showTooltip');
+
+    _tooltip.show();
+
+    this.set('isShown', true); /* TODO - remove isShown? */
+
+    run.later(() => {
+      _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
+    }, ANIMATION_DURATION);
   },
 
   toggle() {

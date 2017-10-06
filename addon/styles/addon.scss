@@ -1,8 +1,9 @@
 $tooltipBackgroundColor: #3a3c47;
 $tooltipSpacing: 10px;
 $tooltipTransitionDuration: 200ms;
+$tooltipSlideDistance: 10px;
 
-$_tooltipArrowSize: 5px;
+$_tooltipArrowSize: 5px; /* If you change this, position breaks */
 
 @import './mixins';
 
@@ -15,12 +16,10 @@ $_tooltipArrowSize: 5px;
 
 .ember-tooltip,
 .ember-popover {
-  // Removed for development
-  // -webkit-touch-callout: none;
-  // -webkit-user-select: none;
-  // user-select: none;
-  // pointer-events: none;
-  // transition: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
   position: absolute;
   z-index: 2;
 
@@ -44,6 +43,14 @@ $_tooltipArrowSize: 5px;
   background-color: #fff;
   padding: 10px 20px;
   border: 1px solid #ccc;
+
+  &[aria-hidden="false"] {
+    pointer-events: auto;
+    cursor: initial;
+    -webkit-touch-callout: auto;
+    -webkit-user-select: auto;
+    user-select: auto;
+  }
 }
 
 .ember-tooltip-arrow {
