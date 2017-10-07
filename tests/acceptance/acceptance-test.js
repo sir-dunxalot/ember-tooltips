@@ -23,13 +23,13 @@ test('all acceptance tests', function(assert) {
         'initially there should only be 2 tooltips or popovers rendered');
   });
 
+  /* Begin tooltip tests */
+
   andThen(() => {
 
-    assert.ok(true, '-------------- begin section 1 --------------');
-
-    const $tooltipTarget = $('.js-test-tooltip-target-enableLazyRendering-false');
+    const $tooltipTarget = $('.js-test-tooltip-target');
     const options = {
-      selector: '.js-test-tooltip-enableLazyRendering-false',
+      selector: '.js-test-tooltip',
     };
 
     assert.equal($tooltipTarget.length, 1, 'there should be one $tooltipTarget');
@@ -48,38 +48,13 @@ test('all acceptance tests', function(assert) {
 
   });
 
-  andThen(() => {
-
-    assert.ok(true, '-------------- begin section 2 --------------');
-
-    const $tooltipTarget = $('.js-test-tooltip-target-enableLazyRendering-true');
-    const options = {
-      selector: '.js-test-tooltip-enableLazyRendering-true',
-    };
-
-    assert.equal($tooltipTarget.length, 1, 'there should be one $tooltipTarget');
-
-    assertTooltipNotRendered(assert, options);
-
-    triggerTooltipTargetEvent($tooltipTarget, 'mouseenter');
-
-    assertTooltipRendered(assert, options);
-
-    assertTooltipVisible(assert, options);
-
-    triggerTooltipTargetEvent($tooltipTarget, 'mouseleave');
-
-    assertTooltipNotVisible(assert, options);
-
-  });
+  /* Begin popover tests */
 
   andThen(() => {
 
-    assert.ok(true, '-------------- begin section 3 --------------');
-
-    const $popoverTarget = $('.js-test-popover-target-enableLazyRendering-false');
+    const $popoverTarget = $('.js-test-popover-target');
     const options = {
-      selector: '.js-test-popover-enableLazyRendering-false',
+      selector: '.js-test-popover',
     };
 
     assert.equal($popoverTarget.length, 1, 'there should be one $popoverTarget');
@@ -101,64 +76,8 @@ test('all acceptance tests', function(assert) {
   });
 
   andThen(() => {
-
-    assert.ok(true, '-------------- begin section 4 --------------');
-
-    const $popoverTarget = $('.js-test-popover-target-enableLazyRendering-true');
-    const options = {
-      selector: '.js-test-popover-enableLazyRendering-true',
-    };
-
-    assert.equal($popoverTarget.length, 1, 'there should be one $popover');
-
-    assertTooltipNotRendered(assert, options);
-
-    triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
-
-    assertTooltipVisible(assert, options);
-
-    triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
-
-    run.later(() => {
-      assertTooltipNotVisible(assert, options);
-    }, 300); // Default hideDelay = 250
-
-  });
-
-  andThen(() => {
-
-    assert.ok(true, '-------------- begin section 5 --------------');
-
-    const $popoverTarget = $('.js-test-popover-target-enableLazyRendering-true-no-delay');
-    const options = {
-      selector: '.js-test-popover-enableLazyRendering-true-no-delay',
-    };
-
-    assert.equal($popoverTarget.length, 1, 'there should be one $popover');
-
-    assertTooltipNotRendered(assert, options);
-
-    triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
-
-    assertTooltipVisible(assert, options);
-
-    triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
-
-    assertTooltipNotVisible(assert, options);
-
-    triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
-
-    assertTooltipVisible(assert, options);
-
-    triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
-
-    assertTooltipNotVisible(assert, options);
-
-  });
-
-  andThen(() => {
-    assert.equal($(tooltipOrPopoverSelector).length, 5,
-        'initially there should only be 2 tooltips or popovers rendered');
+    assert.equal($(tooltipOrPopoverSelector).length, 2,
+        'There should only be 2 tooltips or popovers rendered');
   });
 
 });

@@ -1,47 +1,15 @@
-SECTION: 1;
-<span class="js-test-tooltip-target-enableLazyRendering-false">
-	TOOLTIP w/ enableLazyRendering=false
-	{{#tooltip-on-element enableLazyRendering=false class="js-test-tooltip-enableLazyRendering-false"}}
+<span class="js-test-tooltip-target">
+	Tooltip
+	{{#ember-tooltip tooltipClassName='ember-tooltip js-test-tooltip'}}
 		tooltip text
-	{{/tooltip-on-element}}
+	{{/ember-tooltip}}
 </span>
 
 <hr>
 
-SECTION: 2;
-<span class="js-test-tooltip-target-enableLazyRendering-true">
-	TOOLTIP w/ enableLazyRendering=true
-	{{#tooltip-on-element enableLazyRendering=true class="js-test-tooltip-enableLazyRendering-true"}}
-		tooltip text
-	{{/tooltip-on-element}}
-</span>
-
-<hr>
-
-SECTION: 3;
-<span class="js-test-popover-target-enableLazyRendering-false">
-	POPOVER w/ enableLazyRendering=false hideDelay=250 (default)
-	{{#popover-on-element enableLazyRendering=false class="js-test-popover-enableLazyRendering-false"}}
+<span class="js-test-popover">
+	Popover
+	{{#ember-popover tooltipClassName='ember-popover js-test-popover'}}
 		popover text
-	{{/popover-on-element}}
-</span>
-
-<hr>
-
-SECTION: 4;
-<span class="js-test-popover-target-enableLazyRendering-true">
-	POPOVER w/ enableLazyRendering=true hideDelay=250 (default)
-	{{#popover-on-element enableLazyRendering=true class="js-test-popover-enableLazyRendering-true"}}
-		popover text
-	{{/popover-on-element}}
-</span>
-
-<hr>
-
-SECTION: 5;
-<span class="js-test-popover-target-enableLazyRendering-true-no-delay">
-	POPOVER w/ enableLazyRendering=true hideDelay=0
-	{{#popover-on-element enableLazyRendering=true hideDelay=0 class="js-test-popover-enableLazyRendering-true-no-delay"}}
-		popover text
-	{{/popover-on-element}}
+	{{/ember-popover}}
 </span>
