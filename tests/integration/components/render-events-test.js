@@ -1,11 +1,10 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { TARGET_EVENT_NAMESPACE } from 'ember-tooltips/components/lazy-render-wrapper';
 
 const { $, run } = Ember;
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | event handlers', {
+moduleForComponent('ember-tooltip', 'Integration | Component | event handlers', {
   integration: true,
 });
 
@@ -34,7 +33,7 @@ function assertTargetHasLazyRenderEvents(assert, $target, eventType = 'hover') {
     assert.equal(eventHandler.origType, event,
         `the eventHandler's origType property should equal ${event}`);
 
-    assert.ok(eventHandler.namespace.indexOf(TARGET_EVENT_NAMESPACE) >= 0,
+    assert.ok(eventHandler.namespace.indexOf('target-lazy-render-wrapper') >= 0,
         'the eventHandler\'s namespace property be unique to ember-tooltips');
   }
 
@@ -82,7 +81,7 @@ function assertTargetHasLazyRenderEvents(assert, $target, eventType = 'hover') {
 
     this.set('eventType', eventType);
 
-    this.render(hbs`{{tooltip-on-element event=eventType enableLazyRendering=true}}`);
+    this.render(hbs`{{ember-tooltip event=eventType enableLazyRendering=true}}`);
 
     const $target = this.$();
 
@@ -95,7 +94,7 @@ test('lazy-render-wrapper correctly assigns event handlers when target="some-id"
 
   this.render(hbs`
     <div id="some-id"></div>
-    {{tooltip-on-element target="#some-id" enableLazyRendering=true}}
+    {{ember-tooltip target="#some-id" enableLazyRendering=true}}
   `);
 
   const $target = this.$('#some-id');

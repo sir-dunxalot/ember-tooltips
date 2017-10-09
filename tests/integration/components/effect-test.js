@@ -2,15 +2,15 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { findTooltip } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
+moduleForComponent('ember-tooltip', 'Integration | Component | tooltip on element', {
   integration: true,
 });
 
 ['slide', 'fade', 'none'].forEach((effectType) => {
-  test(`tooltip-on-element effect=${effectType} class test`, function(assert) {
+  test(`ember-tooltip effect=${effectType} class test`, function(assert) {
 
     this.set('effectType', effectType);
-    this.render(hbs`{{tooltip-on-element effect=effectType}}`);
+    this.render(hbs`{{ember-tooltip effect=effectType}}`);
 
     const $tooltip = findTooltip();
 

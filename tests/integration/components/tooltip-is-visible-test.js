@@ -5,17 +5,17 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | isShown', {
+moduleForComponent('ember-tooltip', 'Integration | Option | isShown', {
   integration: true,
 });
 
-test('tooltip-on-element toggles with isShown', function(assert) {
+test('ember-tooltip toggles with isShown', function(assert) {
 
   assert.expect(2);
 
   this.set('showTooltip', true);
 
-  this.render(hbs`{{tooltip-on-element isShown=showTooltip}}`);
+  this.render(hbs`{{ember-tooltip isShown=showTooltip}}`);
 
   assertTooltipVisible(assert);
 
@@ -25,13 +25,13 @@ test('tooltip-on-element toggles with isShown', function(assert) {
 
 });
 
-test('tooltip-on-element toggles when enableLazyRendering with isShown', function(assert) {
+test('ember-tooltip toggles when enableLazyRendering with isShown', function(assert) {
 
   assert.expect(3);
 
   this.set('showTooltip', true);
 
-  this.render(hbs`{{tooltip-on-element isShown=showTooltip enableLazyRendering=true}}`);
+  this.render(hbs`{{ember-tooltip isShown=showTooltip enableLazyRendering=true}}`);
 
   assertTooltipRendered(assert);
 
@@ -43,7 +43,7 @@ test('tooltip-on-element toggles when enableLazyRendering with isShown', functio
 
 });
 
-test('tooltip-on-element toggles with tooltipIsVisible', function(assert) {
+test('ember-tooltip toggles with tooltipIsVisible', function(assert) {
 
   /* The tooltipIsVisible property is deprecated in favor
   of isShown tooltipIsVisible will be supported until v3.0.0
@@ -53,7 +53,7 @@ test('tooltip-on-element toggles with tooltipIsVisible', function(assert) {
 
   this.set('showTooltip', true);
 
-  this.render(hbs`{{tooltip-on-element tooltipIsVisible=showTooltip}}`);
+  this.render(hbs`{{ember-tooltip tooltipIsVisible=showTooltip}}`);
 
   assertTooltipVisible(assert);
 

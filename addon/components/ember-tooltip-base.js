@@ -9,10 +9,10 @@ const {
   run,
   warn,
   Component,
+  RSVP,
 } = Ember;
 
 const ANIMATION_CLASS = 'ember-tooltip-show';
-const ANIMATION_DURATION = 200; // In ms
 
 function cleanNumber(stringOrNumber) {
   let cleanNumber;
@@ -43,6 +43,7 @@ export default Component.extend({
   spacing: 20,
   targetId: null,
   layout,
+  updateFor: null,
 
   /* Actions */
 
@@ -115,6 +116,7 @@ export default Component.extend({
     return `${this.get('elementId')}-wormhole`;
   }),
 
+  _animationDuration: 200, // In ms
   _tooltipElementNotRendered: computed.not('_tooltipElementRendered'),
   _tooltipElementRendered: false,
   _tooltipEvents: null,
@@ -127,7 +129,31 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    this.createTooltip();
+
+    this.createTooltip().then((tooltip) => {
+      run(() => {
+
+        if (this.get('isShown')) {
+          this.show();
+        }
+
+        this.sendAction('onRender', this);
+
+        this.set('_tooltipElementRendered', true);
+
+        /* The tooltip element must exist in order to add event listeners to it */
+
+        this.addTooltipBaseEventListeners();
+
+        /* Once the wormhole has done it's work, we need the tooltip to be positioned */
+
+        run.scheduleOnce('afterRender', () => {
+          const popper = tooltip.instance;
+
+          popper.update();
+        });
+      });
+    });
   },
 
   didUpdateAttrs() {
@@ -135,6 +161,16 @@ export default Component.extend({
 
     if (this.get('isShown')) {
       this.show();
+
+      /* If updateFor exists, update the tooltip incase the changed Attr affected the tooltip content's height or width */
+
+      if (this.get('updateFor') && this.get('_tooltip').popperInstance) {
+        const popper = this.get('_tooltip').popperInstance;
+
+        if (popper) {
+          run(popper.update);
+        }
+      }
     } else {
       this.hide();
     }
@@ -144,19 +180,24 @@ export default Component.extend({
     this._super(...arguments);
     this.hide();
 
+    const _tooltipEvents = this.get('_tooltipEvents');
+
     /* Remove event listeners used to show and hide the tooltip */
 
-    this.get('_tooltipEvents').each((tooltipEvent) => {
+    _tooltipEvents.forEach((tooltipEvent) => {
       const {
         callback,
         target,
         eventName,
       } = tooltipEvent;
 
-      target.removeEventListener(eventName, callback);
+      run(() => {
+        target.removeEventListener(eventName, callback);
+      });
     });
 
-    this.get('_tooltip').dispose();
+    run(this.get('_tooltip').dispose);
+
     this.sendAction('onDestroy', this);
   },
 
@@ -227,57 +268,54 @@ export default Component.extend({
     }
 
     this._addEventListener('keydown', (keyEvent) => {
-      if (keyEvent.which === 27) {
-        this.hide();
+      run(() => { // TODO - keep?
+        if (keyEvent.which === 27) {
+          this.hide();
 
-        keyEvent.preventDefault();
+          keyEvent.preventDefault();
 
-        return false;
-      }
+          return false;
+        }
+      });
     });
   },
 
   createTooltip() {
-    const target = this.get('target');
-    const tooltipClassName = this.get('tooltipClassName');
-    const tooltipContent = this.get('text') || '<span></span>';
-    const tooltip = new Tooltip(target, {
-      html: true,
-      offset: this.get('spacing'),
-      placement: this.get('side'),
-      title: tooltipContent,
-      trigger: 'manual',
-      template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip">
-                  <div class="tooltip-arrow ember-tooltip-arrow"></div>
-                  <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
-                 </div>`,
+    return new RSVP.Promise((resolve, reject) => {
 
-      popperOptions: {
-        onCreate: (data) => {
-          this.sendAction('onRender', this);
-          this.set('_tooltipElementRendered', true);
+      let tooltip;
 
-          /* The tooltip element must exist in order to add event listeners to it */
+      run(() => {
+        const target = this.get('target');
+        const tooltipClassName = this.get('tooltipClassName');
+        const tooltipContent = this.get('text') || '<span></span>';
 
-          this.addTooltipBaseEventListeners();
+        tooltip = new Tooltip(target, {
+          html: true,
+          offset: this.get('spacing'),
+          placement: this.get('side'),
+          title: tooltipContent,
+          trigger: 'manual',
+          template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip">
+                      <div class="tooltip-arrow ember-tooltip-arrow"></div>
+                      <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
+                     </div>`,
 
-          /* Once the wormhole has done it's work, we need the tooltip to be positioned */
+          popperOptions: {
+            onCreate: (tooltipData) => {
+              resolve(tooltipData);
+            },
+          },
+        });
 
-          run.scheduleOnce('afterRender', () => {
-            const popper = data.instance;
+        /* Add a class to the tooltip target */
 
-            popper.update();
-          });
-        },
-      },
+        target.classList.add('ember-tooltip-target');
+
+        this.addTargetEventListeners();
+        this.set('_tooltip', tooltip);
+      });
     });
-
-    /* Add a class to the tooltip target */
-
-    target.classList.add('ember-tooltip-target');
-
-    this.addTargetEventListeners();
-    this.set('_tooltip', tooltip);
   },
 
   hide() {
@@ -352,28 +390,41 @@ export default Component.extend({
     }
 
     const _showTimer = run.later(this, () => {
-      if (!this.get('destroying') && !this.get('isDestroyed')) {
-        this._showTooltip();
-      }
+      this._showTooltip();
     }, delay);
 
     this.set('_showTimer', _showTimer);
   },
 
   _hideTooltip() {
+
+    if (this.get('isDestroying')) {
+      return;
+    }
+
     const _tooltip = this.get('_tooltip');
 
     _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
 
     run.later(() => {
+
+      if (this.get('isDestroying')) {
+        return;
+      }
+
       _tooltip.hide();
 
       this.set('isShown', false);
       this.sendAction('onHide', this);
-    }, ANIMATION_DURATION);
+    }, this.get('_animationDuration'));
   },
 
   _showTooltip() {
+
+    if (this.get('isDestroying')) {
+      return;
+    }
+
     const _tooltip = this.get('_tooltip');
 
     _tooltip.show();
@@ -381,10 +432,15 @@ export default Component.extend({
     this.set('isShown', true);
 
     run.later(() => {
+
+      if (this.get('isDestroying')) {
+        return;
+      }
+
       _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
 
       this.sendAction('onShow', this);
-    }, ANIMATION_DURATION);
+    }, this.get('_animationDuration'));
   },
 
   toggle() {
@@ -413,8 +469,8 @@ export default Component.extend({
 
     /* Add the event listeners */
 
-    target.addEventListener(eventName, (event) => {
-      run(() => {
+    run(() => {
+      target.addEventListener(eventName, (event) => {
         callback(event);
       });
     });

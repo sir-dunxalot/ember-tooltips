@@ -1,10 +1,5 @@
 import Ember from 'ember';
 import EmberTooltipBase from 'ember-tooltips/components/ember-tooltip-base';
-import {
-  isElementInPopover,
-  isElementInTargetAndNotInPopover,
-  isElementElsewhere,
-} from 'ember-tooltips/utils/ember-popover';
 
 const {
   computed,
@@ -94,6 +89,6 @@ export default EmberTooltipBase.extend({
         this._hideTooltip();
       }
     }, +this.get('popoverHideDelay'));
-  }
+  },
 
 });

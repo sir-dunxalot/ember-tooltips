@@ -5,7 +5,7 @@ import { triggerTooltipTargetEvent, assertTooltipRendered, assertTooltipNotRende
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | enableLazyRendering', {
+moduleForComponent('ember-tooltip', 'Integration | Component | enableLazyRendering', {
   integration: true,
 });
 
@@ -21,11 +21,11 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | enableLazyRe
     showOn: 'focusin',
   },
 ].forEach(function(eventObject) {
-  test(`tooltip-on-element renders lazily after ${eventObject.showOn} when enableLazyRendering=true`, function(assert) {
+  test(`ember-tooltip renders lazily after ${eventObject.showOn} when enableLazyRendering=true`, function(assert) {
 
     this.set('eventType', eventObject.eventType);
 
-    this.render(hbs`{{tooltip-on-element event=eventType enableLazyRendering=true}}`);
+    this.render(hbs`{{ember-tooltip event=eventType enableLazyRendering=true}}`);
 
     assertTooltipNotRendered(assert);
 
@@ -36,37 +36,37 @@ moduleForComponent('tooltip-on-element', 'Integration | Component | enableLazyRe
   });
 });
 
-test('tooltip-on-element renders automatically when enableLazyRendering=false', function(assert) {
+test('ember-tooltip renders automatically when enableLazyRendering=false', function(assert) {
 
-  this.render(hbs`{{tooltip-on-element enableLazyRendering=false}}`);
-
-  assertTooltipRendered(assert);
-
-});
-
-test('tooltip-on-element renders automatically when isShown=true', function(assert) {
-
-  this.render(hbs`{{tooltip-on-element enableLazyRendering=true isShown=true}}`);
+  this.render(hbs`{{ember-tooltip enableLazyRendering=false}}`);
 
   assertTooltipRendered(assert);
 
 });
 
-test('tooltip-on-element renders automatically when tooltipIsVisible=true', function(assert) {
+test('ember-tooltip renders automatically when isShown=true', function(assert) {
 
-  this.render(hbs`{{tooltip-on-element enableLazyRendering=true tooltipIsVisible=true}}`);
+  this.render(hbs`{{ember-tooltip enableLazyRendering=true isShown=true}}`);
 
   assertTooltipRendered(assert);
 
 });
 
-test('tooltip-on-element event=click will only trigger one click event', function(assert) {
+test('ember-tooltip renders automatically when tooltipIsVisible=true', function(assert) {
+
+  this.render(hbs`{{ember-tooltip enableLazyRendering=true tooltipIsVisible=true}}`);
+
+  assertTooltipRendered(assert);
+
+});
+
+test('ember-tooltip event=click will only trigger one click event', function(assert) {
 
   assert.expect(3);
 
   let timesClicked = 0;
 
-  this.render(hbs`{{tooltip-on-element event="click" enableLazyRendering=true}}`);
+  this.render(hbs`{{ember-tooltip event="click" enableLazyRendering=true}}`);
 
   const $tooltipTarget = this.$();
   const done = assert.async();
@@ -92,11 +92,11 @@ test('tooltip-on-element event=click will only trigger one click event', functio
 
 });
 
-test('tooltip-on-element behaves when a mouseenter/mouseleave occurs quickly', function(assert) {
+test('ember-tooltip behaves when a mouseenter/mouseleave occurs quickly', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-element enableLazyRendering=true}}`);
+  this.render(hbs`{{ember-tooltip enableLazyRendering=true}}`);
 
   const $tooltipTarget = this.$();
 

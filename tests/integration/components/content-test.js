@@ -1,8 +1,12 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertTooltipContent } from '../../helpers/ember-tooltips';
+import {
+  afterTooltipRenderChange,
+  assertTooltipContent,
+  triggerTooltipTargetEvent,
+} from 'dummy/tests/helpers/ember-tooltips';
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | content', {
+moduleForComponent('ember-tooltip', 'Integration | Option | content', {
   integration: true,
 });
 
@@ -10,10 +14,12 @@ test('assertTooltipContent correctly matches expected tootltip content for inlin
 
   assert.expect(1);
 
-  this.render(hbs`{{tooltip-on-element text='foo'}}`);
+  this.render(hbs`{{ember-tooltip text='foo' isShown=true}}`);
 
-  assertTooltipContent(assert, {
-    contentString: 'foo',
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipContent(assert, {
+      contentString: 'foo',
+    });
   });
 
 });
@@ -22,7 +28,7 @@ test('assertTooltipContent correctly matches expected tootltip content for block
 
   assert.expect(1);
 
-  this.render(hbs`{{#tooltip-on-element}}foo{{/tooltip-on-element}}`);
+  this.render(hbs`{{#ember-tooltip}}foo{{/ember-tooltip}}`);
 
   assertTooltipContent(assert, {
     contentString: 'foo',
@@ -33,7 +39,7 @@ test('assertTooltipContent correctly compares expected and discovered tooltip co
 
   assert.expect(2);
 
-  this.render(hbs`{{tooltip-on-element text='foo'}}`);
+  this.render(hbs`{{ember-tooltip text='foo'}}`);
 
   const stubbedAssert = {
     equal(arg1, arg2/* , msg */) {

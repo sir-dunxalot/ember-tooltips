@@ -4,7 +4,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { $ } = Ember;
 
-moduleForComponent('tooltip-on-element', 'Integration | Config | body-element-id', {
+moduleForComponent('ember-tooltip', 'Integration | Config | body-element-id', {
   integration: true,
 });
 
@@ -12,7 +12,7 @@ test('Tooltip is rendered on rootElement not body', function(assert) {
 
   assert.expect(2);
 
-  this.render(hbs`{{tooltip-on-element}}`);
+  this.render(hbs`{{ember-tooltip}}`);
 
   const $tooltip = $(document.body).find('.ember-tooltip');
   const $tooltipParent = $tooltip.parent();

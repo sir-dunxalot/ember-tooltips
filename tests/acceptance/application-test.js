@@ -19,7 +19,7 @@ moduleForAcceptance('Acceptance | application', {
 });
 
 /* This test makes sure that `didUpdate()` method in
-tooltip-on-element component renders the tooltip
+ember-tooltip component renders the tooltip
 immediately in testing mode. If it is not rendering
 immediately in testing mode, the test will timeout.
 */

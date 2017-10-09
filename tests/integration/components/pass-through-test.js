@@ -2,11 +2,11 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { findTooltip } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | pass through properties', {
+moduleForComponent('ember-tooltip', 'Integration | Component | pass through properties', {
   integration: true,
 });
 
-test('tooltip-on-element pass through attributes test', function(assert) {
+test('ember-tooltip pass through attributes test', function(assert) {
 
   this.setProperties({
     bar: false,
@@ -14,7 +14,7 @@ test('tooltip-on-element pass through attributes test', function(assert) {
   });
 
   this.render(hbs`
-    {{tooltip-on-element
+    {{ember-tooltip
       id="some-id"
       class='foo'
       classNameBindings='bar:bar-truthy:bar-falsy baz:baz-truthy:baz-falsy'

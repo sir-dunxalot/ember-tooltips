@@ -7,7 +7,7 @@ import {
 } from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | click', {
+moduleForComponent('ember-tooltip', 'Integration | Option | click', {
   integration: true,
 });
 
@@ -17,7 +17,7 @@ test('Tooltip: focusin/click input, click input', function(assert) {
 
   this.render(hbs`
     <input id="some-input">
-    {{tooltip-on-element event="click" target="#some-input" enableLazyRendering=true}}
+    {{ember-tooltip event="click" target="#some-input" enableLazyRendering=true}}
   `);
 
   const $tooltipTarget = this.$('#some-input');

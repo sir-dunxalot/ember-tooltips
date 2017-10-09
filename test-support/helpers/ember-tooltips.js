@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 const { $, run } = Ember;
 
-const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
-const tooltipOrPopoverTargetSelector = '.ember-tooltip-target, .ember-popover-target';
+const TOOLTIP_SELECTOR = '.ember-tooltip, .ember-popover';
+const TARGET_SELECTOR = '.ember-tooltip-target, .ember-popover-target';
 
 /**
 @method getPositionDifferences
@@ -47,18 +47,18 @@ function getPositionDifferences(options = {}) {
   return { expectedGreaterDistance, expectedLesserDistance };
 }
 
-function getTooltipFromBody(selector = tooltipOrPopoverSelector) {
+function getTooltipFromBody(selector = TOOLTIP_SELECTOR) {
   // we have to .find() tooltips from $body because sometimes
   // tooltips and popovers are rendered as children of <body>
   // instead of children of the $targetElement
 
   const $body = $(document.body);
-  const $tooltip = $body.find(selector) ;
+  const $tooltip = $body.find(selector);
 
-  if (!$tooltip.hasClass('ember-tooltip') && !$tooltip.hasClass('ember-popover')) {
-    throw Error(`getTooltipFromBody(): returned an element that is not a tooltip`);
-  } else if ($tooltip.length === 0) {
+  if ($tooltip.length === 0) {
     throw Error('getTooltipFromBody(): No tooltips were found.');
+  } else if (!$tooltip.hasClass('ember-tooltip') && !$tooltip.hasClass('ember-popover')) {
+    throw Error(`getTooltipFromBody(): returned an element that is not a tooltip`);
   } else if ($tooltip.length > 1) {
     throw Error('getTooltipFromBody(): Multiple tooltips were found. Please provide an {option.selector = ".specific-tooltip-class"}');
   }
@@ -66,7 +66,7 @@ function getTooltipFromBody(selector = tooltipOrPopoverSelector) {
   return $tooltip;
 }
 
-function getTooltipTargetFromBody(selector = tooltipOrPopoverTargetSelector) {
+function getTooltipTargetFromBody(selector = TARGET_SELECTOR) {
   const $body = $(document.body);
   const $tooltipTarget = $body.find(selector) ;
 
@@ -105,9 +105,9 @@ function validateSide(side, testHelper = 'assertTooltipSide') {
 }
 
 function getTooltipAndTargetPosition(options = {}) {
-  const $target = getTooltipTargetFromBody(options.targetSelector || tooltipOrPopoverTargetSelector);
+  const $target = getTooltipTargetFromBody(options.targetSelector || TARGET_SELECTOR);
   const targetPosition = $target[0].getBoundingClientRect();
-  const $tooltip = getTooltipFromBody(options.selector || tooltipOrPopoverSelector);
+  const $tooltip = getTooltipFromBody(options.selector || TOOLTIP_SELECTOR);
   const tooltipPosition = $tooltip[0].getBoundingClientRect();
 
   return {
@@ -119,13 +119,13 @@ function getTooltipAndTargetPosition(options = {}) {
 
 /* TODO(Duncan): Document */
 
-export function findTooltip(selector = tooltipOrPopoverSelector) {
+export function findTooltip(selector = TOOLTIP_SELECTOR) {
   return getTooltipFromBody(selector);
 }
 
 /* TODO(Duncan): Document */
 
-export function findTooltipTarget(selector = tooltipOrPopoverTargetSelector) {
+export function findTooltipTarget(selector = TARGET_SELECTOR) {
   return getTooltipTargetFromBody(selector);
 }
 
@@ -134,44 +134,39 @@ export function findTooltipTarget(selector = tooltipOrPopoverTargetSelector) {
 Update triggerTooltipTargetEvent() to use getTooltipTargetFromBody
 and move side into the options hash */
 
-export function triggerTooltipTargetEvent($element, type, options={}) {
+export function triggerTooltipTargetEvent($element, type, options = {}) {
 
-  // TODO why do we allow focusin? why not just focus?
-  const approvedEventTypes = ['mouseenter', 'mouseleave', 'click', 'focus', 'focusin', 'blur'];
+  const approvedEventTypes = [
+    'mouseenter',
+    'mouseleave',
+    'click',
+    'focus',
+    'focusin',
+    'blur'
+  ];
+
   if (approvedEventTypes.indexOf(type) == -1) {
     throw Error(`only ${approvedEventTypes.join(', ')} will trigger a tooltip event. You used ${type}.`);
   }
-
-  let wasEventTriggered = false;
 
   if (options.selector) {
     $element = getTooltipTargetFromBody(options.selector);
   }
 
-  // we need to need to wrap any code with asynchronous side-effects in a run
-  // $tooltipTarget.trigger('someEvent') has asynchronous side-effects
+  /* If the $tooltip is hidden then the user can't interact with it */
+
+  if ($element.attr('aria-hidden') === 'true') {
+    return;
+  }
+
   run(() => {
-    // if the $tooltip is hidden then the user can't interact with it
-    if ($element.attr('aria-hidden') === 'true') {
-      return;
-    }
-    if (type === 'focus' || type === 'blur') {
-
-      // we don't know why but this is necessary when type is 'focus' or 'blur'
-      $element[0].dispatchEvent(new window.Event(type));
-    } else {
-      $element.trigger(type);
-    }
-
-    wasEventTriggered = true;
+    $element[0].dispatchEvent(new window.Event(type));
   });
-
-  return wasEventTriggered;
 }
 
 export function assertTooltipNotRendered(assert, options={}) {
   const $body = $(document.body);
-  const $tooltip = $body.find(options.selector || tooltipOrPopoverSelector);
+  const $tooltip = $body.find(options.selector || TOOLTIP_SELECTOR);
 
   assert.equal($tooltip.length, 0, 'assertTooltipNotRendered(): the ember-tooltip should not be rendered');
 }
@@ -184,16 +179,16 @@ export function assertTooltipRendered(assert, options={}) {
 
 export function assertTooltipNotVisible(assert, options={}) {
   const $tooltip = getTooltipFromBody(options.selector);
-  const isTooltipNotVisible = $tooltip.attr('aria-hidden') == 'true';
+  const isTooltipVisible = $tooltip.attr('aria-hidden') === 'false';
 
-  assert.ok(isTooltipNotVisible,
+  assert.ok(!isTooltipVisible,
       `assertTooltipNotVisible(): the ember-tooltip shouldn't be visible and the tether should be disabled:
-        isTooltipNotVisible -> ${isTooltipNotVisible}`);
+        isTooltipVisible -> ${isTooltipVisible}`);
 }
 
 export function assertTooltipVisible(assert, options={}) {
   const $tooltip = getTooltipFromBody(options.selector);
-  const isTooltipVisible = $tooltip.attr('aria-hidden') == 'false';
+  const isTooltipVisible = $tooltip.attr('aria-hidden') === 'false';
 
   assert.ok(isTooltipVisible,
       `assertTooltipVisible(): the ember-tooltip should be visible and the tether should be enabled:
@@ -253,4 +248,16 @@ export function assertTooltipContent(assert, options = {}) {
   const tooltipContent = $tooltip.text().trim();
 
   assert.equal(tooltipContent, contentString, `Content of tooltip (${tooltipContent}) matched expected (${contentString})`);
+}
+
+export function afterTooltipRenderChange(assert, callback, delay = 0) {
+  const done = assert.async();
+
+  run.later(callback);
+
+  run.later(() => {
+    done();
+    console.log(delay);
+  }, delay);
+
 }

@@ -2,7 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { assertTooltipNotVisible, assertTooltipVisible, assertTooltipNotRendered, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Helpers | getTooltipFromBody', {
+moduleForComponent('ember-tooltip', 'Integration | Helpers | getTooltipFromBody', {
   integration: true,
 });
 
@@ -10,9 +10,9 @@ moduleForComponent('tooltip-on-element', 'Integration | Helpers | getTooltipFrom
   test("each helperInstance's getTooltipFromBody throws error when $body is not provided", function(assert) {
 
     this.render(hbs`
-      {{tooltip-on-element}}
+      {{ember-tooltip}}
 
-      {{tooltip-on-element}}
+      {{ember-tooltip}}
     `);
 
     const $notBody = this.$();
@@ -46,9 +46,9 @@ moduleForComponent('tooltip-on-element', 'Integration | Helpers | getTooltipFrom
   test("each helperInstance's getTooltipFromBody throws error when multiple tooltips are found", function(assert) {
 
     this.render(hbs`
-      {{tooltip-on-element}}
+      {{ember-tooltip}}
 
-      {{tooltip-on-element}}
+      {{ember-tooltip}}
     `);
 
     let funcToError = () => {

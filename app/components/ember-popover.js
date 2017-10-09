@@ -1,6 +1,6 @@
 import config from '../config/environment';
 import EmberPopover from 'ember-tooltips/components/ember-popover';
 
-let _didUpdateTimeoutLength = config.environment === 'test' ? 0 : 1000;
+let _animationDuration = config.environment === 'test' ? 0 : 200;
 
-export default EmberPopover.extend({ _didUpdateTimeoutLength });
+export default EmberPopover.extend({ _animationDuration });

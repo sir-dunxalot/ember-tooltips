@@ -9,7 +9,7 @@ const {
 
 import { assertTooltipContent } from '../../helpers/ember-tooltips';
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | updateFor', {
+moduleForComponent('ember-tooltip', 'Integration | Option | updateFor', {
   integration: true,
 });
 
@@ -29,13 +29,13 @@ test('updateFor test', function(assert) {
   });
 
   this.render(hbs`
-    {{#tooltip-on-element updateFor=asyncContent onRender='setAsyncContent'}}
+    {{#ember-tooltip updateFor=asyncContent onRender='setAsyncContent'}}
       {{#if asyncContent}}
         {{asyncContent}}
       {{else}}
         ...
       {{/if}}
-    {{/tooltip-on-element}}
+    {{/ember-tooltip}}
   `);
 
   const done = assert.async();

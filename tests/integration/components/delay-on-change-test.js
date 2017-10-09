@@ -5,19 +5,19 @@ import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEven
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | delayOnChange', {
+moduleForComponent('ember-tooltip', 'Integration | Option | delayOnChange', {
   integration: true,
 });
 
-test('tooltip-on-element animates with a delay', function(assert) {
+test('ember-tooltip animates with a delay', function(assert) {
 
   assert.expect(2);
 
   /* Create two tooltips and show one */
 
   this.render(hbs`
-    {{tooltip-on-element delay=300 delayOnChange=false class='test-tooltip'}}
-    {{tooltip-on-element isShown=true delay=300 delayOnChange=false event='none'}}
+    {{ember-tooltip delay=300 delayOnChange=false class='test-tooltip'}}
+    {{ember-tooltip isShown=true delay=300 delayOnChange=false event='none'}}
   `);
 
   const done = assert.async();

@@ -5,15 +5,15 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | duration', {
+moduleForComponent('ember-tooltip', 'Integration | Option | duration', {
   integration: true,
 });
 
-test('tooltip-on-element hides after the given duration', function(assert) {
+test('ember-tooltip hides after the given duration', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-element duration=300}}`);
+  this.render(hbs`{{ember-tooltip duration=300}}`);
 
   const done = assert.async();
   const $tooltipTarget = this.$();
@@ -33,11 +33,11 @@ test('tooltip-on-element hides after the given duration', function(assert) {
 
 });
 
-test('tooltip-on-element hides before the given duration, if requested', function(assert) {
+test('ember-tooltip hides before the given duration, if requested', function(assert) {
 
   assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-element duration=300}}`);
+  this.render(hbs`{{ember-tooltip duration=300}}`);
 
   const $tooltipTarget = this.$();
 
@@ -53,11 +53,11 @@ test('tooltip-on-element hides before the given duration, if requested', functio
 
 });
 
-test('tooltip-on-element uses duration after the first show', function(assert) {
+test('ember-tooltip uses duration after the first show', function(assert) {
 
   assert.expect(5);
 
-  this.render(hbs`{{tooltip-on-element duration=300}}`);
+  this.render(hbs`{{ember-tooltip duration=300}}`);
 
   const done = assert.async();
   const $tooltipTarget = this.$();

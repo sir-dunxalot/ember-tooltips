@@ -2,17 +2,17 @@ import { moduleForComponent, test } from 'ember-qunit';
 import { assertTooltipSpacing } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | spacing', {
+moduleForComponent('ember-tooltip', 'Integration | Option | spacing', {
   integration: true,
 });
 
-test('tooltip-on-element shows with spacing=default', function(assert) {
+test('ember-tooltip shows with spacing=default', function(assert) {
 
   assert.expect(1);
 
   /* Check the default spacing */
 
-  this.render(hbs`{{tooltip-on-element effect='none'}}`);
+  this.render(hbs`{{ember-tooltip effect='none'}}`);
 
   assertTooltipSpacing(assert, {
     side: 'top',
@@ -21,13 +21,13 @@ test('tooltip-on-element shows with spacing=default', function(assert) {
 
 });
 
-test('tooltip-on-element shows with spacing=20', function(assert) {
+test('ember-tooltip shows with spacing=20', function(assert) {
 
   assert.expect(1);
 
   /* Check custom spacing */
 
-  this.render(hbs`{{tooltip-on-element spacing=20 effect='none'}}`);
+  this.render(hbs`{{ember-tooltip spacing=20 effect='none'}}`);
 
   assertTooltipSpacing(assert, {
     side: 'top',
@@ -36,14 +36,14 @@ test('tooltip-on-element shows with spacing=20', function(assert) {
 
 });
 
-test('tooltip-on-element shows with spacing=20 and side=right', function(assert) {
+test('ember-tooltip shows with spacing=20 and side=right', function(assert) {
 
   assert.expect(1);
 
   /* Check custom spacing */
 
   this.render(hbs`
-    {{tooltip-on-element
+    {{ember-tooltip
       effect='none'
       spacing=20
       side='right'
@@ -58,14 +58,14 @@ test('tooltip-on-element shows with spacing=20 and side=right', function(assert)
 
 });
 
-test('tooltip-on-element shows with spacing=53 and side=bottom', function(assert) {
+test('ember-tooltip shows with spacing=53 and side=bottom', function(assert) {
 
   assert.expect(1);
 
   /* Check custom spacing */
 
   this.render(hbs`
-    {{tooltip-on-element
+    {{ember-tooltip
       effect='none'
       spacing=53
       side='bottom'

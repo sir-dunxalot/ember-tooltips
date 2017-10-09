@@ -5,15 +5,15 @@ import hbs from 'htmlbars-inline-precompile';
 
 const { run } = Ember;
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | delay', {
+moduleForComponent('ember-tooltip', 'Integration | Option | delay', {
   integration: true,
 });
 
-test('tooltip-on-element animates with delay passed as a number', function(assert) {
+test('ember-tooltip animates with delay passed as a number', function(assert) {
 
   assert.expect(4);
 
-  this.render(hbs`{{tooltip-on-element delay=300}}`);
+  this.render(hbs`{{ember-tooltip delay=300}}`);
 
   const done = assert.async();
 
@@ -41,11 +41,11 @@ test('tooltip-on-element animates with delay passed as a number', function(asser
 
 });
 
-test('tooltip-on-element animates with delay passed as a string', function(assert) {
+test('ember-tooltip animates with delay passed as a string', function(assert) {
 
   assert.expect(4);
 
-  this.render(hbs`{{tooltip-on-element delay='300'}}`);
+  this.render(hbs`{{ember-tooltip delay='300'}}`);
 
   const done = assert.async();
 

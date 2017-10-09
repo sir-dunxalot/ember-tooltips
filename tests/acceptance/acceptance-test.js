@@ -14,13 +14,16 @@ const { $, run } = Ember;
 moduleForAcceptance('Acceptance | acceptance');
 
 test('all acceptance tests', function(assert) {
+
+  assert.expect(13);
+
   visit('/acceptance');
 
   const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
 
   andThen(() => {
-    assert.equal($(tooltipOrPopoverSelector).length, 2,
-        'initially there should only be 2 tooltips or popovers rendered');
+    assert.equal($(tooltipOrPopoverSelector).length, 0,
+        'initially there should be 0 tooltips or popovers rendered');
   });
 
   /* Begin tooltip tests */
@@ -34,17 +37,23 @@ test('all acceptance tests', function(assert) {
 
     assert.equal($tooltipTarget.length, 1, 'there should be one $tooltipTarget');
 
-    assertTooltipRendered(assert, options);
-
-    assertTooltipNotVisible(assert, options);
+    assertTooltipNotRendered(assert, options);
 
     triggerTooltipTargetEvent($tooltipTarget, 'mouseenter');
+
+    assertTooltipRendered(assert, options);
 
     assertTooltipVisible(assert, options);
 
     triggerTooltipTargetEvent($tooltipTarget, 'mouseleave');
 
-    assertTooltipNotVisible(assert, options);
+    assertTooltipRendered(assert, options);
+
+    run.scheduleOnce('afterRender', () => {
+      andThen(() => {
+        assertTooltipNotVisible(assert, options);
+      });
+    });
 
   });
 
@@ -59,18 +68,20 @@ test('all acceptance tests', function(assert) {
 
     assert.equal($popoverTarget.length, 1, 'there should be one $popoverTarget');
 
-    assertTooltipRendered(assert, options);
-
-    assertTooltipNotVisible(assert, options);
+    assertTooltipNotRendered(assert, options);
 
     triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
+
+    assertTooltipRendered(assert, options);
 
     assertTooltipVisible(assert, options);
 
     triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
     run.later(() => {
-      assertTooltipNotVisible(assert, options);
+      andThen(() => {
+        assertTooltipNotVisible(assert, options);
+      });
     }, 300); // Default hideDelay = 250
 
   });

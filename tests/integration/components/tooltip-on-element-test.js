@@ -1,33 +1,47 @@
+import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 import {
+  afterTooltipRenderChange,
   assertTooltipContent,
   assertTooltipRendered,
+  assertTooltipNotRendered,
   findTooltipTarget,
+  triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
+const { run } = Ember;
+
+moduleForComponent('ember-tooltip', 'Integration | Component | ember-tooltip', {
   integration: true,
 });
 
-test('tooltip-on-element renders', function(assert) {
+test('ember-tooltip renders', function(assert) {
 
-  assert.expect(2);
+  assert.expect(3);
 
   this.render(hbs`
-    {{#tooltip-on-element}}
+    {{#ember-tooltip}}
       template block text
-    {{/tooltip-on-element}}
+    {{/ember-tooltip}}
   `);
 
-  assertTooltipContent(assert, {
-    contentString: 'template block text',
+  assertTooltipNotRendered(assert);
+
+  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+
+  afterTooltipRenderChange(assert, () => {
+
+    assertTooltipRendered(assert);
+
+    assertTooltipContent(assert, {
+      contentString: 'template block text',
+    });
   });
 
-  assertTooltipRendered(assert);
 });
 
-test('tooltip-on-element has the proper aria-describedby tag', function(assert) {
+test('ember-tooltip has the proper aria-describedby tag', function(assert) {
 
   assert.expect(2);
 
@@ -35,20 +49,28 @@ test('tooltip-on-element has the proper aria-describedby tag', function(assert) 
     <div class="target">
       Hover here!
 
-      {{#tooltip-on-element}}
+      {{#ember-tooltip}}
         Some info in a tooltip.
-      {{/tooltip-on-element}}
+      {{/ember-tooltip}}
     </div>
   `);
 
-  const $tooltipTarget = findTooltipTarget();
-  const describedBy = $tooltipTarget.attr('aria-describedby');
-
-  assertTooltipContent(assert, {
-    selector: `#${describedBy}`,
-    contentString: 'Some info in a tooltip.',
+  triggerTooltipTargetEvent(this.$(), 'mouseenter', {
+    selector: '.target',
   });
 
-  assert.equal(describedBy.indexOf('#'), '-1');
+  afterTooltipRenderChange(assert, () => {
+    const $tooltipTarget = findTooltipTarget();
+    const describedBy = $tooltipTarget.attr('aria-describedby');
+
+    /* Whatever the target is 'described by' should be a tooltip with our expected content from the template above */
+
+    assertTooltipContent(assert, {
+      selector: `#${describedBy}`,
+      contentString: 'Some info in a tooltip.',
+    });
+
+    assert.equal(describedBy.indexOf('#'), '-1');
+  });
 
 });
