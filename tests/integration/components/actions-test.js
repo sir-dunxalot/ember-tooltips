@@ -11,7 +11,7 @@ moduleForComponent('ember-tooltip', 'Integration | Option | actions', {
 
 test('ember-tooltip calls lifecycle actions', function(assert) {
 
-  assert.expect(10);
+  assert.expect(11);
 
   const actionsCalledHash = {
     onRenderFoo: 0,

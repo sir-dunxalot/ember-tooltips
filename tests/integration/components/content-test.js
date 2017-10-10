@@ -3,7 +3,6 @@ import hbs from 'htmlbars-inline-precompile';
 import {
   afterTooltipRenderChange,
   assertTooltipContent,
-  triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 
 moduleForComponent('ember-tooltip', 'Integration | Option | content', {
@@ -11,15 +10,19 @@ moduleForComponent('ember-tooltip', 'Integration | Option | content', {
 });
 
 test('assertTooltipContent correctly matches expected tootltip content for inline tooltip', function(assert) {
+  const done2 = assert.async();
 
   assert.expect(1);
 
   this.render(hbs`{{ember-tooltip text='foo' isShown=true}}`);
 
   afterTooltipRenderChange(assert, () => {
+    console.log('rendered');
     assertTooltipContent(assert, {
       contentString: 'foo',
     });
+
+    done2();
   });
 
 });
@@ -28,10 +31,12 @@ test('assertTooltipContent correctly matches expected tootltip content for block
 
   assert.expect(1);
 
-  this.render(hbs`{{#ember-tooltip}}foo{{/ember-tooltip}}`);
+  this.render(hbs`{{#ember-tooltip isShown=true}}foo{{/ember-tooltip}}`);
 
-  assertTooltipContent(assert, {
-    contentString: 'foo',
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipContent(assert, {
+      contentString: 'foo',
+    });
   });
 });
 

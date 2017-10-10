@@ -34,13 +34,15 @@ function cleanNumber(stringOrNumber) {
 
 export default Component.extend({
   classNames: ['ember-tooltip-base'],
+  delay: 0,
+  delayOnChange: true,
+  duration: 0,
   effect: 'slide', // Options: fade, slide, none
   event: 'hover', // Options: hover, click, focus, none
   tooltipClassName: 'ember-tooltip', /* Custom classes */
   isShown: false,
   text: null,
   side: 'right',
-  spacing: 20,
   targetId: null,
   layout,
   updateFor: null,
@@ -130,29 +132,9 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    this.createTooltip().then((tooltip) => {
-      run(() => {
+    console.log('creating');
+    this.createTooltip().then(() => {
 
-        if (this.get('isShown')) {
-          this.show();
-        }
-
-        this.sendAction('onRender', this);
-
-        this.set('_tooltipElementRendered', true);
-
-        /* The tooltip element must exist in order to add event listeners to it */
-
-        this.addTooltipBaseEventListeners();
-
-        /* Once the wormhole has done it's work, we need the tooltip to be positioned */
-
-        run.scheduleOnce('afterRender', () => {
-          const popper = tooltip.instance;
-
-          popper.update();
-        });
-      });
     });
   },
 
@@ -283,38 +265,63 @@ export default Component.extend({
   createTooltip() {
     return new RSVP.Promise((resolve, reject) => {
 
-      let tooltip;
+      try {
+        run(() => {
+          const target = this.get('target');
+          const tooltipClassName = this.get('tooltipClassName');
+          const tooltipContent = this.get('text') || '<span></span>';
+          const tooltip = new Tooltip(target, {
+            html: true,
+            // offset: this.get('spacing'), /* Not working in Tooltip.js library */
+            placement: this.get('side'),
+            title: tooltipContent,
+            trigger: 'manual',
+            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip">
+                        <div class="tooltip-arrow ember-tooltip-arrow"></div>
+                        <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
+                       </div>`,
 
-      run(() => {
-        const target = this.get('target');
-        const tooltipClassName = this.get('tooltipClassName');
-        const tooltipContent = this.get('text') || '<span></span>';
+            popperOptions: {
+              onCreate: (tooltipData) => {
+                console.log('created', tooltipData);
+                run(() => {
 
-        tooltip = new Tooltip(target, {
-          html: true,
-          offset: this.get('spacing'),
-          placement: this.get('side'),
-          title: tooltipContent,
-          trigger: 'manual',
-          template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip">
-                      <div class="tooltip-arrow ember-tooltip-arrow"></div>
-                      <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
-                     </div>`,
+                  this.sendAction('onRender', this);
 
-          popperOptions: {
-            onCreate: (tooltipData) => {
-              resolve(tooltipData);
+                  this.set('_tooltipElementRendered', true);
+
+                  /* The tooltip element must exist in order to add event listeners to it */
+
+                  this.addTooltipBaseEventListeners();
+
+                  /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
+
+                  run.scheduleOnce('afterRender', () => {
+                    const popper = tooltipData.instance;
+
+                    popper.state.updateBound();
+                  });
+
+                  resolve(tooltipData);
+                });
+              },
             },
-          },
+          });
+
+          /* Add a class to the tooltip target */
+
+          target.classList.add('ember-tooltip-target');
+
+          this.addTargetEventListeners();
+          this.set('_tooltip', tooltip);
+
+          if (this.get('isShown')) {
+            tooltip.show();
+          }
         });
-
-        /* Add a class to the tooltip target */
-
-        target.classList.add('ember-tooltip-target');
-
-        this.addTargetEventListeners();
-        this.set('_tooltip', tooltip);
-      });
+      } catch(error) {
+        reject(error);
+      }
     });
   },
 

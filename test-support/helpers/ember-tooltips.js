@@ -257,7 +257,6 @@ export function afterTooltipRenderChange(assert, callback, delay = 0) {
 
   run.later(() => {
     done();
-    console.log(delay);
   }, delay);
 
 }

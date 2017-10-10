@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 import { moduleForComponent, test } from 'ember-qunit';
 import {
@@ -9,8 +8,6 @@ import {
   findTooltipTarget,
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
-
-const { run } = Ember;
 
 moduleForComponent('ember-tooltip', 'Integration | Component | ember-tooltip', {
   integration: true,
