@@ -14,6 +14,7 @@ ember install ember-tooltips
 Documentation for usage is below:
 
 - [Demo](http://sir-dunxalot.github.io/ember-tooltips/)
+- [3.0.0 Beta](#300-beta)
 - [1.0.0 Release](#100-release)
 - [2.4.0 Release](#240-release)
 - [Usage](#usage)
@@ -28,6 +29,22 @@ Documentation for usage is below:
 - [Testing](#testing)
   - [Test helpers](#test-helpers)
 - [Accessibility](#accessibility)
+
+## 3.0.0 Beta
+
+Version `3.0.0` replaces the unreliable Tether library with a more robust positioning library.
+
+In addition, the code base is simplified to make it easier to extend and customize.
+
+Documentation for the `3.0.0-beta.x` is available [on this branch](https://github.com/sir-dunxalot/ember-tooltips/tree/remove-tether-dependency).
+
+You can install the beta version using:
+
+```sh
+npm install --save-dev ember-tooltips@3.0.0-beta.0
+```
+
+Please [report any issues you come across](https://github.com/sir-dunxalot/ember-tooltips/issues/new). Thank you in advance!
 
 ## 1.0.0 Release
 
