@@ -7,7 +7,7 @@ import {
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   triggerTooltipTargetEvent,
-  assertTooltipVisible
+  assertTooltipVisible,
 } from 'dummy/tests/helpers/ember-tooltips';
 
 const { run } = Ember;
@@ -55,10 +55,10 @@ moduleForComponent('ember-tooltip', 'Integration | Option | delay', {
 
 test('ember-tooltip animates with delay passed as a number', function(assert) {
   assert.expect(5);
-  testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay=300}}`)
+  testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay=300}}`);
 });
 
 test('ember-tooltip animates with delay passed as a string', function(assert) {
   assert.expect(5);
-  testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay='300'}}`)
+  testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay='300'}}`);
 });
