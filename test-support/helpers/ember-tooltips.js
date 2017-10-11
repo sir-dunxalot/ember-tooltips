@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
-const { $, run } = Ember;
+const {
+  $,
+  run,
+} = Ember;
 
 const TOOLTIP_SELECTOR = '.ember-tooltip, .ember-popover';
 const TARGET_SELECTOR = '.ember-tooltip-target, .ember-popover-target';
@@ -182,7 +185,7 @@ export function assertTooltipNotVisible(assert, options={}) {
   const isTooltipVisible = $tooltip.attr('aria-hidden') === 'false';
 
   assert.ok(!isTooltipVisible,
-      `assertTooltipNotVisible(): the ember-tooltip shouldn't be visible and the tether should be disabled:
+      `assertTooltipNotVisible(): the ember-tooltip shouldn't be visible:
         isTooltipVisible -> ${isTooltipVisible}`);
 }
 
@@ -191,7 +194,7 @@ export function assertTooltipVisible(assert, options={}) {
   const isTooltipVisible = $tooltip.attr('aria-hidden') === 'false';
 
   assert.ok(isTooltipVisible,
-      `assertTooltipVisible(): the ember-tooltip should be visible and the tether should be enabled:
+      `assertTooltipVisible(): the ember-tooltip should be visible:
         isTooltipVisible -> ${isTooltipVisible}`);
 }
 
@@ -251,6 +254,11 @@ export function assertTooltipContent(assert, options = {}) {
 }
 
 export function afterTooltipRenderChange(assert, callback, delay = 0) {
+
+  if (!assert.async) {
+    console.warn('Did you forget to pass assert as the first param to afterTooltipRenderChange?');
+  }
+
   const done = assert.async();
 
   run.later(() => {

@@ -1,14 +1,11 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import {
   afterTooltipRenderChange,
   assertTooltipNotRendered,
   assertTooltipVisible,
-  triggerTooltipTargetEvent
+  triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
-
-const { run } = Ember;
 
 moduleForComponent('ember-tooltip', 'Integration | Option | delayOnChange', {
   integration: true,
