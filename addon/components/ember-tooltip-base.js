@@ -132,7 +132,6 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    console.log('creating');
     this.createTooltip().then(() => {
 
     });
@@ -270,9 +269,8 @@ export default Component.extend({
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
           const tooltipContent = this.get('text') || '<span></span>';
-          const tooltip = new Tooltip(target, {
+          const tooltip = new Tooltip(target, { /* TODO - add in offset option or document CSS option */
             html: true,
-            // offset: this.get('spacing'), /* Not working in Tooltip.js library */
             placement: this.get('side'),
             title: tooltipContent,
             trigger: 'manual',
@@ -283,7 +281,6 @@ export default Component.extend({
 
             popperOptions: {
               onCreate: (tooltipData) => {
-                console.log('created', tooltipData);
                 run(() => {
 
                   this.sendAction('onRender', this);
@@ -315,8 +312,11 @@ export default Component.extend({
           this.addTargetEventListeners();
           this.set('_tooltip', tooltip);
 
+          /* If user passes isShown=true, show the tooltip as soon as it's created */
+
           if (this.get('isShown')) {
             tooltip.show();
+            this.show();
           }
         });
       } catch(error) {
@@ -438,8 +438,7 @@ export default Component.extend({
 
     this.set('isShown', true);
 
-    run.later(() => {
-
+    run(() => {
       if (this.get('isDestroying')) {
         return;
       }
@@ -447,7 +446,7 @@ export default Component.extend({
       _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
 
       this.sendAction('onShow', this);
-    }, this.get('_animationDuration'));
+    });
   },
 
   toggle() {

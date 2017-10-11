@@ -10,19 +10,15 @@ moduleForComponent('ember-tooltip', 'Integration | Option | content', {
 });
 
 test('assertTooltipContent correctly matches expected tootltip content for inline tooltip', function(assert) {
-  const done2 = assert.async();
 
   assert.expect(1);
 
   this.render(hbs`{{ember-tooltip text='foo' isShown=true}}`);
 
   afterTooltipRenderChange(assert, () => {
-    console.log('rendered');
     assertTooltipContent(assert, {
       contentString: 'foo',
     });
-
-    done2();
   });
 
 });
@@ -31,7 +27,11 @@ test('assertTooltipContent correctly matches expected tootltip content for block
 
   assert.expect(1);
 
-  this.render(hbs`{{#ember-tooltip isShown=true}}foo{{/ember-tooltip}}`);
+  this.render(hbs`
+    {{#ember-tooltip isShown=true}}
+      foo
+    {{/ember-tooltip}}
+  `);
 
   afterTooltipRenderChange(assert, () => {
     assertTooltipContent(assert, {
@@ -44,7 +44,7 @@ test('assertTooltipContent correctly compares expected and discovered tooltip co
 
   assert.expect(2);
 
-  this.render(hbs`{{ember-tooltip text='foo'}}`);
+  this.render(hbs`{{ember-tooltip text='foo' isShown=true}}`);
 
   const stubbedAssert = {
     equal(arg1, arg2/* , msg */) {
@@ -62,7 +62,9 @@ test('assertTooltipContent correctly compares expected and discovered tooltip co
     },
   };
 
-  assertTooltipContent(stubbedAssert, {
-    contentString: 'foo',
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipContent(stubbedAssert, {
+      contentString: 'foo',
+    });
   });
 });

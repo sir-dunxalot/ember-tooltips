@@ -253,9 +253,8 @@ export function assertTooltipContent(assert, options = {}) {
 export function afterTooltipRenderChange(assert, callback, delay = 0) {
   const done = assert.async();
 
-  run.later(callback);
-
   run.later(() => {
+    callback();
     done();
   }, delay);
 
