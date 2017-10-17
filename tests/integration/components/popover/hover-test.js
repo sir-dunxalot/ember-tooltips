@@ -1,11 +1,15 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
+import {
+  afterTooltipRenderChange,
+  assertTooltipNotRendered,
+  assertTooltipNotVisible,
+  assertTooltipVisible,
+  findTooltip,
+  triggerTooltipTargetEvent,
+} from 'dummy/tests/helpers/ember-tooltips';
 
-const { run } = Ember;
-
-moduleForComponent('popover-on-element', 'Integration | Option | hover', {
+moduleForComponent('ember-popover', 'Integration | Option | hover', {
   integration: true,
 });
 
@@ -13,55 +17,44 @@ test('Popover: hover target, hover elsewhere', function(assert) {
 
   assert.expect(4);
 
-  this.render(hbs`{{popover-on-element event="hover" hideDelay="100"}}`);
+  this.render(hbs`{{ember-popover event='hover'}}`);
 
-  const done = assert.async();
-  const $popoverTarget = this.$();
+  assertTooltipNotRendered(assert);
 
-  assertTooltipNotVisible(assert);
+  triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-  triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipVisible(assert);
 
-  assertTooltipVisible(assert);
+    triggerTooltipTargetEvent(this.$(), 'mouseleave');
 
-  triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
+    assertTooltipVisible(assert);
 
-  assertTooltipVisible(assert);
-
-  run.later(() => {
-    assertTooltipNotVisible(assert);
-    done();
-  }, 200);
-
+    afterTooltipRenderChange(assert, () => {
+      assertTooltipNotVisible(assert);
+    }, 300);
+  });
 });
 
 test('Popover: hover target, hover popover (too slow)', function(assert) {
 
-  assert.expect(4);
+  assert.expect(3);
 
-  this.render(hbs`{{popover-on-element event="hover"}}`);
+  this.render(hbs`{{ember-popover event='hover'}}`);
 
-  const done = assert.async();
-  const $popoverTarget = this.$();
+  assertTooltipNotRendered(assert);
 
-  assertTooltipNotVisible(assert);
+  triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-  triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipVisible(assert);
 
-  assertTooltipVisible(assert);
+    triggerTooltipTargetEvent(this.$(), 'mouseleave');
 
-  triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
-
-  run.later(() => {
-    let wasEventTriggered = triggerTooltipTargetEvent($popoverTarget, 'mouseenter', { selector: '.ember-popover' });
-
-    assert.equal(wasEventTriggered, false,
-        'the user was too slow therefore the mouseenter event was never triggered');
-
-    assertTooltipNotVisible(assert);
-    done();
-  }, 500);
-
+    afterTooltipRenderChange(assert, () => {
+      assertTooltipNotVisible(assert);
+    }, 500);
+  });
 });
 
 test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', function(assert) {
@@ -83,40 +76,41 @@ test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', f
 
   assert.expect(6);
 
-  this.render(hbs`{{popover-on-element event="hover"}}`);
+  this.render(hbs`{{ember-popover event='hover'}}`);
 
-  const done = assert.async();
   const $popoverTarget = this.$();
 
-  assertTooltipNotVisible(assert);
+  assertTooltipNotRendered(assert);
 
   triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 
-  assertTooltipVisible(assert);
-
-  triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
-
-  assertTooltipVisible(assert);
-
-  run.later(() => {
-    triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
-  }, 100);
-
-  run.later(() => {
+  afterTooltipRenderChange(assert, () => {
     assertTooltipVisible(assert);
-  }, 200);
 
-  run.later(() => {
-    triggerTooltipTargetEvent($popoverTarget, 'mouseleave', { selector: '.ember-popover' });
-  }, 300);
+    triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
-  run.later(() => {
-    assertTooltipVisible(assert);
-  }, 400);
+    afterTooltipRenderChange(assert, () => {
+      assertTooltipVisible(assert);
 
-  run.later(() => {
-    assertTooltipNotVisible(assert);
-    done();
-  }, 1000);
+      afterTooltipRenderChange(assert, () => {
+        triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
+      }, 100);
 
+      afterTooltipRenderChange(assert, () => {
+        assertTooltipVisible(assert);
+      }, 200);
+
+      afterTooltipRenderChange(assert, () => {
+        triggerTooltipTargetEvent(findTooltip(), 'mouseleave');
+      }, 300);
+
+      afterTooltipRenderChange(assert, () => {
+        assertTooltipVisible(assert);
+      }, 400);
+
+      afterTooltipRenderChange(assert, () => {
+        assertTooltipNotVisible(assert);
+      }, 1000);
+    });
+  });
 });

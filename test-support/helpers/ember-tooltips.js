@@ -145,6 +145,7 @@ export function triggerTooltipTargetEvent($element, type, options = {}) {
     'click',
     'focus',
     'focusin',
+    'focusout',
     'blur'
   ];
 
@@ -167,35 +168,36 @@ export function triggerTooltipTargetEvent($element, type, options = {}) {
   });
 }
 
-export function assertTooltipNotRendered(assert, options={}) {
+export function assertTooltipNotRendered(assert, options = {}) {
   const $body = $(document.body);
   const $tooltip = $body.find(options.selector || TOOLTIP_SELECTOR);
 
   assert.equal($tooltip.length, 0, 'assertTooltipNotRendered(): the ember-tooltip should not be rendered');
 }
 
-export function assertTooltipRendered(assert, options={}) {
+export function assertTooltipRendered(assert, options = {}) {
   const $tooltip = getTooltipFromBody(options.selector);
 
   assert.equal($tooltip.length, 1, 'assertTooltipRendered(): the ember-tooltip should be rendered');
 }
 
-export function assertTooltipNotVisible(assert, options={}) {
+export function assertTooltipNotVisible(assert, options = {}) {
   const $tooltip = getTooltipFromBody(options.selector);
-  const isTooltipVisible = $tooltip.attr('aria-hidden') === 'false';
+  const ariaHidden = $tooltip.attr('aria-hidden');
 
-  assert.ok(!isTooltipVisible,
-      `assertTooltipNotVisible(): the ember-tooltip shouldn't be visible:
-        isTooltipVisible -> ${isTooltipVisible}`);
+  assert.ok(ariaHidden === 'true',
+    `assertTooltipNotVisible(): the ember-tooltip shouldn't be visible:
+      aria-hidden = ${ariaHidden}`);
 }
 
-export function assertTooltipVisible(assert, options={}) {
+export function assertTooltipVisible(assert, options = {}) {
   const $tooltip = getTooltipFromBody(options.selector);
-  const isTooltipVisible = $tooltip.attr('aria-hidden') === 'false';
+  const ariaHidden = $tooltip.attr('aria-hidden');
 
-  assert.ok(isTooltipVisible,
-      `assertTooltipVisible(): the ember-tooltip should be visible:
-        isTooltipVisible -> ${isTooltipVisible}`);
+  assert.ok(ariaHidden === 'false',
+    `assertTooltipVisible(): the ember-tooltip should be visible:
+      aria-hidden = ${ariaHidden}`);
+
 }
 
 export function assertTooltipSide(assert, options = {}) {

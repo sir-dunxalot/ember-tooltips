@@ -27,7 +27,7 @@ function testTooltipDelay(assert, template) {
 
     run.later(() => {
       assertTooltipNotRendered(assert);
-    }, 280);
+    }, 250);
 
     /* Check the tooltip is shown after the delay */
 

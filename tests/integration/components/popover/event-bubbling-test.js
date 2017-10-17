@@ -1,15 +1,16 @@
 import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import {
-  assertTooltipNotVisible,
-  assertTooltipRendered,
+  afterTooltipRenderChange,
+  assertTooltipVisible,
+  assertTooltipNotRendered,
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 const { $ } = Ember;
 
-moduleForComponent('popover-on-element', 'Integration | Option | Event bubbling', {
+moduleForComponent('ember-popover', 'Integration | Option | Event bubbling', {
   integration: true,
 });
 
@@ -46,25 +47,27 @@ test('Popover: bubble click event', function(assert) {
   });
 
   this.render(hbs`
-    {{#some-component}}
-      {{#popover-on-component}}
-        <button class="test-button-with-action" {{action 'testAction'}}>test button</button>
-      {{/popover-on-component}}
-    {{/some-component}}
+    {{#ember-popover popoverHideDelay=0}}
+      <button class="test-button-with-action" {{action 'testAction'}}>test button</button>
+    {{/ember-popover}}
   `);
 
   const $button = $('.test-button-with-action');
-  const $target = $('.some-component');
 
-  assertTooltipNotVisible(assert);
-  triggerTooltipTargetEvent($target, 'mouseenter');
-  assertTooltipRendered(assert);
+  assertTooltipNotRendered(assert);
 
-  assert.equal($button.length, 1, 'the button can be found');
+  triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-  /* Click the button to fire testAction. This will
-  call the final assertion and the test will end. */
+  afterTooltipRenderChange(assert, () => {
 
-  $button.trigger('click');
+    assertTooltipVisible(assert);
+
+    assert.equal($button.length, 1, 'the button can be found');
+
+    /* Click the button to fire testAction. This will
+    call the final assertion and the test will end. */
+
+    $button.trigger('click');
+  }, 50);
 
 });

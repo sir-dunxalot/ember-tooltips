@@ -2,6 +2,7 @@ import Ember from 'ember';
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 import {
+  afterTooltipRenderChange,
   assertTooltipNotRendered,
   assertTooltipRendered,
   assertTooltipNotVisible,
@@ -9,13 +10,13 @@ import {
   assertTooltipVisible,
 } from '../../tests/helpers/ember-tooltips';
 
-const { $, run } = Ember;
+const { $ } = Ember;
 
 moduleForAcceptance('Acceptance | acceptance');
 
 test('all acceptance tests', function(assert) {
 
-  assert.expect(13);
+  assert.expect(12);
 
   visit('/acceptance');
 
@@ -47,13 +48,9 @@ test('all acceptance tests', function(assert) {
 
     triggerTooltipTargetEvent($tooltipTarget, 'mouseleave');
 
-    assertTooltipRendered(assert, options);
-
-    run.scheduleOnce('afterRender', () => {
-      andThen(() => {
-        assertTooltipNotVisible(assert, options);
-      });
-    });
+    afterTooltipRenderChange(assert, () => {
+      assertTooltipNotVisible(assert, options);
+    }); // Default hideDelay = 250
 
   });
 
@@ -78,11 +75,9 @@ test('all acceptance tests', function(assert) {
 
     triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
-    run.later(() => {
-      andThen(() => {
-        assertTooltipNotVisible(assert, options);
-      });
-    }, 300); // Default hideDelay = 250
+    afterTooltipRenderChange(assert, () => {
+      assertTooltipNotVisible(assert, options);
+    }, 500); // Default hideDelay = 250
 
   });
 

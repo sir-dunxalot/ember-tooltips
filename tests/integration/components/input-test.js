@@ -1,10 +1,11 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import {
-	assertTooltipNotVisible,
+	afterTooltipRenderChange,
+  assertTooltipNotVisible,
+  assertTooltipNotRendered,
 	assertTooltipVisible,
 	triggerTooltipTargetEvent,
-	assertTooltipNotRendered,
-} from '../../helpers/ember-tooltips';
+} from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('ember-tooltip', 'Integration | Option | click', {
@@ -17,7 +18,7 @@ test('Tooltip: focusin/click input, click input', function(assert) {
 
   this.render(hbs`
     <input id="some-input">
-    {{ember-tooltip event="click" target="#some-input" enableLazyRendering=true}}
+    {{ember-tooltip event="click" targetId="some-input" enableLazyRendering=true}}
   `);
 
   const $tooltipTarget = this.$('#some-input');
@@ -31,10 +32,13 @@ test('Tooltip: focusin/click input, click input', function(assert) {
   triggerTooltipTargetEvent($tooltipTarget, 'focusin');
   triggerTooltipTargetEvent($tooltipTarget, 'click');
 
-  assertTooltipVisible(assert);
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($tooltipTarget, 'click');
+    triggerTooltipTargetEvent($tooltipTarget, 'click');
 
-  assertTooltipNotVisible(assert);
-
+    afterTooltipRenderChange(assert, () => {
+      assertTooltipNotVisible(assert);
+    });
+  });
 });

@@ -31,6 +31,14 @@ export default EmberTooltipBase.extend({
 
   addTooltipBaseEventListeners() {
     this.addPopoverEventListeners();
+
+    /* If the user clicks outside the popover, hide the popover. */
+
+    this._addEventListener('click', () => {
+      if (!this.get('_isMouseInside')) {
+        this.hide();
+      }
+    }, document);
   },
 
   addPopoverTargetEventListeners() {
@@ -45,6 +53,12 @@ export default EmberTooltipBase.extend({
 
     this._addEventListener('mouseleave', () => {
       this.set('_isMouseInside', false);
+    });
+
+    this._addEventListener('focusout', () => {
+      if (!this.get('_isMouseInside')) {
+        this.hide();
+      }
     });
   },
 
@@ -69,6 +83,12 @@ export default EmberTooltipBase.extend({
       this.set('_isMouseInside', false);
 
       if (this.get('hideOn') === 'mouseleave' && this.get('isShown')) {
+        this.hide();
+      }
+    }, popover);
+
+    this._addEventListener('focusout', () => {
+      if (!this.get('_isMouseInside')) {
         this.hide();
       }
     }, popover);
