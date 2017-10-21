@@ -6,6 +6,7 @@ import layout from '../templates/components/ember-tooltip-base';
 const {
   $,
   computed,
+  getOwner,
   run,
   warn,
   Component,
@@ -81,6 +82,8 @@ export default Component.extend({
   onRender: null,
   onShow: null,
 
+  tooltipElementNotRendered: computed.not('_tooltipElementRendered'),
+
   hideOn: computed('event', function() {
     const event  = this.get('event');
 
@@ -146,7 +149,6 @@ export default Component.extend({
   }),
 
   _animationDuration: 200, // In ms
-  _tooltipElementNotRendered: computed.not('_tooltipElementRendered'),
   _tooltipElementRendered: false,
   _tooltipEvents: null,
   _tooltip: null,
@@ -293,10 +295,13 @@ export default Component.extend({
 
       try {
         run(() => {
+          const config = getOwner(this).resolveRegistration('config:environment');
+          const rootElement = document.querySelector(config.APP.rootElement);
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
           const tooltipContent = this.get('text') || '<span></span>';
           const tooltip = new Tooltip(target, {
+            container: rootElement || false,
             html: true,
             placement: this.get('side'),
             title: tooltipContent,
