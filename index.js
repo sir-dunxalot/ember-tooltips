@@ -7,19 +7,11 @@ module.exports = {
   options: {
     nodeAssets: {
 
-      'popper.js': {
+      'tippy.js': {
         vendor: {
-          srcDir: 'dist/umd',
-          destDir: 'popper',
-          include: ['popper.js'],
-        },
-      },
-
-      'tooltip.js': {
-        vendor: {
-          srcDir: 'dist/umd',
-          destDir: 'popper',
-          include: ['tooltip.js'],
+          srcDir: 'dist',
+          destDir: 'tippy',
+          include: ['tippy.js', 'tippy.css'],
         },
       },
     },
@@ -48,8 +40,8 @@ module.exports = {
   included: function(app) {
     this._super.included(app); // For ember-cli-sass
 
-    app.import('vendor/popper/popper.js');
-    app.import('vendor/popper/tooltip.js');
+    app.import('vendor/tippy/tippy.js');
+    app.import('vendor/tippy/tippy.css');
   },
 
 };

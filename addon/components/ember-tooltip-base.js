@@ -1,4 +1,4 @@
-/* global Tooltip */
+/* global tippy */
 
 import Ember from 'ember';
 import layout from '../templates/components/ember-tooltip-base';
@@ -42,7 +42,8 @@ export default Component.extend({
   tooltipClassName: 'ember-tooltip', /* Custom classes */
   isShown: false,
   text: null,
-  side: 'right',
+  side: 'top',
+  spacing: 10,
   targetId: null,
   layout,
   updateFor: null,
@@ -177,7 +178,11 @@ export default Component.extend({
       });
     });
 
-    run(this.get('_tooltip').dispose);
+    run(() => {
+      const _tooltip = this.get('_tooltip');
+
+      _tooltip.destroy(_tooltip.getPopperElement(this.get('target')));
+    });
 
     this.sendAction('onDestroy', this);
   },
@@ -269,17 +274,30 @@ export default Component.extend({
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
           const tooltipContent = this.get('text') || '<span></span>';
-          const tooltip = new Tooltip(target, { /* TODO - add in offset option or document CSS option */
-            html: true,
-            placement: this.get('side'),
-            title: tooltipContent,
+          const tooltip = tippy(target, {
+            distance: this.get('offset'),
+            html: () => {
+              const div = document.createElement('div');
+
+              div.id = this.get('wormholeId');
+
+              return div;
+            },
+            arrow: true,
+            // interactive: true if popover,
+            size: 'regular',
+            // multiple: true,
+            performance: true,
+            position: this.get('side'),
+            // title: tooltipContent,
             trigger: 'manual',
-            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip">
-                        <div class="tooltip-arrow ember-tooltip-arrow"></div>
-                        <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
-                       </div>`,
+            // template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip">
+            //             <div class="tooltip-arrow ember-tooltip-arrow"></div>
+            //             <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
+            //            </div>`,
 
             popperOptions: {
+
               onCreate: (tooltipData) => {
                 run(() => {
 
@@ -294,9 +312,9 @@ export default Component.extend({
                   /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
 
                   run.scheduleOnce('afterRender', () => {
-                    const popper = tooltipData.instance;
+                    const popperInstance = tooltipData.instance;
 
-                    popper.state.updateBound();
+                    popperInstance.state.updateBound();
                   });
 
                   resolve(tooltipData);
@@ -389,7 +407,7 @@ export default Component.extend({
       already a tooltip/popover shown in the DOM. Check that here
       and adjust the delay as needed. */
 
-      let shownTooltipsOrPopovers = $(`.${ANIMATION_CLASS}`);
+      let shownTooltipsOrPopovers = $(`.${ANIMATION_CLASS}`); /* TODO */
 
       if (shownTooltipsOrPopovers.length) {
         delay = 0;
@@ -411,7 +429,7 @@ export default Component.extend({
 
     const _tooltip = this.get('_tooltip');
 
-    _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
+    // _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
 
     run.later(() => {
 
@@ -419,7 +437,7 @@ export default Component.extend({
         return;
       }
 
-      _tooltip.hide();
+      _tooltip.hide(_tooltip.getPopperElement(this.get('target')));
 
       this.set('isShown', false);
       this.sendAction('onHide', this);
@@ -434,7 +452,7 @@ export default Component.extend({
 
     const _tooltip = this.get('_tooltip');
 
-    _tooltip.show();
+    _tooltip.show(_tooltip.getPopperElement(this.get('target')));
 
     this.set('isShown', true);
 
@@ -443,7 +461,7 @@ export default Component.extend({
         return;
       }
 
-      _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
+      // _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
 
       this.sendAction('onShow', this);
     });

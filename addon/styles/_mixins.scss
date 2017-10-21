@@ -1,21 +1,20 @@
 @mixin tooltipPlacement($side) {
   $opposite: oppositeDirection($side);
   $from: 'left';
-  $tooltipMargin: $_tooltipArrowSize + $tooltipSpacing;
 
   @if ($side == 'left' or $side == 'right') {
     $from: 'top';
   }
 
   &[x-placement^="#{$side}"] {
-    margin-#{$opposite}: $tooltipMargin;
+    margin-#{$opposite}: 0;
 
     &.ember-tooltip-effect-slide {
-      margin-#{$opposite}: $tooltipMargin - $tooltipSlideDistance;
+      margin-#{$opposite}: -$tooltipSlideDistance;
     }
 
     &.ember-tooltip-effect-slide.ember-tooltip-show {
-      margin-#{$opposite}: $tooltipMargin;
+      margin-#{$opposite}: 0;
     }
 
     .ember-tooltip-arrow {
