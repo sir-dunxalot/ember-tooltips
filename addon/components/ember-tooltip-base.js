@@ -278,6 +278,7 @@ export default Component.extend({
     }
 
     this._addEventListener('keydown', (keyEvent) => {
+
       keyEvent.stopImmediatePropagation(); /* So this callback only fires once per keydown */
 
       if (keyEvent.which === 27) {
