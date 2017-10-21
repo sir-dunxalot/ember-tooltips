@@ -29,8 +29,6 @@
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-node-assets": "^0.2.2",
     "ember-cli-sass": "^7.0.0",
-    "ember-hash-helper-polyfill": "^0.1.1",
-    "ember-tether": "^0.4.1",
     "popper.js": "^1.12.5",
     "tooltip.js": "^1.1.5"
   },
@@ -55,7 +53,6 @@
     "ember-export-application-global": "^2.0.0",
     "ember-getowner-polyfill": "1.2.2",
     "ember-load-initializers": "^1.0.0",
-    "ember-popper": "^0.6.4",
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.14.1",
     "ember-wormhole": "^0.5.2",

@@ -43,6 +43,7 @@ export default Component.extend({
   isShown: false,
   text: null,
   side: 'right',
+  spacing: 10,
   targetId: null,
   layout,
   updateFor: null,
@@ -294,9 +295,12 @@ export default Component.extend({
                   /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
 
                   run.scheduleOnce('afterRender', () => {
-                    const popper = tooltipData.instance;
+                    const popperInstance = tooltipData.instance;
+                    const { popper } = popperInstance;
 
-                    popper.state.updateBound();
+                    console.log(popper);
+
+                    popperInstance.state.updateBound();
                   });
 
                   resolve(tooltipData);
