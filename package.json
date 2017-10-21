@@ -29,7 +29,8 @@
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-node-assets": "^0.2.2",
     "ember-cli-sass": "^7.0.0",
-    "tippy.js": "^1.4.0"
+    "popper.js": "^1.12.5",
+    "tooltip.js": "^1.1.5"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

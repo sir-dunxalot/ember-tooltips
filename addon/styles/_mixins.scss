@@ -7,15 +7,15 @@
   }
 
   &[x-placement^="#{$side}"] {
-    margin-#{$opposite}: 0;
+    // margin-#{$opposite}: 0;
 
-    &.ember-tooltip-effect-slide {
-      margin-#{$opposite}: -$tooltipSlideDistance;
-    }
+    // &.ember-tooltip-effect-slide {
+    //   margin-#{$side}: $tooltipSlideDistance;
+    // }
 
-    &.ember-tooltip-effect-slide.ember-tooltip-show {
-      margin-#{$opposite}: 0;
-    }
+    // &.ember-tooltip-effect-slide.ember-tooltip-show {
+    //   margin-#{$opposite}: 0;
+    // }
 
     .ember-tooltip-arrow {
       border-#{$opposite}-width: 0;

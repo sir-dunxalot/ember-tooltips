@@ -15,6 +15,7 @@ $_tooltipArrowSize: 5px; /* If you change this, position breaks */
 
 .ember-tooltip,
 .ember-popover {
+  margin-bottom: 10px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;

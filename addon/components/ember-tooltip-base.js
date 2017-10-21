@@ -1,4 +1,4 @@
-/* global tippy */
+/* global Tooltip */
 
 import Ember from 'ember';
 import layout from '../templates/components/ember-tooltip-base';
@@ -13,6 +13,31 @@ const {
 } = Ember;
 
 const ANIMATION_CLASS = 'ember-tooltip-show';
+
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.substring(1);
+}
+
+function getOppositeSide(side) {
+  let oppositeSide;
+
+  switch (side) {
+    case 'top':
+      oppositeSide = 'bottom';
+      break;
+    case 'right':
+      oppositeSide = 'left';
+      break;
+    case 'bottom':
+      oppositeSide = 'top';
+      break;
+    case 'left':
+      oppositeSide = 'right';
+      break;
+  }
+
+  return oppositeSide;
+}
 
 function cleanNumber(stringOrNumber) {
   let cleanNumber;
@@ -178,11 +203,7 @@ export default Component.extend({
       });
     });
 
-    run(() => {
-      const _tooltip = this.get('_tooltip');
-
-      _tooltip.destroy(_tooltip.getPopperElement(this.get('target')));
-    });
+    run(this.get('_tooltip').dispose);
 
     this.sendAction('onDestroy', this);
   },
@@ -274,30 +295,17 @@ export default Component.extend({
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
           const tooltipContent = this.get('text') || '<span></span>';
-          const tooltip = tippy(target, {
-            distance: this.get('offset'),
-            html: () => {
-              const div = document.createElement('div');
-
-              div.id = this.get('wormholeId');
-
-              return div;
-            },
-            arrow: true,
-            // interactive: true if popover,
-            size: 'regular',
-            // multiple: true,
-            performance: true,
-            position: this.get('side'),
-            // title: tooltipContent,
+          const tooltip = new Tooltip(target, {
+            html: true,
+            placement: this.get('side'),
+            title: tooltipContent,
             trigger: 'manual',
-            // template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip">
-            //             <div class="tooltip-arrow ember-tooltip-arrow"></div>
-            //             <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
-            //            </div>`,
+            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
+                        <div class="tooltip-arrow ember-tooltip-arrow"></div>
+                        <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
+                       </div>`,
 
             popperOptions: {
-
               onCreate: (tooltipData) => {
                 run(() => {
 
@@ -309,6 +317,8 @@ export default Component.extend({
 
                   this.addTooltipBaseEventListeners();
 
+                  this.setSpacing();
+
                   /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
 
                   run.scheduleOnce('afterRender', () => {
@@ -319,6 +329,10 @@ export default Component.extend({
 
                   resolve(tooltipData);
                 });
+              },
+
+              onUpdate: () => {
+                this.setSpacing();
               },
             },
           });
@@ -341,6 +355,22 @@ export default Component.extend({
         reject(error);
       }
     });
+  },
+
+  setSpacing() {
+    const _tooltip = this.get('_tooltip');
+    const popper = _tooltip.popperInstance.popper;
+    const marginSide = getOppositeSide(popper.getAttribute('x-placement'));
+    const { style } = popper;
+
+    style.marginTop = 0;
+    style.marginRight = 0;
+    style.marginBottom = 0;
+    style.marginLeft = 0;
+
+    popper.style[`margin${capitalize(marginSide)}`] = `${this.get('spacing')}px`;
+
+    _tooltip.popperInstance.state.updateBound();
   },
 
   hide() {
@@ -407,7 +437,7 @@ export default Component.extend({
       already a tooltip/popover shown in the DOM. Check that here
       and adjust the delay as needed. */
 
-      let shownTooltipsOrPopovers = $(`.${ANIMATION_CLASS}`); /* TODO */
+      let shownTooltipsOrPopovers = $(`.${ANIMATION_CLASS}`);
 
       if (shownTooltipsOrPopovers.length) {
         delay = 0;
@@ -429,7 +459,7 @@ export default Component.extend({
 
     const _tooltip = this.get('_tooltip');
 
-    // _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
+    _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
 
     run.later(() => {
 
@@ -437,7 +467,7 @@ export default Component.extend({
         return;
       }
 
-      _tooltip.hide(_tooltip.getPopperElement(this.get('target')));
+      _tooltip.hide();
 
       this.set('isShown', false);
       this.sendAction('onHide', this);
@@ -452,7 +482,7 @@ export default Component.extend({
 
     const _tooltip = this.get('_tooltip');
 
-    _tooltip.show(_tooltip.getPopperElement(this.get('target')));
+    _tooltip.show();
 
     this.set('isShown', true);
 
@@ -461,7 +491,7 @@ export default Component.extend({
         return;
       }
 
-      // _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
+      _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
 
       this.sendAction('onShow', this);
     });
