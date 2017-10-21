@@ -38,6 +38,9 @@ module.exports = {
     'no-trailing-spaces': 'error',
     'object-property-newline': 'error',
     'one-var': ['error', 'never'],
+    'quotes': ['error', 'single', {
+      'allowTemplateLiterals': true,
+    }],
     'space-before-blocks': 'error',
 
     /* ember-suave custom rules

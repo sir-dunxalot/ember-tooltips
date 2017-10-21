@@ -7,7 +7,7 @@ moduleForComponent('ember-tooltip', 'Integration | Helpers | getTooltipFromBody'
 });
 
 [assertTooltipRendered, assertTooltipNotVisible, assertTooltipVisible].forEach(function(helperInstance) {
-  test("each helperInstance's getTooltipFromBody throws error when $body is not provided", function(assert) {
+  test(`each helperInstance's getTooltipFromBody throws error when $body is not provided`, function(assert) {
 
     this.render(hbs`
       {{ember-tooltip}}
@@ -28,7 +28,7 @@ moduleForComponent('ember-tooltip', 'Integration | Helpers | getTooltipFromBody'
 });
 
 [assertTooltipRendered, assertTooltipNotVisible, assertTooltipVisible].forEach(function(helperInstance) {
-  test("each helperInstance's getTooltipFromBody throws error when no tooltip is found", function(assert) {
+  test(`each helperInstance's getTooltipFromBody throws error when no tooltip is found`, function(assert) {
 
     this.render(hbs``);
 
@@ -43,7 +43,7 @@ moduleForComponent('ember-tooltip', 'Integration | Helpers | getTooltipFromBody'
 });
 
 [assertTooltipRendered, assertTooltipNotVisible, assertTooltipVisible].forEach(function(helperInstance) {
-  test("each helperInstance's getTooltipFromBody throws error when multiple tooltips are found", function(assert) {
+  test(`each helperInstance's getTooltipFromBody throws error when multiple tooltips are found`, function(assert) {
 
     this.render(hbs`
       {{ember-tooltip}}
