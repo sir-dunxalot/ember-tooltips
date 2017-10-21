@@ -113,3 +113,27 @@ test('ember-tooltip does not show when event=none', function(assert) {
     });
   });
 });
+
+test('ember-tooltip closes when esc is pressed', function(assert) {
+
+  assert.expect(2);
+
+  this.render(hbs`{{ember-tooltip isShown=true}}`);
+
+  afterTooltipRenderChange(assert, () => {
+
+    assertTooltipVisible(assert);
+
+    /* Mimic esc being pressed */
+
+    const event = new window.Event('keydown');
+
+    event.which = 27;
+
+    document.dispatchEvent(event);
+
+    afterTooltipRenderChange(assert, () => {
+      assertTooltipNotVisible(assert);
+    });
+  });
+});

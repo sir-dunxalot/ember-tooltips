@@ -278,16 +278,14 @@ export default Component.extend({
     }
 
     this._addEventListener('keydown', (keyEvent) => {
-      run(() => { // TODO - keep?
-        if (keyEvent.which === 27) {
-          this.hide();
+      if (keyEvent.which === 27) {
+        this.hide();
 
-          keyEvent.preventDefault();
+        keyEvent.preventDefault();
 
-          return false;
-        }
-      });
-    });
+        return false;
+      }
+    }, document);
   },
 
   createTooltip() {
