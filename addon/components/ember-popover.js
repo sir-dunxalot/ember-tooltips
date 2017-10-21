@@ -63,7 +63,6 @@ export default EmberTooltipBase.extend({
   },
 
   addPopoverEventListeners() {
-
     const _tooltip = this.get('_tooltip');
     const popover = _tooltip.popperInstance.popper;
 

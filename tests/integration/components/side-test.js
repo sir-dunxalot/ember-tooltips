@@ -1,8 +1,11 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertTooltipSide } from 'dummy/tests/helpers/ember-tooltips';
+import {
+  afterTooltipRenderChange,
+  assertTooltipSide,
+} from 'dummy/tests/helpers/ember-tooltips';
 
-moduleForComponent('ember-tooltip', 'Integration | Option | side and keepInWindow', {
+moduleForComponent('ember-tooltip', 'Integration | Option | side', {
   integration: true,
 });
 
@@ -19,67 +22,53 @@ test('ember-tooltip shows on the top by default', function(assert) {
 
   assert.expect(1);
 
-  this.render(hbs`{{ember-tooltip keepInWindow=false effect='none'}}`);
+  this.render(hbs`{{#some-component}}Hello{{ember-tooltip isShown=true text='Hi'}}{{/some-component}}`);
 
-  assertTooltipSide(assert, { side: 'top' });
-
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipSide(assert, { side: 'top' });
+  });
 });
 
 test('ember-tooltip shows on the top', function(assert) {
 
   assert.expect(1);
 
-  this.render(hbs`{{ember-tooltip side='top' keepInWindow=false effect='none'}}`);
+  this.render(hbs`{{#some-component}}Hello{{ember-tooltip side='top' isShown=true text='Hi'}}{{/some-component}}`);
 
-  assertTooltipSide(assert, { side: 'top' });
-
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipSide(assert, { side: 'top' });
+  });
 });
 
-test('ember-tooltip shows with showOn right', function(assert) {
+test('ember-tooltip shows on the right', function(assert) {
 
   assert.expect(1);
 
-  this.render(hbs`{{ember-tooltip side='right' keepInWindow=false effect='none'}}`);
+  this.render(hbs`{{#some-component}}Hello{{ember-tooltip side='right' isShown=true text='Hi'}}{{/some-component}}`);
 
-  assertTooltipSide(assert, { side: 'right' });
-
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipSide(assert, { side: 'right' });
+  });
 });
 
-test('ember-tooltip shows with showOn bottom', function(assert) {
+test('ember-tooltip shows on the bottom', function(assert) {
 
   assert.expect(1);
 
-  this.render(hbs`{{ember-tooltip side='bottom' keepInWindow=false effect='none'}}`);
+  this.render(hbs`{{#some-component}}Hello{{ember-tooltip side='bottom' isShown=true text='Hi'}}{{/some-component}}`);
 
-  assertTooltipSide(assert, { side: 'bottom' });
-
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipSide(assert, { side: 'bottom' });
+  });
 });
 
-test('ember-tooltip shows with showOn left', function(assert) {
+test('ember-tooltip shows on the left', function(assert) {
 
   assert.expect(1);
 
-  this.render(hbs`{{ember-tooltip side='left' keepInWindow=false effect='none'}}`);
+  this.render(hbs`{{#some-component}}Hello{{ember-tooltip side='left' isShown=true text='Hi'}}{{/some-component}}`);
 
-  assertTooltipSide(assert, { side: 'left' });
-
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipSide(assert, { side: 'left' });
+  });
 });
-
-/* TODO(Unclaimed)
-
-Figure out how to test keepInWindow reliably in PhantomJS
-
-test('It stays in the window', function(assert) {
-
-  assert.expect(1);
-
-  this.render(hbs`
-    {{#ember-tooltip side='left'}}
-      This is some long text to push the tooltip off the page
-    {{/ember-tooltip}}
-  `);
-
-   assertTooltipSide(assert, { side: 'right' });
-
-});
-*/

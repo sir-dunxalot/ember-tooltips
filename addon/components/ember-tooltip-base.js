@@ -14,6 +14,31 @@ const {
 
 const ANIMATION_CLASS = 'ember-tooltip-show';
 
+function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.substring(1);
+}
+
+function getOppositeSide(side) {
+  let oppositeSide;
+
+  switch (side) {
+    case 'top':
+      oppositeSide = 'bottom';
+      break;
+    case 'right':
+      oppositeSide = 'left';
+      break;
+    case 'bottom':
+      oppositeSide = 'top';
+      break;
+    case 'left':
+      oppositeSide = 'right';
+      break;
+  }
+
+  return oppositeSide;
+}
+
 function cleanNumber(stringOrNumber) {
   let cleanNumber;
 
@@ -37,12 +62,13 @@ export default Component.extend({
   delay: 0,
   delayOnChange: true,
   duration: 0,
-  effect: 'slide', // Options: fade, slide, none
+  effect: 'slide', // Options: fade, slide, none // TODO - make slide work
+  enableFlip: true, // TODO - document
   event: 'hover', // Options: hover, click, focus, none
   tooltipClassName: 'ember-tooltip', /* Custom classes */
   isShown: false,
   text: null,
-  side: 'right',
+  side: 'top',
   spacing: 10,
   targetId: null,
   layout,
@@ -270,17 +296,23 @@ export default Component.extend({
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
           const tooltipContent = this.get('text') || '<span></span>';
-          const tooltip = new Tooltip(target, { /* TODO - add in offset option or document CSS option */
+          const tooltip = new Tooltip(target, {
             html: true,
             placement: this.get('side'),
             title: tooltipContent,
             trigger: 'manual',
-            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip">
+            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
                         <div class="tooltip-arrow ember-tooltip-arrow"></div>
                         <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
                        </div>`,
 
             popperOptions: {
+              modifiers: {
+                flip: {
+                  enabled: this.get('enableFlip'),
+                },
+              },
+
               onCreate: (tooltipData) => {
                 run(() => {
 
@@ -296,15 +328,16 @@ export default Component.extend({
 
                   run.scheduleOnce('afterRender', () => {
                     const popperInstance = tooltipData.instance;
-                    const { popper } = popperInstance;
-
-                    console.log(popper);
 
                     popperInstance.state.updateBound();
                   });
 
                   resolve(tooltipData);
                 });
+              },
+
+              onUpdate: () => {
+                this.setSpacing();
               },
             },
           });
@@ -327,6 +360,22 @@ export default Component.extend({
         reject(error);
       }
     });
+  },
+
+  setSpacing() {
+    const { popperInstance } = this.get('_tooltip');
+    const { popper } = popperInstance;
+    const marginSide = getOppositeSide(popper.getAttribute('x-placement'));
+    const { style } = popper;
+
+    style.marginTop = 0;
+    style.marginRight = 0;
+    style.marginBottom = 0;
+    style.marginLeft = 0;
+
+    popper.style[`margin${capitalize(marginSide)}`] = `${this.get('spacing')}px`;
+
+    popperInstance.state.updateBound();
   },
 
   hide() {
