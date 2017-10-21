@@ -1,5 +1,5 @@
 $tooltipBackgroundColor: #3a3c47;
-$tooltipTransitionDuration: 200ms;
+$popoverBackgroundColor: #fff;
 $tooltipSlideDistance: 10px;
 
 $_tooltipArrowSize: 5px; /* If you change this, position breaks */
@@ -40,7 +40,7 @@ $_tooltipArrowSize: 5px; /* If you change this, position breaks */
 
 .ember-popover {
   color: #000;
-  background-color: #fff;
+  background-color: $popoverBackgroundColor;
   padding: 10px 20px;
   border: 1px solid #ccc;
 
@@ -73,10 +73,9 @@ $_tooltipArrowSize: 5px; /* If you change this, position breaks */
 .ember-tooltip,
 .ember-popover {
   opacity: 0;
-  -webkit-transition: opacity #{$tooltipTransitionDuration} ease-out,
-                      margin #{$tooltipTransitionDuration} ease-out;
-  transition: opacity #{$tooltipTransitionDuration} ease-out,
-              margin #{$tooltipTransitionDuration} ease-out;
+  -webkit-transition: opacity ease-out, margin ease-out;
+  transition: opacity ease-out, margin ease-out;
+  transition-duration: 200ms;
 
   &.ember-tooltip-effect-none,
   &.ember-tooltip-show {

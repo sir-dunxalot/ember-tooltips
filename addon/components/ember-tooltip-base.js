@@ -278,6 +278,8 @@ export default Component.extend({
     }
 
     this._addEventListener('keydown', (keyEvent) => {
+      keyEvent.stopImmediatePropagation(); /* So this callback only fires once per keydown */
+
       if (keyEvent.which === 27) {
         this.hide();
 
@@ -460,12 +462,11 @@ export default Component.extend({
   },
 
   _hideTooltip() {
+    const _tooltip = this.get('_tooltip');
 
-    if (this.get('isDestroying')) {
+    if (!_tooltip || this.get('isDestroying')) {
       return;
     }
-
-    const _tooltip = this.get('_tooltip');
 
     _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
 
@@ -477,6 +478,7 @@ export default Component.extend({
 
       _tooltip.hide();
 
+      this.set('_isHiding', false);
       this.set('isShown', false);
       this.sendAction('onHide', this);
     }, this.get('_animationDuration'));
