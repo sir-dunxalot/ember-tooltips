@@ -1,6 +1,9 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipSpacing } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
+import {
+  afterTooltipRenderChange,
+  assertTooltipSpacing,
+} from 'dummy/tests/helpers/ember-tooltips';
 
 moduleForComponent('ember-tooltip', 'Integration | Option | spacing', {
   integration: true,
@@ -12,13 +15,18 @@ test('ember-tooltip shows with spacing=default', function(assert) {
 
   /* Check the default spacing */
 
-  this.render(hbs`{{ember-tooltip effect='none'}}`);
+  this.render(hbs`
+    {{#some-component}}
+      {{ember-tooltip isShown=true}}
+    {{/some-component}}
+  `);
 
-  assertTooltipSpacing(assert, {
-    side: 'top',
-    spacing: 10,
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipSpacing(assert, {
+      side: 'top',
+      spacing: 10,
+    });
   });
-
 });
 
 test('ember-tooltip shows with spacing=20', function(assert) {
@@ -27,11 +35,17 @@ test('ember-tooltip shows with spacing=20', function(assert) {
 
   /* Check custom spacing */
 
-  this.render(hbs`{{ember-tooltip spacing=20 effect='none'}}`);
+  this.render(hbs`
+    {{#some-component}}
+      {{ember-tooltip spacing=20 isShown=true}}
+    {{/some-component}}
+  `);
 
-  assertTooltipSpacing(assert, {
-    side: 'top',
-    spacing: 20,
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipSpacing(assert, {
+      side: 'top',
+      spacing: 20,
+    });
   });
 
 });
@@ -43,17 +57,20 @@ test('ember-tooltip shows with spacing=20 and side=right', function(assert) {
   /* Check custom spacing */
 
   this.render(hbs`
-    {{ember-tooltip
-      effect='none'
-      spacing=20
-      side='right'
-      keepInWindow=false
-    }}
+    {{#some-component}}
+      {{ember-tooltip
+        isShown=true
+        spacing=20
+        side='right'
+      }}
+    {{/some-component}}
   `);
 
-  assertTooltipSpacing(assert, {
-    side: 'right',
-    spacing: 20,
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipSpacing(assert, {
+      side: 'right',
+      spacing: 20,
+    });
   });
 
 });
@@ -65,17 +82,20 @@ test('ember-tooltip shows with spacing=53 and side=bottom', function(assert) {
   /* Check custom spacing */
 
   this.render(hbs`
-    {{ember-tooltip
-      effect='none'
-      spacing=53
-      side='bottom'
-      keepInWindow=false
-    }}
+    {{#some-component}}
+      {{ember-tooltip
+        isShown=true
+        spacing=53
+        side='bottom'
+      }}
+    {{/some-component}}
   `);
 
-  assertTooltipSpacing(assert, {
-    side: 'bottom',
-    spacing: 53,
+  afterTooltipRenderChange(assert, () => {
+    assertTooltipSpacing(assert, {
+      side: 'bottom',
+      spacing: 53,
+    });
   });
 
 });

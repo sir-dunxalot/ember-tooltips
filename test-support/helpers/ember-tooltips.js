@@ -41,8 +41,6 @@ function getPositionDifferences(options = {}) {
   const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(options);
   const { side } = options;
 
-  console.log(targetPosition, tooltipPosition);
-
   const distanceToTarget = targetPosition[side];
   const distanceToTooltip = tooltipPosition[getOppositeSide(side)];
   const shouldTooltipBeCloserThanTarget = side === 'top' || side === 'left';

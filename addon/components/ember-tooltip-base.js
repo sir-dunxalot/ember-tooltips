@@ -62,7 +62,8 @@ export default Component.extend({
   delay: 0,
   delayOnChange: true,
   duration: 0,
-  effect: 'slide', // Options: fade, slide, none
+  effect: 'slide', // Options: fade, slide, none // TODO - make slide work
+  enableFlip: true, // TODO - document
   event: 'hover', // Options: hover, click, focus, none
   tooltipClassName: 'ember-tooltip', /* Custom classes */
   isShown: false,
@@ -306,6 +307,12 @@ export default Component.extend({
                        </div>`,
 
             popperOptions: {
+              modifiers: {
+                flip: {
+                  enabled: this.get('enableFlip'),
+                },
+              },
+
               onCreate: (tooltipData) => {
                 run(() => {
 
@@ -316,8 +323,6 @@ export default Component.extend({
                   /* The tooltip element must exist in order to add event listeners to it */
 
                   this.addTooltipBaseEventListeners();
-
-                  this.setSpacing();
 
                   /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
 
@@ -358,8 +363,8 @@ export default Component.extend({
   },
 
   setSpacing() {
-    const _tooltip = this.get('_tooltip');
-    const popper = _tooltip.popperInstance.popper;
+    const { popperInstance } = this.get('_tooltip');
+    const { popper } = popperInstance;
     const marginSide = getOppositeSide(popper.getAttribute('x-placement'));
     const { style } = popper;
 
@@ -370,7 +375,7 @@ export default Component.extend({
 
     popper.style[`margin${capitalize(marginSide)}`] = `${this.get('spacing')}px`;
 
-    _tooltip.popperInstance.state.updateBound();
+    popperInstance.state.updateBound();
   },
 
   hide() {

@@ -21,12 +21,6 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
-#ember-testing-container {
-  /* Set position static to short-circuit Hubspot Tether's positioning */
-  /* https://github.com/HubSpot/tether/pull/98/ */
-  position: static !important;
-}
-
 h1,
 h2,
 h3 {
@@ -172,5 +166,7 @@ li {
 /* End of async spinner */
 
 #ember-testing {
-  margin: 100px;
+  padding: 100px; /* Give tooltips space on all sides so they can render without flipping */
+  box-sizing: border-box;
+  transform: none !important; /* scaling the test window with transform breaks popper.js positioning */
 }
