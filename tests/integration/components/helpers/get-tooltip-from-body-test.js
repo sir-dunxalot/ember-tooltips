@@ -1,6 +1,11 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, assertTooltipVisible, assertTooltipNotRendered, assertTooltipRendered } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
+import {
+  assertTooltipNotVisible,
+  assertTooltipVisible,
+  assertTooltipNotRendered,
+  assertTooltipRendered,
+} from 'dummy/tests/helpers/ember-tooltips';
 
 moduleForComponent('ember-tooltip', 'Integration | Helpers | getTooltipFromBody', {
   integration: true,

@@ -1,6 +1,8 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import { triggerTooltipTargetEvent } from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
+import {
+  triggerTooltipTargetEvent,
+} from 'dummy/tests/helpers/ember-tooltips';
 
 moduleForComponent('ember-tooltip', 'Integration | Helpers | triggerTooltipTargetEvent', {
   integration: true,
