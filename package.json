@@ -29,6 +29,7 @@
     "ember-cli-htmlbars": "^1.1.1",
     "ember-cli-node-assets": "^0.2.2",
     "ember-cli-sass": "^7.0.0",
+    "ember-wormhole": "^0.5.2",
     "popper.js": "^1.12.5",
     "tooltip.js": "^1.1.5"
   },
@@ -55,7 +56,6 @@
     "ember-load-initializers": "^1.0.0",
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.14.1",
-    "ember-wormhole": "^0.5.2",
     "eslint-plugin-ember-suave": "^1.0.0",
     "eslint-plugin-netguru-ember": "^1.6.5",
     "loader.js": "^4.2.3"
