@@ -333,6 +333,7 @@ export default Component.extend({
                   /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
 
                   run.scheduleOnce('afterRender', () => {
+                    this.setSpacing();
                     const popperInstance = tooltipData.instance;
 
                     popperInstance.state.updateBound();
@@ -340,10 +341,6 @@ export default Component.extend({
 
                   resolve(tooltipData);
                 });
-              },
-
-              onUpdate: () => {
-                this.setSpacing();
               },
             },
           });
@@ -380,8 +377,6 @@ export default Component.extend({
     style.marginLeft = 0;
 
     popper.style[`margin${capitalize(marginSide)}`] = `${this.get('spacing')}px`;
-
-    popperInstance.state.updateBound();
   },
 
   hide() {
