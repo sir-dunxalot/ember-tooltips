@@ -188,6 +188,12 @@ export default Component.extend({
 
   willDestroy() {
     this._super(...arguments);
+    const tooltip = this.get('_tooltip');
+
+    if (!tooltip) {
+      return;
+    }
+
     this.hide();
 
     const _tooltipEvents = this.get('_tooltipEvents');
