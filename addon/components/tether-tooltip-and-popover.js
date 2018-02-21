@@ -205,17 +205,15 @@ export default EmberTetherComponent.extend({
     return side === 'top' || side === 'bottom';
   }),
 
+  isFastBoot: computed(function() {
+    return typeof FastBoot !== 'undefined';
+  }),
+
   target: computed(function() {
+    // It's not possible to access the DOM when running in Fastboot
+    if (this.get('isFastBoot')) return null;
+
     const $element = this.$();
-
-    /* It's not possible to access the DOM when
-    running in Fastboot
-    */
-
-    if (!$element) {
-      return null;
-    }
-
     const parentElement = $element.parent();
     let parentElementId = parentElement && parentElement.attr('id');
 
@@ -500,15 +498,11 @@ export default EmberTetherComponent.extend({
   },
 
   willDestroy() {
-
-    /* There's no jQuery when running in Fastboot */
-
-    const $target = $ && $(this.get('target'));
-
     this.set('effect', null);
     this.hide();
 
-    if ($target) {
+    if (!this.get('isFastBoot')) {
+      const $target = $(this.get('target'));
       $target.removeAttr('aria-describedby');
       $target.off();
     }
