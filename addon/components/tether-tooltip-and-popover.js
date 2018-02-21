@@ -513,6 +513,8 @@ export default EmberTetherComponent.extend({
       $target.off();
     }
 
+    run.cancel(this._cleanup);
+
     this._super(...arguments); // Removes tether
 
     this.sendAction('onDestroy', this);
@@ -530,17 +532,15 @@ export default EmberTetherComponent.extend({
   },
 
   stopTether() {
-    run.schedule('afterRender', () => {
-      if (!this.isDestroyed && !this.isDestroying) {
+    this._cleanup = run.schedule('afterRender', () => {
 
-        /* We can't depend on `_tether.enabled` because
-        it's not an Ember property (so won't trigger CP
-        update when changed)
-        */
+      /* We can't depend on `_tether.enabled` because
+      it's not an Ember property (so won't trigger CP
+      update when changed)
+      */
 
-        this.set('_isTetherEnabled', false);
-        this.get('_tether').disable();
-      }
+      this.set('_isTetherEnabled', false);
+      this.get('_tether').disable();
     });
   },
 
