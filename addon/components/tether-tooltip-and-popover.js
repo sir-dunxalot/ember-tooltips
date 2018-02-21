@@ -32,6 +32,11 @@ function cleanNumber(stringOrNumber) {
   return cleanNumber;
 }
 
+function stopTether() {
+  this.set('_isTetherEnabled', false);
+  this.get('_tether').disable();
+}
+
 export default EmberTetherComponent.extend({
 
   passedPropertiesObject: null,
@@ -532,16 +537,7 @@ export default EmberTetherComponent.extend({
   },
 
   stopTether() {
-    this._cleanup = run.schedule('afterRender', () => {
-
-      /* We can't depend on `_tether.enabled` because
-      it's not an Ember property (so won't trigger CP
-      update when changed)
-      */
-
-      this.set('_isTetherEnabled', false);
-      this.get('_tether').disable();
-    });
+    this._cleanup = run.scheduleOnce('afterRender', this, stopTether);
   },
 
 });
