@@ -208,7 +208,7 @@ export default Component.extend({
 
     run(this.get('_tooltip').dispose);
 
-    if (!this.isDestroyed && !this.isDestroying) {     
+    if (!this.isDestroyed && !this.isDestroying) {
       this.sendAction('onDestroy', this);
     }
   },
