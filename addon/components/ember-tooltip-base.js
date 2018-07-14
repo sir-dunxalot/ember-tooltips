@@ -208,7 +208,9 @@ export default Component.extend({
 
     run(this.get('_tooltip').dispose);
 
-    this.sendAction('onDestroy', this);
+    if (!this.isDestroyed && !this.isDestroying) {     
+      this.sendAction('onDestroy', this);
+    }
   },
 
   addTargetEventListeners() {
