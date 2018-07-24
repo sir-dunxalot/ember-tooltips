@@ -499,14 +499,17 @@ export default EmberTetherComponent.extend({
     }
   },
 
-  willDestroy() {
+  willDestroyElement() {
 
     /* There's no jQuery when running in Fastboot */
 
     const $target = $ && $(this.get('target'));
 
     this.set('effect', null);
-    this.hide();
+
+    if (this.get('isShown')){
+      this.hide();
+    }
 
     if ($target) {
       $target.removeAttr('aria-describedby');
