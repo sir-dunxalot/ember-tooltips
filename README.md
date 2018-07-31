@@ -3,6 +3,10 @@ Ember-tooltips (and popovers) [![Build Status](https://travis-ci.org/sir-dunxalo
 
 Render tooltips and popovers on components and other HTML elements using HTMLBars.
 
+---
+❗ **I am looking for a co-maintainer to help improve the 2.x branch and assist in bringing 3.x out of beta. If you're interested, please email duncangrahamwalker@gmail.com** ❗
+---
+
 ## Installation
 
 ```
@@ -15,8 +19,6 @@ Documentation for usage is below:
 
 - [Demo](http://sir-dunxalot.github.io/ember-tooltips/)
 - [3.0.0 Beta](#300-beta)
-- [1.0.0 Release](#100-release)
-- [2.4.0 Release](#240-release)
 - [Usage](#usage)
   - [tooltip-on-component](#tooltip-on-component)
   - [tooltip-on-element](#tooltip-on-element)
@@ -45,16 +47,6 @@ npm install --save-dev ember-tooltips@3.0.0-beta.2
 ```
 
 Please [report any issues you come across](https://github.com/sir-dunxalot/ember-tooltips/issues/new). Thank you in advance!
-
-## 1.0.0 Release
-
-Version 1.0.0 removed <a href="http://darsa.in/tooltip/" target="_blank">darsain/tooltip</a> as a dependency, in favor of using custom Ember code.
-
-You can use and see the pre-1.0 version on [this branch](https://github.com/sir-dunxalot/ember-tooltips/tree/pre-1.0). Alternatively, install `"ember-tooltips": "0.7.0"` in your `package.json`.
-
-## 2.4.0 Release
-
-Version 2.4.0 introduces lazy rendering. Tooltips and popovers generally don't need to be rendered until the user has interacted with the `$target` element. Adding `enableLazyRendering=true` to your component will enable this feature. In version 3.0.0 `enableLazyRendering` will default to `true` and you'll be able to opt-out of lazy rendering as necessary.
 
 ## Usage
 
