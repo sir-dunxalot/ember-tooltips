@@ -4,7 +4,7 @@ Ember-tooltips (and popovers) [![Build Status](https://travis-ci.org/sir-dunxalo
 Render tooltips and popovers on components and other HTML elements using HTMLBars.
 
 ---
-❗ **I am looking for a co-maintainer to help improve the 2.x branch and assist in bringing 3.x out of beta. If you're interested, please email duncangrahamwalker@gmail.com** ❗
+❗ **I am looking for a co-maintainer to help improve the 2.x branch and assist in bringing 3.x out of beta. If you're interested, see [#261](https://github.com/sir-dunxalot/ember-tooltips/issues/261)** ❗
 ---
 
 ## Installation
