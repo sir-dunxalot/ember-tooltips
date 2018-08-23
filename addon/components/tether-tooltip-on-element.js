@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tether-tooltip-and-popover';
 
-const { $ } = Ember;
+const { $, run } = Ember;
 
 export default TooltipAndPopoverComponent.extend({
 
@@ -62,24 +62,20 @@ export default TooltipAndPopoverComponent.extend({
         click to also trigger focusin */
 
         if (event !== 'click') {
-          $target.focusin(() => {
-            this.show();
-          });
+          $target.focusin(run.bind(this, this.show));
         }
 
-        $target.focusout(() => {
-          this.hide();
-        });
+        $target.focusout(run.bind(this, this.hide));
       }
 
-      $target.keydown((keyEvent) => {
+      $target.keydown(run.bind(this, (keyEvent) => {
         if (keyEvent.which === 27) {
           this.hide();
           keyEvent.preventDefault();
 
           return false;
         }
-      });
+      }));
     }
   },
 });
