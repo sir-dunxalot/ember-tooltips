@@ -159,6 +159,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [event](#event)
 - [hideOn](#hide-on)
 - [keepInWindow](#keep-in-window)
+- [setPin](#set-pin)
 - [side](#side)
 - [showOn](#show-on)
 - [spacing](#spacing)
@@ -305,6 +306,23 @@ it will render off-screen--}}
 {{tooltip-on-component
   keepInWindow=false
   side='right'
+}}
+```
+
+#### Set pin
+
+| Type    | Boolean   |
+|---------|-----------|
+| Default | undefined |
+
+If you find that `keepInWindow` is not keeping the entire tooltip in the window, try also using `setPin`. Note that this is somewhat experimental, and may not work for all window positioning issues (see #72).
+
+```hbs
+{{!--Force the tooltip to stay fully in-screen--}}
+
+{{tooltip-on-component
+  keepInWindow=true
+  setPin=true
 }}
 ```
 

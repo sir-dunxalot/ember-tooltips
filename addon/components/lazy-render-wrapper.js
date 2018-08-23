@@ -39,6 +39,7 @@ const PASSABLE_PROPERTIES = [
   'event',
   'hideOn',
   'keepInWindow',
+  'setPin',
   'side',
   'showOn',
   'spacing',
