@@ -58,6 +58,7 @@ export default EmberTetherComponent.extend({
   showOn: null,
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
+  isDisabled: false,
   isShown: false,
   tooltipIsVisible: computed.deprecatingAlias('isShown', {
     id: 'tooltip-and-popover.tooltipIsVisible',
@@ -442,7 +443,7 @@ export default EmberTetherComponent.extend({
 
     this.positionTether();
 
-    if (this.get('isDestroying')) {
+    if (this.get('isDisabled') || this.get('isDestroying')) {
       return;
     }
 
