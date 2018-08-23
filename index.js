@@ -5,7 +5,7 @@ module.exports = {
   name: 'ember-tooltips',
 
   config: function(env, baseConfig) {
-    var rootElement = baseConfig.APP.rootElement;
+    var rootElement = baseConfig.APP && baseConfig.APP.rootElement;
     var config = {};
 
     if (rootElement) {
