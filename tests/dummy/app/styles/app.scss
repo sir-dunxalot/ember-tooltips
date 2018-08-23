@@ -26,6 +26,12 @@ body {
   position: static !important;
 }
 
+#ember-testing {
+  /* The default transform: scale(0.5) messes with tooltip positioning */
+  transform: none !important;
+  transform-origin: inherit !important;
+}
+
 h1,
 h2,
 h3 {
