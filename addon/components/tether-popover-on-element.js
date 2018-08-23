@@ -204,6 +204,8 @@ export default TooltipAndPopoverComponent.extend({
   },
   willDestroyElement() {
     this._super(...arguments);
+    // Avoid any problems in FastBoot by returning early
+    if (this.get('isFastBoot')) return;
 
     const target = this.get('target');
     const $target = $(target);

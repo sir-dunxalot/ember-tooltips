@@ -267,6 +267,7 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
+    if (typeof FastBoot !== 'undefined') return;
 
     const $target = this.get('$target');
 
