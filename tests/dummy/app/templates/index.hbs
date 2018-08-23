@@ -223,3 +223,21 @@
   {{code-snippet name='inline-content.hbs'}}
 
 </div>
+
+<div class="page-content gray">
+  <h3 id="inline">Offset the tooltip's position</h3>
+
+{{!-- BEGIN-SNIPPET offset-tooltip --}}
+{{#some-component}}
+  Click for more info
+
+  {{#tooltip-on-component event='click' side='top' relativeSidePosition='left'}}
+    Look this tool to is off to the left and positioned at the top of the
+    tooltip!
+  {{/tooltip-on-component}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name='offset-tooltip.hbs'}}
+
+</div>

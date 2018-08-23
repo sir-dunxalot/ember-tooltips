@@ -40,6 +40,7 @@ const PASSABLE_PROPERTIES = [
   'hideOn',
   'keepInWindow',
   'side',
+  'relativeSidePosition',
   'showOn',
   'spacing',
   'isShown',
