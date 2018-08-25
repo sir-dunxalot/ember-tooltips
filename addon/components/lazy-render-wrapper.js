@@ -284,11 +284,17 @@ export default Component.extend({
     hide() {
       const _childView = this.get('_childView');
 
+      if (!_childView) {
+        return;
+      }
+
       /* The _childView.actions property is not available in Ember 1.13
       We will use _childView._actions until we drop support for Ember 1.13
       */
 
-      if (_childView && _childView._actions && _childView._actions.hide) {
+      const actions = _childView.actions || _childView._actions;
+
+      if (actions && actions.hide) {
         _childView.send('hide');
       }
     },
