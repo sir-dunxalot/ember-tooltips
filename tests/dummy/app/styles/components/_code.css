@@ -1,0 +1,86 @@
+/**
+Inline and block code
+*/
+
+pre, code, pre code {
+  font-family: var(--menlo);
+}
+
+pre, code {
+  border-radius: 0.3rem;
+
+  ::-moz-selection {
+    background-color: var(--black) !important;
+  }
+
+  ::selection {
+    background-color: var(--black) !important;
+  }
+}
+
+/**
+Inline code
+*/
+
+code {
+  padding: 0 0.4rem;
+  margin: 0 0.2rem;
+  background-color: var(--offwhite);
+  border: 1px solid var(--faintGray);
+  font-size: 1.4rem;
+  color: var(--body);
+}
+
+/*
+Block code
+*/
+
+pre code {
+  font-size: 1.5rem;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  color: var(--offwhite);
+  line-height: 1.3;
+  border: none;
+}
+
+.hljs {
+  color: var(--white);
+  background-color: var(--darkBlue);
+  margin: 3rem 0rem;
+  padding: 1.5rem;
+}
+
+.hljs-template-tag .hljs-name, .hljs-builtin-name {
+  color: var(--blue);
+}
+
+.hljs-tag .hljs-name {
+  color: var(--red);
+}
+
+.hljs-attr {
+  color: var(--green);
+}
+
+.hljs-string {
+  color: var(--orange);
+}
+
+.hljs-selector-class {
+  color: var(--green);
+}
+
+.hljs-attribute {
+  color: var(--blue);
+}
+
+.hljs-number {
+  color: var(--lightBlue);
+}
+
+.hljs-strong,
+.hljs-strongemphasis {
+  font-weight: bold;
+}

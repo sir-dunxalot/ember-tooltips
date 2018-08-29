@@ -1,33 +1,12 @@
 /*jshint node:true*/
 /* global require, module */
 var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-var autoprefixer = require('autoprefixer');
 
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
-    snippetSearchPaths: ['app', 'tests'],
-
-    sassOptions: {
-      extension: 'scss',
-    },
-
-    postcssOptions: {
-      compile: {
-        enabled: false
-      },
-      filter: {
-        enabled: true,
-        plugins: [
-          {
-            module: autoprefixer,
-            options: {
-              browsers: ['last 2 version']
-            }
-          }
-        ]
-      }
-    }
-
+    includeHighlightJS: false,
+    includeHighlightStyle: false,
+    snippetSearchPaths: ['app', 'tests']
   });
 
   /*
@@ -36,6 +15,10 @@ module.exports = function(defaults) {
     This build file does *not* influence how the addon or the app using it
     behave. You most likely want to be modifying `./index.js` or app's build file
   */
+
+  app.import('vendor/highlight.pack.js', {
+    using: [ { transformation: 'amd', as: 'highlight.js' } ]
+  });
 
   return app.toTree();
 };

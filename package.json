@@ -25,12 +25,10 @@
   "dependencies": {
     "ember-cli-babel": "^6.3.0",
     "ember-cli-htmlbars": "^2.0.1",
-    "ember-cli-sass": "^7.0.0",
     "ember-hash-helper-polyfill": "^0.2.0",
     "ember-tether": "^1.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "^6.7.2",
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^3.0.0",
     "ember-cli": "~2.14.2",
@@ -39,7 +37,6 @@
     "ember-cli-github-pages": "^0.2.0",
     "ember-cli-htmlbars-inline-precompile": "^0.4.3",
     "ember-cli-inject-live-reload": "^1.4.1",
-    "ember-cli-postcss": "3.1.1",
     "ember-cli-qunit": "^4.0.0",
     "ember-cli-shims": "^1.1.0",
     "ember-cli-sri": "^2.1.0",
