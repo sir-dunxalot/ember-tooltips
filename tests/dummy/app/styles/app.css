@@ -118,15 +118,14 @@ li {
   padding: 0.4rem 0;
 }
 
-
-.ember-popover  h3, p {
+.ember-popover p {
   margin: 1rem 0;
 }
 
 .ember-popover  h3 {
+  margin: 1rem 0;
   border-bottom: 1px solid #ccc;
 }
-
 
 /* Async spinner */
 
