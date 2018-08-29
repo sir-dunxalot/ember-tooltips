@@ -3,18 +3,18 @@ Inline and block code
 */
 
 pre, code, pre code {
-  font-family: var(--menlo);
+  font-family: "Menlo", Consolas, monaco, monospace;
 }
 
 pre, code {
   border-radius: 0.3rem;
 
   ::-moz-selection {
-    background-color: var(--black) !important;
+    background-color: black !important;
   }
 
   ::selection {
-    background-color: var(--black) !important;
+    background-color: black !important;
   }
 }
 
@@ -27,8 +27,7 @@ code {
   margin: 0 0.2rem;
   background-color: var(--offwhite);
   border: 1px solid var(--faintGray);
-  font-size: 1.4rem;
-  color: var(--body);
+  color: var(--darkBlue);
 }
 
 /*
@@ -46,7 +45,7 @@ pre code {
 }
 
 .hljs {
-  color: var(--white);
+  color: white;
   background-color: var(--darkBlue);
   margin: 3rem 0rem;
   padding: 1.5rem;

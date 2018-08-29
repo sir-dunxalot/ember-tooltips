@@ -9,26 +9,12 @@
   --purple: #a98ee0;
   --red: #e37f7f;
 
-  --black: #000;
   --darkGray: #86898d;
   --lightGray: #a1aab7;
   --subtleGray: #ccc;
   --faintGray: #bbb;
   --offwhite: #eee;
-  --white: #fff;
 
   --info: #5D99D0;
   --warning: #f7c854;
-
-  --body: --darkBlue;
-  --altBody: --lightBlue;
-
-  --pageBackground: --white;
-  --selectionBackground: mix(--pageBackground, --blue, 90%);
-
-  /* Typography */
-
-  --menlo: "Menlo", Consolas, monaco, monospace;
-  --baseFontSize: 62.5%;
-  --bodyFontSize: 1.6rem;
 }
