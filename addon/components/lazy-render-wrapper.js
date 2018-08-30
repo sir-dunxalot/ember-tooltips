@@ -9,6 +9,7 @@ const {
   get,
   isNone,
   warn,
+  run
 } = Ember;
 
 export const TARGET_EVENT_NAMESPACE = 'target-lazy-render-wrapper';
@@ -248,13 +249,13 @@ export default Component.extend({
       if the user has mouseenter and not mouseleave immediately afterwards.
       */
 
-      $target.on(`mouseleave.${TARGET_EVENT_NAMESPACE}`, () => {
+      $target.on(`mouseleave.${TARGET_EVENT_NAMESPACE}`, run.bind(this, function() {
         this.set('_shouldShowOnRender', false);
-      });
+      }));
     }
 
     this.get('_lazyRenderEvents').forEach((_lazyRenderEvent) => {
-      $target.on(`${_lazyRenderEvent}.${TARGET_EVENT_NAMESPACE}`, () => {
+      $target.on(`${_lazyRenderEvent}.${TARGET_EVENT_NAMESPACE}`, run.bind(this, function() {
         if (this.get('_hasUserInteracted')) {
           $target.off(`${_lazyRenderEvent}.${TARGET_EVENT_NAMESPACE}`);
         } else {
@@ -262,7 +263,7 @@ export default Component.extend({
           this.set('_shouldShowOnRender', true);
           this.set('_isInProcessOfShowing', true);
         }
-      });
+      }));
     });
   },
 
