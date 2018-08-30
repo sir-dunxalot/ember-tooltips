@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import EmberTetherComponent from 'ember-tether/components/ember-tether';
+import { dispatchAction } from '../utils';
 
 const {
   $,
@@ -309,7 +310,7 @@ export default EmberTetherComponent.extend({
 
     this.set('isShown', false);
 
-    this.sendAction('onHide', this);
+    dispatchAction(this, 'onHide');
 
     this.stopTether();
   },
@@ -331,7 +332,7 @@ export default EmberTetherComponent.extend({
     const _tether = this.get('_tether');
     const $tether = $(_tether.element);
 
-    this.sendAction('onRender', this);
+    dispatchAction(this, 'onRender');
 
     $target.attr({
       'aria-describedby': `${this.get('elementId')}`,
@@ -404,7 +405,7 @@ export default EmberTetherComponent.extend({
         return;
       }
 
-      this.sendAction('onRender', this);
+      dispatchAction(this, 'onRender');
     }, this.get('_didUpdateTimeoutLength'));
   },
 
@@ -489,7 +490,7 @@ export default EmberTetherComponent.extend({
       this.set('isShown', true);
     }
 
-    this.sendAction('onShow', this);
+    dispatchAction(this, 'onShow');
   },
 
   toggle() {
@@ -523,7 +524,7 @@ export default EmberTetherComponent.extend({
 
     this._super(...arguments); // Removes tether
 
-    this.sendAction('onDestroy', this);
+    dispatchAction(this, 'onDestroy');
   },
 
   startTether() {

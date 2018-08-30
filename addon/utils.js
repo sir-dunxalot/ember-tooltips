@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { computed, warn } = Ember;
+const { deprecate, computed, warn } = Ember;
 
 export const onComponentTarget = computed(function() {
 
@@ -29,3 +29,17 @@ export const onComponentTarget = computed(function() {
     return `#${targetView.get('elementId')}`;
   }
 });
+
+export function dispatchAction(context, actionName) {
+  const action = context.get(actionName);
+
+  if (typeof action === 'string') {
+    deprecate(`Use of '${actionName}' with an action name is deprecated. Please pass a closure action instead of '${action}'`, false, {
+      id: 'ember-tooltips-send-action-use',
+      until: '3.0.0',
+    });
+    context.sendAction(actionName, context); // eslint-disable-line ember/closure-actions
+  } else if (action) {
+    action(context);
+  }
+}
