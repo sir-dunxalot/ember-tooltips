@@ -22,10 +22,5 @@ module.exports = {
     }
 
     return config;
-  },
-
-  included: function(app) {
-    this._super.included(app); // For ember-cli-sass
-  },
-
+  }
 };
