@@ -1,5 +1,5 @@
 {
-  "name": "@salsify/ember-tooltips",
+  "name": "ember-tooltips",
   "version": "2.10.0",
   "description": "Easy and extendible tooltips for Ember",
   "keywords": [
@@ -16,7 +16,7 @@
     "doc": "doc",
     "test": "tests"
   },
-  "repository": "@salsify/ember-tooltips",
+  "repository": "https://github.com/sir-dunxalot/ember-tooltips/",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
