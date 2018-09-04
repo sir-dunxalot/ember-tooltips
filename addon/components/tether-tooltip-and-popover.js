@@ -173,7 +173,7 @@ export default EmberTetherComponent.extend({
     return `${verticalPosition} ${horizontalPosition}`;
   }),
 
-  constraints: computed('keepInWindow', function() {
+  constraints: computed('keepInWindow', 'setPin', function() {
     let constraints;
 
     if (this.get('keepInWindow')) {
@@ -181,6 +181,7 @@ export default EmberTetherComponent.extend({
         {
           to: 'window',
           attachment: 'together',
+          pin: this.get('setPin'),
         },
       ];
     }
@@ -297,7 +298,7 @@ export default EmberTetherComponent.extend({
 
   hide() {
 
-    if (this.get('isDestroying')) {
+    if (this.isDestroying || this.isDestroyed) {
       return;
     }
 
@@ -398,6 +399,11 @@ export default EmberTetherComponent.extend({
 
     run.later(() => {
       this.positionTether();
+
+      if (this.isDestroying || this.isDestroyed) {
+        return;
+      }
+
       this.sendAction('onRender', this);
     }, this.get('_didUpdateTimeoutLength'));
   },
@@ -442,7 +448,7 @@ export default EmberTetherComponent.extend({
 
     this.positionTether();
 
-    if (this.get('isDestroying')) {
+    if (this.isDestroying || this.isDestroyed) {
       return;
     }
 
@@ -499,14 +505,16 @@ export default EmberTetherComponent.extend({
     }
   },
 
-  willDestroy() {
+  willDestroyElement() {
 
     /* There's no jQuery when running in Fastboot */
 
     const $target = $ && $(this.get('target'));
 
     this.set('effect', null);
-    this.hide();
+    if (this.get('isShown')) {
+      this.hide();
+    }
 
     if ($target) {
       $target.removeAttr('aria-describedby');
@@ -519,14 +527,18 @@ export default EmberTetherComponent.extend({
   },
 
   startTether() {
+    run.schedule('afterRender', () => {
+      if (!this.isDestroyed && !this.isDestroying) {
 
-    /* We can't depend on `_tether.enabled` because
-    it's not an Ember property (so won't trigger CP
-    update when changed)
-    */
+        /* We can't depend on `_tether.enabled` because
+          it's not an Ember property (so won't trigger CP
+          update when changed)
+          */
 
-    this.set('_isTetherEnabled', true);
-    this.get('_tether').enable();
+        this.set('_isTetherEnabled', true);
+        this.get('_tether').enable();
+      }
+    });
   },
 
   stopTether() {
@@ -544,4 +556,27 @@ export default EmberTetherComponent.extend({
     });
   },
 
+  _tetherDidChange() {
+    this.removeTether(this._tether);
+    this.addTether();
+  },
+
+  tetherDidChange: observer(
+    'classPrefix',
+    'target',
+    'attachment',
+    'targetAttachment',
+    'offset',
+    'targetOffset',
+    'targetModifier',
+    'constraints',
+    'optimizations',
+    function() {
+      if (this.element) {
+        this._tetherDidChange();
+      } else {
+        run.schedule('afterRender', () => this._tetherDidChange());
+      }
+    }
+  ),
 });
