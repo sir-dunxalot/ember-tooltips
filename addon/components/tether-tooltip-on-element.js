@@ -1,7 +1,5 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tether-tooltip-and-popover';
-
-const { $ } = Ember;
 
 export default TooltipAndPopoverComponent.extend({
 

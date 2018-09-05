@@ -1,15 +1,14 @@
+import Component from '@ember/component';
+import $ from 'jquery';
+import { get, computed } from '@ember/object';
+import { isNone } from '@ember/utils';
+import { warn } from '@ember/debug';
 import Ember from 'ember';
 import layout from 'ember-tooltips/templates/components/lazy-render-wrapper';
 import { dispatchAction } from '../utils';
 
 const {
-  Component,
-  ViewUtils,
-  $,
-  computed,
-  get,
-  isNone,
-  warn,
+  ViewUtils
 } = Ember;
 
 export const TARGET_EVENT_NAMESPACE = 'target-lazy-render-wrapper';

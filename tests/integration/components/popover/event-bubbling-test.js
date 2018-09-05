@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import { moduleForComponent, test } from 'ember-qunit';
 import {
   assertTooltipNotVisible,
@@ -6,8 +6,6 @@ import {
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
-
-const { $ } = Ember;
 
 moduleForComponent('popover-on-element', 'Integration | Option | Event bubbling', {
   integration: true,

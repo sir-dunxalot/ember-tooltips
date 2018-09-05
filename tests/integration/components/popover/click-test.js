@@ -1,5 +1,10 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent, assertTooltipNotRendered } from '../../../helpers/ember-tooltips';
+import {
+  assertTooltipNotVisible,
+  assertTooltipVisible,
+  triggerTooltipTargetEvent,
+  assertTooltipNotRendered
+} from '../../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('popover-on-element', 'Integration | Option | click', {

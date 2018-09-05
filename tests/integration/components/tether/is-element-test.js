@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { findTooltip, findTooltipTarget } from 'dummy/tests/helpers/ember-tooltips';
@@ -7,8 +7,6 @@ import {
   isElementInTargetAndNotInPopover,
   isElementElsewhere,
 } from 'ember-tooltips/components/tether-popover-on-element';
-
-const { $ } = Ember;
 
 let $elsewhere;
 let $parentElsewhere;

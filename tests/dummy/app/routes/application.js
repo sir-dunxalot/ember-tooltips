@@ -1,6 +1,5 @@
-import Ember from 'ember';
-
-const { Route, String } = Ember;
+import Route from '@ember/routing/route';
+import { capitalize } from '@ember/string';
 
 export default Route.extend({
 
@@ -13,7 +12,7 @@ export default Route.extend({
     transitionTo(routeName) {
       const nameParts = routeName.split('-');
       const [one, two, three] = nameParts;
-      const oneCapitalized = String.capitalize(one);
+      const oneCapitalized = capitalize(one);
 
       this.transitionTo(routeName);
       this.controller.set('pageTitle', `${oneCapitalized}s ${two} ${three}s`);

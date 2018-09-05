@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { moduleForComponent, test } from 'ember-qunit';
-import { assertTooltipNotVisible, assertTooltipVisible, assertTooltipRendered } from '../../helpers/ember-tooltips';
+import {
+  assertTooltipNotVisible,
+  assertTooltipVisible,
+  assertTooltipRendered
+} from '../../helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
-
-const { run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | isShown', {
   integration: true,

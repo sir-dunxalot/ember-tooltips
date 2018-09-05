@@ -1,6 +1,9 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertTooltipRendered, assertTooltipContent } from '../../helpers/ember-tooltips';
+import {
+  assertTooltipRendered,
+  assertTooltipContent
+} from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | inline', {
   integration: true,

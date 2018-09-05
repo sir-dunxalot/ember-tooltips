@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { run } from '@ember/runloop';
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 import {
@@ -9,8 +10,7 @@ import {
   assertTooltipVisible,
 } from '../../tests/helpers/ember-tooltips';
 
-const { $, run } = Ember;
-
+/* globals andThen, visit */
 moduleForAcceptance('Acceptance | acceptance');
 
 test('all acceptance tests', function(assert) {
