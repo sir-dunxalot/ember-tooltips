@@ -1,10 +1,6 @@
-import Ember from 'ember';
-
-const {
-  Controller,
-  RSVP,
-  run,
-} = Ember;
+import Controller from '@ember/controller';
+import RSVP from 'rsvp';
+import { run } from '@ember/runloop';
 
 export default Controller.extend({
   asyncContent: null,
@@ -22,6 +18,8 @@ export default Controller.extend({
   },
 
   init() {
+    this._super(...arguments);
+
     run.scheduleOnce('afterRender', () => {
       run.later(() => {
         this.set('showLogoTooltip', true);

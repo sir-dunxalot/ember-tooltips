@@ -1,15 +1,10 @@
-import Ember from 'ember';
+import { deprecatingAlias } from '@ember/object/computed';
+import $ from 'jquery';
+import { assert } from '@ember/debug';
+import { observer, computed } from '@ember/object';
+import { run } from '@ember/runloop';
 import EmberTetherComponent from 'ember-tether/components/ember-tether';
 import { dispatchAction } from '../utils';
-
-const {
-  $,
-  assert,
-  computed,
-  observer,
-  on,
-  run,
-} = Ember;
 
 const defaultPosition = 'center';
 
@@ -36,15 +31,16 @@ function cleanNumber(stringOrNumber) {
 export default EmberTetherComponent.extend({
 
   passedPropertiesObject: null,
-  setPropertiesWithPassedPropertiesObject: on('didReceiveAttrs', function() {
+
+  didReceiveAttrs() {
     this._super(...arguments);
 
-    let passedPropertiesObject = this.get('passedPropertiesObject');
+    const passedPropertiesObject = this.get('passedPropertiesObject');
 
     if (passedPropertiesObject) {
       this.setProperties(passedPropertiesObject);
     }
-  }),
+  },
 
   /* Options */
 
@@ -60,7 +56,7 @@ export default EmberTetherComponent.extend({
   spacing: 10,
   tabindex: '0', // A positive integer (to enable) or -1 (to disable)
   isShown: false,
-  tooltipIsVisible: computed.deprecatingAlias('isShown', {
+  tooltipIsVisible: deprecatingAlias('isShown', {
     id: 'tooltip-and-popover.tooltipIsVisible',
     until: '3.0.0',
   }),
@@ -86,19 +82,19 @@ export default EmberTetherComponent.extend({
   onRender: null,
   onShow: null,
 
-  onTooltipDestroy: computed.deprecatingAlias('onDestroy', {
+  onTooltipDestroy: deprecatingAlias('onDestroy', {
     id: 'tooltip-and-popover.onTooltipDestroy',
     until: '3.0.0',
   }),
-  onTooltipHide: computed.deprecatingAlias('onHide', {
+  onTooltipHide: deprecatingAlias('onHide', {
     id: 'tooltip-and-popover.onTooltipHide',
     until: '3.0.0',
   }),
-  onTooltipRender: computed.deprecatingAlias('onRender', {
+  onTooltipRender: deprecatingAlias('onRender', {
     id: 'tooltip-and-popover.onTooltipRender',
     until: '3.0.0',
   }),
-  onTooltipShow: computed.deprecatingAlias('onShow', {
+  onTooltipShow: deprecatingAlias('onShow', {
     id: 'tooltip-and-popover.onTooltipShow',
     until: '3.0.0',
   }),

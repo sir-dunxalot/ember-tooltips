@@ -1,9 +1,12 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { triggerTooltipTargetEvent, assertTooltipRendered, assertTooltipNotRendered, assertTooltipNotVisible } from '../../helpers/ember-tooltips';
-
-const { run } = Ember;
+import {
+  triggerTooltipTargetEvent,
+  assertTooltipRendered,
+  assertTooltipNotRendered,
+  assertTooltipNotVisible
+} from '../../helpers/ember-tooltips';
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | enableLazyRendering', {
   integration: true,

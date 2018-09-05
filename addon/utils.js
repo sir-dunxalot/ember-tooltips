@@ -1,6 +1,6 @@
-import Ember from 'ember';
-
-const { deprecate, computed, warn } = Ember;
+import { deprecate } from '@ember/application/deprecations';
+import { warn } from '@ember/debug';
+import { computed } from '@ember/object';
 
 export const onComponentTarget = computed(function() {
 

@@ -1,6 +1,11 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { assertTooltipNotVisible, assertTooltipVisible, triggerTooltipTargetEvent, assertTooltipRendered } from '../../../helpers/ember-tooltips';
+import {
+  assertTooltipNotVisible,
+  assertTooltipVisible,
+  triggerTooltipTargetEvent,
+  assertTooltipRendered
+} from '../../../helpers/ember-tooltips';
 
 moduleForComponent('tether-popover-on-component', 'Integration | Component | tether popover on component', {
   integration: true,

@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { run } from '@ember/runloop';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tether-tooltip-and-popover';
 import layout from 'ember-tooltips/templates/components/tether-popover';
-
-const { $, run } = Ember;
 
 /* These isElement________ functions are used to determine where an element
 is in relation to the $popover and the $target elements. This is needed to

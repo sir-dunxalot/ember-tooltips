@@ -1,6 +1,7 @@
-import Ember from 'ember';
-
-const { $, run } = Ember;
+import { isNone } from '@ember/utils';
+import { assert as emberAssert } from '@ember/debug';
+import $ from 'jquery';
+import { run } from '@ember/runloop';
 
 const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
 const tooltipOrPopoverTargetSelector = '.ember-tooltip-or-popover-target';
@@ -81,10 +82,10 @@ function getTooltipTargetFromBody(selector = tooltipOrPopoverTargetSelector) {
 
 function getOppositeSide(side) {
   switch (side) {
-    case 'top': return 'bottom'; break;
-    case 'right': return 'left'; break;
-    case 'bottom': return 'top'; break;
-    case 'left': return 'right'; break;
+    case 'top': return 'bottom';
+    case 'right': return 'left';
+    case 'bottom': return 'top';
+    case 'left': return 'right';
   }
 }
 
@@ -100,7 +101,7 @@ function validateSide(side, testHelper = 'assertTooltipSide') {
   use Ember.assert because assert is passed in from QUnit */
 
   if (!sideIsValid) {
-    Ember.assert(`You must pass side like ${testHelper}(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`);
+    emberAssert(`You must pass side like ${testHelper}(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`);
   }
 }
 
@@ -226,7 +227,7 @@ export function assertTooltipSpacing(assert, options) {
   validateSide(side, 'assertTooltipSpacing');
 
   if (typeof spacing !== 'number') {
-    Ember.assert(`You must pass spacing as a number like assertTooltipSpacing(assert, { side: 'top', spacing: 10 });`);
+    emberAssert(`You must pass spacing as a number like assertTooltipSpacing(assert, { side: 'top', spacing: 10 });`);
   }
 
   const { expectedGreaterDistance, expectedLesserDistance } = getPositionDifferences(options);
@@ -249,8 +250,8 @@ export function assertTooltipSpacing(assert, options) {
 export function assertTooltipContent(assert, options = {}) {
   const { contentString } = options;
 
-  if (Ember.isNone(contentString)) {
-    Ember.assert('You must specify a contentString property in the options parameter');
+  if (isNone(contentString)) {
+    emberAssert('You must specify a contentString property in the options parameter');
   }
 
   const $tooltip = getTooltipFromBody(options.selector);

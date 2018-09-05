@@ -1,9 +1,7 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { triggerTooltipTargetEvent } from '../../helpers/ember-tooltips';
-
-const { run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Option | actions', {
   integration: true,

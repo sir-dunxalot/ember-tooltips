@@ -1,8 +1,6 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-
-const { $ } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Config | body-element-id', {
   integration: true,

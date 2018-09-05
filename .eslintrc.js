@@ -14,13 +14,6 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:ember-suave/recommended',
-  ],
-  plugins: [
-    'netguru-ember', // Import rules but don't automatically add the config
-  ],
   rules: {
   },
   overrides: [

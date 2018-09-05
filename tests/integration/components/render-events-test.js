@@ -1,9 +1,8 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { run } from '@ember/runloop';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { TARGET_EVENT_NAMESPACE } from 'ember-tooltips/components/lazy-render-wrapper';
-
-const { $, run } = Ember;
 
 moduleForComponent('tooltip-on-element', 'Integration | Component | event handlers', {
   integration: true,
