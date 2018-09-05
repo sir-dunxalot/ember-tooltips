@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from 'ember-tooltips/templates/components/lazy-render-wrapper';
+import { dispatchAction } from '../utils';
 
 const {
   Component,
@@ -112,7 +113,7 @@ export default Component.extend({
           then we must pass down the correctly-scoped action instead of value
           */
 
-          passablePropertiesObject[key] = () => this.sendAction(key);
+          passablePropertiesObject[key] = () => dispatchAction(this, key);
         } else {
           passablePropertiesObject[key] = value;
         }

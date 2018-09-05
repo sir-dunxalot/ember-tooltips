@@ -457,12 +457,15 @@ Four actions are available for you to hook onto through the tooltip/popover life
 
 ```hbs
 {{tooltip-on-component
-  onDestroy='onDestroy'
-  onHide='onHide'
-  onRender='onRender'
-  onShow='onShow'
+  onDestroy=(action 'onDestroy')
+  onHide=(action 'onHide')
+  onRender=(action 'onRender')
+  onShow=(action 'onShow')
 }}
 ```
+
+As of 2.11.0, specifying just the name of an action (e.g. `'onDestroy'`) is
+deprecated, and will be removed in 3.0.0. Please use closure actions instead.
 
 ## Testing
 
