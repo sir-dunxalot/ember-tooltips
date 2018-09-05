@@ -1,17 +1,15 @@
 /* global Tooltip */
 
-import Ember from 'ember';
-import layout from '../templates/components/ember-tooltip-base';
+import { not } from '@ember/object/computed';
 
-const {
-  $,
-  computed,
-  getOwner,
-  run,
-  warn,
-  Component,
-  RSVP,
-} = Ember;
+import $ from 'jquery';
+import { computed } from '@ember/object';
+import { getOwner } from '@ember/application';
+import { run } from '@ember/runloop';
+import { warn } from '@ember/debug';
+import Component from '@ember/component';
+import RSVP from 'rsvp';
+import layout from '../templates/components/ember-tooltip-base';
 
 const ANIMATION_CLASS = 'ember-tooltip-show';
 
@@ -82,7 +80,7 @@ export default Component.extend({
   onRender: null,
   onShow: null,
 
-  tooltipElementNotRendered: computed.not('_tooltipElementRendered'),
+  tooltipElementNotRendered: not('_tooltipElementRendered'),
 
   hideOn: computed('event', function() {
     const event  = this.get('event');

@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import {
@@ -8,8 +7,7 @@ import {
   assertTooltipVisible,
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
-
-const { $ } = Ember;
+import $ from 'jquery';
 
 moduleForComponent('ember-popover', 'Integration | Option | API', {
   integration: true,

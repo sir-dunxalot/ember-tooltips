@@ -1,16 +1,12 @@
-import Ember from 'ember';
+import { deprecatingAlias } from '@ember/object/computed';
+import { run } from '@ember/runloop';
 import EmberTooltipBase from 'ember-tooltips/components/ember-tooltip-base';
-
-const {
-  computed,
-  run,
-} = Ember;
 
 export default EmberTooltipBase.extend({
   popoverHideDelay: 250,
   tooltipClassName: 'ember-popover',
 
-  hideDelay: computed.deprecatingAlias('popoverHideDelay', {
+  hideDelay: deprecatingAlias('popoverHideDelay', {
     id: 'EmberTooltipBase.popoverHideDelay',
     until: '3.2.0',
   }),

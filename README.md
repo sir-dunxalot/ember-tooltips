@@ -24,6 +24,7 @@ Documentation for usage is below:
 - [Testing](#testing)
   - [Test helpers](#test-helpers)
 - [Accessibility](#accessibility)
+- [Development](#development)
 
 ## Usage
 
@@ -255,6 +256,23 @@ Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automat
 
 This opeion does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event) in deciding when the tooltip is hidden.
 
+#### Set pin
+
+| Type    | Boolean   |
+|---------|-----------|
+| Default | undefined |
+
+If you find that `keepInWindow` is not keeping the entire tooltip in the window, try also using `setPin`. Note that this is somewhat experimental, and may not work for all window positioning issues (see #72).
+
+```hbs
+{{!--Force the tooltip to stay fully in-screen--}}
+
+{{tooltip-on-component
+  keepInWindow=true
+  setPin=true
+}}
+```
+
 #### Side
 
 | Type    | String  |
@@ -378,13 +396,16 @@ export default EmberTooltipComponent.extend({
 Four actions are available for you to hook onto through the tooltip/popover lifecycle:
 
 ```hbs
-{{ember-tooltip
-  onDestroy='onDestroy'
-  onHide='onHide'
-  onRender='onRender'
-  onShow='onShow'
+{{tooltip-on-component
+  onDestroy=(action 'onDestroy')
+  onHide=(action 'onHide')
+  onRender=(action 'onRender')
+  onShow=(action 'onShow')
 }}
 ```
+
+As of 2.11.0, specifying just the name of an action (e.g. `'onDestroy'`) is
+deprecated, and will be removed in 3.0.0. Please use closure actions instead.
 
 ## Testing
 
@@ -982,6 +1003,12 @@ Additionally, the `aria-describedby`, `title`, `id`, and `role` attributes are m
 There is always room for improvement and PRs to improve accessibility are welcome.
 
 ## Development
+
+This project is maintained by:
+
+[![Duncan Walker](https://avatars1.githubusercontent.com/u/4495352?s=70&v=4)](https://github.com/sir-dunxalot) | [![Max Fierke](https://avatars3.githubusercontent.com/u/354236?s=70&v=4)](https://github.com/maxfierke) |
+--- | --- |
+[Duncan Walker](https://github.com/sir-dunxalot) | [Max Fierke](https://github.com/maxfierke) |
 
 All PRs and issues are welcome.
 

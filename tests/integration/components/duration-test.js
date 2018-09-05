@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import {
@@ -8,8 +8,6 @@ import {
   assertTooltipVisible,
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
-
-const { run } = Ember;
 
 moduleForComponent('ember-tooltip', 'Integration | Option | duration', {
   integration: true,
