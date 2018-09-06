@@ -184,7 +184,7 @@ export default Component.extend({
     }
   },
 
-  willDestroy() {
+  willDestroyElement() {
     this._super(...arguments);
     this.hide();
 
