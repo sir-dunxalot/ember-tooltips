@@ -537,9 +537,7 @@ export default Component.extend({
     /* Add the event listeners */
 
     run(() => {
-      target.addEventListener(eventName, (event) => {
-        callback(event);
-      });
+      target.addEventListener(eventName, callback);
     });
   },
 
