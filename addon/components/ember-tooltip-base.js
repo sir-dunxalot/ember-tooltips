@@ -206,7 +206,7 @@ export default Component.extend({
 
     run(this.get('_tooltip').dispose);
 
-    this.sendAction('onDestroy', this);
+    this._dispatchAction('onDestroy', this);
   },
 
   addTargetEventListeners() {
@@ -320,7 +320,7 @@ export default Component.extend({
               onCreate: (tooltipData) => {
                 run(() => {
 
-                  this.sendAction('onRender', this);
+                  this._dispatchAction('onRender', this);
 
                   this.set('_tooltipElementRendered', true);
 
@@ -481,7 +481,7 @@ export default Component.extend({
 
       this.set('_isHiding', false);
       this.set('isShown', false);
-      this.sendAction('onHide', this);
+      this._dispatchAction('onHide', this);
     }, this.get('_animationDuration'));
   },
 
@@ -504,7 +504,7 @@ export default Component.extend({
 
       _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
 
-      this.sendAction('onShow', this);
+      this._dispatchAction('onShow', this);
     });
   },
 
@@ -539,4 +539,11 @@ export default Component.extend({
     });
   },
 
+  _dispatchAction(actionName, ...args) {
+    const action = this.get(actionName);
+
+    if (!this.isDestroying && !this.isDestroyed && action) {
+      action(...args);
+    }
+  }
 });
