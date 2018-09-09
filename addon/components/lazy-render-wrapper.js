@@ -90,6 +90,9 @@ export default Component.extend({
   _hasUserInteracted: false,
   _hasRendered: false,
   _shouldShowOnRender: false,
+  // Used for Glimmer 2 compatibilty
+  // See https://github.com/yapplabs/ember-wormhole/issues/66#issuecomment-263575168 for more info
+  _shouldTargetGrandparentElement: true,
 
   /* 3. Single line Computed Property */
 
