@@ -256,23 +256,6 @@ Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automat
 
 This opeion does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event) in deciding when the tooltip is hidden.
 
-#### Set pin
-
-| Type    | Boolean   |
-|---------|-----------|
-| Default | undefined |
-
-If you find that `keepInWindow` is not keeping the entire tooltip in the window, try also using `setPin`. Note that this is somewhat experimental, and may not work for all window positioning issues (see #72).
-
-```hbs
-{{!--Force the tooltip to stay fully in-screen--}}
-
-{{tooltip-on-component
-  keepInWindow=true
-  setPin=true
-}}
-```
-
 #### Side
 
 | Type    | String  |
@@ -396,7 +379,7 @@ export default EmberTooltipComponent.extend({
 Four actions are available for you to hook onto through the tooltip/popover lifecycle:
 
 ```hbs
-{{tooltip-on-component
+{{ember-tooltip
   onDestroy=(action 'onDestroy')
   onHide=(action 'onHide')
   onRender=(action 'onRender')
