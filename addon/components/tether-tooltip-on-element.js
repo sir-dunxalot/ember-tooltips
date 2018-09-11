@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tether-tooltip-and-popover';
+import { bind } from '@ember/runloop';
 
 export default TooltipAndPopoverComponent.extend({
 
@@ -22,7 +23,7 @@ export default TooltipAndPopoverComponent.extend({
       the visibility */
 
       if (_showOn === _hideOn) {
-        $target.on(_showOn, () => {
+        $target.on(_showOn, bind(this, () => {
 
           /* When using enableLazyRendering the focus event occurs before the click event.
           When this happens we don't want to call focus then click.
@@ -33,21 +34,17 @@ export default TooltipAndPopoverComponent.extend({
           } else {
             this.toggle();
           }
-        });
+        }));
       } else {
 
         /* Else, add the show and hide events individually */
 
         if (_showOn !== 'none') {
-          $target.on(_showOn, () => {
-            this.show();
-          });
+          $target.on(_showOn, bind(this, this.show));
         }
 
         if (_hideOn !== 'none') {
-          $target.on(_hideOn, () => {
-            this.hide();
-          });
+          $target.on(_hideOn, bind(this, this.hide));
         }
       }
 
@@ -60,24 +57,20 @@ export default TooltipAndPopoverComponent.extend({
         click to also trigger focusin */
 
         if (event !== 'click') {
-          $target.focusin(() => {
-            this.show();
-          });
+          $target.focusin(bind(this, this.show));
         }
 
-        $target.focusout(() => {
-          this.hide();
-        });
+        $target.focusout(bind(this, this.hide));
       }
 
-      $target.keydown((keyEvent) => {
+      $target.keydown(bind(this, (keyEvent) => {
         if (keyEvent.which === 27) {
           this.hide();
           keyEvent.preventDefault();
 
           return false;
         }
-      });
+      }));
     }
   },
 });

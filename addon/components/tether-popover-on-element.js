@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { run } from '@ember/runloop';
+import { bind, run } from '@ember/runloop';
 import TooltipAndPopoverComponent from 'ember-tooltips/components/tether-tooltip-and-popover';
 import layout from 'ember-tooltips/templates/components/tether-popover';
 
@@ -114,9 +114,9 @@ export default TooltipAndPopoverComponent.extend({
       const _showOn = this.get('_showOn');
       const _hideOn = this.get('_hideOn');
 
-      $target.on(_showOn, () => this.show());
+      $target.on(_showOn, bind(this, this.show));
 
-      $target.add($popover).on(_hideOn, () => {
+      $target.add($popover).on(_hideOn, bind(this, () => {
         this.set('_isMouseInside', false);
 
         const hideDelay = +this.get('hideDelay');
@@ -133,17 +133,17 @@ export default TooltipAndPopoverComponent.extend({
         } else {
           hideIfOutside();
         }
-      });
+      }));
 
       /* We must use mouseover because it correctly
       registers hover interactivity when spacing='0'
       */
 
-      $target.add($popover).on('mouseover', () => this.set('_isMouseInside', true));
+      $target.add($popover).on('mouseover', bind(this, () => this.set('_isMouseInside', true)));
 
     } else if (event === 'click') {
 
-      $(document).on(`click.${target}`, (event) => {
+      $(document).on(`click.${target}`, bind(this, (event) => {
 
         /* This lightweight, name-spaced click handler is
         necessary to determine where a click occurs
@@ -172,10 +172,10 @@ export default TooltipAndPopoverComponent.extend({
             this.toggle();
           }
         }
-      });
+      }));
     }
 
-    $target.on('focus', () => {
+    $target.on('focus', bind(this, () => {
 
       /* The focus event occurs before the click event.
       when this happens we don't want to call focus then click.
@@ -184,9 +184,9 @@ export default TooltipAndPopoverComponent.extend({
 
       this.set('_isInProcessOfShowing', true);
       this.show();
-    });
+    }));
 
-    $target.add($popover).on('focusout', () => {
+    $target.add($popover).on('focusout', bind(this, () => {
 
       /* Use a run.later() to allow the 'focusout' event
       to finish handling.
@@ -199,7 +199,7 @@ export default TooltipAndPopoverComponent.extend({
           this.hide();
         }
       });
-    });
+    }));
   },
   willDestroyElement() {
     this._super(...arguments);
