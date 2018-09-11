@@ -50,13 +50,12 @@ test('Popover: bubble click event', function(assert) {
     {{/ember-popover}}
   `);
 
-  const $button = $('.test-button-with-action');
-
   assertTooltipNotRendered(assert);
 
   triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
   afterTooltipRenderChange(assert, () => {
+    const $button = $('.test-button-with-action');
 
     assertTooltipVisible(assert);
 
