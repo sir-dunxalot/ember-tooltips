@@ -16,7 +16,10 @@ module.exports = function(defaults) {
   */
 
   app.import('vendor/highlight.pack.js', {
-    using: [ { transformation: 'amd', as: 'highlight.js' } ]
+    using: [{
+      transformation: 'amd',
+      as: 'highlight.js'
+    }]
   });
 
   return app.toTree();
