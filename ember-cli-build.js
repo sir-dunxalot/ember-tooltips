@@ -1,41 +1,26 @@
-/*jshint node:true*/
-/* global require, module */
-var EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
-var autoprefixer = require('autoprefixer');
+'use strict';
+
+const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
-    snippetSearchPaths: ['app', 'tests'],
-
-    sassOptions: {
-      extension: 'scss',
-    },
-
-    postcssOptions: {
-      compile: {
-        enabled: false
-      },
-      filter: {
-        enabled: true,
-        plugins: [
-          {
-            module: autoprefixer,
-            options: {
-              browsers: ['last 2 version']
-            }
-          }
-        ]
-      }
-    }
-
+    includeHighlightJS: false,
+    includeHighlightStyle: false,
+    snippetSearchPaths: ['app', 'tests']
   });
 
   /*
-    This build file specifies the options for the dummy test app of this
-    addon, located in `/tests/dummy`
-    This build file does *not* influence how the addon or the app using it
-    behave. You most likely want to be modifying `./index.js` or app's build file
+    As recommended by ember-cli-snippet this is a customised download from
+    https://highlightjs.org/download/
+    with CSS, Javscript, HTML/XML, Handlebars
   */
+
+  app.import('vendor/highlight.pack.js', {
+    using: [{
+      transformation: 'amd',
+      as: 'highlight.js'
+    }]
+  });
 
   return app.toTree();
 };

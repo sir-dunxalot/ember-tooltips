@@ -24,6 +24,7 @@ Documentation for usage is below:
 - [Testing](#testing)
   - [Test helpers](#test-helpers)
 - [Accessibility](#accessibility)
+- [Development](#development)
 
 ## Usage
 
@@ -379,12 +380,15 @@ Four actions are available for you to hook onto through the tooltip/popover life
 
 ```hbs
 {{ember-tooltip
-  onDestroy='onDestroy'
-  onHide='onHide'
-  onRender='onRender'
-  onShow='onShow'
+  onDestroy=(action 'onDestroy')
+  onHide=(action 'onHide')
+  onRender=(action 'onRender')
+  onShow=(action 'onShow')
 }}
 ```
+
+As of 2.11.0, specifying just the name of an action (e.g. `'onDestroy'`) is
+deprecated, and will be removed in 3.0.0. Please use closure actions instead.
 
 ## Testing
 
@@ -982,6 +986,12 @@ Additionally, the `aria-describedby`, `title`, `id`, and `role` attributes are m
 There is always room for improvement and PRs to improve accessibility are welcome.
 
 ## Development
+
+This project is maintained by:
+
+[![Duncan Walker](https://avatars1.githubusercontent.com/u/4495352?s=70&v=4)](https://github.com/sir-dunxalot) | [![Max Fierke](https://avatars3.githubusercontent.com/u/354236?s=70&v=4)](https://github.com/maxfierke) |
+--- | --- |
+[Duncan Walker](https://github.com/sir-dunxalot) | [Max Fierke](https://github.com/maxfierke) |
 
 All PRs and issues are welcome.
 

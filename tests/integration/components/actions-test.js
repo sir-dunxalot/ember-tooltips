@@ -23,7 +23,7 @@ test('ember-tooltip calls lifecycle actions', function(assert) {
   /* Setup the actions and handlers... */
 
   Object.keys(actionsCalledHash).forEach((action) => {
-    this.on(action, () => {
+    this.set(action, () => {
       assert.ok(true, `Should call ${action}`);
 
       /* Count the calls... */
@@ -37,10 +37,10 @@ test('ember-tooltip calls lifecycle actions', function(assert) {
   this.render(hbs`
     {{#unless destroyTooltip}}
       {{ember-tooltip
-        onRender='onRenderFoo'
-        onShow='onShowBar'
-        onHide='onHideBaz'
-        onDestroy='onDestroyFubar'
+        onRender=(action onRenderFoo)
+        onShow=(action onShowBar)
+        onHide=(action onHideBaz)
+        onDestroy=(action onDestroyFubar)
       }}
     {{/unless}}
   `);

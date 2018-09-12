@@ -178,7 +178,7 @@
 {{#some-component}}
   Tooltip has async content
 
-  {{#ember-tooltip onShow='setAsyncContent' updateFor=asyncContent}}
+  {{#ember-tooltip onShow=(action 'setAsyncContent') updateFor=asyncContent}}
     {{#if asyncContent}}
       {{asyncContent}}
     {{else}}

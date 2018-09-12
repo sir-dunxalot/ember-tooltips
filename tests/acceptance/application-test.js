@@ -1,3 +1,4 @@
+/* globals andThen, currentURL, visit,  */
 import { test } from 'qunit';
 import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
 

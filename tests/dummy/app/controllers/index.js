@@ -1,10 +1,6 @@
-import Ember from 'ember';
-
-const {
-  Controller,
-  RSVP,
-  run,
-} = Ember;
+import Controller from '@ember/controller';
+import RSVP from 'rsvp';
+import { later, scheduleOnce } from '@ember/runloop';
 
 export default Controller.extend({
   asyncContent: null,
@@ -13,7 +9,7 @@ export default Controller.extend({
   actions: {
     setAsyncContent() {
       return new RSVP.Promise((resolve) => {
-        run.later(() => {
+        later(() => {
           this.set('asyncContent', 'Some model');
           resolve();
         }, 2000);
@@ -22,8 +18,10 @@ export default Controller.extend({
   },
 
   init() {
-    run.scheduleOnce('afterRender', () => {
-      run.later(() => {
+    this._super(...arguments);
+
+    scheduleOnce('afterRender', () => {
+      later(() => {
         this.set('showLogoTooltip', true);
       }, 1000);
     });

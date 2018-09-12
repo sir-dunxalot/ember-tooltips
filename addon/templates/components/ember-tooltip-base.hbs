@@ -1,10 +1,12 @@
 {{#if hasBlock}}
-  {{#ember-wormhole
-    to=wormholeId
-    renderInPlace=tooltipElementNotRendered
-  }}
-    <div>
-      {{yield this}}
-    </div>
-  {{/ember-wormhole}}
+  {{#if _tooltipElementRendered}}
+    {{#ember-wormhole
+      to=wormholeId
+      renderInPlace=tooltipElementNotRendered
+    }}
+      <div>
+        {{yield this}}
+      </div>
+    {{/ember-wormhole}}
+  {{/if}}
 {{/if}}

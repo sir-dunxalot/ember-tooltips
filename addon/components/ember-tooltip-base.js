@@ -1,17 +1,15 @@
 /* global Tooltip */
 
-import Ember from 'ember';
-import layout from '../templates/components/ember-tooltip-base';
+import { not } from '@ember/object/computed';
 
-const {
-  $,
-  computed,
-  getOwner,
-  run,
-  warn,
-  Component,
-  RSVP,
-} = Ember;
+import $ from 'jquery';
+import { computed } from '@ember/object';
+import { getOwner } from '@ember/application';
+import { run } from '@ember/runloop';
+import { warn } from '@ember/debug';
+import Component from '@ember/component';
+import RSVP from 'rsvp';
+import layout from '../templates/components/ember-tooltip-base';
 
 const ANIMATION_CLASS = 'ember-tooltip-show';
 
@@ -82,7 +80,7 @@ export default Component.extend({
   onRender: null,
   onShow: null,
 
-  tooltipElementNotRendered: computed.not('_tooltipElementRendered'),
+  tooltipElementNotRendered: not('_tooltipElementRendered'),
 
   hideOn: computed('event', function() {
     const event  = this.get('event');
@@ -186,7 +184,7 @@ export default Component.extend({
     }
   },
 
-  willDestroy() {
+  willDestroyElement() {
     this._super(...arguments);
     this.hide();
 
@@ -208,7 +206,7 @@ export default Component.extend({
 
     run(this.get('_tooltip').dispose);
 
-    this.sendAction('onDestroy', this);
+    this._dispatchAction('onDestroy', this);
   },
 
   addTargetEventListeners() {
@@ -322,7 +320,7 @@ export default Component.extend({
               onCreate: (tooltipData) => {
                 run(() => {
 
-                  this.sendAction('onRender', this);
+                  this._dispatchAction('onRender', this);
 
                   this.set('_tooltipElementRendered', true);
 
@@ -483,7 +481,7 @@ export default Component.extend({
 
       this.set('_isHiding', false);
       this.set('isShown', false);
-      this.sendAction('onHide', this);
+      this._dispatchAction('onHide', this);
     }, this.get('_animationDuration'));
   },
 
@@ -506,7 +504,7 @@ export default Component.extend({
 
       _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
 
-      this.sendAction('onShow', this);
+      this._dispatchAction('onShow', this);
     });
   },
 
@@ -541,4 +539,11 @@ export default Component.extend({
     });
   },
 
+  _dispatchAction(actionName, ...args) {
+    const action = this.get(actionName);
+
+    if (!this.isDestroying && !this.isDestroyed && action) {
+      action(...args);
+    }
+  }
 });

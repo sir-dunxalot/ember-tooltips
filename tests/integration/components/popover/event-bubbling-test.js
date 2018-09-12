@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import { moduleForComponent, test } from 'ember-qunit';
 import {
   afterTooltipRenderChange,
@@ -7,8 +7,6 @@ import {
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 import hbs from 'htmlbars-inline-precompile';
-
-const { $ } = Ember;
 
 moduleForComponent('ember-popover', 'Integration | Option | Event bubbling', {
   integration: true,
@@ -52,13 +50,12 @@ test('Popover: bubble click event', function(assert) {
     {{/ember-popover}}
   `);
 
-  const $button = $('.test-button-with-action');
-
   assertTooltipNotRendered(assert);
 
   triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
   afterTooltipRenderChange(assert, () => {
+    const $button = $('.test-button-with-action');
 
     assertTooltipVisible(assert);
 

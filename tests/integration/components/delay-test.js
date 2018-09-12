@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import {
@@ -9,8 +9,6 @@ import {
   triggerTooltipTargetEvent,
   assertTooltipVisible,
 } from 'dummy/tests/helpers/ember-tooltips';
-
-const { run } = Ember;
 
 function testTooltipDelay(assert, template) {
   const done = assert.async();
