@@ -6,7 +6,11 @@ module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
     includeHighlightJS: false,
     includeHighlightStyle: false,
-    snippetSearchPaths: ['app', 'tests']
+    snippetSearchPaths: ['app', 'tests'],
+
+    minifyCSS: {
+      enabled: false // CSS minification w/ @import rules seems to be broken in Ember-CLI 3.3
+    }
   });
 
   /*
