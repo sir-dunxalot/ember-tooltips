@@ -315,6 +315,9 @@ export default Component.extend({
                 flip: {
                   enabled: this.get('enableFlip'),
                 },
+                preventOverflow: {
+                  escapeWithReference: true
+                }
               },
 
               onCreate: (tooltipData) => {
