@@ -214,7 +214,14 @@ export default EmberTetherComponent.extend({
       return null;
     }
 
-    const parentElement = $element.parent();
+    let parentElement = $element.parent();
+
+    if (this.get('_shouldTargetGrandparentElement')) {
+      // Used for Glimmer 2 compatibilty
+      // See https://github.com/yapplabs/ember-wormhole/issues/66#issuecomment-263575168 for more info
+      parentElement = parentElement.parent();
+    }
+
     let parentElementId = parentElement && parentElement.attr('id');
 
     if (!parentElementId) {
