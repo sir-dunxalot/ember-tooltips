@@ -131,7 +131,9 @@ export default Component.extend({
       target = document.getElementById(targetId);
 
       if (!target) {
-        warn('No target found for targetId ', targetId);
+        warn('No target found for targetId ', targetId, {
+          id: 'ember-tooltips.no-element-with-targetId'
+        });
       }
     } else {
       target = this.element.parentNode;
