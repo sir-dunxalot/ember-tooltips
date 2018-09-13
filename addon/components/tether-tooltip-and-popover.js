@@ -214,7 +214,7 @@ export default EmberTetherComponent.extend({
       return null;
     }
 
-    const parentElement = $element.parent();
+    const parentElement = $element.parent().parent();
     let parentElementId = parentElement && parentElement.attr('id');
 
     if (!parentElementId) {
