@@ -2,6 +2,7 @@ import Component from '@ember/component';
 import $ from 'jquery';
 import { get, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
+import { bind } from '@ember/runloop';
 import { warn } from '@ember/debug';
 import Ember from 'ember';
 import layout from 'ember-tooltips/templates/components/lazy-render-wrapper';
@@ -248,13 +249,13 @@ export default Component.extend({
       if the user has mouseenter and not mouseleave immediately afterwards.
       */
 
-      $target.on(`mouseleave.${TARGET_EVENT_NAMESPACE}`, () => {
+      $target.on(`mouseleave.${TARGET_EVENT_NAMESPACE}`, bind(this, () => {
         this.set('_shouldShowOnRender', false);
-      });
+      }));
     }
 
     this.get('_lazyRenderEvents').forEach((_lazyRenderEvent) => {
-      $target.on(`${_lazyRenderEvent}.${TARGET_EVENT_NAMESPACE}`, () => {
+      $target.on(`${_lazyRenderEvent}.${TARGET_EVENT_NAMESPACE}`, bind(this, () => {
         if (this.get('_hasUserInteracted')) {
           $target.off(`${_lazyRenderEvent}.${TARGET_EVENT_NAMESPACE}`);
         } else {
@@ -262,7 +263,7 @@ export default Component.extend({
           this.set('_shouldShowOnRender', true);
           this.set('_isInProcessOfShowing', true);
         }
-      });
+      }));
     });
   },
 

@@ -518,13 +518,16 @@ export default EmberTetherComponent.extend({
       $target.off();
     }
 
+    run.cancel(this._startTether);
+    run.cancel(this._stopTether);
+
     this._super(...arguments); // Removes tether
 
     dispatchAction(this, 'onDestroy');
   },
 
   startTether() {
-    run.schedule('afterRender', () => {
+    this._startTether = run.schedule('afterRender', () => {
       if (!this.isDestroyed && !this.isDestroying) {
 
         /* We can't depend on `_tether.enabled` because
@@ -539,7 +542,7 @@ export default EmberTetherComponent.extend({
   },
 
   stopTether() {
-    run.schedule('afterRender', () => {
+    this._stopTether = run.schedule('afterRender', () => {
       if (!this.isDestroyed && !this.isDestroying) {
 
         /* We can't depend on `_tether.enabled` because
