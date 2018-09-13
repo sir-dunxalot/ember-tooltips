@@ -372,19 +372,31 @@ export default Component.extend({
   },
 
   setSpacing() {
-    const { popperInstance } = this.get('_tooltip');
-    const { popper } = popperInstance;
-    const marginSide = getOppositeSide(popper.getAttribute('x-placement'));
-    const { style } = popper;
+    if (this._spacingRequestId) {
+      return;
+    }
 
-    style.marginTop = 0;
-    style.marginRight = 0;
-    style.marginBottom = 0;
-    style.marginLeft = 0;
+    this._spacingRequestId = requestAnimationFrame(() => {
+      this._spacingRequestId = null;
 
-    popper.style[`margin${capitalize(marginSide)}`] = `${this.get('spacing')}px`;
+      if (!this.get('isShown') || this.get('isDestroying')) {
+        return;
+      }
 
-    popperInstance.state.updateBound();
+      const { popperInstance } = this.get('_tooltip');
+      const { popper } = popperInstance;
+      const marginSide = getOppositeSide(popper.getAttribute('x-placement'));
+      const { style } = popper;
+
+      style.marginTop = 0;
+      style.marginRight = 0;
+      style.marginBottom = 0;
+      style.marginLeft = 0;
+
+      popper.style[`margin${capitalize(marginSide)}`] = `${this.get('spacing')}px`;
+
+      popperInstance.state.updateBound();
+    });
   },
 
   hide() {
@@ -475,6 +487,8 @@ export default Component.extend({
     if (_tooltip.popperInstance) {
       _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
     }
+
+    cancelAnimationFrame(this._spacingRequestId);
 
     run.later(() => {
 
