@@ -1,4 +1,6 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   afterTooltipRenderChange,
@@ -7,33 +9,33 @@ import {
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 
-moduleForComponent('ember-tooltip', 'Integration | Option | delayOnChange', {
-  integration: true,
-});
+module('Integration | Option | delayOnChange', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip animates with a delay', function(assert) {
+  test('ember-tooltip animates with a delay', async function(assert) {
 
-  assert.expect(2);
+    assert.expect(2);
 
-  /* Create two tooltips and show one */
+    /* Create two tooltips and show one */
 
-  this.render(hbs`
-    {{ember-tooltip delay=300 delayOnChange=false tooltipClassName='ember-tooltip test-tooltip' text='Hey'}}
-    {{ember-tooltip delayOnChange=false isShown=true event='none' text='Hi'}}
-  `);
-
-  afterTooltipRenderChange(assert, () => {
-
-    assertTooltipNotRendered(assert, { selector: '.test-tooltip' });
-
-    /* We still need a small delay, but now we check the
-    test tooltip is shown *almost* immediately after hover
-    instead of after a 300ms delay */
-
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await render(hbs`
+      {{ember-tooltip delay=300 delayOnChange=false tooltipClassName='ember-tooltip test-tooltip' text='Hey'}}
+      {{ember-tooltip delayOnChange=false isShown=true event='none' text='Hi'}}
+    `);
 
     afterTooltipRenderChange(assert, () => {
-      assertTooltipVisible(assert, { selector: '.test-tooltip' });
+
+      assertTooltipNotRendered(assert, { selector: '.test-tooltip' });
+
+      /* We still need a small delay, but now we check the
+      test tooltip is shown *almost* immediately after hover
+      instead of after a 300ms delay */
+
+      triggerTooltipTargetEvent(this.$(), 'mouseenter');
+
+      afterTooltipRenderChange(assert, () => {
+        assertTooltipVisible(assert, { selector: '.test-tooltip' });
+      });
     });
   });
 });

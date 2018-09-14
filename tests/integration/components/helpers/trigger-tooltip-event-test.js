@@ -1,23 +1,25 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 
-moduleForComponent('ember-tooltip', 'Integration | Helpers | triggerTooltipTargetEvent', {
-  integration: true,
-});
+module('Integration | Helpers | triggerTooltipTargetEvent', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('triggerTooltipTargetEvent throws appropriate error', function(assert) {
+  test('triggerTooltipTargetEvent throws appropriate error', async function(assert) {
 
-  this.render(hbs``);
+    await render(hbs``);
 
-  let funcToError = () => {
-    triggerTooltipTargetEvent(this.$(), 'invalid event type');
-  };
+    let funcToError = () => {
+      triggerTooltipTargetEvent(this.$(), 'invalid event type');
+    };
 
-  assert.throws(funcToError, Error,
-      'triggerTooltipTargetEvent should throw an error with an invalid type');
+    assert.throws(funcToError, Error,
+        'triggerTooltipTargetEvent should throw an error with an invalid type');
 
+  });
 });
 

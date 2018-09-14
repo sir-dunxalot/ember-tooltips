@@ -1,5 +1,7 @@
 import { run } from '@ember/runloop';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   afterTooltipRenderChange,
@@ -47,16 +49,16 @@ function testTooltipDelay(assert, template) {
   });
 }
 
-moduleForComponent('ember-tooltip', 'Integration | Option | delay', {
-  integration: true,
-});
+module('Integration | Option | delay', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip animates with delay passed as a number', function(assert) {
-  assert.expect(5);
-  testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay=300}}`);
-});
+  test('ember-tooltip animates with delay passed as a number', function(assert) {
+    assert.expect(5);
+    testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay=300}}`);
+  });
 
-test('ember-tooltip animates with delay passed as a string', function(assert) {
-  assert.expect(5);
-  testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay='300'}}`);
+  test('ember-tooltip animates with delay passed as a string', function(assert) {
+    assert.expect(5);
+    testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay='300'}}`);
+  });
 });

@@ -1,4 +1,6 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   afterTooltipRenderChange,
@@ -6,23 +8,23 @@ import {
   assertTooltipContent,
 } from 'dummy/tests/helpers/ember-tooltips';
 
-moduleForComponent('ember-tooltip', 'Integration | Component | inline', {
-  integration: true,
-});
+module('Integration | Component | inline', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip renders with text param', function(assert) {
+  test('ember-tooltip renders with text param', async function(assert) {
 
-  assert.expect(2);
+    assert.expect(2);
 
-  this.render(hbs`
-    {{ember-tooltip text='Here is more info' isShown=true}}
-  `);
+    await render(hbs`
+      {{ember-tooltip text='Here is more info' isShown=true}}
+    `);
 
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipRendered(assert);
+    afterTooltipRenderChange(assert, () => {
+      assertTooltipRendered(assert);
 
-    assertTooltipContent(assert, {
-      contentString: 'Here is more info',
+      assertTooltipContent(assert, {
+        contentString: 'Here is more info',
+      });
     });
   });
 });

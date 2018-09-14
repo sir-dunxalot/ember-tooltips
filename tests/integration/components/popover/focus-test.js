@@ -1,4 +1,6 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   afterTooltipRenderChange,
@@ -11,63 +13,97 @@ import {
 
 const MS_FOR_BLUR = 100;
 
-moduleForComponent('ember-popover', 'Integration | Option | focus', {
-  integration: true,
-});
+module('Integration | Option | focus', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Popover: target focus, popover focus, popover blur', function(assert) {
+  test('Popover: target focus, popover focus, popover blur', async function(assert) {
 
-  assert.expect(4);
+    assert.expect(4);
 
-  this.render(hbs`{{ember-popover event='focus' popoverHideDelay=0}}`);
+    await render(hbs`{{ember-popover event='focus' popoverHideDelay=0}}`);
 
-  assertTooltipNotRendered(assert);
+    assertTooltipNotRendered(assert);
 
-  triggerTooltipTargetEvent(this.$(), 'focus');
-
-  afterTooltipRenderChange(assert, () => {
-    const $popover = findTooltip();
-
-    assertTooltipVisible(assert);
-
-    triggerTooltipTargetEvent($popover, 'focusin');
+    triggerTooltipTargetEvent(this.$(), 'focus');
 
     afterTooltipRenderChange(assert, () => {
+      const $popover = findTooltip();
+
       assertTooltipVisible(assert);
 
-      triggerTooltipTargetEvent($popover, 'focusout');
+      triggerTooltipTargetEvent($popover, 'focusin');
 
       afterTooltipRenderChange(assert, () => {
-        assertTooltipNotVisible(assert);
-      }, MS_FOR_BLUR);
-    });
-  }, MS_FOR_BLUR);
-});
+        assertTooltipVisible(assert);
 
-test('Popover: target focus, target-interior focus, popover focus, popover blur', function(assert) {
+        triggerTooltipTargetEvent($popover, 'focusout');
 
-  assert.expect(5);
+        afterTooltipRenderChange(assert, () => {
+          assertTooltipNotVisible(assert);
+        }, MS_FOR_BLUR);
+      });
+    }, MS_FOR_BLUR);
+  });
 
-  this.render(hbs`
-    <a href class="target-interior"></a>
-    {{ember-popover event='focus' popoverHideDelay=0}}
-  `);
+  test('Popover: target focus, target-interior focus, popover focus, popover blur', async function(assert) {
 
-  assertTooltipNotRendered(assert);
+    assert.expect(5);
 
-  triggerTooltipTargetEvent(this.$(), 'focus');
+    await render(hbs`
+      <a href class="target-interior"></a>
+      {{ember-popover event='focus' popoverHideDelay=0}}
+    `);
 
-  afterTooltipRenderChange(assert, () => {
+    assertTooltipNotRendered(assert);
 
-    const $popover = findTooltip();
-
-    assertTooltipVisible(assert);
-
-    triggerTooltipTargetEvent(this.$(), 'focus', {
-      selector: '.target-interior',
-    });
+    triggerTooltipTargetEvent(this.$(), 'focus');
 
     afterTooltipRenderChange(assert, () => {
+
+      const $popover = findTooltip();
+
+      assertTooltipVisible(assert);
+
+      triggerTooltipTargetEvent(this.$(), 'focus', {
+        selector: '.target-interior',
+      });
+
+      afterTooltipRenderChange(assert, () => {
+        assertTooltipVisible(assert);
+
+        triggerTooltipTargetEvent($popover, 'focus');
+
+        afterTooltipRenderChange(assert, () => {
+          assertTooltipVisible(assert);
+
+          triggerTooltipTargetEvent($popover, 'focusout');
+
+          afterTooltipRenderChange(assert, () => {
+            assertTooltipNotVisible(assert);
+          }, MS_FOR_BLUR);
+        });
+      });
+    });
+
+  });
+
+  test('Popover: target focus, popover focus, popover-interior focus, popover blur', async function(assert) {
+
+    assert.expect(5);
+
+    await render(hbs`
+      {{#ember-popover event='focus' popoverHideDelay=0}}
+        <a href class="popover-interior"></a>
+      {{/ember-popover}}
+    `);
+
+    assertTooltipNotRendered(assert);
+
+    triggerTooltipTargetEvent(this.$(), 'focus');
+
+    afterTooltipRenderChange(assert, () => {
+      const $popover = findTooltip();
+
       assertTooltipVisible(assert);
 
       triggerTooltipTargetEvent($popover, 'focus');
@@ -75,82 +111,48 @@ test('Popover: target focus, target-interior focus, popover focus, popover blur'
       afterTooltipRenderChange(assert, () => {
         assertTooltipVisible(assert);
 
-        triggerTooltipTargetEvent($popover, 'focusout');
+        triggerTooltipTargetEvent(this.$(), 'focus', {
+          selector: '.popover-interior',
+        });
 
         afterTooltipRenderChange(assert, () => {
-          assertTooltipNotVisible(assert);
-        }, MS_FOR_BLUR);
+          assertTooltipVisible(assert);
+
+          triggerTooltipTargetEvent($popover, 'focusout');
+
+          afterTooltipRenderChange(assert, () => {
+            assertTooltipNotVisible(assert);
+          }, MS_FOR_BLUR);
+        });
       });
     });
+
   });
 
-});
+  test('Popover: input focus, input blur', async function(assert) {
 
-test('Popover: target focus, popover focus, popover-interior focus, popover blur', function(assert) {
+    assert.expect(3);
 
-  assert.expect(5);
+    await render(hbs`
+      <input id="some-input">
+      {{ember-popover event='focus' targetId='some-input' popoverHideDelay=0}}
+    `);
 
-  this.render(hbs`
-    {{#ember-popover event='focus' popoverHideDelay=0}}
-      <a href class="popover-interior"></a>
-    {{/ember-popover}}
-  `);
+    const $popoverTarget = this.$('#some-input');
 
-  assertTooltipNotRendered(assert);
+    assertTooltipNotRendered(assert);
 
-  triggerTooltipTargetEvent(this.$(), 'focus');
-
-  afterTooltipRenderChange(assert, () => {
-    const $popover = findTooltip();
-
-    assertTooltipVisible(assert);
-
-    triggerTooltipTargetEvent($popover, 'focus');
+    triggerTooltipTargetEvent($popoverTarget, 'focus');
 
     afterTooltipRenderChange(assert, () => {
       assertTooltipVisible(assert);
 
-      triggerTooltipTargetEvent(this.$(), 'focus', {
-        selector: '.popover-interior',
-      });
+      triggerTooltipTargetEvent($popoverTarget, 'blur');
 
       afterTooltipRenderChange(assert, () => {
-        assertTooltipVisible(assert);
-
-        triggerTooltipTargetEvent($popover, 'focusout');
-
-        afterTooltipRenderChange(assert, () => {
-          assertTooltipNotVisible(assert);
-        }, MS_FOR_BLUR);
-      });
+        assertTooltipNotVisible(assert);
+      }, MS_FOR_BLUR);
     });
+
   });
-
-});
-
-test('Popover: input focus, input blur', function(assert) {
-
-  assert.expect(3);
-
-  this.render(hbs`
-    <input id="some-input">
-    {{ember-popover event='focus' targetId='some-input' popoverHideDelay=0}}
-  `);
-
-  const $popoverTarget = this.$('#some-input');
-
-  assertTooltipNotRendered(assert);
-
-  triggerTooltipTargetEvent($popoverTarget, 'focus');
-
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipVisible(assert);
-
-    triggerTooltipTargetEvent($popoverTarget, 'blur');
-
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipNotVisible(assert);
-    }, MS_FOR_BLUR);
-  });
-
 });

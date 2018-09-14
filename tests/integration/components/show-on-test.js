@@ -1,4 +1,6 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   afterTooltipRenderChange,
@@ -7,32 +9,32 @@ import {
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 
-moduleForComponent('ember-tooltip', 'Integration | Option | showOn', {
-  integration: true,
-});
+module('Integration | Option | showOn', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip shows with showOn', function(assert) {
+  test('ember-tooltip shows with showOn', async function(assert) {
 
-  assert.expect(3);
+    assert.expect(3);
 
-  this.render(hbs`{{ember-tooltip showOn='click'}}`);
-
-  assertTooltipNotRendered(assert);
-
-  /* Check hover doesn't trigger tooltip */
-
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
-
-  afterTooltipRenderChange(assert, () => {
+    await render(hbs`{{ember-tooltip showOn='click'}}`);
 
     assertTooltipNotRendered(assert);
 
-    /* Check click does trigger tooltip */
+    /* Check hover doesn't trigger tooltip */
 
-    triggerTooltipTargetEvent(this.$(), 'click');
+    triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
     afterTooltipRenderChange(assert, () => {
-      assertTooltipVisible(assert);
+
+      assertTooltipNotRendered(assert);
+
+      /* Check click does trigger tooltip */
+
+      triggerTooltipTargetEvent(this.$(), 'click');
+
+      afterTooltipRenderChange(assert, () => {
+        assertTooltipVisible(assert);
+      });
     });
   });
 });

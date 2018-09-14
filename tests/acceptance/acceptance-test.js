@@ -1,6 +1,7 @@
+import { visit } from '@ember/test-helpers';
 import $ from 'jquery';
-import { test } from 'qunit';
-import moduleForAcceptance from '../../tests/helpers/module-for-acceptance';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 import {
   afterTooltipRenderChange,
   assertTooltipNotRendered,
@@ -10,25 +11,18 @@ import {
   assertTooltipVisible,
 } from '../../tests/helpers/ember-tooltips';
 
-/* globals andThen, visit */
-moduleForAcceptance('Acceptance | acceptance');
+module('Acceptance | acceptance', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('all acceptance tests', function(assert) {
+  test('all acceptance tests', async function(assert) {
+    assert.expect(12);
 
-  assert.expect(12);
+    await visit('/acceptance');
 
-  visit('/acceptance');
+    const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
 
-  const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
-
-  andThen(() => {
     assert.equal($(tooltipOrPopoverSelector).length, 0,
         'initially there should be 0 tooltips or popovers rendered');
-  });
-
-  /* Begin tooltip tests */
-
-  andThen(() => {
 
     const $tooltipTarget = $('.js-test-tooltip-target');
     const options = {
@@ -51,12 +45,6 @@ test('all acceptance tests', function(assert) {
       assertTooltipNotVisible(assert, options);
     }); // Default hideDelay = 250
 
-  });
-
-  /* Begin popover tests */
-
-  andThen(() => {
-
     const $popoverTarget = $('.js-test-popover-target');
     const options = {
       selector: '.js-test-popover',
@@ -78,11 +66,7 @@ test('all acceptance tests', function(assert) {
       assertTooltipNotVisible(assert, options);
     }, 500); // Default hideDelay = 250
 
-  });
-
-  andThen(() => {
     assert.equal($(tooltipOrPopoverSelector).length, 2,
         'There should only be 2 tooltips or popovers rendered');
   });
-
 });
