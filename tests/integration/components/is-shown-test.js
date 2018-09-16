@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipNotVisible,
   assertTooltipVisible,
 } from 'dummy/tests/helpers/ember-tooltips';
@@ -19,20 +18,18 @@ module('Integration | Option | isShown', function(hooks) {
 
     await render(hbs`{{ember-tooltip isShown=showTooltip}}`);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-      this.set('showTooltip', false);
+    this.set('showTooltip', false);
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipNotVisible(assert);
+    await settled();
 
-        this.set('showTooltip', true);
+    assertTooltipNotVisible(assert);
 
-        afterTooltipRenderChange(assert, () => {
-          assertTooltipVisible(assert);
-        });
-      });
-    });
+    this.set('showTooltip', true);
+
+    await settled();
+
+    assertTooltipVisible(assert);
   });
 });

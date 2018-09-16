@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipNotRendered,
   assertTooltipVisible,
   triggerTooltipTargetEvent,
@@ -22,19 +21,14 @@ module('Integration | Option | showOn', function(hooks) {
 
     /* Check hover doesn't trigger tooltip */
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-    afterTooltipRenderChange(assert, () => {
+    assertTooltipNotRendered(assert);
 
-      assertTooltipNotRendered(assert);
+    /* Check click does trigger tooltip */
 
-      /* Check click does trigger tooltip */
+    await triggerTooltipTargetEvent(this.$(), 'click');
 
-      triggerTooltipTargetEvent(this.$(), 'click');
-
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipVisible(assert);
-      });
-    });
+    assertTooltipVisible(assert);
   });
 });

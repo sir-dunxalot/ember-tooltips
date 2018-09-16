@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipContent,
 } from 'dummy/tests/helpers/ember-tooltips';
 
@@ -16,12 +15,9 @@ module('Integration | Option | content', function(hooks) {
 
     await render(hbs`{{ember-tooltip text='foo' isShown=true}}`);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipContent(assert, {
-        contentString: 'foo',
-      });
+    assertTooltipContent(assert, {
+      contentString: 'foo',
     });
-
   });
 
   test('assertTooltipContent correctly matches expected tootltip content for block tooltip', async function(assert) {
@@ -34,10 +30,8 @@ module('Integration | Option | content', function(hooks) {
       {{/ember-tooltip}}
     `);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipContent(assert, {
-        contentString: 'foo',
-      });
+    assertTooltipContent(assert, {
+      contentString: 'foo',
     });
   });
 
@@ -63,10 +57,8 @@ module('Integration | Option | content', function(hooks) {
       },
     };
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipContent(stubbedAssert, {
-        contentString: 'foo',
-      });
+    assertTooltipContent(stubbedAssert, {
+      contentString: 'foo',
     });
   });
 });

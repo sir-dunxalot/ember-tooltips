@@ -28,7 +28,7 @@ module('Integration | Helpers | getTooltipFromBody', function(hooks) {
       };
 
       assert.throws(funcToError, Error,
-          'helperInstance without $body will throw an error');
+        'helperInstance without $body will throw an error');
 
     });
   });
@@ -43,7 +43,7 @@ module('Integration | Helpers | getTooltipFromBody', function(hooks) {
       };
 
       assert.throws(funcToError, Error,
-          'helperInstance without a rendered tooltip will throw an Error');
+        'helperInstance without a rendered tooltip will throw an Error');
 
     });
   });
@@ -62,7 +62,7 @@ module('Integration | Helpers | getTooltipFromBody', function(hooks) {
       };
 
       assert.throws(funcToError, Error,
-          'helperInstance without multiple tooltips will throw an Error');
+        'helperInstance without multiple tooltips will throw an Error');
 
     });
   });

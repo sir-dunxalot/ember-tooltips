@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   afterTooltipRenderChange,
@@ -23,19 +23,18 @@ module('Integration | Option | delayOnChange', function(hooks) {
       {{ember-tooltip delayOnChange=false isShown=true event='none' text='Hi'}}
     `);
 
-    afterTooltipRenderChange(assert, () => {
+    await settled();
 
-      assertTooltipNotRendered(assert, { selector: '.test-tooltip' });
+    assertTooltipNotRendered(assert, { selector: '.test-tooltip' });
 
-      /* We still need a small delay, but now we check the
-      test tooltip is shown *almost* immediately after hover
-      instead of after a 300ms delay */
+    /* We still need a small delay, but now we check the
+    test tooltip is shown *almost* immediately after hover
+    instead of after a 300ms delay */
 
-      triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipVisible(assert, { selector: '.test-tooltip' });
-      });
-    });
+    await settled();
+
+    assertTooltipVisible(assert, { selector: '.test-tooltip' });
   });
 });

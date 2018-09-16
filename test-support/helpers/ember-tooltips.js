@@ -1,7 +1,8 @@
 import { isNone } from '@ember/utils';
 import { assert as emberAssert } from '@ember/debug';
 import $ from 'jquery';
-import { run } from '@ember/runloop';
+import { later } from '@ember/runloop';
+import { triggerEvent } from '@ember/test-helpers';
 
 const TOOLTIP_SELECTOR = '.ember-tooltip, .ember-popover';
 const TARGET_SELECTOR = '.ember-tooltip-target, .ember-popover-target';
@@ -161,9 +162,9 @@ export function triggerTooltipTargetEvent($element, type, options = {}) {
     return;
   }
 
-  run(() => {
-    $element[0].dispatchEvent(new window.Event(type));
-  });
+  /* Acceptance tests don't like triggerEvent() for some reason */
+
+  return triggerEvent($element[0], type); // supports `await triggerTooltipTargetEvent();`
 }
 
 export function assertTooltipNotRendered(assert, options = {}) {
@@ -262,7 +263,7 @@ export function afterTooltipRenderChange(assert, callback, delay = 0) {
 
   const done = assert.async();
 
-  run.later(() => {
+  later(() => {
     callback();
     done();
   }, delay);

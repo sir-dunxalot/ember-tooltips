@@ -1,4 +1,4 @@
-import { visit } from '@ember/test-helpers';
+import { settled, visit } from '@ember/test-helpers';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
@@ -15,7 +15,7 @@ module('Acceptance | acceptance', function(hooks) {
   setupApplicationTest(hooks);
 
   test('all acceptance tests', async function(assert) {
-    assert.expect(12);
+    assert.expect(11);
 
     await visit('/acceptance');
 
@@ -25,46 +25,44 @@ module('Acceptance | acceptance', function(hooks) {
         'initially there should be 0 tooltips or popovers rendered');
 
     const $tooltipTarget = $('.js-test-tooltip-target');
-    const options = {
+    const tooltipOptions = {
       selector: '.js-test-tooltip',
     };
 
     assert.equal($tooltipTarget.length, 1, 'there should be one $tooltipTarget');
 
-    assertTooltipNotRendered(assert, options);
+    assertTooltipNotRendered(assert, tooltipOptions);
 
-    triggerTooltipTargetEvent($tooltipTarget, 'mouseenter');
+    await triggerTooltipTargetEvent($tooltipTarget, 'mouseenter');
 
-    assertTooltipRendered(assert, options);
+    assertTooltipRendered(assert, tooltipOptions);
 
-    assertTooltipVisible(assert, options);
+    assertTooltipVisible(assert, tooltipOptions);
 
-    triggerTooltipTargetEvent($tooltipTarget, 'mouseleave');
+    await triggerTooltipTargetEvent($tooltipTarget, 'mouseleave');
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipNotVisible(assert, options);
-    }); // Default hideDelay = 250
+    await settled();
+
+    assertTooltipNotVisible(assert, tooltipOptions);
 
     const $popoverTarget = $('.js-test-popover-target');
-    const options = {
+    const popoverOptions = {
       selector: '.js-test-popover',
     };
 
     assert.equal($popoverTarget.length, 1, 'there should be one $popoverTarget');
 
-    assertTooltipNotRendered(assert, options);
+    assertTooltipNotRendered(assert, popoverOptions);
 
-    triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
+    await triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
 
-    assertTooltipRendered(assert, options);
+    assertTooltipRendered(assert, popoverOptions);
 
-    assertTooltipVisible(assert, options);
+    assertTooltipVisible(assert, popoverOptions);
 
-    triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
+    await triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipNotVisible(assert, options);
-    }, 500); // Default hideDelay = 250
+    await settled();
 
     assert.equal($(tooltipOrPopoverSelector).length, 2,
         'There should only be 2 tooltips or popovers rendered');

@@ -56,37 +56,31 @@ module('Integration | Option | actions', function(hooks) {
 
     /* Check render */
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-    afterTooltipRenderChange(assert, () => {
+    assert.equal(actionsCalledHash.onRenderFoo, 1,
+      'Should have called render');
 
-      assert.equal(actionsCalledHash.onRenderFoo, 1,
-        'Should have called render');
+    /* Check show */
 
-      /* Check show */
+    assert.equal(actionsCalledHash.onShowBar, 1,
+      'Should have called show');
 
-      assert.equal(actionsCalledHash.onShowBar, 1,
-        'Should have called show');
+    assert.equal(actionsCalledHash.onHideBaz, 0,
+      'Should not have called hide');
 
-      assert.equal(actionsCalledHash.onHideBaz, 0,
-        'Should not have called hide');
+    await triggerTooltipTargetEvent(this.$(), 'mouseleave');
 
-      triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    assert.equal(actionsCalledHash.onHideBaz, 1,
+      'Should have called hide');
 
-      afterTooltipRenderChange(assert, () => {
+    /* Check destroy */
 
-        assert.equal(actionsCalledHash.onHideBaz, 1,
-          'Should have called hide');
+    this.set('destroyTooltip', true);
 
-        /* Check destroy */
+    assert.equal(actionsCalledHash.onDestroyFubar, 1,
+      'Should have called destroy');
 
-        this.set('destroyTooltip', true);
-
-        assert.equal(actionsCalledHash.onDestroyFubar, 1,
-          'Should have called destroy');
-
-      });
-    });
   });
 
   test('ember-tooltip supports lifecycle closure actions with multiple arguments', async function(assert) {
@@ -109,14 +103,10 @@ module('Integration | Option | actions', function(hooks) {
       }}
     `);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-    afterTooltipRenderChange(assert, () => {
-
-      assert.equal(onRenderPassword, 'real password',
-        'tooltip should support closure actions with multiple arguments');
-
-    });
+    assert.equal(onRenderPassword, 'real password',
+      'tooltip should support closure actions with multiple arguments');
 
   });
 });

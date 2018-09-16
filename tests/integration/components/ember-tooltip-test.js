@@ -3,7 +3,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import {
-  afterTooltipRenderChange,
   assertTooltipContent,
   assertTooltipRendered,
   assertTooltipNotRendered,
@@ -26,17 +25,13 @@ module('Integration | Component | ember-tooltip', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-    afterTooltipRenderChange(assert, () => {
+    assertTooltipRendered(assert);
 
-      assertTooltipRendered(assert);
-
-      assertTooltipContent(assert, {
-        contentString: 'template block text',
-      });
+    assertTooltipContent(assert, {
+      contentString: 'template block text',
     });
-
   });
 
   test('ember-tooltip has the proper aria-describedby tag', async function(assert) {
@@ -53,23 +48,20 @@ module('Integration | Component | ember-tooltip', function(hooks) {
       </div>
     `);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter', {
+    await triggerTooltipTargetEvent(this.$(), 'mouseenter', {
       selector: '.target',
     });
 
-    afterTooltipRenderChange(assert, () => {
-      const $tooltipTarget = findTooltipTarget();
-      const describedBy = $tooltipTarget.attr('aria-describedby');
+    const $tooltipTarget = findTooltipTarget();
+    const describedBy = $tooltipTarget.attr('aria-describedby');
 
-      /* Whatever the target is 'described by' should be a tooltip with our expected content from the template above */
+    /* Whatever the target is 'described by' should be a tooltip with our expected content from the template above */
 
-      assertTooltipContent(assert, {
-        selector: `#${describedBy}`,
-        contentString: 'Some info in a tooltip.',
-      });
-
-      assert.equal(describedBy.indexOf('#'), '-1');
+    assertTooltipContent(assert, {
+      selector: `#${describedBy}`,
+      contentString: 'Some info in a tooltip.',
     });
 
+    assert.equal(describedBy.indexOf('#'), '-1');
   });
 });

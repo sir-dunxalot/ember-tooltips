@@ -1,28 +1,28 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   findTooltip,
 } from 'dummy/tests/helpers/ember-tooltips';
 
 module('Integration | Component | tooltip on element', function(hooks) {
   setupRenderingTest(hooks);
 
-  ['slide', 'fade', 'none'].forEach((effectType) => {
-    test(`ember-tooltip effect=${effectType} class test`, function(assert) {
+  ['slide', 'fade', 'none'].forEach((effect) => {
+    test(`ember-tooltip effect=${effect} class test`, async function(assert) {
 
-      this.set('effectType', effectType);
-      this.render(hbs`{{ember-tooltip effect=effectType isShown=true}}`);
+      assert.expect(1);
 
-      afterTooltipRenderChange(assert, () => {
-        const $tooltip = findTooltip();
+      this.set('effect', effect);
 
-        assert.ok($tooltip.hasClass(`ember-tooltip-effect-${effectType}`),
-          `the tooltip should have the ${effectType} effect class`);
+      await render(hbs`{{ember-tooltip effect=effect isShown=true}}`);
 
-      });
+      const $tooltip = findTooltip();
+
+      assert.ok($tooltip.hasClass(`ember-tooltip-effect-${effect}`),
+        `the tooltip should have the ${effect} effect class`);
+
     });
   });
 });

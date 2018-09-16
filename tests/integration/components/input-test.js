@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import {
-	afterTooltipRenderChange,
   assertTooltipNotVisible,
   assertTooltipNotRendered,
 	assertTooltipVisible,
@@ -30,17 +29,13 @@ module('Integration | Option | click', function(hooks) {
     when a user clicks an input both events occur in that order.
     We have fixed this with _isInProcessOfShowing and this test protects that. */
 
-    triggerTooltipTargetEvent($tooltipTarget, 'focusin');
-    triggerTooltipTargetEvent($tooltipTarget, 'click');
+    await triggerTooltipTargetEvent($tooltipTarget, 'focusin');
+    await triggerTooltipTargetEvent($tooltipTarget, 'click');
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-      triggerTooltipTargetEvent($tooltipTarget, 'click');
+    await triggerTooltipTargetEvent($tooltipTarget, 'click');
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipNotVisible(assert);
-      });
-    });
+    assertTooltipNotVisible(assert);
   });
 });

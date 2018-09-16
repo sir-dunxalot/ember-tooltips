@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipSide,
 } from 'dummy/tests/helpers/ember-tooltips';
 
@@ -20,61 +19,46 @@ module('Integration | Option | side', function(hooks) {
   */
 
   test('ember-tooltip shows on the top by default', async function(assert) {
-
     assert.expect(1);
 
     await render(hbs`{{#some-component}}Hello{{ember-tooltip isShown=true text='Hi'}}{{/some-component}}`);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipSide(assert, { side: 'top' });
-    });
+    assertTooltipSide(assert, { side: 'top' });
   });
 
   test('ember-tooltip shows on the top', async function(assert) {
-
     assert.expect(1);
 
     await render(hbs`{{#some-component}}Hello{{ember-tooltip side='top' isShown=true text='Hi'}}{{/some-component}}`);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipSide(assert, { side: 'top' });
-    });
+    assertTooltipSide(assert, { side: 'top' });
   });
 
   test('ember-tooltip shows on the right', async function(assert) {
-
     assert.expect(1);
 
     await render(
       hbs`{{#some-component}}Hello{{ember-tooltip side='right' isShown=true text='Hi'}}{{/some-component}}`
     );
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipSide(assert, { side: 'right' });
-    });
+    assertTooltipSide(assert, { side: 'right' });
   });
 
   test('ember-tooltip shows on the bottom', async function(assert) {
-
     assert.expect(1);
 
     await render(
       hbs`{{#some-component}}Hello{{ember-tooltip side='bottom' isShown=true text='Hi'}}{{/some-component}}`
     );
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipSide(assert, { side: 'bottom' });
-    });
+    assertTooltipSide(assert, { side: 'bottom' });
   });
 
   test('ember-tooltip shows on the left', async function(assert) {
-
     assert.expect(1);
 
     await render(hbs`{{#some-component}}Hello{{ember-tooltip side='left' isShown=true text='Hi'}}{{/some-component}}`);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipSide(assert, { side: 'left' });
-    });
+    assertTooltipSide(assert, { side: 'left' });
   });
 });

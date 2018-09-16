@@ -1,5 +1,4 @@
 import { currentURL, visit } from '@ember/test-helpers';
-/* globals andThen, currentURL, visit,  */
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 

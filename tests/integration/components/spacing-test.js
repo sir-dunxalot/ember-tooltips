@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipSpacing,
 } from 'dummy/tests/helpers/ember-tooltips';
 
@@ -11,7 +10,6 @@ module('Integration | Option | spacing', function(hooks) {
   setupRenderingTest(hooks);
 
   test('ember-tooltip shows with spacing=default', async function(assert) {
-
     assert.expect(1);
 
     /* Check the default spacing */
@@ -22,16 +20,13 @@ module('Integration | Option | spacing', function(hooks) {
       {{/some-component}}
     `);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipSpacing(assert, {
-        side: 'top',
-        spacing: 10,
-      });
+    assertTooltipSpacing(assert, {
+      side: 'top',
+      spacing: 10,
     });
   });
 
   test('ember-tooltip shows with spacing=20', async function(assert) {
-
     assert.expect(1);
 
     /* Check custom spacing */
@@ -42,17 +37,13 @@ module('Integration | Option | spacing', function(hooks) {
       {{/some-component}}
     `);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipSpacing(assert, {
-        side: 'top',
-        spacing: 20,
-      });
+    assertTooltipSpacing(assert, {
+      side: 'top',
+      spacing: 20,
     });
-
   });
 
   test('ember-tooltip shows with spacing=20 and side=right', async function(assert) {
-
     assert.expect(1);
 
     /* Check custom spacing */
@@ -67,13 +58,10 @@ module('Integration | Option | spacing', function(hooks) {
       {{/some-component}}
     `);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipSpacing(assert, {
-        side: 'right',
-        spacing: 20,
-      });
+    assertTooltipSpacing(assert, {
+      side: 'right',
+      spacing: 20,
     });
-
   });
 
   test('ember-tooltip shows with spacing=53 and side=bottom', async function(assert) {
@@ -92,12 +80,9 @@ module('Integration | Option | spacing', function(hooks) {
       {{/some-component}}
     `);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipSpacing(assert, {
-        side: 'bottom',
-        spacing: 53,
-      });
+    assertTooltipSpacing(assert, {
+      side: 'bottom',
+      spacing: 53,
     });
-
   });
 });
