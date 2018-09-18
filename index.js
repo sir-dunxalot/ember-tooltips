@@ -10,7 +10,7 @@ module.exports = {
         vendor: {
           srcDir: 'dist/umd',
           destDir: 'popper',
-          include: ['popper.js'],
+          include: ['popper.js', 'popper.js.map'],
         },
       },
 
@@ -18,7 +18,7 @@ module.exports = {
         vendor: {
           srcDir: 'dist/umd',
           destDir: 'popper',
-          include: ['tooltip.js'],
+          include: ['tooltip.js', 'tooltip.js.map'],
         },
       },
     },
