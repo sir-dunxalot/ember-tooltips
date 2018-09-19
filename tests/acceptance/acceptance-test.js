@@ -3,7 +3,6 @@ import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  afterTooltipRenderChange,
   assertTooltipNotRendered,
   assertTooltipRendered,
   assertTooltipNotVisible,

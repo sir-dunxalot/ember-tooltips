@@ -1,4 +1,3 @@
-// import $ from 'jquery';
 import { later } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -10,9 +9,7 @@ import {
   assertTooltipNotVisible,
   triggerTooltipTargetEvent,
   assertTooltipVisible,
-  waitForTooltip,
 } from 'dummy/tests/helpers/ember-tooltips';
-import { triggerEvent } from '@ember/test-helpers';
 
 async function testTooltipDelay(assert, template) {
 

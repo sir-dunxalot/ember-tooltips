@@ -3,7 +3,6 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 

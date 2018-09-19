@@ -3,7 +3,6 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import {
-  afterTooltipRenderChange,
   assertTooltipVisible,
   assertTooltipNotRendered,
   triggerTooltipTargetEvent,
@@ -58,20 +57,18 @@ module('Integration | Option | Event bubbling', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-    afterTooltipRenderChange(assert, () => {
-      const $button = $('.test-button-with-action');
+    const $button = $('.test-button-with-action');
 
-      assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-      assert.equal($button.length, 1, 'the button can be found');
+    assert.equal($button.length, 1, 'the button can be found');
 
-      /* Click the button to fire testAction. This will
-      call the final assertion and the test will end. */
+    /* Click the button to fire testAction. This will
+    call the final assertion and the test will end. */
 
-      $button.trigger('click');
-    }, 50);
+    $button.trigger('click');
 
   });
 });

@@ -1,10 +1,8 @@
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { click, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipVisible,
   triggerTooltipTargetEvent,
   assertTooltipNotRendered,
@@ -15,30 +13,22 @@ module('Integration | Option | click', function(hooks) {
   setupRenderingTest(hooks);
 
   test('Popover: click target, click target', async function(assert) {
-
     assert.expect(3);
 
     await render(hbs`{{ember-popover event='click' popoverHideDelay=0}}`);
 
     assertTooltipNotRendered(assert);
 
-    triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerTooltipTargetEvent(this.$(), 'click');
 
-    afterTooltipRenderChange(assert, () => {
+    assertTooltipVisible(assert);
 
-      assertTooltipVisible(assert);
+    await triggerTooltipTargetEvent(this.$(), 'click');
 
-      triggerTooltipTargetEvent(this.$(), 'click');
-
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipNotVisible(assert);
-      }, 50);
-    });
-
+    assertTooltipNotVisible(assert);
   });
 
   test('Popover: click target, click popover, click target', async function(assert) {
-
     assert.expect(4);
 
     await render(hbs`{{ember-popover event='click' popoverHideDelay=0}}`);
@@ -47,28 +37,20 @@ module('Integration | Option | click', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerTooltipTargetEvent($popoverTarget, 'click');
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-      triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.ember-popover' });
+    await triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.ember-popover' });
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-        triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerTooltipTargetEvent($popoverTarget, 'click');
 
-        afterTooltipRenderChange(assert, () => {
-          assertTooltipNotVisible(assert);
-        }, 50);
-      }, 50);
-    });
-
+    assertTooltipNotVisible(assert);
   });
 
   test('Popover: click target, click elsewhere', async function(assert) {
-
     assert.expect(3);
 
     await render(hbs`
@@ -81,17 +63,13 @@ module('Integration | Option | click', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    $('.target').click();
+    await click('.target');
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-      $('.elsewhere').click();
+    await click('.elsewhere');
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipNotVisible(assert);
-      }, 50);
-    }, 50);
+    assertTooltipNotVisible(assert);
   });
 
   test('Popover: click target, click popover, click elsewhere', async function(assert) {
@@ -108,40 +86,28 @@ module('Integration | Option | click', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    $('.target').click();
+    await click('.target');
 
-    afterTooltipRenderChange(assert, () => {
+    assertTooltipVisible(assert);
 
-      assertTooltipVisible(assert);
+    /* Mimic user's cursor entering popover and clicking it */
 
-      /* Mimic user's cursor entering popover and clicking it */
+    await triggerEvent('.ember-popover', 'mouseenter');
 
-      triggerTooltipTargetEvent(this.$(), 'mouseenter', {
-        selector: '.ember-popover',
-      });
+    await click('.ember-popover');
 
-      $('.ember-popover').click();
+    assertTooltipVisible(assert);
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipVisible(assert);
+    /* Mimic user's cursor leaving popover and clicking away from it */
 
-        /* Mimic user's cursor leaving popover and clicking away from it */
+    await triggerEvent('.ember-popover', 'mouseleave');
 
-        triggerTooltipTargetEvent(this.$(), 'mouseleave', {
-          selector: '.ember-popover',
-        });
+    await click('.elsewhere');
 
-        $('.elsewhere').click();
-
-        afterTooltipRenderChange(assert, () => {
-          assertTooltipNotVisible(assert);
-        }, 50);
-      }, 50);
-    }, 50);
+    assertTooltipNotVisible(assert);
   });
 
   test('Popover: click target-interior, click target-interior', async function(assert) {
-
     assert.expect(3);
 
     await render(hbs`
@@ -151,22 +117,16 @@ module('Integration | Option | click', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    $('.target-interior').click();
+    await click('.target-interior');
 
-    afterTooltipRenderChange(assert, () => {
+    assertTooltipVisible(assert);
 
-      assertTooltipVisible(assert);
+    await click('.target-interior');
 
-      $('.target-interior').click();
-
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipNotVisible(assert);
-      }, 50);
-    }, 50);
+    assertTooltipNotVisible(assert);
   });
 
   test('Popover: focusin/click input, click input', async function(assert) {
-
     assert.expect(3);
 
     await render(hbs`
@@ -182,18 +142,13 @@ module('Integration | Option | click', function(hooks) {
     when a user clicks an input both events occur in that order.
     We have fixed this with _isInProcessOfShowing and this test protects that. */
 
-    triggerTooltipTargetEvent($popoverTarget, 'focusin');
-    triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerTooltipTargetEvent($popoverTarget, 'focusin');
+    await triggerTooltipTargetEvent($popoverTarget, 'click');
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-      triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerTooltipTargetEvent($popoverTarget, 'click');
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipNotVisible(assert);
-      }, 50);
-    }, 50);
-
+    assertTooltipNotVisible(assert);
   });
 });

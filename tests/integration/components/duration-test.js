@@ -1,7 +1,7 @@
-import { run, later } from '@ember/runloop';
+import { later } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
