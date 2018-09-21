@@ -8,7 +8,7 @@ import {
   assertTooltipVisible,
   findTooltip,
   triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
 // const MS_FOR_BLUR = 100;
 

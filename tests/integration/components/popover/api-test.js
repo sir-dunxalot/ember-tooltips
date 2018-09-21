@@ -7,7 +7,7 @@ import {
   assertTooltipNotVisible,
   assertTooltipVisible,
   triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
 module('Integration | Option | API', function(hooks) {
   setupRenderingTest(hooks);

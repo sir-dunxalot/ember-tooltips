@@ -8,7 +8,7 @@ import {
   assertTooltipNotVisible,
   assertTooltipVisible,
   triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
 module('Integration | Option | hover', function(hooks) {
   setupRenderingTest(hooks);

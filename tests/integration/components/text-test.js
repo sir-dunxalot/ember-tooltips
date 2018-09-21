@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipRendered,
   assertTooltipContent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
 module('Integration | Component | inline', function(hooks) {
   setupRenderingTest(hooks);

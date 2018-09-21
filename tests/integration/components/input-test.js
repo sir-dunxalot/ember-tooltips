@@ -6,7 +6,7 @@ import {
   assertTooltipNotRendered,
 	assertTooltipVisible,
 	triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Option | click', function(hooks) {

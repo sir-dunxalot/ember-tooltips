@@ -6,9 +6,10 @@ import {
   assertTooltipNotRendered,
   assertTooltipRendered,
   assertTooltipNotVisible,
+  findTooltip,
   triggerTooltipTargetEvent,
   assertTooltipVisible,
-} from '../../tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
 module('Acceptance | acceptance', function(hooks) {
   setupApplicationTest(hooks);
@@ -18,10 +19,7 @@ module('Acceptance | acceptance', function(hooks) {
 
     await visit('/acceptance');
 
-    const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
-
-    assert.equal($(tooltipOrPopoverSelector).length, 0,
-        'initially there should be 0 tooltips or popovers rendered');
+    assertTooltipNotRendered(assert);
 
     const $tooltipTarget = $('.js-test-tooltip-target');
     const tooltipOptions = {
@@ -63,7 +61,7 @@ module('Acceptance | acceptance', function(hooks) {
 
     await settled();
 
-    assert.equal($(tooltipOrPopoverSelector).length, 2,
+    assert.equal(findTooltip().length, 2,
         'There should only be 2 tooltips or popovers rendered');
   });
 });

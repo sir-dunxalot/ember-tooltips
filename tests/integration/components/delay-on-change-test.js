@@ -6,7 +6,7 @@ import {
   assertTooltipNotRendered,
   assertTooltipVisible,
   triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
 module('Integration | Option | delayOnChange', function(hooks) {
   setupRenderingTest(hooks);

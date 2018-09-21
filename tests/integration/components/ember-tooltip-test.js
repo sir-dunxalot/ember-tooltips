@@ -8,7 +8,7 @@ import {
   assertTooltipNotRendered,
   findTooltipTarget,
   triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
 module('Integration | Component | ember-tooltip', function(hooks) {
   setupRenderingTest(hooks);
