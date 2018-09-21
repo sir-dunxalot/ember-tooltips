@@ -10,5 +10,4 @@ export { default as findTooltipTarget } from './utils/find-tooltip-target';
 export { default as findTooltip } from './utils/find-tooltip';
 export { default as getOppositeSide } from './utils/get-opposite-side';
 export { default as getPositionDifferences } from './utils/get-position-differences';
-export { default as triggerTooltipTargetEvent } from './utils/trigger-tooltip-target-event';
 export { default as validateSide } from './utils/validate-side';

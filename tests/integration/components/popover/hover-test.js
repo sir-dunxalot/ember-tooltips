@@ -7,7 +7,6 @@ import {
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 module('Integration | Option | hover', function(hooks) {
@@ -18,13 +17,15 @@ module('Integration | Option | hover', function(hooks) {
 
     await render(hbs`{{ember-popover event='hover'}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
     assertTooltipVisible(assert);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    triggerEvent(element, 'mouseleave');
 
     assertTooltipVisible(assert);
 
@@ -38,13 +39,15 @@ module('Integration | Option | hover', function(hooks) {
 
     await render(hbs`{{ember-popover event='hover'}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
     assertTooltipVisible(assert);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    triggerEvent(element, 'mouseleave');
 
     assertTooltipVisible(assert);
 
@@ -74,13 +77,15 @@ module('Integration | Option | hover', function(hooks) {
 
     await render(hbs`{{ember-popover event='hover'}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
     assertTooltipVisible(assert);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    triggerEvent(element, 'mouseleave');
 
     assertTooltipVisible(assert);
 

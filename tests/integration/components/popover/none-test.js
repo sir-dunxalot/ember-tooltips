@@ -1,10 +1,9 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 module('Integration | Option | event', function(hooks) {
@@ -16,25 +15,25 @@ module('Integration | Option | event', function(hooks) {
 
     await render(hbs`{{ember-popover event='none'}}`);
 
-    const $popoverTarget = this.$();
+    const [ popoverTarget ] = this.$();
 
     assertTooltipNotRendered(assert);
 
     /* Check focus */
 
-    await triggerTooltipTargetEvent($popoverTarget, 'focus');
+    await triggerEvent(popoverTarget, 'focus');
 
     assertTooltipNotRendered(assert);
 
     /* Check hover */
 
-    await triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
+    await triggerEvent(popoverTarget, 'mouseenter');
 
     assertTooltipNotRendered(assert);
 
     /* Check click */
 
-    await triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerEvent(popoverTarget, 'click');
 
     assertTooltipNotRendered(assert);
   });

@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import {
   assertTooltipNotVisible,
   assertTooltipNotRendered,
 	assertTooltipVisible,
-	triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -21,7 +20,7 @@ module('Integration | Option | click', function(hooks) {
       {{ember-tooltip event="click" targetId="some-input" enableLazyRendering=true}}
     `);
 
-    const $tooltipTarget = this.$('#some-input');
+    const [ tooltipTarget ] = this.$('#some-input');
 
     assertTooltipNotRendered(assert);
 
@@ -29,12 +28,12 @@ module('Integration | Option | click', function(hooks) {
     when a user clicks an input both events occur in that order.
     We have fixed this with _isInProcessOfShowing and this test protects that. */
 
-    await triggerTooltipTargetEvent($tooltipTarget, 'focusin');
-    await triggerTooltipTargetEvent($tooltipTarget, 'click');
+    await triggerEvent(tooltipTarget, 'focusin');
+    await triggerEvent(tooltipTarget, 'click');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent($tooltipTarget, 'click');
+    await triggerEvent(tooltipTarget, 'click');
 
     assertTooltipNotVisible(assert);
   });

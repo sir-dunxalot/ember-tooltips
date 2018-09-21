@@ -1,13 +1,12 @@
 import { later } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled } from '@ember/test-helpers';
+import { render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipRendered,
   assertTooltipNotRendered,
   assertTooltipNotVisible,
-  triggerTooltipTargetEvent,
   assertTooltipVisible,
 } from 'ember-tooltips/test-support';
 
@@ -15,9 +14,11 @@ async function testTooltipDelay(assert, template) {
 
   render(template);
 
+  const { element } = this;
+
   assertTooltipNotRendered(assert);
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+  triggerEvent(element, 'mouseenter');
 
   /* Check the tooltip is not rendered until the delay */
 
@@ -34,7 +35,7 @@ async function testTooltipDelay(assert, template) {
 
   /* Check the tooltip still hides immediately when it's supposed to be hidden */
 
-  triggerTooltipTargetEvent(this.$(), 'mouseleave');
+  triggerEvent(element, 'mouseleave');
 
   await settled();
 

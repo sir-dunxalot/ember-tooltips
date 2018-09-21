@@ -1,12 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled } from '@ember/test-helpers';
+import { render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotVisible,
   assertTooltipNotRendered,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 module('Integration | Option | event', function(hooks) {
@@ -18,13 +17,15 @@ module('Integration | Option | event', function(hooks) {
 
     await render(hbs`{{ember-tooltip}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    await triggerEvent(element, 'mouseleave');
 
     assertTooltipNotVisible(assert);
   });
@@ -35,13 +36,15 @@ module('Integration | Option | event', function(hooks) {
 
     await render(hbs`{{ember-tooltip event='click'}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipNotVisible(assert);
   });
@@ -52,13 +55,15 @@ module('Integration | Option | event', function(hooks) {
 
     await render(hbs`{{ember-tooltip event='focus'}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'focus');
+    await triggerEvent(element, 'focus');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'blur');
+    await triggerEvent(element, 'blur');
 
     assertTooltipNotVisible(assert);
   });
@@ -69,23 +74,25 @@ module('Integration | Option | event', function(hooks) {
 
     await render(hbs`{{ember-tooltip event='none'}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
     /* Check focus */
 
-    await triggerTooltipTargetEvent(this.$(), 'focus');
+    await triggerEvent(element, 'focus');
 
     assertTooltipNotRendered(assert);
 
     /* Check hover */
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
     assertTooltipNotRendered(assert);
 
     /* Check click */
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipNotRendered(assert);
   });

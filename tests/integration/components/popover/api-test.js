@@ -1,12 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render, settled } from '@ember/test-helpers';
+import { click, render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 module('Integration | Option | API', function(hooks) {
@@ -23,7 +22,7 @@ module('Integration | Option | API', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerEvent(this.element, 'click');
 
     assertTooltipVisible(assert);
 
@@ -43,9 +42,11 @@ module('Integration | Option | API', function(hooks) {
       {{/ember-popover}}
     `);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipVisible(assert);
 
@@ -55,7 +56,7 @@ module('Integration | Option | API', function(hooks) {
 
     await settled();
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipVisible(assert);
   });
@@ -69,9 +70,11 @@ module('Integration | Option | API', function(hooks) {
       {{/ember-popover}}
     `);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipVisible(assert);
 
@@ -83,7 +86,7 @@ module('Integration | Option | API', function(hooks) {
 
     assertTooltipNotVisible(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipVisible(assert);
   });

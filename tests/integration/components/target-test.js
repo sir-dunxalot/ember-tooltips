@@ -1,11 +1,11 @@
+import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   findTooltip,
   findTooltipTarget,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 module('Integration | Component | target', function(hooks) {
@@ -20,18 +20,18 @@ module('Integration | Component | target', function(hooks) {
     `);
 
     const expectedTarget = this.$().find('#some-target');
-    const actualTarget = findTooltipTarget();
+    const [ target ] = findTooltipTarget();
 
     assert.ok(expectedTarget.hasClass('ember-tooltip-target'),
         '#some-target should be the tooltip target');
 
-    assert.equal(expectedTarget[0], actualTarget[0],
+    assert.equal(expectedTarget[0], target,
       'The element with ID equal to targetID should be the tooltip target');
 
-    await triggerTooltipTargetEvent(actualTarget, 'mouseenter');
+    await triggerEvent(target, 'mouseenter');
 
     const tooltip = findTooltip();
-    const targetDescribedby = actualTarget.attr('aria-describedby');
+    const targetDescribedby = $(target).attr('aria-describedby');
 
     assert.ok(!!targetDescribedby,
       'The target should have an aria-describedby attribute after the tooltip renders');

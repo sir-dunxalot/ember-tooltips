@@ -1,10 +1,7 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import {
-  triggerTooltipTargetEvent,
-} from 'ember-tooltips/test-support';
 
 module('Integration | Option | actions', function(hooks) {
   setupRenderingTest(hooks);
@@ -50,12 +47,14 @@ module('Integration | Option | actions', function(hooks) {
       {{/unless}}
     `);
 
+    const { element } = this;
+
     assert.equal(actionsCalledHash.onRenderFoo, 0,
       'Should not have called render');
 
     /* Check render */
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
     assert.equal(actionsCalledHash.onRenderFoo, 1,
       'Should have called render');
@@ -68,7 +67,7 @@ module('Integration | Option | actions', function(hooks) {
     assert.equal(actionsCalledHash.onHideBaz, 0,
       'Should not have called hide');
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    await triggerEvent(element, 'mouseleave');
 
     assert.equal(actionsCalledHash.onHideBaz, 1,
       'Should have called hide');
@@ -102,7 +101,9 @@ module('Integration | Option | actions', function(hooks) {
       }}
     `);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    const { element } = this;
+
+    await triggerEvent(element, 'mouseenter');
 
     assert.equal(onRenderPassword, 'real password',
       'tooltip should support closure actions with multiple arguments');

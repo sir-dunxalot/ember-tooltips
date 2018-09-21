@@ -1,11 +1,10 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled } from '@ember/test-helpers';
+import { render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 module('Integration | Option | delayOnChange', function(hooks) {
@@ -30,7 +29,7 @@ module('Integration | Option | delayOnChange', function(hooks) {
     test tooltip is shown *almost* immediately after hover
     instead of after a 300ms delay */
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    triggerEvent(this.element, 'mouseenter');
 
     await settled();
 

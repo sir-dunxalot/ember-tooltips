@@ -1,13 +1,12 @@
 import hbs from 'htmlbars-inline-precompile';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import {
   assertTooltipContent,
   assertTooltipRendered,
   assertTooltipNotRendered,
   findTooltipTarget,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 module('Integration | Component | ember-tooltip', function(hooks) {
@@ -25,7 +24,7 @@ module('Integration | Component | ember-tooltip', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(this.element, 'mouseenter');
 
     assertTooltipRendered(assert);
 
@@ -48,9 +47,7 @@ module('Integration | Component | ember-tooltip', function(hooks) {
       </div>
     `);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter', {
-      selector: '.target',
-    });
+    await triggerEvent('.target', 'mouseenter');
 
     const $tooltipTarget = findTooltipTarget();
     const describedBy = $tooltipTarget.attr('aria-describedby');

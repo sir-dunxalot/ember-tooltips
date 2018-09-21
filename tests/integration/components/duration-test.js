@@ -1,13 +1,12 @@
 import { later } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 module('Integration | Option | duration', function(hooks) {
@@ -20,7 +19,7 @@ module('Integration | Option | duration', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    triggerEvent(this.element, 'mouseenter');
 
     /* Check the tooltip is shown before the duration is up */
 
@@ -41,14 +40,16 @@ module('Integration | Option | duration', function(hooks) {
 
     await render(hbs`{{ember-tooltip duration=300}}`);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    const { element } = this;
+
+    triggerEvent(element, 'mouseenter');
 
     /* Once the tooltip is shown but before it auto-hides trigger it to hide */
 
     later(() => {
       assertTooltipVisible(assert);
 
-      triggerTooltipTargetEvent(this.$(), 'mouseleave');
+      triggerEvent(element, 'mouseleave');
     }, 50);
 
     later(() => {
@@ -61,19 +62,21 @@ module('Integration | Option | duration', function(hooks) {
 
     await render(hbs`{{ember-tooltip duration=300}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
     /* Hide the tooltip */
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    await triggerEvent(element, 'mouseleave');
 
     assertTooltipNotVisible(assert);
 
     /* Reshow the tooltip and check it still hides after the duration */
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    triggerEvent(element, 'mouseenter');
 
     /* Check the tooltip is shown before the duration is up */
 

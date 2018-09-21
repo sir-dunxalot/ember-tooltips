@@ -1,12 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 module('Integration | Option | hideOn', function(hooks) {
@@ -18,17 +17,19 @@ module('Integration | Option | hideOn', function(hooks) {
 
     await render(hbs`{{ember-tooltip hideOn='click'}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
     /* Check hover triggers tooltip */
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
     assertTooltipVisible(assert);
 
     /* Check click hides tooltip */
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipNotVisible(assert);
   });

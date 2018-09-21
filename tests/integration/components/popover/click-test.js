@@ -4,7 +4,6 @@ import { click, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
   assertTooltipNotRendered,
   assertTooltipNotVisible,
 } from 'ember-tooltips/test-support';
@@ -17,13 +16,15 @@ module('Integration | Option | click', function(hooks) {
 
     await render(hbs`{{ember-popover event='click' popoverHideDelay=0}}`);
 
+    const { element } = this;
+
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await click(element);
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'click');
+    await click(element);
 
     assertTooltipNotVisible(assert);
   });
@@ -33,19 +34,19 @@ module('Integration | Option | click', function(hooks) {
 
     await render(hbs`{{ember-popover event='click' popoverHideDelay=0}}`);
 
-    const $popoverTarget = this.$();
+    const { element } = this;
 
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.ember-popover' });
+    await triggerEvent('.ember-popover', 'click');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerEvent(element, 'click');
 
     assertTooltipNotVisible(assert);
   });
@@ -134,7 +135,7 @@ module('Integration | Option | click', function(hooks) {
       {{ember-popover event='click' targetId='some-input' popoverHideDelay=0}}
     `);
 
-    const $popoverTarget = this.$('#some-input');
+    const [ popoverTarget ] = this.$('#some-input');
 
     assertTooltipNotRendered(assert);
 
@@ -142,12 +143,12 @@ module('Integration | Option | click', function(hooks) {
     when a user clicks an input both events occur in that order.
     We have fixed this with _isInProcessOfShowing and this test protects that. */
 
-    await triggerTooltipTargetEvent($popoverTarget, 'focusin');
-    await triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerEvent(popoverTarget, 'focusin');
+    await triggerEvent(popoverTarget, 'click');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerEvent(popoverTarget, 'click');
 
     assertTooltipNotVisible(assert);
   });

@@ -1,11 +1,10 @@
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import {
   assertTooltipVisible,
   assertTooltipNotRendered,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -57,7 +56,7 @@ module('Integration | Option | Event bubbling', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerEvent(this.element, 'mouseenter');
 
     const $button = $('.test-button-with-action');
 

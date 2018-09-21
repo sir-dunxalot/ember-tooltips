@@ -1,13 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotVisible,
   assertTooltipNotRendered,
   assertTooltipVisible,
   findTooltip,
-  triggerTooltipTargetEvent,
 } from 'ember-tooltips/test-support';
 
 // const MS_FOR_BLUR = 100;
@@ -22,17 +21,17 @@ module('Integration | Option | focus', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'focus');
+    await triggerEvent(this.element, 'focus');
 
-    const $popover = findTooltip();
-
-    assertTooltipVisible(assert);
-
-    await triggerTooltipTargetEvent($popover, 'focusin');
+    const [ popover ] = findTooltip();
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent($popover, 'focusout');
+    await triggerEvent(popover, 'focusin');
+
+    assertTooltipVisible(assert);
+
+    await triggerEvent(popover, 'focusout');
 
     assertTooltipNotVisible(assert);
   });
@@ -47,21 +46,19 @@ module('Integration | Option | focus', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'focus');
+    await triggerEvent(this.element, 'focus');
 
-    const $popover = findTooltip();
+    const [ popover ] = findTooltip();
 
-    await triggerTooltipTargetEvent(this.$(), 'focus', {
-      selector: '.target-interior',
-    });
+    await triggerEvent('.target-interior', 'focus');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent($popover, 'focus');
+    await triggerEvent(popover, 'focus');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent($popover, 'focusout');
+    await triggerEvent(popover, 'focusout');
 
     assertTooltipNotVisible(assert);
   });
@@ -77,23 +74,21 @@ module('Integration | Option | focus', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'focus');
+    await triggerEvent(this.element, 'focus');
 
-    const $popover = findTooltip();
-
-    assertTooltipVisible(assert);
-
-    await triggerTooltipTargetEvent($popover, 'focus');
+    const [ popover ] = findTooltip();
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'focus', {
-      selector: '.popover-interior',
-    });
+    await triggerEvent(popover, 'focus');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent($popover, 'focusout');
+    await triggerEvent('.popover-interior', 'focus');
+
+    assertTooltipVisible(assert);
+
+    await triggerEvent(popover, 'focusout');
 
     assertTooltipNotVisible(assert);
   });
@@ -106,15 +101,15 @@ module('Integration | Option | focus', function(hooks) {
       {{ember-popover event='focus' targetId='some-input' popoverHideDelay=0}}
     `);
 
-    const $popoverTarget = this.$('#some-input');
+    const [ popoverTarget ] = this.$('#some-input');
 
     assertTooltipNotRendered(assert);
 
-    await triggerTooltipTargetEvent($popoverTarget, 'focus');
+    await triggerEvent(popoverTarget, 'focus');
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent($popoverTarget, 'blur');
+    await triggerEvent(popoverTarget, 'blur');
 
     assertTooltipNotVisible(assert);
   });
