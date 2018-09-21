@@ -28,6 +28,8 @@ Documentation for usage is below:
 
 ## Usage
 
+This documentation is for the `3.x` version of ember-tooltips. For `2.x` documentation, please refer to the [2.x branch README](https://github.com/sir-dunxalot/ember-tooltips/tree/2.x).
+
 ### Ember Tooltip
 
 The easiest way to add a tooltip to any element is with the `{{ember-tooltip}}` component:
@@ -777,27 +779,14 @@ This project is maintained by:
 --- | --- |
 [Duncan Walker](https://github.com/sir-dunxalot) | [Max Fierke](https://github.com/maxfierke) |
 
-All PRs and issues are welcome.
+All PRs and issues are welcome to the following branches:
 
-You can setup a dev environment for this addon as follows:
+- `master` for `3.x` improvements and bug fixes
+- `2.x` for `2.x` improvements and bug fixes
 
-```sh
-git clone https://github.com/sir-dunxalot/ember-tooltips.git
-cd ember-tooltips
-npm install
-ember s # Starts server
-```
+Before starting work on a PR, please read the quick guide, [CONTRIBUTING](https://github.com/sir-dunxalot/ember-tooltips/blob/master/CONTRIBUTING.md), to save you time and energy!
 
-Please include tests and documentation updates with any new features.
-
-To run the test suite, visit the `/tests` route in the browser.
-
-You can also run the test suite in the CLI:
-
-```sh
-ember test # Runs the test suite once
-ember try:testall # Runs tests in all scenarios in config/ember-try.js
-ember try:one ember-lts-2.18 --- ember serve # Runs the test suite in the given ember-try scenario
+## Maintainer information
 
 To release an update to the demo app (for maintainers only):
 
