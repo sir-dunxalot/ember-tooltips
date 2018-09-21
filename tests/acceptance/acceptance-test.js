@@ -1,4 +1,4 @@
-import { settled, visit } from '@ember/test-helpers';
+import { settled, triggerEvent, visit } from '@ember/test-helpers';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
@@ -7,7 +7,6 @@ import {
   assertTooltipRendered,
   assertTooltipNotVisible,
   findTooltip,
-  triggerTooltipTargetEvent,
   assertTooltipVisible,
 } from 'ember-tooltips/test-support';
 
@@ -22,6 +21,7 @@ module('Acceptance | acceptance', function(hooks) {
     assertTooltipNotRendered(assert);
 
     const $tooltipTarget = $('.js-test-tooltip-target');
+    const [ tooltipTarget ] = $tooltipTarget;
     const tooltipOptions = {
       selector: '.js-test-tooltip',
     };
@@ -30,19 +30,20 @@ module('Acceptance | acceptance', function(hooks) {
 
     assertTooltipNotRendered(assert, tooltipOptions);
 
-    await triggerTooltipTargetEvent($tooltipTarget, 'mouseenter');
+    await triggerEvent(tooltipTarget, 'mouseenter');
 
     assertTooltipRendered(assert, tooltipOptions);
 
     assertTooltipVisible(assert, tooltipOptions);
 
-    await triggerTooltipTargetEvent($tooltipTarget, 'mouseleave');
+    await triggerEvent(tooltipTarget, 'mouseleave');
 
     await settled();
 
     assertTooltipNotVisible(assert, tooltipOptions);
 
     const $popoverTarget = $('.js-test-popover-target');
+    const [ popoverTarget ] = $popoverTarget;
     const popoverOptions = {
       selector: '.js-test-popover',
     };
@@ -51,13 +52,13 @@ module('Acceptance | acceptance', function(hooks) {
 
     assertTooltipNotRendered(assert, popoverOptions);
 
-    await triggerTooltipTargetEvent($popoverTarget, 'mouseenter');
+    await triggerEvent(popoverTarget, 'mouseenter');
 
     assertTooltipRendered(assert, popoverOptions);
 
     assertTooltipVisible(assert, popoverOptions);
 
-    await triggerTooltipTargetEvent($popoverTarget, 'mouseleave');
+    await triggerEvent(popoverTarget, 'mouseleave');
 
     await settled();
 

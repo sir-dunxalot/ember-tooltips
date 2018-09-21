@@ -779,17 +779,27 @@ This project is maintained by:
 
 All PRs and issues are welcome.
 
-- `git clone https://github.com/sir-dunxalot/ember-tooltips.git`
-- `cd ember-tooltips`
-- `npm install && bower install`
-- `ember s`
-- `ember test`, `ember try:testall`, or the `/tests` route
+You can setup a dev environment for this addon as follows:
+
+```sh
+git clone https://github.com/sir-dunxalot/ember-tooltips.git
+cd ember-tooltips
+npm install
+ember s # Starts server
+```
 
 Please include tests and documentation updates with any new features.
 
-You do not need to bump the version when you have a PR.
+To run the test suite, visit the `/tests` route in the browser.
 
-To release an update to the demo app:
+You can also run the test suite in the CLI:
+
+```sh
+ember test # Runs the test suite once
+ember try:testall # Runs tests in all scenarios in config/ember-try.js
+ember try:one ember-lts-2.18 --- ember serve # Runs the test suite in the given ember-try scenario
+
+To release an update to the demo app (for maintainers only):
 
 ```sh
 git checkout master # make sure you're on master branch

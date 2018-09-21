@@ -12,7 +12,7 @@ import {
 
 async function testTooltipDelay(assert, template) {
 
-  render(template);
+  await render(template);
 
   const { element } = this;
 
@@ -47,11 +47,11 @@ module('Integration | Option | delay', function(hooks) {
 
   test('ember-tooltip animates with delay passed as a number', async function(assert) {
     assert.expect(5);
-    testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay=300}}`);
+    await testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay=300}}`);
   });
 
   test('ember-tooltip animates with delay passed as a string', async function(assert) {
     assert.expect(5);
-    testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay='300'}}`);
+    await testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay='300'}}`);
   });
 });
