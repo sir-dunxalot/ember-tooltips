@@ -14,7 +14,7 @@ module('Acceptance | acceptance', function(hooks) {
   setupApplicationTest(hooks);
 
   test('all acceptance tests', async function(assert) {
-    assert.expect(11);
+    assert.expect(12);
 
     await visit('/acceptance');
 
@@ -61,6 +61,8 @@ module('Acceptance | acceptance', function(hooks) {
     await triggerEvent(popoverTarget, 'mouseleave');
 
     await settled();
+
+    assertTooltipNotVisible(assert, popoverOptions);
 
     assert.equal(findTooltip().length, 2,
         'There should only be 2 tooltips or popovers rendered');
