@@ -405,14 +405,13 @@ Publically available test helpers are:
 - [assertTooltipNotVisible()](#asserttooltipnotvisible)
 - [assertTooltipSide()](#asserttooltipside)
 - [assertTooltipSpacing()](#asserttooltipspacing)
-- [triggerTooltipTargetEvent()](#triggertooltiptargetevent)
 
 All assert helpers require `assert` to be passed as the first param and some accept a second, optional param for additional test options. For detailed usage instructions and examples, see the documentation for each test helper below.
 
 All test helpers can be imported from the following path:
 
 ```js
-'appname/tests/helpers/ember-tooltips';
+'ember-tooltips/test-support';
 ```
 
 For example:
@@ -420,23 +419,22 @@ For example:
 ```js
 // appname/tests/integration/components/some-component.js
 
-import {
-  assertTooltipRendered,
-} from 'appname/tests/helpers/ember-tooltips';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, triggerEvent } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('some-component', 'Integration | Component | Some', {
-  integration: true,
-});
+import { assertTooltipRendered } from 'ember-tooltips/test-support';
 
-test('ember-tooltip animates with a delay', function(assert) {
+module('Integration | Component | Some component', function(hooks) {
+  setupRenderingTest(hooks);
 
-  // ... Test content...
+  test('ember-tooltip renders', async function(assert) {
 
-  assertTooltipRendered(assert);
+    await render(hbs`{{ember-tooltip isShown=true}}`);
 
-  // ... More test content...
-
+    assertTooltipRendered(assert);
+  });
 });
 ```
 
@@ -445,81 +443,39 @@ test('ember-tooltip animates with a delay', function(assert) {
 Asserts that a tooltip or popover has content that matches a given string.
 
 ```js
-import {
-  afterTooltipRenderChange,
-  assertTooltipContent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipContent } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{ember-tooltip text='More info' isShown='true'}}`);
+  await render(hbs`{{ember-tooltip text='More info' isShown='true'}}`);
 
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipContent(assert, {
-      contentString: 'More info',
-    });
+  assertTooltipContent(assert, {
+    contentString: 'More info',
   });
 });
 ```
-
-The [options hash](#test-helper-options) accepts:
-
-- [`contentString`](#test-helper-option-contentstring) - REQUIRED
-- [`selector`](#test-helper-option-selector)
 
 #### assertTooltipRendered()
 
 Asserts that a tooltip or popover has been rendered in the DOM.
 
 ```js
-import {
-  afterTooltipRenderChange,
-  assertTooltipRendered,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipRendered } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{ember-tooltip}}`);
+  await render(hbs`{{ember-tooltip}}`);
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+  await triggerEvent(this.element, 'mouseenter');
 
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipRendered(assert);
-  });
+  assertTooltipRendered(assert);
 });
 ```
 
 Please note, `assertTooltipRendered()` does not assert that the tooltip or popover is visible to the user - use [assertTooltipVisible()](#asserttooltipvisible) for that.
 
-Given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips will not be rendered until the target is interacted with. As such, this helper is often used in conjunction with [triggerTooltipTargetEvent()](#triggertooltiptargetevent) or `isShown='true'` to test a tooltip property after the tooltip is rendered.
-
-For example:
-
-```js
-import {
-  afterTooltipRenderChange,
-  assertTooltipRendered,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`
-    {{ember-tooltip text='Hello'}}
-  `);
-
-  /* Tooltip won't be rendered in the DOM yet because lazy rendering delays the rendering until the user interacts with the target */
-
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
-
-  /* Now the user has interacted with the target, so the tooltip should be rendered... */
-
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipRendered(assert);
-  });
-});
-```
+Given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips will not be rendered until the target is interacted with.
 
 The [options hash](#test-helper-options) accepts:
 
@@ -532,26 +488,14 @@ Asserts that a tooltip or popover has not been rendered in the DOM.
 Why is this test helper useful? Well, given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips may not be rendered until the target is interacted with.
 
 ```js
-import {
-  afterTooltipRenderChange,
-  assertTooltipNotRendered,
-  assertTooltipRendered,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipNotRendered } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{ember-tooltip}}`);
+  await render(hbs`{{ember-tooltip}}`);
 
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipNotRendered(assert);
-
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
-
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipRendered(assert);
-    });
-  });
+  assertTooltipNotRendered(assert);
 });
 ```
 
@@ -565,58 +509,42 @@ The [options hash](#test-helper-options) accepts:
 
 Asserts that a tooltip or popover is visible.
 
-This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#triggertooltiptargetevent) to assert that a particular user interaction shows a tooltip to the user.
-
 For example:
 
 ```js
-import {
-  afterTooltipRenderChange,
-  assertTooltipVisible,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipVisible } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{ember-tooltip}}`);
+  await render(hbs`{{ember-tooltip}}`);
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+  await triggerEvent(this, this.element);
 
-  /* Asserts that the tooltip is shown when the user hovers over the target, which is this test's element */
-
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipVisible(assert);
-  });
+  assertTooltipVisible(assert);
 });
 ```
 
 You may use this helper with a variety of different user interactions. Here's an example that asserts that a tooltip is shown when the user focusses on an input:
 
 ```js
-import {
-  afterTooltipRenderChange,
-  assertTooltipVisible,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipVisible } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
+  await render(hbs`
     <input id="url-input">
     {{ember-tooltip targetId='url-input'}}
   `);
 
-  triggerTooltipTargetEvent($('#url-input'), 'focus');
+  await triggerEvent($('#url-input')[0], 'focus');
 
   /* Asserts that the tooltip is made visible when the user focuses on the input */
 
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipVisible(assert);
-  });
+  assertTooltipVisible(assert);
 });
 ```
-
-This does not assert that the tooltip or popover is rendered in the DOM (regardless of visibility to the user) - use [assertTooltipRendered()](#asserttooltiprendered) for that.
 
 The [options hash](#test-helper-options) accepts:
 
@@ -631,32 +559,29 @@ This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#t
 For example:
 
 ```js
+import { render, triggerEvent } from '@ember/test-helpers';
 import {
-  afterTooltipRenderChange,
   assertTooltipNotVisible,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{ember-tooltip}}`);
+  await render(hbs`{{ember-tooltip}}`);
+
+  const { element } = this;
 
   /* Hover over the target to show the tooltip... */
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+  await triggerEvent(element, 'mouseenter');
 
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipVisible(assert);
+  assertTooltipVisible(assert);
 
-    /* Stop hovering over the target in order to hide the tooltip... */
+  /* Stop hovering over the target in order to hide the tooltip... */
 
-    triggerTooltipTargetEvent(this.$(), 'mouseleave');
+  await triggerEvent(element, 'mouseleave');
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipNotVisible(assert);
-    });
-  });
+  assertTooltipNotVisible(assert);
 });
 ```
 
@@ -673,33 +598,23 @@ This helper tests [the side option](#side) that can be passed to tooltips and po
 An options hash is required and it must contain a `side` property. For example:
 
 ```js
-import {
-  afterTooltipRenderChange,
-  assertTooltipSide,
-} from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipSide } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{ember-tooltip side='right' isShown=true}}
-  `);
+  await render(hbs`{{ember-tooltip side='right' isShown=true}}`);
 
   /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipSide(assert, {
-      side: 'right', // SIDE IS REQUIRED
-    });
+  assertTooltipSide(assert, {
+    side: 'right',
   });
-
 });
 ```
 
 The [options hash](#test-helper-options) accepts:
 
-- [`side`](#test-helper-option-side) - REQUIRED
-- [`selector`](#test-helper-option-selector)
-- [`targetSelector`](#test-helper-option-targetselector)
+- [`side`](#test-helper-option-side)
 
 #### assertTooltipSpacing()
 
@@ -710,94 +625,25 @@ This helper tests [the spacing option](#spacing) that can be passed to tooltips 
 An options hash is required and it must contain `spacing` and `side` properties. For example:
 
 ```js
-import {
-  afterTooltipRenderChange,
-  assertTooltipSpacing,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipSide } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{ember-tooltip spacing=35 isShown=true}}
-  `);
-
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+  await render(hbs`{{ember-tooltip spacing=35 isShown=true}}`);
 
   /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipSide(assert, {
-      side: 'right', // SIDE IS REQUIRED
-      spacing: 35, // SPACING IS REQUIRED
-    });
+  assertTooltipSide(assert, {
+    side: 'right', // Side is required
+    spacing: 35,
   });
 });
 ```
 
 The [options hash](#test-helper-options) accepts:
 
-- [`side`](#test-helper-option-side) - REQUIRED
-- [`selector`](#test-helper-option-selector)
-- [`spacing`](#test-helper-option-spacing) - REQUIRED
-- [`targetSelector`](#test-helper-option-targetselector)
-
-#### triggerTooltipTargetEvent()
-
-Triggers an event on a tooltip or popover's [target](#targets).
-
-This helper does not require `assert` to be passed. Instead, it requires a jQuery element and event name:
-
-```js
-import {
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`{{ember-tooltip}}`);
-
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
-
-});
-```
-
-Other events can be passed for more complex interactions:
-
-```js
-import {
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`
-    {{input id='has-info-tooltip'}}
-
-    {{#ember-tooltip targetId='has-info-tooltip' event='focus'}}
-      Here is some more info
-    {{/ember-tooltip}}
-  `);
-
-  triggerTooltipTargetEvent($('#has-info-tooltip'), 'focus');
-
-  /* Then we'd do something like assert that the tooltip has been rendered... */
-
-});
-```
-
-Allowed event names are:
-
-- `'mouseenter'`
-- `'mouseleave'`
-- `'click'`
-- `'focus'`
-- `'focusin'`
-- `'blur'`
-
-The [options hash](#test-helper-options) accepts:
-
-- [`selector`](#test-helper-option-selector)
+- [`side`](#test-helper-option-side)
+- [`spacing`](#test-helper-option-spacing)
 
 ### Test helper options
 
@@ -805,10 +651,8 @@ Most test helpers accept a second, optional param called `options`. This is an o
 
 - [Content string](#test-helper-option-contentstring)
 - [Selector](#test-helper-option-selector)
-- [Target selector](#test-helper-option-targetselector)
 - [Side](#test-helper-option-side)
 - [Spacing](#test-helper-option-spacing)
-- [Event](#test-helper-option-event)
 
 #### Test helper option: `contentString`
 
@@ -821,16 +665,15 @@ The content string you expect the tooltip or popover to have.
 Usage example:
 
 ```js
-import { assertTooltipRendered } from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipContent } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{ember-tooltip test='More info'}}`);
+  await render(hbs`{{ember-tooltip text='More info' isShown='true'}}`);
 
   assertTooltipContent(assert, {
     contentString: 'More info',
   });
-
 });
 ```
 
@@ -847,50 +690,20 @@ If more than one tooltip or popover is found in the DOM when you run an assertio
 Usage example:
 
 ```js
-import { assertTooltipRendered } from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipVisible } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{ember-tooltip class='test-tooltip'}}
+  await render(hbs`
     {{ember-tooltip}}
+    {{ember-tooltip class="differentiator"}}
   `);
 
-  assertTooltipRendered(assert, {
-    selector: '.test-tooltip',
-  });
-});
-```
+  await triggerEvent(this, this.element);
 
-#### Test helper option: `targetSelector`
-
-The selector of the tooltip or popover target you are testing. See [Targets](#targets) for an explanation on what a 'target' is.
-
-If more than one tooltip or popover target is found in the DOM when you run an assertion, you will be asked to specify this.
-
-| Type    | String |
-|---------|---------|
-| Default | `'.ember-tooltip-or-popover-target'` |
-
-Usage example:
-
-```js
-import { assertTooltipSpacing } from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`
-    <div class="test-target">
-      {{ember-tooltip}}
-    </div>
-
-    <div>
-      {{ember-tooltip}}
-    </div>
-  `);
-
-  assertTooltipSpacing(assert, {
-    targetSelector: '.test-target',
+  assertTooltipVisible(assert, {
+    selector: '.differentiator', // Or whatever class you added to the desired tooltip
   });
 });
 ```
@@ -901,18 +714,18 @@ The value for the tooltip or popover's [`side` option](#side) that you are asser
 
 | Type    | String |
 |---------|---------|
-| Default | `null |
+| Default | `null` |
 
 For example, if you specify for the tooltip or popover be shown on the right of the target using `side='right'`, you will pass `side: 'right'` in assertions that test side. Here is the code for this example:
 
 ```js
-import { assertTooltipSide } from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipSide } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{ember-tooltip side='right'}}
-  `);
+  await render(hbs`{{ember-tooltip side='right' isShown=true}}`);
+
+  /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
   assertTooltipSide(assert, {
     side: 'right',
@@ -931,47 +744,18 @@ The value for the tooltip or popover's [`spacing` option](#spacing) that you are
 For example, if you specify for the tooltip or popover be shown on the right of the target using `side='right'`, you will pass `side: 'right'` in assertions that test side. Here is the code for this example:
 
 ```js
-import { assertTooltipSide } from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipSide } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{ember-tooltip spacing='35'}}
-  `);
+  await render(hbs`{{ember-tooltip spacing=35 isShown=true}}`);
 
-  assertTooltipSpacing(assert, {
+  /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
+
+  assertTooltipSide(assert, {
+    side: 'right', // Side is required
     spacing: 35,
   });
-});
-```
-
-#### Test helper option: `event`
-
-The name of the event that you would like to trigger on an element.
-
-| Type    | String |
-|---------|---------|
-| Default | `null` |
-
-Usually used to specify an event for showing/hiding tooltips and popovers:
-
-```js
-import {
-  triggerTooltipTargetEvent
-} from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`
-    {{ember-tooltip event='click'}}
-  `);
-
-  triggerTooltipTargetEvent(assert, {
-    event: 'click',
-  });
-
-  /* Now the tooltip should be visible! */
-
 });
 ```
 
