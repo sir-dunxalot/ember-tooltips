@@ -1,3 +1,4 @@
+import { later } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
@@ -6,7 +7,6 @@ import {
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   assertTooltipVisible,
-  findTooltip,
   triggerTooltipTargetEvent,
 } from 'dummy/tests/helpers/ember-tooltips';
 
@@ -14,7 +14,7 @@ module('Integration | Option | hover', function(hooks) {
   setupRenderingTest(hooks);
 
   test('Popover: hover target, hover elsewhere', async function(assert) {
-    assert.expect(3);
+    assert.expect(4);
 
     await render(hbs`{{ember-popover event='hover'}}`);
 
@@ -24,26 +24,34 @@ module('Integration | Option | hover', function(hooks) {
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    triggerTooltipTargetEvent(this.$(), 'mouseleave');
 
-    assertTooltipNotVisible(assert);
+    assertTooltipVisible(assert);
+
+    later(() => {
+      assertTooltipNotVisible(assert);
+    }, 300);
   });
 
-  // test('Popover: hover target, hover popover (too slow)', async function(assert) {
-  //   assert.expect(3);
+  test('Popover: hover target, hover popover (too slow)', async function(assert) {
+    assert.expect(4);
 
-  //   await render(hbs`{{ember-popover event='hover'}}`);
+    await render(hbs`{{ember-popover event='hover'}}`);
 
-  //   assertTooltipNotRendered(assert);
+    assertTooltipNotRendered(assert);
 
-  //   await triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    await triggerTooltipTargetEvent(this.$(), 'mouseenter');
 
-  //   assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-  //   await triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    triggerTooltipTargetEvent(this.$(), 'mouseleave');
 
-  //   assertTooltipNotVisible(assert);
-  // });
+    assertTooltipVisible(assert);
+
+    later(() => {
+      assertTooltipNotVisible(assert);
+    }, 500);
+  });
 
   test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', async function(assert) {
 
@@ -62,7 +70,7 @@ module('Integration | Option | hover', function(hooks) {
     1000 hidden
     */
 
-    assert.expect(5);
+    assert.expect(7);
 
     await render(hbs`{{ember-popover event='hover'}}`);
 
@@ -72,16 +80,33 @@ module('Integration | Option | hover', function(hooks) {
 
     assertTooltipVisible(assert);
 
-    await triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    triggerTooltipTargetEvent(this.$(), 'mouseleave');
 
     assertTooltipVisible(assert);
 
-    await triggerEvent('.ember-popover', 'mouseenter');
+    /* 100ms is less than the default popoverHideDelay, which is 250ms
+    so the tooltip should not have disappeared yet */
 
-    assertTooltipVisible(assert);
+    later(() => {
+      assertTooltipVisible(assert);
 
-    await triggerEvent('.ember-popover', 'mouseleave');
+      triggerEvent('.ember-popover', 'mouseenter');
+    }, 100);
 
-    assertTooltipNotVisible(assert);
+    later(() => {
+      assertTooltipVisible(assert);
+    }, 200);
+
+    later(() => {
+      triggerEvent('.ember-popover', 'mouseleave');
+    }, 300);
+
+    later(() => {
+      assertTooltipVisible(assert);
+    }, 400);
+
+    later(() => {
+      assertTooltipNotVisible(assert);
+    }, 1000);
   });
 });
