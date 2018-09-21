@@ -1,62 +1,57 @@
-import { run } from '@ember/runloop';
-import { moduleForComponent, test } from 'ember-qunit';
+import { later } from '@ember/runloop';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipRendered,
   assertTooltipNotRendered,
   assertTooltipNotVisible,
-  triggerTooltipTargetEvent,
   assertTooltipVisible,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
-function testTooltipDelay(assert, template) {
-  const done = assert.async();
+async function testTooltipDelay(assert, template) {
 
-  this.render(template);
+  await render(template);
+
+  const { element } = this;
 
   assertTooltipNotRendered(assert);
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+  triggerEvent(element, 'mouseenter');
 
-  afterTooltipRenderChange(assert, () => {
+  /* Check the tooltip is not rendered until the delay */
 
-    /* Check the tooltip is not rendered until the delay */
+  later(() => {
+    assertTooltipNotRendered(assert);
+  }, 250);
 
-    run.later(() => {
-      assertTooltipNotRendered(assert);
-    }, 250);
+  await settled();
 
-    /* Check the tooltip is shown after the delay */
+  /* Check the tooltip is shown after the delay */
 
-    run.later(() => {
-      assertTooltipRendered(assert);
-      assertTooltipVisible(assert);
-    }, 320);
+  assertTooltipRendered(assert);
+  assertTooltipVisible(assert);
 
-    /* Check the tooltip still hides immediately when it's supposed to be hidden */
+  /* Check the tooltip still hides immediately when it's supposed to be hidden */
 
-    run.later(() => {
-      triggerTooltipTargetEvent(this.$(), 'mouseleave');
+  triggerEvent(element, 'mouseleave');
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipNotVisible(assert);
-        done();
-      });
-    }, 350);
-  });
+  await settled();
+
+  assertTooltipNotVisible(assert);
 }
 
-moduleForComponent('ember-tooltip', 'Integration | Option | delay', {
-  integration: true,
-});
+module('Integration | Option | delay', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip animates with delay passed as a number', function(assert) {
-  assert.expect(5);
-  testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay=300}}`);
-});
+  test('ember-tooltip animates with delay passed as a number', async function(assert) {
+    assert.expect(5);
+    await testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay=300}}`);
+  });
 
-test('ember-tooltip animates with delay passed as a string', function(assert) {
-  assert.expect(5);
-  testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay='300'}}`);
+  test('ember-tooltip animates with delay passed as a string', async function(assert) {
+    assert.expect(5);
+    await testTooltipDelay.call(this, assert, hbs`{{ember-tooltip delay='300'}}`);
+  });
 });

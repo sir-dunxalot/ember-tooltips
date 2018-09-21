@@ -1,33 +1,30 @@
 import hbs from 'htmlbars-inline-precompile';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, triggerEvent } from '@ember/test-helpers';
 import {
-  afterTooltipRenderChange,
   assertTooltipContent,
   assertTooltipRendered,
   assertTooltipNotRendered,
   findTooltipTarget,
-  triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('ember-tooltip', 'Integration | Component | ember-tooltip', {
-  integration: true,
-});
+module('Integration | Component | ember-tooltip', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip renders', function(assert) {
+  test('ember-tooltip renders', async function(assert) {
 
-  assert.expect(3);
+    assert.expect(3);
 
-  this.render(hbs`
-    {{#ember-tooltip}}
-      template block text
-    {{/ember-tooltip}}
-  `);
+    await render(hbs`
+      {{#ember-tooltip}}
+        template block text
+      {{/ember-tooltip}}
+    `);
 
-  assertTooltipNotRendered(assert);
+    assertTooltipNotRendered(assert);
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
-
-  afterTooltipRenderChange(assert, () => {
+    await triggerEvent(this.element, 'mouseenter');
 
     assertTooltipRendered(assert);
 
@@ -36,27 +33,22 @@ test('ember-tooltip renders', function(assert) {
     });
   });
 
-});
+  test('ember-tooltip has the proper aria-describedby tag', async function(assert) {
 
-test('ember-tooltip has the proper aria-describedby tag', function(assert) {
+    assert.expect(2);
 
-  assert.expect(2);
+    await render(hbs`
+      <div class="target">
+        Hover here!
 
-  this.render(hbs`
-    <div class="target">
-      Hover here!
+        {{#ember-tooltip}}
+          Some info in a tooltip.
+        {{/ember-tooltip}}
+      </div>
+    `);
 
-      {{#ember-tooltip}}
-        Some info in a tooltip.
-      {{/ember-tooltip}}
-    </div>
-  `);
+    await triggerEvent('.target', 'mouseenter');
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter', {
-    selector: '.target',
-  });
-
-  afterTooltipRenderChange(assert, () => {
     const $tooltipTarget = findTooltipTarget();
     const describedBy = $tooltipTarget.attr('aria-describedby');
 
@@ -69,5 +61,4 @@ test('ember-tooltip has the proper aria-describedby tag', function(assert) {
 
     assert.equal(describedBy.indexOf('#'), '-1');
   });
-
 });

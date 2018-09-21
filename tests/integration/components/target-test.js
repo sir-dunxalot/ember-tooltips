@@ -1,39 +1,37 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import $ from 'jquery';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   findTooltip,
   findTooltipTarget,
-  triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('ember-tooltip', 'Integration | Component | target', {
-  integration: true,
-});
+module('Integration | Component | target', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip target test', function(assert) {
+  test('ember-tooltip target test', async function(assert) {
+    assert.expect(4);
 
-  assert.expect(4);
+    await render(hbs`
+      <div id="some-target"></div>
+      {{ember-tooltip targetId='some-target'}}
+    `);
 
-  this.render(hbs`
-    <div id="some-target"></div>
-    {{ember-tooltip targetId='some-target'}}
-  `);
+    const expectedTarget = this.$().find('#some-target');
+    const [ target ] = findTooltipTarget();
 
-  const expectedTarget = this.$().find('#some-target');
-  const actualTarget = findTooltipTarget();
+    assert.ok(expectedTarget.hasClass('ember-tooltip-target'),
+        '#some-target should be the tooltip target');
 
-  assert.ok(expectedTarget.hasClass('ember-tooltip-target'),
-      '#some-target should be the tooltip target');
+    assert.equal(expectedTarget[0], target,
+      'The element with ID equal to targetID should be the tooltip target');
 
-  assert.equal(expectedTarget[0], actualTarget[0],
-    'The element with ID equal to targetID should be the tooltip target');
+    await triggerEvent(target, 'mouseenter');
 
-  triggerTooltipTargetEvent(actualTarget, 'mouseenter');
-
-  afterTooltipRenderChange(assert, () => {
     const tooltip = findTooltip();
-    const targetDescribedby = actualTarget.attr('aria-describedby');
+    const targetDescribedby = $(target).attr('aria-describedby');
 
     assert.ok(!!targetDescribedby,
       'The target should have an aria-describedby attribute after the tooltip renders');

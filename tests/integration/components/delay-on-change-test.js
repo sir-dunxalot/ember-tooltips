@@ -1,28 +1,27 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipNotRendered,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('ember-tooltip', 'Integration | Option | delayOnChange', {
-  integration: true,
-});
+module('Integration | Option | delayOnChange', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip animates with a delay', function(assert) {
+  test('ember-tooltip animates with a delay', async function(assert) {
 
-  assert.expect(2);
+    assert.expect(2);
 
-  /* Create two tooltips and show one */
+    /* Create two tooltips and show one */
 
-  this.render(hbs`
-    {{ember-tooltip delay=300 delayOnChange=false tooltipClassName='ember-tooltip test-tooltip' text='Hey'}}
-    {{ember-tooltip delayOnChange=false isShown=true event='none' text='Hi'}}
-  `);
+    await render(hbs`
+      {{ember-tooltip delay=300 delayOnChange=false tooltipClassName='ember-tooltip test-tooltip' text='Hey'}}
+      {{ember-tooltip delayOnChange=false isShown=true event='none' text='Hi'}}
+    `);
 
-  afterTooltipRenderChange(assert, () => {
+    await settled();
 
     assertTooltipNotRendered(assert, { selector: '.test-tooltip' });
 
@@ -30,10 +29,10 @@ test('ember-tooltip animates with a delay', function(assert) {
     test tooltip is shown *almost* immediately after hover
     instead of after a 300ms delay */
 
-    triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    triggerEvent(this.element, 'mouseenter');
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipVisible(assert, { selector: '.test-tooltip' });
-    });
+    await settled();
+
+    assertTooltipVisible(assert, { selector: '.test-tooltip' });
   });
 });

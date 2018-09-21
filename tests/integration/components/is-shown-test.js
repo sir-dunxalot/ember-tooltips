@@ -1,36 +1,35 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipNotVisible,
   assertTooltipVisible,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('ember-tooltip', 'Integration | Option | isShown', {
-  integration: true,
-});
+module('Integration | Option | isShown', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip toggles with isShown', function(assert) {
+  test('ember-tooltip toggles with isShown', async function(assert) {
 
-  assert.expect(3);
+    assert.expect(3);
 
-  this.set('showTooltip', true);
+    this.set('showTooltip', true);
 
-  this.render(hbs`{{ember-tooltip isShown=showTooltip}}`);
+    await render(hbs`{{ember-tooltip isShown=showTooltip}}`);
 
-  afterTooltipRenderChange(assert, () => {
     assertTooltipVisible(assert);
 
     this.set('showTooltip', false);
 
-    afterTooltipRenderChange(assert, () => {
-      assertTooltipNotVisible(assert);
+    await settled();
 
-      this.set('showTooltip', true);
+    assertTooltipNotVisible(assert);
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipVisible(assert);
-      });
-    });
+    this.set('showTooltip', true);
+
+    await settled();
+
+    assertTooltipVisible(assert);
   });
 });

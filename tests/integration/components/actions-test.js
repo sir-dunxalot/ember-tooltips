@@ -1,58 +1,60 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import {
-  afterTooltipRenderChange,
-  triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
 
-moduleForComponent('ember-tooltip', 'Integration | Option | actions', {
-  integration: true,
-});
+module('Integration | Option | actions', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip calls lifecycle actions', function(assert) {
-
-  assert.expect(10);
-
-  const actionsCalledHash = {
-    onRenderFoo: 0,
-    onShowBar: 0,
-    onHideBaz: 0,
-    onDestroyFubar: 0,
-  };
-
-  /* Setup the actions and handlers... */
-
-  Object.keys(actionsCalledHash).forEach((action) => {
-    this.set(action, () => {
-      assert.ok(true, `Should call ${action}`);
-
-      /* Count the calls... */
-
-      actionsCalledHash[action]++;
-    });
+  hooks.beforeEach(function() {
+    this.actions = {};
+    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
   });
 
-  /* Now, let's go through the component lifecycle */
+  test('ember-tooltip calls lifecycle actions', async function(assert) {
 
-  this.render(hbs`
-    {{#unless destroyTooltip}}
-      {{ember-tooltip
-        onRender=(action onRenderFoo)
-        onShow=(action onShowBar)
-        onHide=(action onHideBaz)
-        onDestroy=(action onDestroyFubar)
-      }}
-    {{/unless}}
-  `);
+    assert.expect(10);
 
-  assert.equal(actionsCalledHash.onRenderFoo, 0,
-    'Should not have called render');
+    const actionsCalledHash = {
+      onRenderFoo: 0,
+      onShowBar: 0,
+      onHideBaz: 0,
+      onDestroyFubar: 0,
+    };
 
-  /* Check render */
+    /* Setup the actions and handlers... */
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    Object.keys(actionsCalledHash).forEach((action) => {
+      this.set(action, () => {
+        assert.ok(true, `Should call ${action}`);
 
-  afterTooltipRenderChange(assert, () => {
+        /* Count the calls... */
+
+        actionsCalledHash[action]++;
+      });
+    });
+
+    /* Now, let's go through the component lifecycle */
+
+    await render(hbs`
+      {{#unless destroyTooltip}}
+        {{ember-tooltip
+          onRender=(action onRenderFoo)
+          onShow=(action onShowBar)
+          onHide=(action onHideBaz)
+          onDestroy=(action onDestroyFubar)
+        }}
+      {{/unless}}
+    `);
+
+    const { element } = this;
+
+    assert.equal(actionsCalledHash.onRenderFoo, 0,
+      'Should not have called render');
+
+    /* Check render */
+
+    await triggerEvent(element, 'mouseenter');
 
     assert.equal(actionsCalledHash.onRenderFoo, 1,
       'Should have called render');
@@ -65,51 +67,46 @@ test('ember-tooltip calls lifecycle actions', function(assert) {
     assert.equal(actionsCalledHash.onHideBaz, 0,
       'Should not have called hide');
 
-    triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    await triggerEvent(element, 'mouseleave');
 
-    afterTooltipRenderChange(assert, () => {
+    assert.equal(actionsCalledHash.onHideBaz, 1,
+      'Should have called hide');
 
-      assert.equal(actionsCalledHash.onHideBaz, 1,
-        'Should have called hide');
+    /* Check destroy */
 
-      /* Check destroy */
+    this.set('destroyTooltip', true);
 
-      this.set('destroyTooltip', true);
+    assert.equal(actionsCalledHash.onDestroyFubar, 1,
+      'Should have called destroy');
 
-      assert.equal(actionsCalledHash.onDestroyFubar, 1,
-        'Should have called destroy');
-
-    });
-  });
-});
-
-test('ember-tooltip supports lifecycle closure actions with multiple arguments', function(assert) {
-
-  /* Closure actions allow you to pass multiple parameters
-  when you declare the action variable. This test covers that case.
-  */
-
-  assert.expect(1);
-
-  let onRenderPassword;
-
-  this.on('onRenderFoo', (trickPassword, realPassword) => {
-    onRenderPassword = realPassword;
   });
 
-  this.render(hbs`
-    {{ember-tooltip
-      onRender=(action 'onRenderFoo' 'trick password' 'real password')
-    }}
-  `);
+  test('ember-tooltip supports lifecycle closure actions with multiple arguments', async function(assert) {
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    /* Closure actions allow you to pass multiple parameters
+    when you declare the action variable. This test covers that case.
+    */
 
-  afterTooltipRenderChange(assert, () => {
+    assert.expect(1);
+
+    let onRenderPassword;
+
+    this.actions.onRenderFoo = (trickPassword, realPassword) => {
+      onRenderPassword = realPassword;
+    };
+
+    await render(hbs`
+      {{ember-tooltip
+        onRender=(action 'onRenderFoo' 'trick password' 'real password')
+      }}
+    `);
+
+    const { element } = this;
+
+    await triggerEvent(element, 'mouseenter');
 
     assert.equal(onRenderPassword, 'real password',
       'tooltip should support closure actions with multiple arguments');
 
   });
-
 });

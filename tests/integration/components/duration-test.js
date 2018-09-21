@@ -1,99 +1,93 @@
-import { run } from '@ember/runloop';
-import { moduleForComponent, test } from 'ember-qunit';
+import { later } from '@ember/runloop';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('ember-tooltip', 'Integration | Option | duration', {
-  integration: true,
-});
+module('Integration | Option | duration', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('ember-tooltip hides after the given duration', function(assert) {
-  const done = assert.async();
+  test('ember-tooltip hides after the given duration', async function(assert) {
+    assert.expect(3);
 
-  assert.expect(3);
+    await render(hbs`{{ember-tooltip duration=300}}`);
 
-  this.render(hbs`{{ember-tooltip duration=300}}`);
+    assertTooltipNotRendered(assert);
 
-  assertTooltipNotRendered(assert);
+    triggerEvent(this.element, 'mouseenter');
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    /* Check the tooltip is shown before the duration is up */
 
-  afterTooltipRenderChange(assert, () => {
-
-    /* Check the tooltip is shown */
-
-    assertTooltipVisible(assert);
+    later(() => {
+      assertTooltipVisible(assert);
+    }, 200);
 
     /* Check the tooltip is hidden after the duration */
 
-    run.later(() => {
+    later(() => {
       assertTooltipNotVisible(assert);
-      done();
-    }, 300);
+    }, 400);
   });
 
-});
+  test('ember-tooltip hides before the given duration, if requested', async function(assert) {
 
-test('ember-tooltip hides before the given duration, if requested', function(assert) {
+    assert.expect(2);
 
-  assert.expect(3);
+    await render(hbs`{{ember-tooltip duration=300}}`);
 
-  this.render(hbs`{{ember-tooltip duration=300}}`);
+    const { element } = this;
 
-  assertTooltipNotRendered(assert);
+    triggerEvent(element, 'mouseenter');
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
+    /* Once the tooltip is shown but before it auto-hides trigger it to hide */
 
-  afterTooltipRenderChange(assert, () => {
+    later(() => {
+      assertTooltipVisible(assert);
 
-    assertTooltipVisible(assert);
+      triggerEvent(element, 'mouseleave');
+    }, 50);
 
-    triggerTooltipTargetEvent(this.$(), 'mouseleave');
-
-    afterTooltipRenderChange(assert, () => {
+    later(() => {
       assertTooltipNotVisible(assert);
-    });
+    }, 100);
   });
-});
 
-test('ember-tooltip uses duration after the first show', function(assert) {
+  test('ember-tooltip uses duration after the first show', async function(assert) {
+    assert.expect(4);
 
-  assert.expect(5);
+    await render(hbs`{{ember-tooltip duration=300}}`);
 
-  this.render(hbs`{{ember-tooltip duration=300}}`);
+    const { element } = this;
 
-  assertTooltipNotRendered(assert);
+    assertTooltipNotRendered(assert);
 
-  triggerTooltipTargetEvent(this.$(), 'mouseenter');
-
-  afterTooltipRenderChange(assert, () => {
-    assertTooltipVisible(assert);
+    await triggerEvent(element, 'mouseenter');
 
     /* Hide the tooltip */
 
-    triggerTooltipTargetEvent(this.$(), 'mouseleave');
+    await triggerEvent(element, 'mouseleave');
 
-    afterTooltipRenderChange(assert, () => {
+    assertTooltipNotVisible(assert);
+
+    /* Reshow the tooltip and check it still hides after the duration */
+
+    triggerEvent(element, 'mouseenter');
+
+    /* Check the tooltip is shown before the duration is up */
+
+    later(() => {
+      assertTooltipVisible(assert);
+    }, 200);
+
+    /* Check the tooltip is hidden after the duration */
+
+    later(() => {
       assertTooltipNotVisible(assert);
-
-      /* Reshow the tooltip and check it still hides after the duration */
-
-      triggerTooltipTargetEvent(this.$(), 'mouseenter');
-
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipVisible(assert);
-
-        afterTooltipRenderChange(assert, () => {
-          assertTooltipNotVisible(assert);
-        }, 500);
-      });
-    });
+    }, 400);
   });
-
 });

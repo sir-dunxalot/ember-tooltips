@@ -1,5 +1,5 @@
 import { deprecatingAlias } from '@ember/object/computed';
-import { run } from '@ember/runloop';
+import { cancel, later } from '@ember/runloop';
 import EmberTooltipBase from 'ember-tooltips/components/ember-tooltip-base';
 
 export default EmberTooltipBase.extend({
@@ -26,12 +26,18 @@ export default EmberTooltipBase.extend({
   },
 
   addTooltipBaseEventListeners() {
+    const { target, _tooltip } = this.getProperties('target', '_tooltip');
+
     this.addPopoverEventListeners();
 
     /* If the user clicks outside the popover, hide the popover. */
 
-    this._addEventListener('click', () => {
-      if (!this.get('_isMouseInside')) {
+    this._addEventListener('click', (event) => {
+      const { target: eventTarget } = event;
+      const clickIsOnPopover = eventTarget == _tooltip.popperInstance.popper;
+      const clickIsOnTarget = eventTarget == target;
+
+      if (!this.get('_isMouseInside') && !clickIsOnPopover && !clickIsOnTarget) {
         this.hide();
       }
     }, document);
@@ -90,16 +96,16 @@ export default EmberTooltipBase.extend({
   },
 
   hide() {
-    if (this.get('isDestroying')) {
+    if (this.get('isDestroying') || !this.get('isShown')) {
       return;
     }
 
     /* If the tooltip is about to be showed by
     a delay, stop is being shown. */
 
-    run.cancel(this.get('_showTimer'));
+    cancel(this.get('_showTimer'));
 
-    run.later(() => {
+    later(() => {
       if (!this.get('_isMouseInside')) {
         this._hideTooltip();
       }

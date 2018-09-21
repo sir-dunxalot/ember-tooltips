@@ -1,7 +1,6 @@
 /* global Tooltip */
 
 import { not } from '@ember/object/computed';
-
 import $ from 'jquery';
 import { computed } from '@ember/object';
 import { getOwner } from '@ember/application';
@@ -188,6 +187,7 @@ export default Component.extend({
 
   willDestroyElement() {
     this._super(...arguments);
+
     this.hide();
 
     const _tooltipEvents = this.get('_tooltipEvents');
@@ -361,7 +361,7 @@ export default Component.extend({
           /* If user passes isShown=true, show the tooltip as soon as it's created */
 
           if (this.get('isShown')) {
-            tooltip.show();
+            // tooltip.show();
             this.show();
           }
         });

@@ -1,47 +1,41 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, settled } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  afterTooltipRenderChange,
   assertTooltipContent,
-} from 'dummy/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('ember-tooltip', 'Integration | Option | updateFor', {
-  integration: true,
-});
+module('Integration | Option | updateFor', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('updateFor test', function(assert) {
+  test('updateFor test', async function(assert) {
+    assert.expect(2);
 
-  assert.expect(2);
+    this.set('asyncContent', null);
 
-  this.set('asyncContent', null);
-
-  this.render(hbs`
-    {{#ember-tooltip updateFor=asyncContent isShown=true}}
-      {{#if asyncContent}}
-        {{asyncContent}}
-      {{else}}
-        ...
-      {{/if}}
-    {{/ember-tooltip}}
-  `);
-
-  afterTooltipRenderChange(assert, () => {
+    await render(hbs`
+      {{#ember-tooltip updateFor=asyncContent isShown=true}}
+        {{#if asyncContent}}
+          {{asyncContent}}
+        {{else}}
+          ...
+        {{/if}}
+      {{/ember-tooltip}}
+    `);
 
     assertTooltipContent(assert, {
       contentString: '...',
     });
 
-    afterTooltipRenderChange(assert, () => {
+    /* After 200ms, change the async content */
 
-      /* After 200ms, change the async content */
+    this.set('asyncContent', 'Some model');
 
-      this.set('asyncContent', 'Some model');
+    await settled();
 
-      afterTooltipRenderChange(assert, () => {
-        assertTooltipContent(assert, {
-          contentString: 'Some model',
-        });
-      });
-    }, 200);
+    assertTooltipContent(assert, {
+      contentString: 'Some model',
+    });
   });
 });
