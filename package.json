@@ -10,7 +10,10 @@
     "popovers",
     "htmlbars"
   ],
-  "repository": "https://github.com/sir-dunxalot/ember-tooltips/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sir-dunxalot/ember-tooltips.git"
+  },
   "license": "MIT",
   "author": "",
   "directories": {
