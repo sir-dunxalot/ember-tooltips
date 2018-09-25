@@ -300,12 +300,11 @@ export default Component.extend({
           const rootElement = document.querySelector(config.APP.rootElement);
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
-          const tooltipContent = this.get('text') || '<span></span>';
           const tooltip = new Tooltip(target, {
             container: rootElement || false,
             html: true,
             placement: this.get('side'),
-            title: tooltipContent,
+            title: '<span></span>',
             trigger: 'manual',
             template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
                         <div class="tooltip-arrow ember-tooltip-arrow"></div>
