@@ -151,6 +151,7 @@ export default Component.extend({
   _tooltipElementRendered: false,
   _tooltipEvents: null,
   _tooltip: null,
+  _spacingRequestId: null,
 
   init() {
     this._super(...arguments);
@@ -177,7 +178,7 @@ export default Component.extend({
         const popper = this.get('_tooltip').popperInstance;
 
         if (popper) {
-          run(popper.update);
+          run.scheduleOnce('afterRender', popper, popper.update);
         }
       }
     } else {
@@ -306,7 +307,7 @@ export default Component.extend({
             placement: this.get('side'),
             title: '<span></span>',
             trigger: 'manual',
-            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
+            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin:0;margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
                         <div class="tooltip-arrow ember-tooltip-arrow"></div>
                         <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
                        </div>`,
@@ -337,7 +338,7 @@ export default Component.extend({
                   run.scheduleOnce('afterRender', () => {
                     const popperInstance = tooltipData.instance;
 
-                    popperInstance.state.updateBound();
+                    popperInstance.update();
                   });
 
                   resolve(tooltipData);
@@ -360,7 +361,6 @@ export default Component.extend({
           /* If user passes isShown=true, show the tooltip as soon as it's created */
 
           if (this.get('isShown')) {
-            // tooltip.show();
             this.show();
           }
         });
@@ -371,16 +371,12 @@ export default Component.extend({
   },
 
   setSpacing() {
-    if (this._spacingRequestId) {
+    if (this._spacingRequestId || !this.get('isShown') || this.get('isDestroying')) {
       return;
     }
 
     this._spacingRequestId = requestAnimationFrame(() => {
       this._spacingRequestId = null;
-
-      if (!this.get('isShown') || this.get('isDestroying')) {
-        return;
-      }
 
       const { popperInstance } = this.get('_tooltip');
       const { popper } = popperInstance;
@@ -393,8 +389,6 @@ export default Component.extend({
       style.marginLeft = 0;
 
       popper.style[`margin${capitalize(marginSide)}`] = `${this.get('spacing')}px`;
-
-      popperInstance.state.updateBound();
     });
   },
 

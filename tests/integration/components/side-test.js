@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipSide,
@@ -22,7 +22,6 @@ module('Integration | Option | side', function(hooks) {
     assert.expect(1);
 
     await render(hbs`{{#some-component}}Hello{{ember-tooltip isShown=true text='Hi' effect='none'}}{{/some-component}}`);
-    await settled();
 
     assertTooltipSide(assert, { side: 'top' });
   });
@@ -31,7 +30,6 @@ module('Integration | Option | side', function(hooks) {
     assert.expect(1);
 
     await render(hbs`{{#some-component}}Hello{{ember-tooltip side='top' isShown=true text='Hi' effect='none'}}{{/some-component}}`);
-    await settled();
 
     assertTooltipSide(assert, { side: 'top' });
   });
@@ -42,7 +40,6 @@ module('Integration | Option | side', function(hooks) {
     await render(
       hbs`{{#some-component}}Hello{{ember-tooltip side='right' isShown=true text='Hi' effect='none'}}{{/some-component}}`
     );
-    await settled();
 
     assertTooltipSide(assert, { side: 'right' });
   });
@@ -53,7 +50,6 @@ module('Integration | Option | side', function(hooks) {
     await render(
       hbs`{{#some-component}}Hello{{ember-tooltip side='bottom' isShown=true text='Hi' effect='none'}}{{/some-component}}`
     );
-    await settled();
 
     assertTooltipSide(assert, { side: 'bottom' });
   });
@@ -62,7 +58,6 @@ module('Integration | Option | side', function(hooks) {
     assert.expect(1);
 
     await render(hbs`{{#some-component}}Hello{{ember-tooltip side='left' isShown=true text='Hi' effect='none'}}{{/some-component}}`);
-    await settled();
 
     assertTooltipSide(assert, { side: 'left' });
   });
