@@ -533,17 +533,17 @@ export default Component.extend({
 
     /* Remember event listeners so they can removed on teardown */
 
+    const boundCallback = run.bind(this, callback);
+
     this.get('_tooltipEvents').push({
-      callback,
+      callback: boundCallback,
       target,
       eventName,
     });
 
     /* Add the event listeners */
 
-    run(() => {
-      target.addEventListener(eventName, callback);
-    });
+    target.addEventListener(eventName, boundCallback);
   },
 
   _dispatchAction(actionName, ...args) {
