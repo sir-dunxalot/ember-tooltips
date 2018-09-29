@@ -256,7 +256,7 @@ This can be any javascript-emitted event.
 
 Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automatically, instead of this option.
 
-This opeion does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event) in deciding when the tooltip is hidden.
+This option does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event) in deciding when the tooltip is hidden.
 
 #### Side
 
@@ -344,7 +344,7 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 
 ```hbs
 {{!--Binds the tooltip visibility to the showTooltip property--}}
-{{ember-tooltip isShown=true event='none'}}
+{{ember-tooltip isShown=showTooltip event='none'}}
 ```
 
 #### Hide delay
@@ -765,7 +765,7 @@ test('Example test', async function(assert) {
 
 This addon aims to meet 508 compliance.
 
-Elements with tooltips are given a `tabindex` attribute and when the element receives focus, the tooltip with show.
+Elements with tooltips are given a `tabindex` attribute and when the element receives focus, the tooltip will show.
 
 Additionally, the `aria-describedby`, `title`, `id`, and `role` attributes are managed by this addon.
 
