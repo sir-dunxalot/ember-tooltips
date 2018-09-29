@@ -35,12 +35,12 @@ Version `3.0.0` replaces the unreliable Tether library with a more robust positi
 
 In addition, the code base is simplified to make it easier to extend and customize.
 
-Documentation for the `3.0.0-beta.x` is available [on this branch](https://github.com/sir-dunxalot/ember-tooltips/tree/remove-tether-dependency).
+Documentation for the `3.0.0-beta.x` is available [on this branch](https://github.com/sir-dunxalot/ember-tooltips/tree/3.x).
 
 You can install the beta version using:
 
 ```sh
-npm install --save-dev ember-tooltips@3.0.0-beta.2
+npm install --save-dev ember-tooltips@3.0.0-beta.4
 ```
 
 Please [report any issues you come across](https://github.com/sir-dunxalot/ember-tooltips/issues/new). Thank you in advance!
