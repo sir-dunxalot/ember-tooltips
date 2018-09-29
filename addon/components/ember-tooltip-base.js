@@ -1,6 +1,5 @@
 /* global Tooltip */
 
-import { not } from '@ember/object/computed';
 import $ from 'jquery';
 import { computed } from '@ember/object';
 import { getOwner } from '@ember/application';
@@ -79,8 +78,6 @@ export default Component.extend({
   onRender: null,
   onShow: null,
 
-  tooltipElementNotRendered: not('_tooltipElementRendered'),
-
   hideOn: computed('event', function() {
     const event  = this.get('event');
 
@@ -148,7 +145,7 @@ export default Component.extend({
   }),
 
   _animationDuration: 200, // In ms
-  _tooltipElementRendered: false,
+  _awaitingTooltipElementRendered: true,
   _tooltipEvents: null,
   _tooltip: null,
   _spacingRequestId: null,
@@ -327,7 +324,7 @@ export default Component.extend({
 
                   this._dispatchAction('onRender', this);
 
-                  this.set('_tooltipElementRendered', true);
+                  this.set('_awaitingTooltipElementRendered', false);
 
                   /* The tooltip element must exist in order to add event listeners to it */
 
