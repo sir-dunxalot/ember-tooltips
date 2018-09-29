@@ -11,8 +11,8 @@
     "htmlbars"
   ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/sir-dunxalot/ember-tooltips.git"
+    "type": "git",
+    "url": "https://github.com/sir-dunxalot/ember-tooltips.git"
   },
   "license": "MIT",
   "author": "",
@@ -33,7 +33,7 @@
     "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^2.0.1",
     "ember-cli-node-assets": "^0.2.2",
-    "ember-wormhole": "^0.5.2",
+    "ember-wormhole": "^0.5.5",
     "popper.js": "^1.12.5",
     "tooltip.js": "^1.1.5"
   },

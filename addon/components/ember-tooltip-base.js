@@ -1,6 +1,5 @@
 /* global Tooltip */
 
-import { not } from '@ember/object/computed';
 import $ from 'jquery';
 import { computed } from '@ember/object';
 import { getOwner } from '@ember/application';
@@ -79,8 +78,6 @@ export default Component.extend({
   onRender: null,
   onShow: null,
 
-  tooltipElementNotRendered: not('_tooltipElementRendered'),
-
   hideOn: computed('event', function() {
     const event  = this.get('event');
 
@@ -148,9 +145,10 @@ export default Component.extend({
   }),
 
   _animationDuration: 200, // In ms
-  _tooltipElementRendered: false,
+  _awaitingTooltipElementRendered: true,
   _tooltipEvents: null,
   _tooltip: null,
+  _spacingRequestId: null,
 
   init() {
     this._super(...arguments);
@@ -177,7 +175,7 @@ export default Component.extend({
         const popper = this.get('_tooltip').popperInstance;
 
         if (popper) {
-          run(popper.update);
+          run.scheduleOnce('afterRender', popper, popper.update);
         }
       }
     } else {
@@ -298,14 +296,13 @@ export default Component.extend({
           const rootElement = document.querySelector(config.APP.rootElement);
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
-          const tooltipContent = this.get('text') || '<span></span>';
           const tooltip = new Tooltip(target, {
             container: rootElement || false,
             html: true,
             placement: this.get('side'),
-            title: tooltipContent,
+            title: '<span></span>',
             trigger: 'manual',
-            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
+            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin:0;margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
                         <div class="tooltip-arrow ember-tooltip-arrow"></div>
                         <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
                        </div>`,
@@ -325,7 +322,7 @@ export default Component.extend({
 
                   this._dispatchAction('onRender', this);
 
-                  this.set('_tooltipElementRendered', true);
+                  this.set('_awaitingTooltipElementRendered', false);
 
                   /* The tooltip element must exist in order to add event listeners to it */
 
@@ -336,7 +333,7 @@ export default Component.extend({
                   run.scheduleOnce('afterRender', () => {
                     const popperInstance = tooltipData.instance;
 
-                    popperInstance.state.updateBound();
+                    popperInstance.update();
                   });
 
                   resolve(tooltipData);
@@ -359,7 +356,6 @@ export default Component.extend({
           /* If user passes isShown=true, show the tooltip as soon as it's created */
 
           if (this.get('isShown')) {
-            // tooltip.show();
             this.show();
           }
         });
@@ -370,16 +366,12 @@ export default Component.extend({
   },
 
   setSpacing() {
-    if (this._spacingRequestId) {
+    if (this._spacingRequestId || !this.get('isShown') || this.get('isDestroying')) {
       return;
     }
 
     this._spacingRequestId = requestAnimationFrame(() => {
       this._spacingRequestId = null;
-
-      if (!this.get('isShown') || this.get('isDestroying')) {
-        return;
-      }
 
       const { popperInstance } = this.get('_tooltip');
       const { popper } = popperInstance;
@@ -392,8 +384,6 @@ export default Component.extend({
       style.marginLeft = 0;
 
       popper.style[`margin${capitalize(marginSide)}`] = `${this.get('spacing')}px`;
-
-      popperInstance.state.updateBound();
     });
   },
 

@@ -21,7 +21,7 @@ module('Integration | Option | side', function(hooks) {
   test('ember-tooltip shows on the top by default', async function(assert) {
     assert.expect(1);
 
-    await render(hbs`{{#some-component}}Hello{{ember-tooltip isShown=true text='Hi'}}{{/some-component}}`);
+    await render(hbs`{{#some-component}}Hello{{ember-tooltip isShown=true text='Hi' effect='none'}}{{/some-component}}`);
 
     assertTooltipSide(assert, { side: 'top' });
   });
@@ -29,7 +29,7 @@ module('Integration | Option | side', function(hooks) {
   test('ember-tooltip shows on the top', async function(assert) {
     assert.expect(1);
 
-    await render(hbs`{{#some-component}}Hello{{ember-tooltip side='top' isShown=true text='Hi'}}{{/some-component}}`);
+    await render(hbs`{{#some-component}}Hello{{ember-tooltip side='top' isShown=true text='Hi' effect='none'}}{{/some-component}}`);
 
     assertTooltipSide(assert, { side: 'top' });
   });
@@ -38,7 +38,7 @@ module('Integration | Option | side', function(hooks) {
     assert.expect(1);
 
     await render(
-      hbs`{{#some-component}}Hello{{ember-tooltip side='right' isShown=true text='Hi'}}{{/some-component}}`
+      hbs`{{#some-component}}Hello{{ember-tooltip side='right' isShown=true text='Hi' effect='none'}}{{/some-component}}`
     );
 
     assertTooltipSide(assert, { side: 'right' });
@@ -48,7 +48,7 @@ module('Integration | Option | side', function(hooks) {
     assert.expect(1);
 
     await render(
-      hbs`{{#some-component}}Hello{{ember-tooltip side='bottom' isShown=true text='Hi'}}{{/some-component}}`
+      hbs`{{#some-component}}Hello{{ember-tooltip side='bottom' isShown=true text='Hi' effect='none'}}{{/some-component}}`
     );
 
     assertTooltipSide(assert, { side: 'bottom' });
@@ -57,7 +57,7 @@ module('Integration | Option | side', function(hooks) {
   test('ember-tooltip shows on the left', async function(assert) {
     assert.expect(1);
 
-    await render(hbs`{{#some-component}}Hello{{ember-tooltip side='left' isShown=true text='Hi'}}{{/some-component}}`);
+    await render(hbs`{{#some-component}}Hello{{ember-tooltip side='left' isShown=true text='Hi' effect='none'}}{{/some-component}}`);
 
     assertTooltipSide(assert, { side: 'left' });
   });
