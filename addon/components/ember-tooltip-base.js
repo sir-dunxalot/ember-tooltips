@@ -201,12 +201,10 @@ export default Component.extend({
         eventName,
       } = tooltipEvent;
 
-      run(() => {
-        target.removeEventListener(eventName, callback);
-      });
+      target.removeEventListener(eventName, callback);
     });
 
-    run(this.get('_tooltip').dispose);
+    this.get('_tooltip').dispose();
 
     this._dispatchAction('onDestroy', this);
   },
