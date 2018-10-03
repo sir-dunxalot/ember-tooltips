@@ -3,13 +3,13 @@ import { isNone } from '@ember/utils';
 import { findTooltip } from 'ember-tooltips/test-support';
 
 export default function assertTooltipContent(assert, options = {}) {
-  const { contentString } = options;
+  const { contentString, selector } = options;
 
   if (isNone(contentString)) {
     emberAssert('You must specify a contentString property in the options parameter');
   }
 
-  const $tooltip = findTooltip();
+  const $tooltip = findTooltip(selector);
   const tooltipContent = $tooltip.text().trim();
 
   assert.equal(tooltipContent, contentString,

@@ -46,9 +46,10 @@ export default function getPositionDifferences(options = {}) {
   return { expectedGreaterDistance, expectedLesserDistance };
 }
 
-export function getTooltipAndTargetPosition() {
-  const [ target ] = findTooltipTarget();
-  const [ tooltip ] = findTooltip();
+export function getTooltipAndTargetPosition(options = {}) {
+  const { selector, targetSelector } = options;
+  const [ target ] = findTooltipTarget(targetSelector);
+  const [ tooltip ] = findTooltip(selector);
 
   const targetPosition = target.getBoundingClientRect();
   const tooltipPosition = tooltip.getBoundingClientRect();

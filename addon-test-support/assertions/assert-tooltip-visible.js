@@ -1,6 +1,6 @@
 import { findTooltip } from 'ember-tooltips/test-support';
 
-export default function assertTooltipNotVisible(assert, options = {}) {
+export default function assertTooltipVisible(assert, options = {}) {
   const { selector } = options;
   const $tooltip = findTooltip(selector);
   const ariaHidden = $tooltip.attr('aria-hidden');
