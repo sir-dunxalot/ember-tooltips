@@ -61,4 +61,19 @@ module('Integration | Option | content', function(hooks) {
       contentString: 'foo',
     });
   });
+
+  test('assertTooltipContent supports passing a selector to target a specific tooltip', async function(assert) {
+
+    assert.expect(1);
+
+    await render(hbs`
+      {{ember-tooltip class='some-garbage-tooltip' text='foo' isShown=true}}
+      {{ember-tooltip class='the-best-tooltip' text='bar' isShown=true}}
+    `);
+
+    assertTooltipContent(assert, {
+      contentString: 'bar',
+      selector: '.the-best-tooltip'
+    });
+  });
 });

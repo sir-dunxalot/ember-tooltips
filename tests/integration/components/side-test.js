@@ -61,4 +61,24 @@ module('Integration | Option | side', function(hooks) {
 
     assertTooltipSide(assert, { side: 'left' });
   });
+
+
+  test('assertTooltipSide supports a targetSelector option', async function(assert) {
+    assert.expect(1);
+
+    await render(hbs`
+      <div class="target-a">
+        {{ember-tooltip class="common-tooltip" side='top' isShown=true text='Hi' effect='none'}}
+      </div>
+      <div class="target-b">
+        {{ember-tooltip class="common-tooltip" side='left' isShown=true text='Bye' effect='none'}}
+      </div>
+    `);
+
+    assertTooltipSide(assert, {
+      side: 'left',
+      selector: '.common-tooltip',
+      targetSelector: '.target-b'
+    });
+  });
 });

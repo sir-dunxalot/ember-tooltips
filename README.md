@@ -389,9 +389,6 @@ Four actions are available for you to hook onto through the tooltip/popover life
 }}
 ```
 
-As of 2.11.0, specifying just the name of an action (e.g. `'onDestroy'`) is
-deprecated, and will be removed in 3.0.0. Please use closure actions instead.
-
 ## Testing
 
 ### Test helpers
@@ -456,6 +453,11 @@ test('Example test', async function(assert) {
   });
 });
 ```
+
+The [options hash](#test-helper-options) accepts:
+
+- [`contentString`](#test-helper-option-contentstring)
+- [`selector`](#test-helper-option-selector)
 
 #### assertTooltipRendered()
 
@@ -616,7 +618,9 @@ test('Example test', async function(assert) {
 
 The [options hash](#test-helper-options) accepts:
 
+- [`selector`](#test-helper-option-selector)
 - [`side`](#test-helper-option-side)
+- [`targetSelector`](#test-helper-option-targetselector)
 
 #### assertTooltipSpacing()
 
@@ -627,7 +631,7 @@ This helper tests [the spacing option](#spacing) that can be passed to tooltips 
 An options hash is required and it must contain `spacing` and `side` properties. For example:
 
 ```js
-import { assertTooltipSide } from 'ember-tooltips/test-support';
+import { assertTooltipSpacing } from 'ember-tooltips/test-support';
 
 test('Example test', async function(assert) {
 
@@ -635,7 +639,7 @@ test('Example test', async function(assert) {
 
   /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
-  assertTooltipSide(assert, {
+  assertTooltipSpacing(assert, {
     side: 'right', // Side is required
     spacing: 35,
   });
@@ -644,8 +648,10 @@ test('Example test', async function(assert) {
 
 The [options hash](#test-helper-options) accepts:
 
+- [`selector`](#test-helper-option-selector)
 - [`side`](#test-helper-option-side)
 - [`spacing`](#test-helper-option-spacing)
+- [`targetSelector`](#test-helper-option-targetselector)
 
 ### Test helper options
 
@@ -655,6 +661,7 @@ Most test helpers accept a second, optional param called `options`. This is an o
 - [Selector](#test-helper-option-selector)
 - [Side](#test-helper-option-side)
 - [Spacing](#test-helper-option-spacing)
+- [Target selector](#test-helper-option-targetselector)
 
 #### Test helper option: `contentString`
 
@@ -757,6 +764,42 @@ test('Example test', async function(assert) {
   assertTooltipSide(assert, {
     side: 'right', // Side is required
     spacing: 35,
+  });
+});
+```
+
+#### Test helper option: `targetSelector`
+
+The selector of the target element of the tooltip or popover you are testing.
+
+If more than one tooltip or popover is found in the DOM with a particular selector
+when you run an assertion, you will be asked to specify this.
+
+| Type    | String |
+|---------|---------|
+| Default | `'.ember-tooltip-target, .ember-popover-target'` |
+
+Usage example:
+
+```js
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipVisible } from 'ember-tooltips/test-support';
+
+test('Example test', async function(assert) {
+
+  await render(hbs`
+    <div class="target-a">
+      {{ember-tooltip class="common-tooltip" side='top' isShown=true text='Hi' effect='none'}}
+    </div>
+    <div class="target-b">
+      {{ember-tooltip class="common-tooltip" side='left' isShown=true text='Bye' effect='none'}}
+    </div>
+  `);
+
+  await triggerEvent(this, this.element);
+
+  assertTooltipVisible(assert, {
+    targetSelector: '.target-b', // Or whatever class you added to the target element
   });
 });
 ```

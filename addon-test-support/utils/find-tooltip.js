@@ -11,7 +11,16 @@ export default function findTooltip(selector) {
   children of <body> instead of children of the $targetElement */
 
   const $body = $(document.body);
-  const $tooltip = $body.find(selector);
+  let $tooltip = $body.find(selector);
+
+  if ($tooltip.length && $tooltip.hasClass('ember-tooltip-base')) {
+    /* If what we find is the actually the tooltip component's element, we can
+     * look up the intended tooltip by the element referenced by its target
+     * element's aria-describedby attribute.
+     */
+    const $target = $tooltip.parents('.ember-tooltip-target, .ember-popover-target');
+    $tooltip = $body.find(`#${$target.attr('aria-describedby')}`);
+  }
 
   if ($tooltip.length && !$tooltip.hasClass('ember-tooltip') && !$tooltip.hasClass('ember-popover')) {
     throw Error(`getTooltipFromBody(): returned an element that is not a tooltip`);
