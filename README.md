@@ -799,7 +799,7 @@ test('Example test', async function(assert) {
   await triggerEvent(this, this.element);
 
   assertTooltipVisible(assert, {
-    selector: '.target-b', // Or whatever class you added to the target element
+    targetSelector: '.target-b', // Or whatever class you added to the target element
   });
 });
 ```
