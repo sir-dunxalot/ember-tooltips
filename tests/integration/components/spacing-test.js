@@ -85,4 +85,29 @@ module('Integration | Option | spacing', function(hooks) {
       spacing: 53,
     });
   });
+
+  test('ember-tooltip supports position variants', async function(assert) {
+    assert.expect(1);
+
+    await render(hbs`
+      {{#some-component}}
+        {{#ember-tooltip
+          side='right-start'
+          isShown=true
+          spacing=35
+          effect='none'}}
+          Hello<br />
+          Test Test<br />
+          Breaker<br />
+          Nine Nine Charlie<br />
+          Foxtrot<br />
+        {{/ember-tooltip}}
+      {{/some-component}}
+    `);
+
+    assertTooltipSpacing(assert, {
+      side: 'right',
+      spacing: 35
+    });
+  });
 });

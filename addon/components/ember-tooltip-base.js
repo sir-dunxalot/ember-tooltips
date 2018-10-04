@@ -15,7 +15,8 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.substring(1);
 }
 
-function getOppositeSide(side) {
+function getOppositeSide(placement) {
+  const [side] = placement.split('-');
   let oppositeSide;
 
   switch (side) {
