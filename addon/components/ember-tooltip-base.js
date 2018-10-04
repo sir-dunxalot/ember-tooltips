@@ -16,6 +16,10 @@ function capitalize(str) {
 }
 
 function getOppositeSide(placement) {
+  if (!placement) {
+    return null;
+  }
+
   const [side] = placement.split('-');
   let oppositeSide;
 
@@ -376,7 +380,14 @@ export default Component.extend({
 
       const { popperInstance } = this.get('_tooltip');
       const { popper } = popperInstance;
-      const marginSide = getOppositeSide(popper.getAttribute('x-placement'));
+      const side = popper.getAttribute('x-placement');
+
+      if (!side) {
+        // Bail out if popper hasn't finshed placement yet.
+        return;
+      }
+
+      const marginSide = getOppositeSide(side);
       const { style } = popper;
 
       style.marginTop = 0;
