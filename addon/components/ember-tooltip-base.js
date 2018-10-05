@@ -381,12 +381,6 @@ export default Component.extend({
       const { popperInstance } = this.get('_tooltip');
       const { popper } = popperInstance;
       const side = popper.getAttribute('x-placement');
-
-      if (!side) {
-        // Bail out if popper hasn't finshed placement yet.
-        return;
-      }
-
       const marginSide = getOppositeSide(side);
       const { style } = popper;
 
@@ -488,14 +482,13 @@ export default Component.extend({
       _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
     }
 
-    cancelAnimationFrame(this._spacingRequestId);
-
     run.later(() => {
 
       if (this.get('isDestroying')) {
         return;
       }
 
+      cancelAnimationFrame(this._spacingRequestId);
       _tooltip.hide();
 
       this.set('_isHiding', false);
