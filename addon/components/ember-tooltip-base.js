@@ -2,14 +2,15 @@
 
 import $ from 'jquery';
 import { computed } from '@ember/object';
-import { getOwner } from '@ember/application';
 import { run } from '@ember/runloop';
 import { warn } from '@ember/debug';
 import Component from '@ember/component';
 import RSVP from 'rsvp';
+import config from 'ember-get-config';
 import layout from '../templates/components/ember-tooltip-base';
 
 const ANIMATION_CLASS = 'ember-tooltip-show';
+const { environment } = config;
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.substring(1);
@@ -144,11 +145,14 @@ export default Component.extend({
     return `${this.get('elementId')}-wormhole`;
   }),
 
-  _animationDuration: 200, // In ms
   _awaitingTooltipElementRendered: true,
   _tooltipEvents: null,
   _tooltip: null,
   _spacingRequestId: null,
+
+  _animationDuration: computed(function() {
+    return environment === 'test' ? 0 : 200;
+  }),
 
   init() {
     this._super(...arguments);
@@ -292,7 +296,6 @@ export default Component.extend({
 
       try {
         run(() => {
-          const config = getOwner(this).resolveRegistration('config:environment');
           const rootElement = document.querySelector(config.APP.rootElement);
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
