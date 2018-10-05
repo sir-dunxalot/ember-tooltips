@@ -1,6 +1,7 @@
 /* global Tooltip */
 
 import $ from 'jquery';
+import Ember from 'ember';
 import { computed } from '@ember/object';
 import { run } from '@ember/runloop';
 import { warn } from '@ember/debug';
@@ -151,7 +152,9 @@ export default Component.extend({
   _spacingRequestId: null,
 
   _animationDuration: computed(function() {
-    return environment === 'test' ? 0 : 200;
+    const inTestingMode = environment === 'test' || Ember.testing;
+
+    return inTestingMode ? 0 : 200;
   }),
 
   init() {
