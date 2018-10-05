@@ -378,6 +378,10 @@ export default Component.extend({
     this._spacingRequestId = requestAnimationFrame(() => {
       this._spacingRequestId = null;
 
+      if (!this.get('isShown') || this.get('isDestroying')) {
+        return;
+      }
+
       const { popperInstance } = this.get('_tooltip');
       const { popper } = popperInstance;
       const side = popper.getAttribute('x-placement');
