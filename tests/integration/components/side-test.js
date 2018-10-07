@@ -62,7 +62,6 @@ module('Integration | Option | side', function(hooks) {
     assertTooltipSide(assert, { side: 'left' });
   });
 
-
   test('assertTooltipSide supports a targetSelector option', async function(assert) {
     assert.expect(1);
 
@@ -80,5 +79,13 @@ module('Integration | Option | side', function(hooks) {
       selector: '.common-tooltip',
       targetSelector: '.target-b'
     });
+  });
+
+  test('ember-tooltip supports position variants', async function(assert) {
+    assert.expect(1);
+
+    await render(hbs`{{#some-component}}Hello{{ember-tooltip side='left-start' isShown=true text='Hi' effect='none'}}{{/some-component}}`);
+
+    assertTooltipSide(assert, { side: 'left' });
   });
 });

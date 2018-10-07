@@ -264,7 +264,7 @@ This option does not affect the event the tooltip shows on. That is set by the [
 |---------|---------|
 | Default | 'top'   |
 
-Sets the side the tooltip will render on. If `keepInWindow` is set to `true`, `side` can be overwritten to keep the tooltip on screen.
+Sets the side the tooltip will render on.
 
 Possible options are:
 
@@ -272,6 +272,10 @@ Possible options are:
 - `'right'`
 - `'bottom'`
 - `'left'`
+
+In addition, you may also specify `-start` and `-end` variants [supported by Popper.js](https://popper.js.org/popper-documentation.html#Popper.placements).
+e.g. `top-start` to position the tooltip from the top-left or `right-end` to
+position from the bottom right.
 
 ```hbs
 {{!--The tooltip will render on the right of the target element--}}
