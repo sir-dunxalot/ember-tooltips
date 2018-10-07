@@ -26,6 +26,7 @@ module.exports = {
         'testem.js',
         'blueprints/*/index.js',
         'config/**/*.js',
+        'fastboot-tests/**/*.js',
         'tests/dummy/config/**/*.js'
       ],
       excludedFiles: [
