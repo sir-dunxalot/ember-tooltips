@@ -124,14 +124,14 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [duration](#duration)
 - [effect](#effect)
 - [event](#event)
+- [hideDelay (popover only)](#hide-delay)
 - [hideOn](#hide-on)
+- [isShown](#is-shown)
+- [popperOptions](#popper-options)
 - [side](#side)
 - [showOn](#show-on)
 - [spacing](#spacing)
 - [text (tooltip only)](#text)
-- [isShown](#is-shown)
-- [hideDelay (popover only)](#hide-delay)
-- [enableLazyRendering](#enable-lazy-rendering)
 
 #### Class
 
@@ -257,6 +257,53 @@ This can be any javascript-emitted event.
 Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automatically, instead of this option.
 
 This option does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event) in deciding when the tooltip is hidden.
+
+#### Popper options
+
+| Type    | Object |
+|---------|--------|
+| Default | null   |
+
+Sets the `popperOptions` on the underlying `tooltip.js` instance. Currently, only
+overriding `modifiers` is supported. See popper.js documentation for
+[more information on available modifiers](https://popper.js.org/popper-documentation.html#modifiers).
+
+This can be used to customize various aspects of tooltip rendering and override
+certain `popper.js` defaults set by `ember-tooltips`. For example, using a tooltip
+inside of an absolutely or relatively positioned container with overflow constraints,
+you may want to disable `preventOverflow.escapeWithReference`.
+
+```js
+// app/components/some-component.js`
+import Component from '@ember/component';
+
+export default Component.extend({
+  popperOptions: {
+    modifiers: {
+      preventOverflow: {
+        escapeWithReference: false
+      }
+    }
+  },
+  // ... other stuff
+});
+```
+
+```hbs
+{{!-- app/templates/components/some-component.hbs` --}}
+
+<div class="my-scrollable-container">
+  {{#each items as |item|}}
+    <div class="row">
+      {{item.text}}
+      {{ember-tooltip text=item.tooltip popperOptions=popperOptions}}
+    </div>
+  {{/each}}
+</div>
+```
+
+Note that `popperOptions` is only applied during tooltip creation and that it is
+not reapplied if the value changes after the tooltip is rendered.
 
 #### Side
 

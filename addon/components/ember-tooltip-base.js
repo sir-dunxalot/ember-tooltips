@@ -3,6 +3,7 @@
 import $ from 'jquery';
 import Ember from 'ember';
 import { computed } from '@ember/object';
+import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { warn } from '@ember/debug';
 import Component from '@ember/component';
@@ -10,8 +11,17 @@ import RSVP from 'rsvp';
 import config from 'ember-get-config';
 import layout from '../templates/components/ember-tooltip-base';
 
-const ANIMATION_CLASS = 'ember-tooltip-show';
 const { environment } = config;
+
+const ANIMATION_CLASS = 'ember-tooltip-show';
+const POPPER_DEFAULT_MODIFIERS = {
+  flip: {
+    enabled: true,
+  },
+  preventOverflow: {
+    escapeWithReference: true
+  }
+};
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.substring(1);
@@ -67,7 +77,6 @@ export default Component.extend({
   delayOnChange: true,
   duration: 0,
   effect: 'slide', // Options: fade, slide, none // TODO - make slide work
-  enableFlip: true, // TODO - document
   event: 'hover', // Options: hover, click, focus, none
   tooltipClassName: 'ember-tooltip', /* Custom classes */
   isShown: false,
@@ -77,6 +86,7 @@ export default Component.extend({
   targetId: null,
   layout,
   updateFor: null,
+  popperOptions: null,
 
   /* Actions */
 
@@ -319,14 +329,10 @@ export default Component.extend({
                        </div>`,
 
             popperOptions: {
-              modifiers: {
-                flip: {
-                  enabled: this.get('enableFlip'),
-                },
-                preventOverflow: {
-                  escapeWithReference: true
-                }
-              },
+              modifiers: mergeModifiers(
+                POPPER_DEFAULT_MODIFIERS,
+                this.get('popperOptions.modifiers')
+              ),
 
               onCreate: (tooltipData) => {
                 run(() => {
@@ -569,3 +575,27 @@ export default Component.extend({
     }
   }
 });
+
+function mergeModifiers(defaults, overrides = {}) {
+  const defaultKeys = Object.keys(defaults);
+  const overriddenKeys = Object.keys(overrides);
+  const keys = [].concat(defaultKeys, overriddenKeys).reduce((acc, key) => {
+    if (!acc.includes(key)) acc.push(key);
+    return acc;
+  }, []);
+  const modifiers = assign({}, defaults);
+
+  for (const key of keys) {
+    if (defaultKeys.includes(key) && overriddenKeys.includes(key)) {
+      modifiers[key] = assign(
+        {},
+        defaults[key],
+        overrides[key]
+      );
+    } else if (overriddenKeys.includes(key)) {
+      modifiers[key] = overrides[key];
+    }
+  }
+
+  return modifiers;
+}
