@@ -1,14 +1,17 @@
 /* global Tooltip */
 
 import $ from 'jquery';
+import Ember from 'ember';
 import { computed } from '@ember/object';
-import { getOwner } from '@ember/application';
 import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { warn } from '@ember/debug';
 import Component from '@ember/component';
 import RSVP from 'rsvp';
+import config from 'ember-get-config';
 import layout from '../templates/components/ember-tooltip-base';
+
+const { environment } = config;
 
 const ANIMATION_CLASS = 'ember-tooltip-show';
 const POPPER_DEFAULT_MODIFIERS = {
@@ -24,7 +27,12 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.substring(1);
 }
 
-function getOppositeSide(side) {
+function getOppositeSide(placement) {
+  if (!placement) {
+    return null;
+  }
+
+  const [side] = placement.split('-');
   let oppositeSide;
 
   switch (side) {
@@ -153,11 +161,16 @@ export default Component.extend({
     return `${this.get('elementId')}-wormhole`;
   }),
 
-  _animationDuration: 200, // In ms
   _awaitingTooltipElementRendered: true,
   _tooltipEvents: null,
   _tooltip: null,
   _spacingRequestId: null,
+
+  _animationDuration: computed(function() {
+    const inTestingMode = environment === 'test' || Ember.testing;
+
+    return inTestingMode ? 0 : 200;
+  }),
 
   init() {
     this._super(...arguments);
@@ -301,7 +314,6 @@ export default Component.extend({
 
       try {
         run(() => {
-          const config = getOwner(this).resolveRegistration('config:environment');
           const rootElement = document.querySelector(config.APP.rootElement);
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
@@ -378,9 +390,14 @@ export default Component.extend({
     this._spacingRequestId = requestAnimationFrame(() => {
       this._spacingRequestId = null;
 
+      if (!this.get('isShown') || this.get('isDestroying')) {
+        return;
+      }
+
       const { popperInstance } = this.get('_tooltip');
       const { popper } = popperInstance;
-      const marginSide = getOppositeSide(popper.getAttribute('x-placement'));
+      const side = popper.getAttribute('x-placement');
+      const marginSide = getOppositeSide(side);
       const { style } = popper;
 
       style.marginTop = 0;
@@ -481,14 +498,13 @@ export default Component.extend({
       _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
     }
 
-    cancelAnimationFrame(this._spacingRequestId);
-
     run.later(() => {
 
       if (this.get('isDestroying')) {
         return;
       }
 
+      cancelAnimationFrame(this._spacingRequestId);
       _tooltip.hide();
 
       this.set('_isHiding', false);
