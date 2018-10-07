@@ -26,12 +26,14 @@ module.exports = {
         'testem.js',
         'blueprints/*/index.js',
         'config/**/*.js',
+        'fastboot-tests/*.js',
         'tests/dummy/config/**/*.js'
       ],
       excludedFiles: [
         'addon/**',
         'addon-test-support/**',
         'app/**',
+        'fastboot-tests/fixtures/app/**',
         'tests/dummy/app/**'
       ],
       parserOptions: {
@@ -45,6 +47,8 @@ module.exports = {
       plugins: ['node'],
       rules: Object.assign({}, require('eslint-plugin-node').configs.recommended.rules, {
         // add your custom rules and overrides for node files here
+        'ember/no-global-jquery': 'off',
+        'node/no-unpublished-require': 'off'
       })
     }
   ]
