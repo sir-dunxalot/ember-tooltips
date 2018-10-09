@@ -317,6 +317,11 @@ export default Component.extend({
           const rootElement = document.querySelector(config.APP.rootElement);
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
+
+          const targetTitle = target.title;
+
+          target.removeAttribute('title');
+
           const tooltip = new Tooltip(target, {
             container: rootElement || false,
             html: true,
@@ -352,6 +357,8 @@ export default Component.extend({
 
                     popperInstance.update();
                   });
+
+                  target.setAttribute('title', targetTitle);
 
                   resolve(tooltipData);
                 });
