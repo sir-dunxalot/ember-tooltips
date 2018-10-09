@@ -48,7 +48,7 @@ Or in block form:
 {{#my-component}}
   Hover for more info
 
-  {{#tooltip}}
+  {{#ember-tooltip}}
     Here is the info in a tooltip!
   {{/ember-tooltip}}
 {{/my-component}}
