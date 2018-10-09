@@ -40,7 +40,7 @@ Documentation for the `3.0.0-beta.x` is available [on this branch](https://githu
 You can install the beta version using:
 
 ```sh
-npm install --save-dev ember-tooltips@3.0.0-beta.4
+npm install --save-dev ember-tooltips@3.0.0-beta.5
 ```
 
 Please [report any issues you come across](https://github.com/sir-dunxalot/ember-tooltips/issues/new). Thank you in advance!
