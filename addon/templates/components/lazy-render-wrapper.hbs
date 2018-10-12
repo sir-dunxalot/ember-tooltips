@@ -1,0 +1,23 @@
+{{#if _shouldRender}}
+  <div>
+  	{{#component tetherComponentName
+  		passedPropertiesObject=passedPropertiesObject
+  		class=class
+  		id=id
+  		classNames=classNames
+
+  		_shouldShowOnRender=_shouldShowOnRender
+  		_isInProcessOfShowing=_isInProcessOfShowing
+      _shouldTargetGrandparentElement=_shouldTargetGrandparentElement
+  	}}
+      {{#if hasBlock}}
+        {{yield (hash
+          hide=(action "hide")
+        )}}
+      {{else}}
+        {{text}}
+      {{/if}}
+  	{{/component}}
+  </div>
+{{/if}}
+
