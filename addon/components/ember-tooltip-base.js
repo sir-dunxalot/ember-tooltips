@@ -208,8 +208,6 @@ export default Component.extend({
   willDestroyElement() {
     this._super(...arguments);
 
-    this.hide();
-
     const _tooltipEvents = this.get('_tooltipEvents');
 
     /* Remove event listeners used to show and hide the tooltip */
@@ -223,6 +221,8 @@ export default Component.extend({
 
       target.removeEventListener(eventName, callback);
     });
+
+    this._cleanupTimers();
 
     this.get('_tooltip').dispose();
 
@@ -580,6 +580,11 @@ export default Component.extend({
     if (!this.isDestroying && !this.isDestroyed && action) {
       action(...args);
     }
+  },
+
+  _cleanupTimers() {
+    run.cancel(this.get('_showTimer'));
+    cancelAnimationFrame(this._spacingRequestId);
   }
 });
 
