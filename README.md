@@ -9,6 +9,10 @@ Render tooltips and popovers on components and other HTML elements using HTMLBar
 ember install ember-tooltips
 ```
 
+## Upgrading from 2.x
+
+See [UPGRADING-3.x.md](UPGRADING-3.x.md)
+
 ## Documentation
 
 Documentation for usage is below:
