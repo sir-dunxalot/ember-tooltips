@@ -96,7 +96,7 @@ export default EmberTooltipBase.extend({
   },
 
   hide() {
-    if (this.get('isDestroying') || !this.get('isShown')) {
+    if (this.get('isDestroying')) {
       return;
     }
 
