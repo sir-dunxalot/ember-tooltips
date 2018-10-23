@@ -3,23 +3,32 @@
 module.exports = {
   name: 'ember-tooltips',
 
-  config: function(env, baseConfig) {
-    var rootElement = baseConfig.APP && baseConfig.APP.rootElement;
-    var config = {};
+  options: {
+    nodeAssets: {
 
-    if (rootElement) {
+      'popper.js': {
+        vendor: {
+          srcDir: 'dist/umd',
+          destDir: 'popper',
+          include: ['popper.js', 'popper.js.map'],
+        },
+      },
 
-      /*
-      This config overrides tether's bodyElement option.
+      'tooltip.js': {
+        vendor: {
+          srcDir: 'dist/umd',
+          destDir: 'popper',
+          include: ['tooltip.js', 'tooltip.js.map'],
+        },
+      },
+    },
+  },
 
-      https://github.com/HubSpot/tether/blob/4de1f5cb421e0e6149269a347ee261b06bdbd139/src/js/tether.js#L762
-      */
+  included: function(app) {
+    this._super.included(app);
 
-      config['ember-tether'] = {
-        bodyElementId: rootElement.replace('#', ''),
-      };
-    }
+    app.import('vendor/popper/popper.js');
+    app.import('vendor/popper/tooltip.js');
+  },
 
-    return config;
-  }
 };

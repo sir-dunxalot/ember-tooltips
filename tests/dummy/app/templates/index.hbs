@@ -20,17 +20,16 @@
 
 </div>
 
-{{#tooltip-on-element
-  class='logo-tooltip'
+{{#ember-tooltip
+  tooltipClassName='ember-tooltip logo-tooltip'
   event='none'
-  target='#ember-logo'
+  targetId='ember-logo'
   isShown=showLogoTooltip
   side='right'
   spacing=15
-  enableLazyRendering=true
 }}
   Tooltips
-{{/tooltip-on-element}}
+{{/ember-tooltip}}
 
 <div class="page-content">
 
@@ -66,9 +65,9 @@
 {{#some-component}}
   Hover for more info
 
-  {{#tooltip-on-component enableLazyRendering=true}}
+  {{#ember-tooltip class="test-basic-component-example" side='right'}}
     Here is the info!
-  {{/tooltip-on-component}}
+  {{/ember-tooltip}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
@@ -83,9 +82,9 @@
 <div class="some-component">
   Click for more info
 
-  {{#tooltip-on-element event='click' enableLazyRendering=true}}
+  {{#ember-tooltip event='click'}}
     Here is the info!
-  {{/tooltip-on-element}}
+  {{/ember-tooltip}}
 </div>
 {{!-- END-SNIPPET --}}
 
@@ -99,9 +98,9 @@
 {{!-- BEGIN-SNIPPET basic-usage-target --}}
 {{input id='my-input' value='Some value'}}
 
-{{#tooltip-on-element target='#my-input' event='click' enableLazyRendering=true}}
+{{#ember-tooltip targetId='my-input' event='click'}}
   Here is the info!
-{{/tooltip-on-element}}
+{{/ember-tooltip}}
 {{!-- END-SNIPPET --}}
 
   {{code-snippet name='basic-usage-target.hbs'}}
@@ -114,9 +113,9 @@
 {{#some-component}}
   Tooltip will show after 1000ms
 
-  {{#tooltip-on-component delay=1000 enableLazyRendering=true}}
+  {{#ember-tooltip delay=1000}}
     Here is the info!
-  {{/tooltip-on-component}}
+  {{/ember-tooltip}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
@@ -130,9 +129,9 @@
 {{#some-component}}
   Tooltip will disappear after 1000ms
 
-  {{#tooltip-on-component duration=1000 enableLazyRendering=true}}
+  {{#ember-tooltip duration=1000}}
     Here is the info!
-  {{/tooltip-on-component}}
+  {{/ember-tooltip}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
@@ -149,14 +148,18 @@
     background-color: #e37f7f;
     color: #fff;
   }
+
+  .tooltip-error .ember-tooltip-arrow {
+    display: none;
+  }
 </style>
 
 {{#some-component}}
   Show an error
 
-  {{#tooltip-on-component class='tooltip-error' enableLazyRendering=true}}
+  {{#ember-tooltip tooltipClassName='ember-tooltip tooltip-error'}}
     Here is the error!
-  {{/tooltip-on-component}}
+  {{/ember-tooltip}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
@@ -175,13 +178,13 @@
 {{#some-component}}
   Tooltip has async content
 
-  {{#tooltip-on-component updateFor=asyncContent onShow='setAsyncContent' enableLazyRendering=true}}
+  {{#ember-tooltip onShow=(action 'setAsyncContent') updateFor=asyncContent}}
     {{#if asyncContent}}
       {{asyncContent}}
     {{else}}
       {{some-spinner}}
     {{/if}}
-  {{/tooltip-on-component}}
+  {{/ember-tooltip}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
@@ -196,12 +199,12 @@
 {{#some-component}}
   View more information
 
-  {{#popover-on-component enableLazyRendering=true as |popover|}}
+  {{#ember-popover class="test-popover-example" as |popover|}}
     <h3>More info</h3>
     <p>Here is more information!</p>
 
-    <button {{action popover.hide}}>Hide</button>
-  {{/popover-on-component}}
+    <button {{action 'hide' target=popover}}>Hide</button>
+  {{/ember-popover}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
@@ -216,7 +219,7 @@
 {{#some-component}}
   Tooltip has async content
 
-  {{tooltip-on-component text='More info here'}}
+  {{ember-tooltip text='More info here'}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 

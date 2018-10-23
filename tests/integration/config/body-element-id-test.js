@@ -1,25 +1,29 @@
-import $ from 'jquery';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import {
+  findTooltip,
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('tooltip-on-element', 'Integration | Config | body-element-id', {
-  integration: true,
-});
+module('Integration | Config | body-element-id', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Tooltip is rendered on rootElement not body', function(assert) {
+  test('Tooltip is rendered on rootElement not body', async function(assert) {
 
-  assert.expect(2);
+    assert.expect(2);
 
-  this.render(hbs`{{tooltip-on-element}}`);
+    await render(hbs`{{ember-tooltip isShown=true}}`);
 
-  const $tooltip = $(document.body).find('.ember-tooltip');
-  const $tooltipParent = $tooltip.parent();
-  const tooltipParentId = $tooltipParent.attr('id');
+    const $tooltip = findTooltip();
+    const $tooltipParent = $tooltip.parent();
+    const tooltipParentId = $tooltipParent.attr('id');
 
-  assert.notEqual($tooltipParent.attr('tagname'), 'body',
-    'The tooltip should not be a child of the document body');
+    assert.notEqual($tooltipParent.attr('tagname'), 'body',
+      'The tooltip should not be a child of the document body');
 
-  assert.equal(tooltipParentId, 'ember-testing',
-    'The tooltip should be a child of the #ember-testing rootElement');
+    assert.equal(tooltipParentId, 'ember-testing',
+      'The tooltip should be a child of the #ember-testing rootElement');
 
+  });
 });

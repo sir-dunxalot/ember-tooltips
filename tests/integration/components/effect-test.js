@@ -1,21 +1,28 @@
-import { moduleForComponent, test } from 'ember-qunit';
-import { findTooltip } from '../../helpers/ember-tooltips';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import {
+  findTooltip,
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('tooltip-on-element', 'Integration | Component | tooltip on element', {
-  integration: true,
-});
+module('Integration | Component | tooltip on element', function(hooks) {
+  setupRenderingTest(hooks);
 
-['slide', 'fade', 'none'].forEach((effectType) => {
-  test(`tooltip-on-element effect=${effectType} class test`, function(assert) {
+  ['slide', 'fade', 'none'].forEach((effect) => {
+    test(`ember-tooltip effect=${effect} class test`, async function(assert) {
 
-    this.set('effectType', effectType);
-    this.render(hbs`{{tooltip-on-element effect=effectType}}`);
+      assert.expect(1);
 
-    const $tooltip = findTooltip();
+      this.set('effect', effect);
 
-    assert.ok($tooltip.hasClass(`ember-tooltip-or-popover-${effectType}`),
-        `the tooltip should have the ${effectType} effect class`);
+      await render(hbs`{{ember-tooltip effect=effect isShown=true}}`);
 
+      const $tooltip = findTooltip();
+
+      assert.ok($tooltip.hasClass(`ember-tooltip-effect-${effect}`),
+        `the tooltip should have the ${effect} effect class`);
+
+    });
   });
 });

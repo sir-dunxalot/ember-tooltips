@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import RSVP from 'rsvp';
-import { run } from '@ember/runloop';
+import { cancel, later, scheduleOnce } from '@ember/runloop';
 
 export default Controller.extend({
   asyncContent: null,
@@ -9,7 +9,7 @@ export default Controller.extend({
   actions: {
     setAsyncContent() {
       return new RSVP.Promise((resolve) => {
-        run.later(() => {
+        later(() => {
           this.set('asyncContent', 'Some model');
           resolve();
         }, 2000);
@@ -20,11 +20,15 @@ export default Controller.extend({
   init() {
     this._super(...arguments);
 
-    run.scheduleOnce('afterRender', () => {
-      run.later(() => {
+    scheduleOnce('afterRender', () => {
+      this._logoTimer = later(() => {
         this.set('showLogoTooltip', true);
       }, 1000);
     });
   },
 
+  willDestroy() {
+    this._super(...arguments);
+    cancel(this._logoTimer);
+  }
 });

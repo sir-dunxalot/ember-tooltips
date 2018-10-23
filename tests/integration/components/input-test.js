@@ -1,40 +1,40 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, triggerEvent } from '@ember/test-helpers';
 import {
-	assertTooltipNotVisible,
+  assertTooltipNotVisible,
+  assertTooltipNotRendered,
 	assertTooltipVisible,
-	triggerTooltipTargetEvent,
-	assertTooltipNotRendered,
-} from '../../helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | click', {
-  integration: true,
-});
+module('Integration | Option | click', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Tooltip: focusin/click input, click input', function(assert) {
+  test('Tooltip: focusin/click input, click input', async function(assert) {
 
-  assert.expect(3);
+    assert.expect(3);
 
-  this.render(hbs`
-    <input id="some-input">
-    {{tooltip-on-element event="click" target="#some-input" enableLazyRendering=true}}
-  `);
+    await render(hbs`
+      <input id="some-input">
+      {{ember-tooltip event="click" targetId="some-input" enableLazyRendering=true}}
+    `);
 
-  const $tooltipTarget = this.$('#some-input');
+    const [ tooltipTarget ] = this.$('#some-input');
 
-  assertTooltipNotRendered(assert);
+    assertTooltipNotRendered(assert);
 
-  /* We intentionally trigger a focusin and click on the $tooltipTarget because
-  when a user clicks an input both events occur in that order.
-  We have fixed this with _isInProcessOfShowing and this test protects that. */
+    /* We intentionally trigger a focusin and click on the $tooltipTarget because
+    when a user clicks an input both events occur in that order.
+    We have fixed this with _isInProcessOfShowing and this test protects that. */
 
-  triggerTooltipTargetEvent($tooltipTarget, 'focusin');
-  triggerTooltipTargetEvent($tooltipTarget, 'click');
+    await triggerEvent(tooltipTarget, 'focusin');
+    await triggerEvent(tooltipTarget, 'click');
 
-  assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($tooltipTarget, 'click');
+    await triggerEvent(tooltipTarget, 'click');
 
-  assertTooltipNotVisible(assert);
-
+    assertTooltipNotVisible(assert);
+  });
 });

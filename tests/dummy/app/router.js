@@ -8,6 +8,7 @@ const Router = EmberRouter.extend({
 
 Router.map(function() {
   this.route('acceptance');
+  this.route('many-tooltips');
 });
 
 export default Router;

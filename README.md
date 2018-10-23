@@ -9,17 +9,18 @@ Render tooltips and popovers on components and other HTML elements using HTMLBar
 ember install ember-tooltips
 ```
 
+## Upgrading from 2.x
+
+See [UPGRADING-3.x.md](UPGRADING-3.x.md)
+
 ## Documentation
 
 Documentation for usage is below:
 
 - [Demo](http://sir-dunxalot.github.io/ember-tooltips/)
-- [3.0.0 Beta](#300-beta)
 - [Usage](#usage)
-  - [tooltip-on-component](#tooltip-on-component)
-  - [tooltip-on-element](#tooltip-on-element)
-  - [popover-on-component](#popover-on-element)
-  - [popover-on-element](#popover-on-element)
+  - [ember-tooltip](#ember-tooltip)
+  - [ember-popover](#ember-popover)
   - [Targets](#targets)
 - [Options](#options)
   - [Setting defaults](#setting-defaults)
@@ -29,33 +30,19 @@ Documentation for usage is below:
 - [Accessibility](#accessibility)
 - [Development](#development)
 
-## 3.0.0 Beta
-
-Version `3.0.0` replaces the unreliable Tether library with a more robust positioning library.
-
-In addition, the code base is simplified to make it easier to extend and customize.
-
-Documentation for the `3.0.0-beta.x` is available [on this branch](https://github.com/sir-dunxalot/ember-tooltips/tree/3.x).
-
-You can install the beta version using:
-
-```sh
-npm install --save-dev ember-tooltips@3.0.0-beta.5
-```
-
-Please [report any issues you come across](https://github.com/sir-dunxalot/ember-tooltips/issues/new). Thank you in advance!
-
 ## Usage
 
-### Tooltip on Component
+This documentation is for the `3.x` version of ember-tooltips. For `2.x` documentation, please refer to the [2.x branch README](https://github.com/sir-dunxalot/ember-tooltips/tree/2.x).
 
-The easiest way to add a tooltip to any component is with the `{{tooltip-on-component}}` component:
+### Ember Tooltip
+
+The easiest way to add a tooltip to any element is with the `{{ember-tooltip}}` component:
 
 ```hbs
 {{#my-component}}
   Hover for more info
 
-  {{tooltip-on-component text='Here is more info!'}}
+  {{ember-tooltip text='Here is more info!'}}
 {{/my-component}}
 ```
 
@@ -65,87 +52,71 @@ Or in block form:
 {{#my-component}}
   Hover for more info
 
-  {{#tooltip-on-component}}
+  {{#ember-tooltip}}
     Here is the info in a tooltip!
-  {{/tooltip-on-component}}
+  {{/ember-tooltip}}
 {{/my-component}}
 ```
 
-Options can be set on the `{{tooltip-on-component}}` as attributes:
+The tooltip will always be rendered on its parent element unless you specify the `targetId` attribute:
+
+```hbs
+{{input id='has-info-tooltip'}}
+
+{{#ember-tooltip targetId='has-info-tooltip'}}
+  Here is some more info
+{{/ember-tooltip}}
+```
+
+Tooltips and popovers are lazy rendered. That means the are only rendered in the DOM once the user interacts with the [target element](#targets).
+
+Options can be set on the `{{ember-tooltip}}` as attributes:
 
 ```hbs
 {{#my-component}}
   Click for more info
 
-  {{#tooltip-on-component event='click'}}
+  {{#ember-tooltip event='click'}}
     This info will show on click!
-  {{/tooltip-on-component}}
+  {{/ember-tooltip}}
 {{/my-component}}
 ```
 
 Documentation for supported options is located [here](#options).
 
-### Tooltip on Element
+### Ember popover
 
-If you want to add a tooltip to an element that is not an Ember component, you can do so with `{{tooltip-on-element}}`.
+Popovers can be created with the `{{ember-popover}}` component, which is added to apps just like `{{ember-tooltip}}`.
 
-By default, the tooltip will attach itself to its parent element:
+Popovers support the same `target` behavior as tooltips; popovers will render on their parent element unless a `targetId` is supplied.
 
-```hbs
-<div>
-  Hover for more info
-
-  {{tooltip-on-element text='Here is more info!'}}
-</div>
-```
-
-Or in block form:
+All the [options](#options) passed to tooltip components can be passed to popover components:
 
 ```hbs
-<div>
-  Hover for more info
+{{#my-component}}
+  Click for more info
 
-  {{#tooltip-on-element}}
-    Here is the info in a tooltip!
-  {{/tooltip-on-element}}
-</div>
+  {{#ember-popover event='click'}}
+    This info will show in a popover on click!
+  {{/ember-popover}}
+{{/my-component}}
 ```
-
-You can also specify the ID of the element to attach the tooltip to:
-
-```hbs
-{{input id='has-info-tooltip'}}
-
-{{#tooltip-on-element target='#has-info-tooltip'}}
-  Here is some more info
-{{/tooltip-on-element}}
-```
-
-The `target` property must be an ID, including the `#`.
-
-### Popover on Element
-
-Popovers can be created with `{{popover-on-element}}` and `{{popover-on-component}}` with the same `target` behavior as tooltips.
-
-The same options passed to tooltip components can be passed to popover components. In addition, a [hideDelay](#hide-delay) option is made available for popovers only.
 
 Popovers also benefit from a `hide` API made publically acessible:
 
 ```
-{{#popover-on-element as |popover|}}
-  Click <a href {{action popover.hide}}>here</a> to hide the popover
-{{/popover-on-element}}
+{{#ember-popover as |popover|}}
+  Click <a href {{action 'hide' target=popover}}>here</a> to hide the popover
+{{/ember-popover}}
 ```
+
+In addition, a [popoverHideDelay](#popover-hide-delay) option is made available for popovers only.
 
 ## Targets
 
 The concept of a 'target' is used through this addon. A target is the element that the tooltip or popover is attached to. Each tooltip or popvers has its own target. Interacting with this target will render and/or show the tooltip or popover.
 
 For example, if you want to show a tooltip over a button when the user hovers over the button, the button is the target. If you want to show a popover over an input when the user focuses on the input, the input is the target.
-
-Given this addon's lazy rendering capabilities, when `enableLazyRendering` is set to `true`, tooltips and popovers will not be rendered until the target is interacted with. As such, tooltips and popovers can be rendered by but not necessarily made visible by user events.
-
-See [the `enableLazyRendering` option](#enable-lazy-rendering) for instructions on how to enable lazy rendering in your app.
 
 ## Options
 
@@ -157,16 +128,14 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [duration](#duration)
 - [effect](#effect)
 - [event](#event)
+- [hideDelay (popover only)](#hide-delay)
 - [hideOn](#hide-on)
-- [keepInWindow](#keep-in-window)
-- [setPin](#set-pin)
+- [isShown](#is-shown)
+- [popperOptions](#popper-options)
 - [side](#side)
 - [showOn](#show-on)
 - [spacing](#spacing)
 - [text (tooltip only)](#text)
-- [isShown](#is-shown)
-- [hideDelay (popover only)](#hide-delay)
-- [enableLazyRendering](#enable-lazy-rendering)
 
 #### Class
 
@@ -177,7 +146,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 Adds a class to any tooltip:
 
 ```hbs
-{{tooltip-on-component class='tooltip-warning'}}
+{{ember-tooltip class='tooltip-warning'}}
 ```
 
 #### Delay
@@ -191,7 +160,7 @@ Delays showing the tooltip by the given number of milliseconds.
 ```hbs
 {{!--Delays the show animation by 500ms--}}
 
-{{tooltip-on-component delay=500}}
+{{ember-tooltip delay=500}}
 ```
 
 This does not affect the hiding of the tooltip. See also, [delayOnChange](#delay-on-change).
@@ -212,7 +181,7 @@ See this animation for a visual explanation:
 {{!--Forces delay to be enforced when the user skips
 between elements with tooltips--}}
 
-{{tooltip-on-component delayOnChange=true}}
+{{ember-tooltip delayOnChange=true}}
 ```
 
 #### Duration
@@ -228,8 +197,10 @@ The user will still hide the tooltip if the hide event occurs before the duratio
 ```hbs
 {{!-- Closes the tooltip after 1000ms--}}
 
-{{tooltip-on-component duration=1000}}
+{{ember-tooltip duration=1000}}
 ```
+
+Leave as `0` if you wish for the tooltip to remain open indefinitely.
 
 #### Effect
 
@@ -244,7 +215,7 @@ Sets the animation used to show and hide the tooltip. Possible options are:
 - `'none'`
 
 ```hbs
-{{tooltip-on-component effect='slide'}}
+{{ember-tooltip effect='slide'}}
 ```
 
 #### Event
@@ -261,7 +232,7 @@ The event that the tooltip will hide and show for. Possible options are:
 - `'none'`
 
 ```hbs
-{{tooltip-on-component event='click'}}
+{{ember-tooltip event='click'}}
 ```
 
 This event is overwritten by the individual [`hideOn`](#hide-on) and [`showOn`](#show-on) properties. In effect, setting `event` sets `hideOn` and `shownOn` for you.
@@ -281,50 +252,62 @@ This can be any javascript-emitted event.
 ```hbs
 {{!--This tooltip will hide on mouseleave, NOT click--}}
 
-{{tooltip-on-component
+{{ember-tooltip
   event='click'
   hideOn='mouseleave'
 }}
 ```
 
-This does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event).
+Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automatically, instead of this option.
 
-#### Keep in window
+This option does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event) in deciding when the tooltip is hidden.
 
-| Type    | Boolean |
-|---------|---------|
-| Default | true    |
+#### Popper options
 
-Whether to automatically try keep the tooltip in the window. This will override any `side` you set if the tooltip is rendered partically outside the window.
+| Type    | Object |
+|---------|--------|
+| Default | null   |
 
-For example, a target element in the top-left of the screen with a tooltip's side set to `left` will probably render the tooltip on the right of the target element.
+Sets the `popperOptions` on the underlying `tooltip.js` instance. Currently, only
+overriding `modifiers` is supported. See popper.js documentation for
+[more information on available modifiers](https://popper.js.org/popper-documentation.html#modifiers).
 
-```hbs
-{{!--Forces the tooltip to stay on the left even if
-it will render off-screen--}}
+This can be used to customize various aspects of tooltip rendering and override
+certain `popper.js` defaults set by `ember-tooltips`. For example, using a tooltip
+inside of an absolutely or relatively positioned container with overflow constraints,
+you may want to disable `preventOverflow.escapeWithReference`.
 
-{{tooltip-on-component
-  keepInWindow=false
-  side='right'
-}}
+```js
+// app/components/some-component.js`
+import Component from '@ember/component';
+
+export default Component.extend({
+  popperOptions: {
+    modifiers: {
+      preventOverflow: {
+        escapeWithReference: false
+      }
+    }
+  },
+  // ... other stuff
+});
 ```
 
-#### Set pin
-
-| Type    | Boolean   |
-|---------|-----------|
-| Default | undefined |
-
-If you find that `keepInWindow` is not keeping the entire tooltip in the window, try also using `setPin`. Note that this is somewhat experimental, and may not work for all window positioning issues (see #72).
-
 ```hbs
-{{!--Force the tooltip to stay fully in-screen--}}
+{{!-- app/templates/components/some-component.hbs` --}}
 
-{{tooltip-on-component
-  keepInWindow=true
-  setPin=true
-}}
+<div class="my-scrollable-container">
+  {{#each items as |item|}}
+    <div class="row">
+      {{item.text}}
+      {{ember-tooltip text=item.tooltip popperOptions=popperOptions}}
+    </div>
+  {{/each}}
+</div>
 ```
+
+Note that `popperOptions` is only applied during tooltip creation and that it is
+not reapplied if the value changes after the tooltip is rendered.
 
 #### Side
 
@@ -332,7 +315,7 @@ If you find that `keepInWindow` is not keeping the entire tooltip in the window,
 |---------|---------|
 | Default | 'top'   |
 
-Sets the side the tooltip will render on. If `keepInWindow` is set to `true`, `side` can be overwritten to keep the tooltip on screen.
+Sets the side the tooltip will render on.
 
 Possible options are:
 
@@ -341,10 +324,14 @@ Possible options are:
 - `'bottom'`
 - `'left'`
 
+In addition, you may also specify `-start` and `-end` variants [supported by Popper.js](https://popper.js.org/popper-documentation.html#Popper.placements).
+e.g. `top-start` to position the tooltip from the top-left or `right-end` to
+position from the bottom right.
+
 ```hbs
 {{!--The tooltip will render on the right of the target element--}}
 
-{{tooltip-on-component
+{{ember-tooltip
   side='right'
 }}
 ```
@@ -362,12 +349,14 @@ This can be any javascript-emitted event.
 ```hbs
 {{!--This tooltip will show on click, NOT hover--}}
 
-{{tooltip-on-component
+{{ember-tooltip
   showOn='click'
 }}
 ```
 
-This does not affect the event the tooltip hides on. That is set by the [hideOn](#hide-on) option. This will override [the event property](#event).
+Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automatically, instead of this option.
+
+This opeion does not affect the event the tooltip hides on. That is set by the [hideOn](#hide-on) option. This will override [the event property](#event) in deciding when the tooltip is shown.
 
 #### Spacing
 
@@ -379,7 +368,7 @@ Sets the number of pixels the tooltip will render from the target element. A hig
 
 ```hbs
 {{!--Render the tooltip 20px from the target element--}}
-{{tooltip-on-component spacing=20}}
+{{ember-tooltip spacing=20}}
 ```
 
 #### Text
@@ -388,13 +377,13 @@ Sets the number of pixels the tooltip will render from the target element. A hig
 |---------|---------|
 | Default | null    |
 
-**TOOLTIP ONLY:** Sets the text of any tooltip without needing the tooltip to be written in block form.
+Sets the text of any tooltip without needing the tooltip to be written in block form.
 
 ```hbs
 {{#my-component}}
   Hover for more info
 
-  {{tooltip-on-component text='Here is more info!'}}
+  {{ember-tooltip text='Here is more info!'}}
 {{/my-component}}
 ```
 
@@ -410,7 +399,7 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 
 ```hbs
 {{!--Binds the tooltip visibility to the showTooltip property--}}
-{{tooltip-on-component isShown=true}}
+{{ember-tooltip isShown=showTooltip event='none'}}
 ```
 
 #### Hide delay
@@ -422,32 +411,23 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 **POPOVER ONLY:** The number of milliseconds before the popover will hide after the user hovers away from the popover and the popover target. This is only applicable when `event='hover'`.
 
 ```hbs
-{{popover-on-component event='hover' hideDelay=300}}
+{{ember-popover event='hover' hideDelay=300}}
 ```
 
 ![popover-hover](https://cloud.githubusercontent.com/assets/7050871/18113238/e010ee64-6ee2-11e6-9ff1-a0c674a6d702.gif)
 
-#### Enable Lazy Rendering
-
-| Type    | Boolean |
-|---------|---------|
-| Default | false (will be true in 3.0.0)   |
-
-If enabled tooltips and popovers will only be rendered when a user has interacted with the `$target` element or when `isShown=true`. This delay in render time is especially useful when many tooltips exist in a page.
-
 ### Setting Defaults
 
-You can set the default for any option by extending the `{{tooltip-on-element}}` component:
+You can set the default for any option by extending the `{{ember-tooltip}}` or `{{ember-popover}}` component:
 
 ```js
-{{!--your-app/components/tooltip-on-element}}--}}
+{{!--your-app/components/ember-tooltip}}--}}
 
-import TooltipOnElementComponent from 'ember-tooltips/components/tooltip-on-element';
+import EmberTooltipComponent from 'ember-tooltips/components/ember-tooltip';
 
-export default TooltipOnElementComponent.extend({
+export default EmberTooltipComponent.extend({
   effect: 'fade',
   side: 'bottom',
-  enableLazyRendering: true,
 });
 ```
 
@@ -456,16 +436,13 @@ export default TooltipOnElementComponent.extend({
 Four actions are available for you to hook onto through the tooltip/popover lifecycle:
 
 ```hbs
-{{tooltip-on-component
+{{ember-tooltip
   onDestroy=(action 'onDestroy')
   onHide=(action 'onHide')
   onRender=(action 'onRender')
   onShow=(action 'onShow')
 }}
 ```
-
-As of 2.11.0, specifying just the name of an action (e.g. `'onDestroy'`) is
-deprecated, and will be removed in 3.0.0. Please use closure actions instead.
 
 ## Testing
 
@@ -482,14 +459,13 @@ Publically available test helpers are:
 - [assertTooltipNotVisible()](#asserttooltipnotvisible)
 - [assertTooltipSide()](#asserttooltipside)
 - [assertTooltipSpacing()](#asserttooltipspacing)
-- [triggerTooltipTargetEvent()](#triggertooltiptargetevent)
 
 All assert helpers require `assert` to be passed as the first param and some accept a second, optional param for additional test options. For detailed usage instructions and examples, see the documentation for each test helper below.
 
 All test helpers can be imported from the following path:
 
 ```js
-'appname/tests/helpers/ember-tooltips';
+'ember-tooltips/test-support';
 ```
 
 For example:
@@ -497,23 +473,22 @@ For example:
 ```js
 // appname/tests/integration/components/some-component.js
 
-import {
-  assertTooltipRendered,
-} from 'appname/tests/helpers/ember-tooltips';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, triggerEvent } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('some-component', 'Integration | Component | Some', {
-  integration: true,
-});
+import { assertTooltipRendered } from 'ember-tooltips/test-support';
 
-test('tooltip-on-element animates with a delay', function(assert) {
+module('Integration | Component | Some component', function(hooks) {
+  setupRenderingTest(hooks);
 
-  // ... Test content...
+  test('ember-tooltip renders', async function(assert) {
 
-  assertTooltipRendered(assert);
+    await render(hbs`{{ember-tooltip isShown=true}}`);
 
-  // ... More test content...
-
+    assertTooltipRendered(assert);
+  });
 });
 ```
 
@@ -522,13 +497,11 @@ test('tooltip-on-element animates with a delay', function(assert) {
 Asserts that a tooltip or popover has content that matches a given string.
 
 ```js
-import {
-  assertTooltipContent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipContent } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{tooltip-on-element text='More info'}}`);
+  await render(hbs`{{ember-tooltip text='More info' isShown='true'}}`);
 
   assertTooltipContent(assert, {
     contentString: 'More info',
@@ -538,7 +511,7 @@ test('Example test', function(assert) {
 
 The [options hash](#test-helper-options) accepts:
 
-- [`contentString`](#test-helper-option-contentstring) - REQUIRED
+- [`contentString`](#test-helper-option-contentstring)
 - [`selector`](#test-helper-option-selector)
 
 #### assertTooltipRendered()
@@ -546,45 +519,22 @@ The [options hash](#test-helper-options) accepts:
 Asserts that a tooltip or popover has been rendered in the DOM.
 
 ```js
-import {
-  assertTooltipRendered,
-} from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipRendered } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{tooltip-on-element}}`);
+  await render(hbs`{{ember-tooltip}}`);
 
-  assertTooltipRendered(assert);
-});
-```
-
-This does not assert that the tooltip or popover is visible to the user - use [assertTooltipVisible()](#asserttooltipvisible) for that.
-
-Given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips may not be rendered until the target is interacted with. As such, this helper is often used in conjunction with [triggerTooltipTargetEvent()](#triggertooltiptargetevent) to test those user events.
-
-For example:
-
-```js
-import {
-  assertTooltipRendered,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`
-    {{tooltip-on-element enableLazyRendering=true}}
-  `);
-
-  /* Tooltip won't be rendered in the DOM yet because enableLazyRendering delays the rendering until the user interacts with the target */
-
-  triggerTooltipTargetEvent($(this), 'mouseenter');
-
-  /* Now the user has interacted with the target, so the tooltip should be rendered... */
+  await triggerEvent(this.element, 'mouseenter');
 
   assertTooltipRendered(assert);
 });
 ```
+
+Please note, `assertTooltipRendered()` does not assert that the tooltip or popover is visible to the user - use [assertTooltipVisible()](#asserttooltipvisible) for that.
+
+Given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips will not be rendered until the target is interacted with.
 
 The [options hash](#test-helper-options) accepts:
 
@@ -597,22 +547,14 @@ Asserts that a tooltip or popover has not been rendered in the DOM.
 Why is this test helper useful? Well, given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips may not be rendered until the target is interacted with.
 
 ```js
-import {
-  assertTooltipNotRendered,
-  assertTooltipRendered,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipNotRendered } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{tooltip-on-element enableLazyRendering=true}}`);
+  await render(hbs`{{ember-tooltip}}`);
 
   assertTooltipNotRendered(assert);
-
-  triggerTooltipTargetEvent($(this), 'mouseenter');
-
-  assertTooltipRendered(assert);
-
 });
 ```
 
@@ -626,23 +568,17 @@ The [options hash](#test-helper-options) accepts:
 
 Asserts that a tooltip or popover is visible.
 
-This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#triggertooltiptargetevent) to assert that a particular user interaction shows a tooltip to the user.
-
 For example:
 
 ```js
-import {
-  assertTooltipVisible,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipVisible } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{tooltip-on-element}}`);
+  await render(hbs`{{ember-tooltip}}`);
 
-  triggerTooltipTargetEvent($(this), 'mouseenter');
-
-  /* Asserts that the tooltip is shown when the user hovers over the target, which is this test's element */
+  await triggerEvent(this, this.element);
 
   assertTooltipVisible(assert);
 });
@@ -651,27 +587,23 @@ test('Example test', function(assert) {
 You may use this helper with a variety of different user interactions. Here's an example that asserts that a tooltip is shown when the user focusses on an input:
 
 ```js
-import {
-  assertTooltipVisible,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipVisible } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
+  await render(hbs`
     <input id="url-input">
-    {{tooltip-on-element target='url-input'}}
+    {{ember-tooltip targetId='url-input'}}
   `);
 
-  triggerTooltipTargetEvent($('#url-input'), 'focus');
+  await triggerEvent($('#url-input')[0], 'focus');
 
   /* Asserts that the tooltip is made visible when the user focuses on the input */
 
   assertTooltipVisible(assert);
 });
 ```
-
-This does not assert that the tooltip or popover is rendered in the DOM (regardless of visibility to the user) - use [assertTooltipRendered()](#asserttooltiprendered) for that.
 
 The [options hash](#test-helper-options) accepts:
 
@@ -686,61 +618,29 @@ This helper is usually used in conjunction with [triggerTooltipTargetEvent()](#t
 For example:
 
 ```js
+import { render, triggerEvent } from '@ember/test-helpers';
 import {
   assertTooltipNotVisible,
   assertTooltipVisible,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+} from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{tooltip-on-element}}`);
+  await render(hbs`{{ember-tooltip}}`);
+
+  const { element } = this;
 
   /* Hover over the target to show the tooltip... */
 
-  triggerTooltipTargetEvent($(this), 'mouseenter');
+  await triggerEvent(element, 'mouseenter');
 
   assertTooltipVisible(assert);
 
   /* Stop hovering over the target in order to hide the tooltip... */
 
-  triggerTooltipTargetEvent($(this), 'mouseleave');
+  await triggerEvent(element, 'mouseleave');
 
   assertTooltipNotVisible(assert);
-
-});
-```
-
-This helper is also used to assert that a tooltip is not visible even if it's been rendered in the DOM when this addon's [enableLazyRendering option](#enable-lazy-rendering) is enabled.
-
-For example:
-
-```js
-import {
-  assertTooltipNotVisible,
-  assertTooltipRendered,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`
-    {{tooltip-on-element
-      enableLazyRendering=true
-      event='click'
-    }}
-  `);
-
-  triggerTooltipTargetEvent($(this), 'click');
-
-  /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
-
-  assertTooltipRendered(assert);
-
-  assertTooltipNotVisible(assert);
-
-  /* We'd probably go on to test that another user interaction - in this case clicking this test's element - makes the tooltip visible using assertTooltipVisible() */
-
 });
 ```
 
@@ -757,32 +657,24 @@ This helper tests [the side option](#side) that can be passed to tooltips and po
 An options hash is required and it must contain a `side` property. For example:
 
 ```js
-import {
-  assertTooltipSide,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipSide } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{tooltip-on-element side='right'}}
-  `);
-
-  triggerTooltipTargetEvent($(this), 'mouseenter');
+  await render(hbs`{{ember-tooltip side='right' isShown=true}}`);
 
   /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
   assertTooltipSide(assert, {
-    side: 'right', // SIDE IS REQUIRED
+    side: 'right',
   });
-
 });
 ```
 
 The [options hash](#test-helper-options) accepts:
 
-- [`side`](#test-helper-option-side) - REQUIRED
 - [`selector`](#test-helper-option-selector)
+- [`side`](#test-helper-option-side)
 - [`targetSelector`](#test-helper-option-targetselector)
 
 #### assertTooltipSpacing()
@@ -794,92 +686,27 @@ This helper tests [the spacing option](#spacing) that can be passed to tooltips 
 An options hash is required and it must contain `spacing` and `side` properties. For example:
 
 ```js
-import {
-  assertTooltipSpacing,
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipSpacing } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{tooltip-on-element spacing=35}}
-  `);
-
-  triggerTooltipTargetEvent($(this), 'mouseenter');
+  await render(hbs`{{ember-tooltip spacing=35 isShown=true}}`);
 
   /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
-  assertTooltipSide(assert, {
-    side: 'right', // SIDE IS REQUIRED
-    spacing: 35, // SPACING IS REQUIRED
+  assertTooltipSpacing(assert, {
+    side: 'right', // Side is required
+    spacing: 35,
   });
-
 });
 ```
 
 The [options hash](#test-helper-options) accepts:
 
-- [`side`](#test-helper-option-side) - REQUIRED
 - [`selector`](#test-helper-option-selector)
-- [`spacing`](#test-helper-option-spacing) - REQUIRED
+- [`side`](#test-helper-option-side)
+- [`spacing`](#test-helper-option-spacing)
 - [`targetSelector`](#test-helper-option-targetselector)
-
-#### triggerTooltipTargetEvent()
-
-Triggers an event on a tooltip or popover's [target](#targets).
-
-This helper does not require `assert` to be passed. Instead, it requires a jQuery element and event name:
-
-```js
-import {
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`{{tooltip-on-element}}`);
-
-  triggerTooltipTargetEvent($(this), 'mouseenter');
-
-});
-```
-
-Other events can be passed for more complex interactions:
-
-```js
-import {
-  triggerTooltipTargetEvent,
-} from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`
-    {{input id='has-info-tooltip'}}
-
-    {{#tooltip-on-element target='#has-info-tooltip' event='focus'}}
-      Here is some more info
-    {{/tooltip-on-element}}
-  `);
-
-  triggerTooltipTargetEvent($('#has-info-tooltip'), 'focus');
-
-  /* Then we'd do something like assert that the tooltip has been rendered... */
-
-});
-```
-
-Allowed event names are:
-
-- `'mouseenter'`
-- `'mouseleave'`
-- `'click'`
-- `'focus'`
-- `'focusin'`
-- `'blur'`
-
-The [options hash](#test-helper-options) accepts:
-
-- [`selector`](#test-helper-option-selector)
 
 ### Test helper options
 
@@ -887,10 +714,9 @@ Most test helpers accept a second, optional param called `options`. This is an o
 
 - [Content string](#test-helper-option-contentstring)
 - [Selector](#test-helper-option-selector)
-- [Target selector](#test-helper-option-targetselector)
 - [Side](#test-helper-option-side)
 - [Spacing](#test-helper-option-spacing)
-- [Event](#test-helper-option-event)
+- [Target selector](#test-helper-option-targetselector)
 
 #### Test helper option: `contentString`
 
@@ -903,16 +729,15 @@ The content string you expect the tooltip or popover to have.
 Usage example:
 
 ```js
-import { assertTooltipRendered } from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipContent } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`{{tooltip-on-element test='More info'}}`);
+  await render(hbs`{{ember-tooltip text='More info' isShown='true'}}`);
 
   assertTooltipContent(assert, {
     contentString: 'More info',
   });
-
 });
 ```
 
@@ -929,50 +754,20 @@ If more than one tooltip or popover is found in the DOM when you run an assertio
 Usage example:
 
 ```js
-import { assertTooltipRendered } from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipVisible } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{tooltip-on-element class='test-tooltip'}}
-    {{tooltip-on-element}}
+  await render(hbs`
+    {{ember-tooltip}}
+    {{ember-tooltip class="differentiator"}}
   `);
 
-  assertTooltipRendered(assert, {
-    selector: '.test-tooltip',
-  });
-});
-```
+  await triggerEvent(this, this.element);
 
-#### Test helper option: `targetSelector`
-
-The selector of the tooltip or popover target you are testing. See [Targets](#targets) for an explanation on what a 'target' is.
-
-If more than one tooltip or popover target is found in the DOM when you run an assertion, you will be asked to specify this.
-
-| Type    | String |
-|---------|---------|
-| Default | `'.ember-tooltip-or-popover-target'` |
-
-Usage example:
-
-```js
-import { assertTooltipSpacing } from 'appname/tests/helpers/ember-tooltips';
-
-test('Example test', function(assert) {
-
-  this.render(hbs`
-    <div class="test-target">
-      {{tooltip-on-element}}
-    </div>
-
-    <div>
-      {{tooltip-on-element}}
-    </div>
-  `);
-
-  assertTooltipSpacing(assert, {
-    targetSelector: '.test-target',
+  assertTooltipVisible(assert, {
+    selector: '.differentiator', // Or whatever class you added to the desired tooltip
   });
 });
 ```
@@ -983,18 +778,18 @@ The value for the tooltip or popover's [`side` option](#side) that you are asser
 
 | Type    | String |
 |---------|---------|
-| Default | `null |
+| Default | `null` |
 
 For example, if you specify for the tooltip or popover be shown on the right of the target using `side='right'`, you will pass `side: 'right'` in assertions that test side. Here is the code for this example:
 
 ```js
-import { assertTooltipSide } from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipSide } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{tooltip-on-element side='right'}}
-  `);
+  await render(hbs`{{ember-tooltip side='right' isShown=true}}`);
+
+  /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
   assertTooltipSide(assert, {
     side: 'right',
@@ -1013,47 +808,54 @@ The value for the tooltip or popover's [`spacing` option](#spacing) that you are
 For example, if you specify for the tooltip or popover be shown on the right of the target using `side='right'`, you will pass `side: 'right'` in assertions that test side. Here is the code for this example:
 
 ```js
-import { assertTooltipSide } from 'appname/tests/helpers/ember-tooltips';
+import { assertTooltipSide } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{tooltip-on-element spacing='35'}}
-  `);
+  await render(hbs`{{ember-tooltip spacing=35 isShown=true}}`);
 
-  assertTooltipSpacing(assert, {
+  /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
+
+  assertTooltipSide(assert, {
+    side: 'right', // Side is required
     spacing: 35,
   });
 });
 ```
 
-#### Test helper option: `event`
+#### Test helper option: `targetSelector`
 
-The name of the event that you would like to trigger on an element.
+The selector of the target element of the tooltip or popover you are testing.
+
+If more than one tooltip or popover is found in the DOM with a particular selector
+when you run an assertion, you will be asked to specify this.
 
 | Type    | String |
 |---------|---------|
-| Default | `null` |
+| Default | `'.ember-tooltip-target, .ember-popover-target'` |
 
-Usually used to specify an event for showing/hiding tooltips and popovers:
+Usage example:
 
 ```js
-import {
-  triggerTooltipTargetEvent
-} from 'appname/tests/helpers/ember-tooltips';
+import { render, triggerEvent } from '@ember/test-helpers';
+import { assertTooltipVisible } from 'ember-tooltips/test-support';
 
-test('Example test', function(assert) {
+test('Example test', async function(assert) {
 
-  this.render(hbs`
-    {{tooltip-on-element event='click'}}
+  await render(hbs`
+    <div class="target-a">
+      {{ember-tooltip class="common-tooltip" side='top' isShown=true text='Hi' effect='none'}}
+    </div>
+    <div class="target-b">
+      {{ember-tooltip class="common-tooltip" side='left' isShown=true text='Bye' effect='none'}}
+    </div>
   `);
 
-  triggerTooltipTargetEvent(assert, {
-    event: 'click',
+  await triggerEvent(this, this.element);
+
+  assertTooltipVisible(assert, {
+    targetSelector: '.target-b', // Or whatever class you added to the target element
   });
-
-  /* Now the tooltip should be visible! */
-
 });
 ```
 
@@ -1061,7 +863,7 @@ test('Example test', function(assert) {
 
 This addon aims to meet 508 compliance.
 
-Elements with tooltips are given a `tabindex` attribute and when the element receives focus, the tooltip with show.
+Elements with tooltips are given a `tabindex` attribute and when the element receives focus, the tooltip will show.
 
 Additionally, the `aria-describedby`, `title`, `id`, and `role` attributes are managed by this addon.
 
@@ -1075,19 +877,16 @@ This project is maintained by:
 --- | --- |
 [Duncan Walker](https://github.com/sir-dunxalot) | [Max Fierke](https://github.com/maxfierke) |
 
-All PRs and issues are welcome.
+All PRs and issues are welcome to the following branches:
 
-- `git clone https://github.com/sir-dunxalot/ember-tooltips.git`
-- `cd ember-tooltips`
-- `npm install && bower install`
-- `ember s`
-- `ember test`, `ember try:testall`, or the `/tests` route
+- `master` for `3.x` improvements and bug fixes
+- `2.x` for `2.x` improvements and bug fixes
 
-Please include tests and documentation updates with any new features.
+Before starting work on a PR, please read the quick guide, [CONTRIBUTING](https://github.com/sir-dunxalot/ember-tooltips/blob/master/CONTRIBUTING.md), to save you time and energy!
 
-You do not need to bump the version when you have a PR.
+## Maintainer information
 
-To release an update to the demo app:
+To release an update to the demo app (for maintainers only):
 
 ```sh
 git checkout master # make sure you're on master branch

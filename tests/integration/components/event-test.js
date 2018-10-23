@@ -1,101 +1,120 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, settled, triggerEvent } from '@ember/test-helpers';
+import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotVisible,
+  assertTooltipNotRendered,
   assertTooltipVisible,
-  triggerTooltipTargetEvent
-} from '../../helpers/ember-tooltips';
-import hbs from 'htmlbars-inline-precompile';
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('tooltip-on-element', 'Integration | Option | event', {
-  integration: true,
-});
+module('Integration | Option | event', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('tooltip-on-element toggles with hover', function(assert) {
+  test('ember-tooltip toggles with hover', async function(assert) {
 
-  assert.expect(3);
+    assert.expect(3);
 
-  this.render(hbs`{{tooltip-on-element}}`);
+    await render(hbs`{{ember-tooltip}}`);
 
-  const $tooltipTarget = this.$();
+    const { element } = this;
 
-  assertTooltipNotVisible(assert);
+    assertTooltipNotRendered(assert);
 
-  triggerTooltipTargetEvent($tooltipTarget, 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
-  assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($tooltipTarget, 'mouseleave');
+    await triggerEvent(element, 'mouseleave');
 
-  assertTooltipNotVisible(assert);
+    assertTooltipNotVisible(assert);
+  });
 
-});
+  test('ember-tooltip toggles with click', async function(assert) {
 
-test('tooltip-on-element toggles with click', function(assert) {
+    assert.expect(3);
 
-  assert.expect(3);
+    await render(hbs`{{ember-tooltip event='click'}}`);
 
-  this.render(hbs`{{tooltip-on-element event='click'}}`);
+    const { element } = this;
 
-  const $tooltipTarget = this.$();
+    assertTooltipNotRendered(assert);
 
-  assertTooltipNotVisible(assert);
+    await triggerEvent(element, 'click');
 
-  triggerTooltipTargetEvent($tooltipTarget, 'click');
+    assertTooltipVisible(assert);
 
-  assertTooltipVisible(assert);
+    await triggerEvent(element, 'click');
 
-  triggerTooltipTargetEvent($tooltipTarget, 'click');
+    assertTooltipNotVisible(assert);
+  });
 
-  assertTooltipNotVisible(assert);
+  test('ember-tooltip toggles with focus', async function(assert) {
 
-});
+    assert.expect(3);
 
-test('tooltip-on-element toggles with focus', function(assert) {
+    await render(hbs`{{ember-tooltip event='focus'}}`);
 
-  assert.expect(3);
+    const { element } = this;
 
-  this.render(hbs`{{tooltip-on-element event='focus'}}`);
+    assertTooltipNotRendered(assert);
 
-  const $tooltipTarget = this.$();
+    await triggerEvent(element, 'focus');
 
-  assertTooltipNotVisible(assert);
+    assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($tooltipTarget, 'focus');
+    await triggerEvent(element, 'blur');
 
-  assertTooltipVisible(assert);
+    assertTooltipNotVisible(assert);
+  });
 
-  triggerTooltipTargetEvent($tooltipTarget, 'blur');
+  test('ember-tooltip does not show when event=none', async function(assert) {
 
-  assertTooltipNotVisible(assert);
+    assert.expect(4);
 
-});
+    await render(hbs`{{ember-tooltip event='none'}}`);
 
-test('tooltip-on-element does not show when event=none', function(assert) {
+    const { element } = this;
 
-  assert.expect(4);
+    assertTooltipNotRendered(assert);
 
-  this.render(hbs`{{tooltip-on-element event='none'}}`);
+    /* Check focus */
 
-  const $tooltipTarget = this.$();
+    await triggerEvent(element, 'focus');
 
-  assertTooltipNotVisible(assert);
+    assertTooltipNotRendered(assert);
 
-  /* Check focus */
+    /* Check hover */
 
-  triggerTooltipTargetEvent($tooltipTarget, 'focus');
+    await triggerEvent(element, 'mouseenter');
 
-  assertTooltipNotVisible(assert);
+    assertTooltipNotRendered(assert);
 
-  /* Check hover */
+    /* Check click */
 
-  triggerTooltipTargetEvent($tooltipTarget, 'mouseenter');
+    await triggerEvent(element, 'click');
 
-  assertTooltipNotVisible(assert);
+    assertTooltipNotRendered(assert);
+  });
 
-  /* Check click */
+  test('ember-tooltip closes when esc is pressed', async function(assert) {
 
-  triggerTooltipTargetEvent($tooltipTarget, 'click');
+    assert.expect(2);
 
-  assertTooltipNotVisible(assert);
+    await render(hbs`{{ember-tooltip isShown=true}}`);
 
+    assertTooltipVisible(assert);
+
+    /* Mimic esc being pressed */
+
+    const event = new window.Event('keydown');
+
+    event.which = 27;
+
+    document.dispatchEvent(event);
+
+    await settled();
+
+    assertTooltipNotVisible(assert);
+  });
 });

@@ -1,163 +1,155 @@
-import { moduleForComponent, test } from 'ember-qunit';
-import {
-  assertTooltipNotVisible,
-  assertTooltipVisible,
-  triggerTooltipTargetEvent,
-  assertTooltipNotRendered
-} from '../../../helpers/ember-tooltips';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { click, render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import {
+  assertTooltipVisible,
+  assertTooltipNotRendered,
+  assertTooltipNotVisible,
+} from 'ember-tooltips/test-support';
 
-moduleForComponent('popover-on-element', 'Integration | Option | click', {
-  integration: true,
-});
+module('Integration | Option | click', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('Popover: click target, click target', function(assert) {
+  test('Popover: click target, click target', async function(assert) {
+    assert.expect(3);
 
-  assert.expect(3);
+    await render(hbs`{{ember-popover event='click' popoverHideDelay=0}}`);
 
-  this.render(hbs`{{popover-on-element event="click"}}`);
+    const { element } = this;
 
-  const $popoverTarget = this.$();
+    assertTooltipNotRendered(assert);
 
-  assertTooltipNotVisible(assert);
+    await click(element);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click');
+    assertTooltipVisible(assert);
 
-  assertTooltipVisible(assert);
+    await click(element);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click');
+    assertTooltipNotVisible(assert);
+  });
 
-  assertTooltipNotVisible(assert);
+  test('Popover: click target, click popover, click target', async function(assert) {
+    assert.expect(4);
 
-});
+    await render(hbs`{{ember-popover event='click' popoverHideDelay=0}}`);
 
-test('Popover: click target, click popover, click target', function(assert) {
+    const { element } = this;
 
-  assert.expect(4);
+    assertTooltipNotRendered(assert);
 
-  this.render(hbs`{{popover-on-element event="click"}}`);
+    await triggerEvent(element, 'click');
 
-  const $popoverTarget = this.$();
+    assertTooltipVisible(assert);
 
-  assertTooltipNotVisible(assert);
+    await triggerEvent('.ember-popover', 'click');
 
-  triggerTooltipTargetEvent($popoverTarget, 'click');
+    assertTooltipVisible(assert);
 
-  assertTooltipVisible(assert);
+    await triggerEvent(element, 'click');
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.ember-popover' });
+    assertTooltipNotVisible(assert);
+  });
 
-  assertTooltipVisible(assert);
+  test('Popover: click target, click elsewhere', async function(assert) {
+    assert.expect(3);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click');
-
-  assertTooltipNotVisible(assert);
-
-});
-
-test('Popover: click target, click elsewhere', function(assert) {
-
-  assert.expect(3);
-
-  this.render(hbs`
-    <div class="elsewhere">
-      <div class="target">
-        {{popover-on-element event="click"}}
+    await render(hbs`
+      <div class="elsewhere">
+        <div class="target">
+          {{ember-popover event='click' popoverHideDelay=0}}
+        </div>
       </div>
-    </div>
-  `);
+    `);
 
-  const $popoverTarget = this.$();
+    assertTooltipNotRendered(assert);
 
-  assertTooltipNotVisible(assert);
+    await click('.target');
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.target' });
+    assertTooltipVisible(assert);
 
-  assertTooltipVisible(assert);
+    await click('.elsewhere');
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.elsewhere' });
+    assertTooltipNotVisible(assert);
+  });
 
-  assertTooltipNotVisible(assert);
+  test('Popover: click target, click popover, click elsewhere', async function(assert) {
 
-});
+    assert.expect(4);
 
-test('Popover: click target, click popover, click elsewhere', function(assert) {
-
-  assert.expect(4);
-
-  this.render(hbs`
-    <div class="elsewhere">
-      <div class="target">
-        {{popover-on-element event="click"}}
+    await render(hbs`
+      <div class="elsewhere">
+        <div class="target">
+          {{ember-popover event='click' popoverHideDelay=0}}
+        </div>
       </div>
-    </div>
-  `);
+    `);
 
-  const $popoverTarget = this.$();
+    assertTooltipNotRendered(assert);
 
-  assertTooltipNotVisible(assert);
+    await click('.target');
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.target' });
+    assertTooltipVisible(assert);
 
-  assertTooltipVisible(assert);
+    /* Mimic user's cursor entering popover and clicking it */
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.ember-popover' });
+    await triggerEvent('.ember-popover', 'mouseenter');
 
-  assertTooltipVisible(assert);
+    await click('.ember-popover');
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.elsewhere' });
+    assertTooltipVisible(assert);
 
-  assertTooltipNotVisible(assert);
+    /* Mimic user's cursor leaving popover and clicking away from it */
 
-});
+    await triggerEvent('.ember-popover', 'mouseleave');
 
-test('Popover: click target-interior, click target-interior', function(assert) {
+    await click('.elsewhere');
 
-  assert.expect(3);
+    assertTooltipNotVisible(assert);
+  });
 
-  this.render(hbs`
-    <p class='target-interior'></p>
-    {{popover-on-element event='click'}}
-  `);
+  test('Popover: click target-interior, click target-interior', async function(assert) {
+    assert.expect(3);
 
-  const $popoverTarget = this.$();
+    await render(hbs`
+      <p class='target-interior'></p>
+      {{ember-popover event='click' popoverHideDelay=0}}
+    `);
 
-  assertTooltipNotVisible(assert);
+    assertTooltipNotRendered(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.target-interior' });
+    await click('.target-interior');
 
-  assertTooltipVisible(assert);
+    assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'click', { selector: '.target-interior' });
+    await click('.target-interior');
 
-  assertTooltipNotVisible(assert);
+    assertTooltipNotVisible(assert);
+  });
 
-});
+  test('Popover: focusin/click input, click input', async function(assert) {
+    assert.expect(3);
 
-test('Popover: focusin/click input, click input', function(assert) {
+    await render(hbs`
+      <input id="some-input">
+      {{ember-popover event='click' targetId='some-input' popoverHideDelay=0}}
+    `);
 
-  assert.expect(3);
+    const [ popoverTarget ] = this.$('#some-input');
 
-  this.render(hbs`
-    <input id="some-input">
-    {{popover-on-element event="click" target="#some-input" enableLazyRendering=true}}
-  `);
+    assertTooltipNotRendered(assert);
 
-  const $popoverTarget = this.$('#some-input');
+    /* We intentionally trigger a focusin and click on the $popoverTarget because
+    when a user clicks an input both events occur in that order.
+    We have fixed this with _isInProcessOfShowing and this test protects that. */
 
-  assertTooltipNotRendered(assert);
+    await triggerEvent(popoverTarget, 'focusin');
+    await triggerEvent(popoverTarget, 'click');
 
-  /* We intentionally trigger a focusin and click on the $popoverTarget because
-  when a user clicks an input both events occur in that order.
-  We have fixed this with _isInProcessOfShowing and this test protects that. */
+    assertTooltipVisible(assert);
 
-  triggerTooltipTargetEvent($popoverTarget, 'focusin');
-  triggerTooltipTargetEvent($popoverTarget, 'click');
+    await triggerEvent(popoverTarget, 'click');
 
-  assertTooltipVisible(assert);
-
-  triggerTooltipTargetEvent($popoverTarget, 'click');
-
-  assertTooltipNotVisible(assert);
-
+    assertTooltipNotVisible(assert);
+  });
 });

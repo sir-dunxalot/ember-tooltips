@@ -1,68 +1,73 @@
 import $ from 'jquery';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, triggerEvent } from '@ember/test-helpers';
 import {
-  assertTooltipNotVisible,
-  assertTooltipRendered,
-  triggerTooltipTargetEvent,
-} from 'dummy/tests/helpers/ember-tooltips';
+  assertTooltipVisible,
+  assertTooltipNotRendered,
+} from 'ember-tooltips/test-support';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('popover-on-element', 'Integration | Option | Event bubbling', {
-  integration: true,
-});
+module('Integration | Option | Event bubbling', function(hooks) {
+  setupRenderingTest(hooks);
 
-/* This module tests whether actions not related to popovers
-can be bubbled from inside the popover.
-
-This is testing the ember-tether config applied by this addon.
-
-https://github.com/sir-dunxalot/ember-tooltips/commit/e2e39db2868422b6c2484fe35e9951418f06d8a0#diff-168726dbe96b3ce427e7fedce31bb0bcR7
-
-This fixes issues like the following:
-
-- https://github.com/sir-dunxalot/ember-tooltips/issues/141
-- https://github.com/sir-dunxalot/ember-tooltips/issues/157
-
-In this test, we put a button in the popover that is expected to send
-an action to the test's context when the button is clicked.
-The test will pass when the action sent from inside the
-popover is captured by the context of the test.
-*/
-
-test('Popover: bubble click event', function(assert) {
-
-  assert.expect(4);
-
-  this.on('testAction', function() {
-
-    /* The testAction action is fired when the
-    button is clicked */
-
-    assert.ok(true,
-      'The eventhandler should be fired');
-
+  hooks.beforeEach(function() {
+    this.actions = {};
+    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
   });
 
-  this.render(hbs`
-    {{#some-component}}
-      {{#popover-on-component}}
+  /* This module tests whether actions not related to popovers
+  can be bubbled from inside the popover.
+
+  This is testing the ember-tether config applied by this addon.
+
+  https://github.com/sir-dunxalot/ember-tooltips/commit/e2e39db2868422b6c2484fe35e9951418f06d8a0#diff-168726dbe96b3ce427e7fedce31bb0bcR7
+
+  This fixes issues like the following:
+
+  - https://github.com/sir-dunxalot/ember-tooltips/issues/141
+  - https://github.com/sir-dunxalot/ember-tooltips/issues/157
+
+  In this test, we put a button in the popover that is expected to send
+  an action to the test's context when the button is clicked.
+  The test will pass when the action sent from inside the
+  popover is captured by the context of the test.
+  */
+
+  test('Popover: bubble click event', async function(assert) {
+
+    assert.expect(4);
+
+    this.actions.testAction = function() {
+
+      /* The testAction action is fired when the
+      button is clicked */
+
+      assert.ok(true,
+        'The eventhandler should be fired');
+
+    };
+
+    await render(hbs`
+      {{#ember-popover popoverHideDelay=0}}
         <button class="test-button-with-action" {{action 'testAction'}}>test button</button>
-      {{/popover-on-component}}
-    {{/some-component}}
-  `);
+      {{/ember-popover}}
+    `);
 
-  const $button = $('.test-button-with-action');
-  const $target = $('.some-component');
+    assertTooltipNotRendered(assert);
 
-  assertTooltipNotVisible(assert);
-  triggerTooltipTargetEvent($target, 'mouseenter');
-  assertTooltipRendered(assert);
+    await triggerEvent(this.element, 'mouseenter');
 
-  assert.equal($button.length, 1, 'the button can be found');
+    const $button = $('.test-button-with-action');
 
-  /* Click the button to fire testAction. This will
-  call the final assertion and the test will end. */
+    assertTooltipVisible(assert);
 
-  $button.trigger('click');
+    assert.equal($button.length, 1, 'the button can be found');
 
+    /* Click the button to fire testAction. This will
+    call the final assertion and the test will end. */
+
+    $button.trigger('click');
+
+  });
 });
