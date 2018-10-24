@@ -1,0 +1,163 @@
+.lt-line-clamp {
+  overflow: hidden;
+  position: relative;
+}
+
+.lt-line-clamp__ellipsis--dummy {
+  position: fixed;
+  visibility: hidden;
+  top: 0;
+  left: 0;
+}
+
+.lt-line-clamp--single-line {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.lt-line-clamp--multi-line {
+  display: -webkit-box;
+  /*! autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /*! autoprefixer: on */
+  text-overflow: ellipsis;
+}
+
+.ember-tooltip-base {
+  display: none;
+  height: 0;
+  width: 0;
+  position: absolute;
+}
+
+.ember-tooltip,
+.ember-popover {
+  margin-bottom: 10px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+
+  font-size: 14px;
+  font-family: inherit;
+  border-radius: 3px;
+}
+
+.ember-tooltip {
+  max-width: 200px;
+  padding: 6px 10px;
+  color: #fff;
+  background: #3a3c47;
+  text-shadow: -1px -1px 0 rgba(0,0,0,0.2);
+  white-space: normal; /* IE doesnt support initial so fall back to normal */
+  white-space: initial;
+}
+
+.ember-popover {
+  color: #000;
+  background-color: #fff;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+}
+
+.ember-popover[aria-hidden="false"] {
+  pointer-events: auto;
+  cursor: initial;
+  -webkit-touch-callout: auto;
+  -webkit-user-select: auto;
+  user-select: auto;
+}
+
+.ember-tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+  border: 5px solid transparent;
+}
+
+.ember-tooltip, .ember-popover {
+  opacity: 0;
+  -webkit-transition: opacity ease-out, margin ease-out;
+  transition: opacity ease-out, margin ease-out;
+  transition-duration: 200ms;
+}
+
+.ember-tooltip.ember-tooltip-effect-none,
+.ember-popover.ember-tooltip-effect-none,
+.ember-tooltip.ember-tooltip-show,
+.ember-popover.ember-tooltip-show {
+  opacity: 1;
+}
+
+.ember-tooltip[x-placement^="top"] .ember-tooltip-arrow,
+.ember-popover[x-placement^="top"] .ember-tooltip-arrow {
+  border-bottom-width: 0;
+  bottom: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.ember-tooltip[x-placement^="top"] .ember-tooltip-arrow {
+  border-top-color: #3a3c47;
+}
+
+.ember-popover[x-placement^="top"] .ember-tooltip-arrow {
+  border-top-color: #fff;
+}
+
+.ember-tooltip[x-placement^="right"] .ember-tooltip-arrow,
+.ember-popover[x-placement^="right"] .ember-tooltip-arrow {
+  border-left-width: 0;
+  left: -5px;
+  top: calc(50% - 5px);
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.ember-tooltip[x-placement^="right"] .ember-tooltip-arrow {
+  border-right-color: #3a3c47;
+}
+
+.ember-popover[x-placement^="right"] .ember-tooltip-arrow {
+  border-right-color: #fff;
+}
+
+.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow,
+.ember-popover[x-placement^="bottom"] .ember-tooltip-arrow {
+  border-top-width: 0;
+  top: -5px;
+  left: calc(50% - 5px);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
+  border-bottom-color: #3a3c47;
+}
+
+.ember-popover[x-placement^="bottom"] .ember-tooltip-arrow {
+  border-bottom-color: #fff;
+}
+
+.ember-tooltip[x-placement^="left"] .ember-tooltip-arrow,
+.ember-popover[x-placement^="left"] .ember-tooltip-arrow {
+  border-right-width: 0;
+  right: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.ember-tooltip[x-placement^="left"] .ember-tooltip-arrow {
+  border-left-color: #3a3c47;
+}
+
+.ember-popover[x-placement^="left"] .ember-tooltip-arrow {
+  border-left-color: #fff;
+}
