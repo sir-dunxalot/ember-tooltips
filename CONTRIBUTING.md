@@ -14,12 +14,14 @@ Instructions to follow these guidelines are detailed below.
 
 ## 1. Creating a fork
 
-You can create a fork of this addon with the following steps:
+You can create a fork of this addon with the following steps.
+
+Please install dependencies using yarn so you avoid checking in a `package-lock.json` file.
 
 ```sh
 git clone https://github.com/sir-dunxalot/ember-tooltips.git
 cd ember-tooltips
-npm install
+yarn install # Use yarn, not npm
 
 # Start with the branch for the relevant version of Ember Tooltips:
 
