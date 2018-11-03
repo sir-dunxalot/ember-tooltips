@@ -1,4 +1,9 @@
-import { currentURL, settled, triggerEvent, visit } from '@ember/test-helpers';
+import {
+  currentURL,
+  settled,
+  triggerEvent,
+  visit
+} from '@ember/test-helpers';
 import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
