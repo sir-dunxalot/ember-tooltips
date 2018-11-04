@@ -13,24 +13,24 @@ module.exports = function() {
       scenarios: [
         {
           name: 'ember-lts-2.8',
-          bower: {
-            dependencies: {
-              'ember': 'components/ember#lts-2-8'
-            },
-            resolutions: {
-              'ember': 'lts-2-8'
-            }
+          env: {
+            EMBER_OPTIONAL_FEATURES: JSON.stringify({ 'jquery-integration': true }),
           },
           npm: {
             devDependencies: {
-              'ember-source': null
+              '@ember/jquery': '^0.5.1',
+              'ember-source': '~2.8.0'
             }
           }
         },
         {
           name: 'ember-lts-2.12',
+          env: {
+            EMBER_OPTIONAL_FEATURES: JSON.stringify({ 'jquery-integration': true }),
+          },
           npm: {
             devDependencies: {
+              '@ember/jquery': '^0.5.1',
               'ember-source': '~2.12.0'
             }
           }
