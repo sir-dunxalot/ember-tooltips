@@ -265,7 +265,7 @@ This option does not affect the event the tooltip shows on. That is set by the [
 
 #### Popper container
 
-| Type | HTMLElement, String, or false |
+| Type | `HTMLElement` \| `String` \| `false` |
 |---|---|
 | Default | false |
 
