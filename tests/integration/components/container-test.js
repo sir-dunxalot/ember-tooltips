@@ -7,7 +7,7 @@ import {
   findTooltipTarget,
 } from 'ember-tooltips/test-support';
 
-module('Integration | Option | container', function(hooks) {
+module('Integration | Option | popperContainer', function(hooks) {
   setupRenderingTest(hooks);
 
   test('by default, the tooltip is rendered adjacent to its target', async function(assert) {
@@ -24,11 +24,11 @@ module('Integration | Option | container', function(hooks) {
       'The tooltip should be a sibling of its target');
   });
 
-  test('the container attribute allows the tooltip parent to be set', async function(assert) {
+  test('the popperContainer attribute allows the tooltip parent to be set', async function(assert) {
     await render(hbs`
       <div id='tooltip-container'></div>
       <div id='tooltip-target'>
-        {{ember-tooltip text='tooltip-text' container='#tooltip-container'}}
+        {{ember-tooltip text='tooltip-text' popperContainer='#tooltip-container'}}
       </div>
     `);
     const expectedContainer = find('#tooltip-container');
@@ -36,6 +36,6 @@ module('Integration | Option | container', function(hooks) {
     await triggerEvent(target, 'mouseenter');
     const tooltip = findTooltip();
     assert.equal(tooltip.parent()[0], expectedContainer,
-      'The element identified by the container attribute should be the tooltip parent');
+      'The element identified by the popperContainer attribute should be the tooltip parent');
   });
 });
