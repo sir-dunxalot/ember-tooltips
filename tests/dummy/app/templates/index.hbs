@@ -1,8 +1,10 @@
+{{! template-lint-disable block-indentation no-inline-styles }}
+
 <div class="hero">
   <h1 class="visuallyhidden">Ember Tooltips</h1>
 
   <div id="headline">
-    <img src="http://miguelcobain.github.io/ember-paper/ember-logo-white-955db9d87b940bf54a17bd1fa78d0713.png" id="ember-logo">
+    <img src="http://miguelcobain.github.io/ember-paper/ember-logo-white-955db9d87b940bf54a17bd1fa78d0713.png" id="ember-logo" alt="Ember JS logo">
     {{!-- <span class="hero-text">Tooltips</span> --}}
   </div>
 
@@ -21,11 +23,11 @@
 </div>
 
 {{#ember-tooltip
-  tooltipClassName='ember-tooltip logo-tooltip'
-  event='none'
-  targetId='ember-logo'
+  tooltipClassName="ember-tooltip logo-tooltip"
+  event="none"
+  targetId="ember-logo"
   isShown=showLogoTooltip
-  side='right'
+  side="right"
   spacing=15
 }}
   Tooltips
@@ -35,7 +37,7 @@
 
   <h2>Documentation</h2>
 
-  <p>Documentation is available <a href="https://github.com/sir-dunxalot/ember-tooltips" target="_blank">In the repo</a>.</p>
+  <p>Documentation is available <a href="https://github.com/sir-dunxalot/ember-tooltips" target="_blank" rel="noopener">In the repo</a>.</p>
 
   <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=fork&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 
@@ -65,13 +67,13 @@
 {{#some-component}}
   Hover for more info
 
-  {{#ember-tooltip class="test-basic-component-example" side='right'}}
+  {{#ember-tooltip class="test-basic-component-example" side="right"}}
     Here is the info!
   {{/ember-tooltip}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name='basic-usage-components.hbs'}}
+  {{code-snippet name="basic-usage-components.hbs"}}
 
 </div>
 
@@ -82,13 +84,13 @@
 <div class="some-component">
   Click for more info
 
-  {{#ember-tooltip event='click'}}
+  {{#ember-tooltip event="click"}}
     Here is the info!
   {{/ember-tooltip}}
 </div>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name='basic-usage-elements.hbs'}}
+  {{code-snippet name="basic-usage-elements.hbs"}}
 
 </div>
 
@@ -96,14 +98,14 @@
   <h3 id="target">Using with a target</h3>
 
 {{!-- BEGIN-SNIPPET basic-usage-target --}}
-{{input id='my-input' value='Some value'}}
+{{input id="my-input" value="Some value"}}
 
-{{#ember-tooltip targetId='my-input' event='click'}}
+{{#ember-tooltip targetId="my-input" event="click"}}
   Here is the info!
 {{/ember-tooltip}}
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name='basic-usage-target.hbs'}}
+  {{code-snippet name="basic-usage-target.hbs"}}
 </div>
 
 <div class="page-content gray">
@@ -119,7 +121,7 @@
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name='using-with-delay.hbs'}}
+  {{code-snippet name="using-with-delay.hbs"}}
 </div>
 
 <div class="page-content">
@@ -135,7 +137,7 @@
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name='using-with-duration.hbs'}}
+  {{code-snippet name="using-with-duration.hbs"}}
 
 </div>
 
@@ -157,13 +159,13 @@
 {{#some-component}}
   Show an error
 
-  {{#ember-tooltip tooltipClassName='ember-tooltip tooltip-error'}}
+  {{#ember-tooltip tooltipClassName="ember-tooltip tooltip-error"}}
     Here is the error!
   {{/ember-tooltip}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name='custom-styling.hbs'}}
+  {{code-snippet name="custom-styling.hbs"}}
 
 </div>
 
@@ -178,7 +180,7 @@
 {{#some-component}}
   Tooltip has async content
 
-  {{#ember-tooltip onShow=(action 'setAsyncContent') updateFor=asyncContent}}
+  {{#ember-tooltip onShow=(action "setAsyncContent") updateFor=asyncContent}}
     {{#if asyncContent}}
       {{asyncContent}}
     {{else}}
@@ -188,7 +190,7 @@
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name='async-content.hbs'}}
+  {{code-snippet name="async-content.hbs"}}
 
 </div>
 
@@ -203,12 +205,12 @@
     <h3>More info</h3>
     <p>Here is more information!</p>
 
-    <button {{action 'hide' target=popover}}>Hide</button>
+    <button {{action "hide" target=popover}}>Hide</button>
   {{/ember-popover}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name='popover.hbs'}}
+  {{code-snippet name="popover.hbs"}}
 
 </div>
 
@@ -219,10 +221,10 @@
 {{#some-component}}
   Tooltip has async content
 
-  {{ember-tooltip text='More info here'}}
+  {{ember-tooltip text="More info here"}}
 {{/some-component}}
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name='inline-content.hbs'}}
+  {{code-snippet name="inline-content.hbs"}}
 
 </div>
