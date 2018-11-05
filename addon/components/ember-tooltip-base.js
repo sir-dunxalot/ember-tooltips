@@ -87,6 +87,7 @@ export default Component.extend({
   layout,
   updateFor: null,
   popperOptions: null,
+  container: false,
 
   /* Actions */
 
@@ -314,7 +315,6 @@ export default Component.extend({
 
       try {
         run(() => {
-          const rootElement = document.querySelector(config.APP.rootElement);
           const target = this.get('target');
           const tooltipClassName = this.get('tooltipClassName');
 
@@ -323,7 +323,7 @@ export default Component.extend({
           target.removeAttribute('title');
 
           const tooltip = new Tooltip(target, {
-            container: rootElement || false,
+            container: this.get('container'),
             html: true,
             placement: this.get('side'),
             title: '<span></span>',

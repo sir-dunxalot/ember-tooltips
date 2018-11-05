@@ -123,6 +123,7 @@ For example, if you want to show a tooltip over a button when the user hovers ov
 Options are set as attributes on the tooltip/popover components. Current tooltip/popover properties this addon supports are:
 
 - [class](#class)
+- [container](#container)
 - [delay](#delay)
 - [delayOnChange](#delay-on-change)
 - [duration](#duration)
@@ -147,6 +148,20 @@ Adds a class to any tooltip:
 
 ```hbs
 {{ember-tooltip class='tooltip-warning'}}
+```
+
+#### Container
+
+| Type | HTMLElement \| String \| false |
+|---|---|
+| Default | false |
+
+Appends the tooltip to a specific element.  By default, the tooltip will be rendered as a sibling of its target. This attribute can be set to render the tooltip elsewhere in the DOM.  See the [tooltip.js container option](https://popper.js.org/tooltip-documentation.html#new_Tooltip_new).
+
+```hbs
+{{!--Renders the tooltip as a child of the body element--}}
+
+{{ember-tooltip container='body'}}
 ```
 
 #### Delay
