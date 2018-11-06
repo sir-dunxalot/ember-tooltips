@@ -3,32 +3,10 @@
 module.exports = {
   name: require('./package').name,
 
-  options: {
-    nodeAssets: {
-
-      'popper.js': {
-        vendor: {
-          srcDir: 'dist/umd',
-          destDir: 'popper',
-          include: ['popper.js', 'popper.js.map'],
-        },
-      },
-
-      'tooltip.js': {
-        vendor: {
-          srcDir: 'dist/umd',
-          destDir: 'popper',
-          include: ['tooltip.js', 'tooltip.js.map'],
-        },
-      },
-    },
-  },
-
   included: function(app) {
     this._super.included(app);
 
-    app.import('vendor/popper/popper.js');
-    app.import('vendor/popper/tooltip.js');
-  },
-
+    app.import(`${this.project.root}/node_modules/popper.js/dist/umd/popper.js`);
+    app.import(`${this.project.root}/node_modules/tooltip.js/dist/umd/tooltip.js`);
+  }
 };
