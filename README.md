@@ -278,7 +278,7 @@ inside of an absolutely or relatively positioned container with overflow constra
 you may want to disable `preventOverflow.escapeWithReference`.
 
 ```js
-// app/components/some-component.js`
+/* app/components/some-component.js */
 import Component from '@ember/component';
 
 export default Component.extend({
@@ -289,7 +289,7 @@ export default Component.extend({
       }
     }
   },
-  // ... other stuff
+  /* ... other stuff */
 });
 ```
 
@@ -421,7 +421,7 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 You can set the default for any option by extending the `{{ember-tooltip}}` or `{{ember-popover}}` component:
 
 ```js
-{{!--your-app/components/ember-tooltip}}--}}
+/* your-app/components/ember-tooltip.js */
 
 import EmberTooltipComponent from 'ember-tooltips/components/ember-tooltip';
 
@@ -471,7 +471,7 @@ All test helpers can be imported from the following path:
 For example:
 
 ```js
-// appname/tests/integration/components/some-component.js
+/* appname/tests/integration/components/some-component.js */
 
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -695,7 +695,7 @@ test('Example test', async function(assert) {
   /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
   assertTooltipSpacing(assert, {
-    side: 'right', // Side is required
+    side: 'right', /* Side is required */
     spacing: 35,
   });
 });
@@ -767,7 +767,7 @@ test('Example test', async function(assert) {
   await triggerEvent(this, this.element);
 
   assertTooltipVisible(assert, {
-    selector: '.differentiator', // Or whatever class you added to the desired tooltip
+    selector: '.differentiator', /* Or whatever class you added to the desired tooltip */
   });
 });
 ```
@@ -817,7 +817,7 @@ test('Example test', async function(assert) {
   /* Asserts that the tooltip is rendered but not shown when the user hovers over the target, which is this test's element */
 
   assertTooltipSide(assert, {
-    side: 'right', // Side is required
+    side: 'right', /* Side is required */
     spacing: 35,
   });
 });
@@ -854,7 +854,7 @@ test('Example test', async function(assert) {
   await triggerEvent(this, this.element);
 
   assertTooltipVisible(assert, {
-    targetSelector: '.target-b', // Or whatever class you added to the target element
+    targetSelector: '.target-b', /* Or whatever class you added to the target element */
   });
 });
 ```
