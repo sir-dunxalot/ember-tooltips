@@ -5,7 +5,7 @@ Render tooltips and popovers on components and other HTML elements using HTMLBar
 
 ## Installation
 
-```
+```sh
 ember install ember-tooltips
 ```
 
@@ -104,7 +104,7 @@ All the [options](#options) passed to tooltip components can be passed to popove
 
 Popovers also benefit from a `hide` API made publically acessible:
 
-```
+```hbs
 {{#ember-popover as |popover|}}
   Click <a href {{action 'hide' target=popover}}>here</a> to hide the popover
 {{/ember-popover}}
