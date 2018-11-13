@@ -1,6 +1,4 @@
 /* global Tooltip */
-
-import $ from 'jquery';
 import Ember from 'ember';
 import { computed } from '@ember/object';
 import { assign } from '@ember/polyfills';
@@ -480,7 +478,7 @@ export default Component.extend({
       already a tooltip/popover shown in the DOM. Check that here
       and adjust the delay as needed. */
 
-      let shownTooltipsOrPopovers = $(`.${ANIMATION_CLASS}`);
+      let shownTooltipsOrPopovers = document.querySelectorAll(`.${ANIMATION_CLASS}`);
 
       if (shownTooltipsOrPopovers.length) {
         delay = 0;
