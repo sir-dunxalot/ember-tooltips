@@ -131,6 +131,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [hideDelay (popover only)](#hide-delay)
 - [hideOn](#hide-on)
 - [isShown](#is-shown)
+- [popperContainer](#popper-container)
 - [popperOptions](#popper-options)
 - [side](#side)
 - [showOn](#show-on)
@@ -261,6 +262,20 @@ This can be any javascript-emitted event.
 Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automatically, instead of this option.
 
 This option does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event) in deciding when the tooltip is hidden.
+
+#### Popper container
+
+| Type | `HTMLElement` \| `String` \| `false` |
+|---|---|
+| Default | false |
+
+Appends the tooltip to a specific element.  By default, the tooltip will be rendered as a sibling of its target. This attribute can be set to render the tooltip elsewhere in the DOM.  See the [tooltip.js container option](https://popper.js.org/tooltip-documentation.html#new_Tooltip_new).
+
+```hbs
+{{!--Renders the tooltip as a child of the body element--}}
+
+{{ember-tooltip popperContainer='body'}}
+```
 
 #### Popper options
 
