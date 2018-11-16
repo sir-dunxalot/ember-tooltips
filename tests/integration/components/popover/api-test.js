@@ -51,11 +51,12 @@ module('Integration | Option | API', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
-    await triggerEvent(element, 'click');
+    await click(element);
 
     assertTooltipVisible(assert);
 
     await click('.hide-action');
+    await triggerEvent(element, "mouseleave");
 
     assertTooltipNotVisible(assert);
 
