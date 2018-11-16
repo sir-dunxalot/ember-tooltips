@@ -33,6 +33,44 @@ module('Integration | Component | ember-tooltip', function(hooks) {
     });
   });
 
+  test('ember-tooltip renders many tooltips', async function(assert) {
+
+    assert.expect(64);
+
+    const itemsList = [...new Uint8Array(32)].map((i) => {
+      const num = i + 1;
+      return {
+        num,
+        className: `js-tooltip-${num}`,
+        text: `tooltip #${num}`
+      };
+    })
+
+    this.set('itemsList', itemsList);
+
+    await render(hbs`
+      {{#each itemsList as |item|}}
+          <div>
+            label {{item.num}}
+            {{#ember-tooltip isShown=true class=item.className}}
+              {{item.text}}
+            {{/ember-tooltip}}
+          </div>
+      {{/each}}
+    `);
+
+    for (const item of itemsList) {
+      assertTooltipRendered(assert, {
+        selector: `.${item.className}`
+      });
+
+      assertTooltipContent(assert, {
+        selector: `.${item.className}`,
+        contentString: item.text,
+      });
+    }
+  });
+
   test('ember-tooltip has the proper aria-describedby tag', async function(assert) {
 
     assert.expect(2);

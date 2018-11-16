@@ -1,4 +1,3 @@
-import { assert as emberAssert } from '@ember/debug';
 import { isNone } from '@ember/utils';
 import { findTooltip } from 'ember-tooltips/test-support';
 
@@ -6,7 +5,7 @@ export default function assertTooltipContent(assert, options = {}) {
   const { contentString, selector } = options;
 
   if (isNone(contentString)) {
-    emberAssert('You must specify a contentString property in the options parameter');
+    throw new Error('You must specify a contentString property in the options parameter');
   }
 
   const $tooltip = findTooltip(selector);
