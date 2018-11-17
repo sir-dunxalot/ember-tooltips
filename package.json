@@ -34,7 +34,7 @@
     "ember-cli-babel": "^6.16.0",
     "ember-cli-htmlbars": "^3.0.0",
     "ember-get-config": "^0.2.4",
-    "ember-wormhole": "^0.5.5",
+    "ember-maybe-in-element": "^0.2.0",
     "popper.js": "^1.12.5",
     "tooltip.js": "^1.1.5"
   },

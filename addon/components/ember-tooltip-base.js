@@ -160,6 +160,14 @@ export default Component.extend({
     return `${this.get('elementId')}-wormhole`;
   }),
 
+  wormholeEl: computed('wormholeId', '_awaitingTooltipElementRendered', function() {
+    if (this.get('_awaitingTooltipElementRendered')) {
+      return null;
+    } else {
+      return document.getElementById(this.get('wormholeId'));
+    }
+  }),
+
   _awaitingTooltipElementRendered: true,
   _tooltipEvents: null,
   _tooltip: null,
