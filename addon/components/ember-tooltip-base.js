@@ -5,7 +5,6 @@ import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { warn } from '@ember/debug';
 import Component from '@ember/component';
-import RSVP from 'rsvp';
 import config from 'ember-get-config';
 import layout from '../templates/components/ember-tooltip-base';
 
@@ -178,10 +177,7 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-
-    this.createTooltip().then(() => {
-
-    });
+    this.createTooltip();
   },
 
   didUpdateAttrs() {
@@ -309,82 +305,71 @@ export default Component.extend({
   },
 
   createTooltip() {
-    return new RSVP.Promise((resolve, reject) => {
+    const target = this.get('target');
+    const tooltipClassName = this.get('tooltipClassName');
 
-      try {
-        run(() => {
-          const target = this.get('target');
-          const tooltipClassName = this.get('tooltipClassName');
+    const targetTitle = target.title;
 
-          const targetTitle = target.title;
+    target.removeAttribute('title');
 
-          target.removeAttribute('title');
+    const tooltip = new Tooltip(target, {
+      container: this.get('popperContainer'),
+      html: true,
+      placement: this.get('side'),
+      title: '<span></span>',
+      trigger: 'manual',
+      template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin:0;margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
+                  <div class="tooltip-arrow ember-tooltip-arrow"></div>
+                  <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
+                  </div>`,
 
-          const tooltip = new Tooltip(target, {
-            container: this.get('popperContainer'),
-            html: true,
-            placement: this.get('side'),
-            title: '<span></span>',
-            trigger: 'manual',
-            template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin:0;margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
-                        <div class="tooltip-arrow ember-tooltip-arrow"></div>
-                        <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
-                       </div>`,
+      popperOptions: {
+        modifiers: mergeModifiers(
+          POPPER_DEFAULT_MODIFIERS,
+          this.get('popperOptions.modifiers')
+        ),
 
-            popperOptions: {
-              modifiers: mergeModifiers(
-                POPPER_DEFAULT_MODIFIERS,
-                this.get('popperOptions.modifiers')
-              ),
+        onCreate: (tooltipData) => {
+          run(() => {
 
-              onCreate: (tooltipData) => {
-                run(() => {
+            this._dispatchAction('onRender', this);
 
-                  this._dispatchAction('onRender', this);
+            this.set('_awaitingTooltipElementRendered', false);
 
-                  this.set('_awaitingTooltipElementRendered', false);
+            /* The tooltip element must exist in order to add event listeners to it */
 
-                  /* The tooltip element must exist in order to add event listeners to it */
+            this.addTooltipBaseEventListeners();
 
-                  this.addTooltipBaseEventListeners();
+            /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
 
-                  /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
+            run.scheduleOnce('afterRender', () => {
+              const popperInstance = tooltipData.instance;
 
-                  run.scheduleOnce('afterRender', () => {
-                    const popperInstance = tooltipData.instance;
+              popperInstance.update();
+            });
 
-                    popperInstance.update();
-                  });
-
-                  target.setAttribute('title', targetTitle);
-
-                  resolve(tooltipData);
-                });
-              },
-
-              onUpdate: () => {
-                this.setSpacing();
-              },
-            },
+            target.setAttribute('title', targetTitle);
           });
+        },
 
-          /* Add a class to the tooltip target */
-
-          target.classList.add('ember-tooltip-target');
-
-          this.addTargetEventListeners();
-          this.set('_tooltip', tooltip);
-
-          /* If user passes isShown=true, show the tooltip as soon as it's created */
-
-          if (this.get('isShown')) {
-            this.show();
-          }
-        });
-      } catch(error) {
-        reject(error);
-      }
+        onUpdate: () => {
+          this.setSpacing();
+        },
+      },
     });
+
+    /* Add a class to the tooltip target */
+
+    target.classList.add('ember-tooltip-target');
+
+    this.addTargetEventListeners();
+    this.set('_tooltip', tooltip);
+
+    /* If user passes isShown=true, show the tooltip as soon as it's created */
+
+    if (this.get('isShown')) {
+      this.show();
+    }
   },
 
   setSpacing() {
