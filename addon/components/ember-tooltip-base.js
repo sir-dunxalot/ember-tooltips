@@ -423,6 +423,7 @@ export default Component.extend({
     const duration = this.get('duration');
 
     run.cancel(this.get('_showTimer'));
+    run.cancel(this.get('_completeHideTimer'));
 
     if (duration) {
       this.setHideTimer(duration);
@@ -488,7 +489,7 @@ export default Component.extend({
       _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
     }
 
-    run.later(() => {
+    const _completeHideTimer = run.later(() => {
 
       if (this.get('isDestroying')) {
         return;
@@ -501,6 +502,8 @@ export default Component.extend({
       this.set('isShown', false);
       this._dispatchAction('onHide', this);
     }, this.get('_animationDuration'));
+    
+    this.set('_completeHideTimer', _completeHideTimer);
   },
 
   _showTooltip() {
