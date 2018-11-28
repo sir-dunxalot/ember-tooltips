@@ -19,6 +19,8 @@ module.exports = function(defaults) {
     with CSS, Javscript, HTML/XML, Handlebars
   */
 
+  app.import('node_modules/popper.js/dist/umd/popper.js');
+  app.import('node_modules/tooltip.js/dist/umd/tooltip.js');
   app.import('vendor/highlight.pack.js', {
     using: [{
       transformation: 'amd',
