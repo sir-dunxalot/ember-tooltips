@@ -292,13 +292,11 @@ export default Component.extend({
 
     this._addEventListener('keydown', (keyEvent) => {
 
-      if (keyEvent.which === 27) {
-        if (this.get('isShown')) {
-          this.hide();
-          keyEvent.stopImmediatePropagation(); /* So this callback only fires once per keydown */
-          keyEvent.preventDefault();
-          return false;
-        }
+      if (keyEvent.which === 27 && this.get('isShown')) {
+        this.hide();
+        keyEvent.stopImmediatePropagation(); /* So this callback only fires once per keydown */
+        keyEvent.preventDefault();
+        return false;
       }
     }, document);
   },
