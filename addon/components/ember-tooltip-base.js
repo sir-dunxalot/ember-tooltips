@@ -293,7 +293,8 @@ export default Component.extend({
     this._addEventListener('keydown', (keyEvent) => {
 
       if (keyEvent.which === 27) {
-        if (this.hide()) {
+        if (this.get('isShown')) {
+          this.hide();
           keyEvent.stopImmediatePropagation(); /* So this callback only fires once per keydown */
           keyEvent.preventDefault();
           return false;
@@ -408,7 +409,7 @@ export default Component.extend({
 
     run.cancel(this.get('_showTimer'));
 
-    return this._hideTooltip();
+    this._hideTooltip();
   },
 
   show() {
@@ -480,7 +481,7 @@ export default Component.extend({
     const _tooltip = this.get('_tooltip');
 
     if (!_tooltip || this.get('isDestroying')) {
-      return false;
+      return;
     }
 
     if (_tooltip.popperInstance) {
@@ -490,7 +491,7 @@ export default Component.extend({
     const _completeHideTimer = run.later(() => {
 
       if (this.get('isDestroying')) {
-        return false;
+        return;
       }
 
       cancelAnimationFrame(this._spacingRequestId);
@@ -499,7 +500,6 @@ export default Component.extend({
       this.set('_isHiding', false);
       this.set('isShown', false);
       this._dispatchAction('onHide', this);
-      return true;
     }, this.get('_animationDuration'));
     
     this.set('_completeHideTimer', _completeHideTimer);
