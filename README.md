@@ -144,10 +144,47 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 |---------|---------|
 | Default | none    |
 
-Adds a class to any tooltip:
+Adds a class to any tooltip wrapper:
 
 ```hbs
-{{ember-tooltip class='tooltip-warning'}}
+{{ember-tooltip class='tooltip-wrapper'}}
+```
+**Note:** This is usually not what you want, as the wrapper itself is hidden by default. You are probably looking for [`tooltipBaseClass`](#tooltipbaseclass) or [`tooltipClassName`](#tooltipclassname).
+
+#### tooltipBaseClass
+
+| Type    | String          |
+|---------|-----------------|
+| Default | 'tooltip'       |
+
+Modifies the base class used for all tooltip, and extended upon by the tooltip content (`[tooltipBaseClass]-inner`) and the arrow (`[tooltipBaseClass]-arrow`).
+
+Useful to avoid conflicts with other libraries:
+
+```hbs
+{{ember-tooltip tooltipBaseClass='hoverhelp'}}
+```
+
+This will create markup similar to:
+```html
+<div class="hoverhelp">
+  <div class="hoverhelp-arrow"></div>
+  <div class="hoverhelp-inner"><!-- content --></div>
+</div>
+```
+
+#### tooltipClassName
+
+| Type    | String          |
+|---------|-----------------|
+| Default | 'ember-tooltip' |
+
+Adds classes to any tooltip.
+
+Useful for creating variations of tooltip:
+
+```hbs
+{{ember-tooltip tooltipClassName='tooltip-warning'}}
 ```
 
 #### Delay
