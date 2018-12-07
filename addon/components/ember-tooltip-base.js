@@ -76,6 +76,7 @@ export default Component.extend({
   duration: 0,
   effect: 'slide', // Options: fade, slide, none // TODO - make slide work
   event: 'hover', // Options: hover, click, focus, none
+  tooltipBaseClass: 'tooltip',
   tooltipClassName: 'ember-tooltip', /* Custom classes */
   isShown: false,
   text: null,
@@ -317,6 +318,7 @@ export default Component.extend({
 
   createTooltip() {
     const target = this.get('target');
+    const tooltipBaseClass = this.get('tooltipBaseClass');
     const tooltipClassName = this.get('tooltipClassName');
 
     const targetTitle = target.title;
@@ -329,10 +331,10 @@ export default Component.extend({
       placement: this.get('side'),
       title: '<span></span>',
       trigger: 'manual',
-      template: `<div class="tooltip ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin:0;margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
-                  <div class="tooltip-arrow ember-tooltip-arrow"></div>
-                  <div class="tooltip-inner" id="${this.get('wormholeId')}"></div>
-                  </div>`,
+      template: `<div class="${tooltipBaseClass} ${tooltipClassName} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin:0;margin-${getOppositeSide(this.get('side'))}: ${this.get('spacing')}px;">
+                   <div class="${tooltipBaseClass}-arrow ember-tooltip-arrow"></div>
+                   <div class="${tooltipBaseClass}-inner" id="${this.get('wormholeId')}"></div>
+                 </div>`,
 
       popperOptions: {
         modifiers: mergeModifiers(
