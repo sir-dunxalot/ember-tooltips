@@ -1,4 +1,4 @@
-/* global Tooltip */
+import Tooltip from 'tooltip.js';
 import Ember from 'ember';
 import { computed } from '@ember/object';
 import { assign } from '@ember/polyfills';
@@ -499,7 +499,7 @@ export default Component.extend({
       this.set('isShown', false);
       this._dispatchAction('onHide', this);
     }, this.get('_animationDuration'));
-    
+
     this.set('_completeHideTimer', _completeHideTimer);
   },
 
