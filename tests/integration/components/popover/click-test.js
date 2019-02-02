@@ -152,4 +152,49 @@ module('Integration | Option | click', function(hooks) {
 
     assertTooltipNotVisible(assert);
   });
+
+  test('Popover: click target, click popover, click elsewhere (event == "none")', async function(assert) {
+
+    assert.expect(5);
+
+    this.set('showingPopover', false);
+
+    this.togglePopover = () => {
+      this.set('showingPopover', !this.get('showingPopover'));
+    };
+
+    await render(hbs`
+      <div class="elsewhere">
+        <div class="target" onClick={{action togglePopover}}>
+          {{ember-popover isShown=showingPopover event='none' popoverHideDelay=0}}
+        </div>
+      </div>
+    `);
+
+    assertTooltipNotRendered(assert);
+
+    await click('.target');
+
+    assertTooltipVisible(assert);
+
+    /* Mimic user's cursor entering popover and clicking it */
+
+    await triggerEvent('.ember-popover', 'mouseenter');
+
+    await click('.ember-popover');
+
+    assertTooltipVisible(assert);
+
+    /* Mimic user's cursor leaving popover and clicking away from it */
+
+    await triggerEvent('.ember-popover', 'mouseleave');
+
+    await click('.elsewhere');
+
+    assertTooltipVisible(assert);
+
+    await click('.target');
+
+    assertTooltipNotVisible(assert);
+  });
 });

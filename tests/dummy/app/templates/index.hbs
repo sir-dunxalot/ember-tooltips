@@ -55,6 +55,7 @@
     <li><a href="#styling">Using custom styling</a></li>
     <li><a href="#async">Using async content</a></li>
     <li><a href="#popover">Using a popover instead of a tooltip</a></li>
+    <li><a href="#programatic-toggle">Toggling programatically</a></li>
     <li><a href="#inline">Using in inline form</a></li>
   </ul>
 </div>
@@ -215,6 +216,26 @@
 </div>
 
 <div class="page-content">
+  <h3 id="programatic-toggle">Toggling programatically</h3>
+
+{{!-- BEGIN-SNIPPET programatic-toggle --}}
+{{#some-component}}
+  <div onClick={{action "togglePopover"}} {{! template-lint-disable no-invalid-interactive }}>
+    Click me to toggle popover
+  </div>
+
+  {{#ember-popover isShown=showToggleablePopover event="none" class="test-programatic-toggle-example"}}
+    <h3>More info</h3>
+    <p>Here is more information!</p>
+  {{/ember-popover}}
+{{/some-component}}
+{{!-- END-SNIPPET --}}
+
+  {{code-snippet name="programatic-toggle.hbs"}}
+
+</div>
+
+<div class="page-content gray">
   <h3 id="inline">Using in inline form</h3>
 
 {{!-- BEGIN-SNIPPET inline-content --}}

@@ -36,8 +36,14 @@ export default EmberTooltipBase.extend({
       const { target: eventTarget } = event;
       const clickIsOnPopover = eventTarget == _tooltip.popperInstance.popper;
       const clickIsOnTarget = eventTarget == target;
+      const hasHideOnEvent = this.get('hideOn') !== 'none';
+      const hideOnOutsideClick = hasHideOnEvent &&
+        !this.get('_isMouseInside') &&
+        !clickIsOnPopover &&
+        !clickIsOnTarget &&
+        this.get('isShown');
 
-      if (!this.get('_isMouseInside') && !clickIsOnPopover && !clickIsOnTarget) {
+      if (hideOnOutsideClick) {
         this.hide();
       }
     }, document);
@@ -89,7 +95,7 @@ export default EmberTooltipBase.extend({
     }, popover);
 
     this._addEventListener('focusout', () => {
-      if (!this.get('_isMouseInside')) {
+      if (!this.get('_isMouseInside') && this.get('isShown')) {
         this.hide();
       }
     }, popover);
@@ -106,7 +112,7 @@ export default EmberTooltipBase.extend({
     cancel(this.get('_showTimer'));
 
     later(() => {
-      if (!this.get('_isMouseInside')) {
+      if (!this.get('_isMouseInside') || !this.get('isShown')) {
         this._hideTooltip();
       }
     }, +this.get('popoverHideDelay'));
