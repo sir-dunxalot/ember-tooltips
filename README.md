@@ -446,6 +446,10 @@ export default EmberTooltipComponent.extend({
 });
 ```
 
+**Note**: Do not provide a template `hbs` file, when overriding/extending
+`ember-tooltips` or `ember-popover`, as this will override the template provided
+and prevent tooltip or popover content from appearing.
+
 ## Actions
 
 Four actions are available for you to hook onto through the tooltip/popover lifecycle:
