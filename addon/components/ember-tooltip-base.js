@@ -370,7 +370,7 @@ export default Component.extend({
   },
 
   setSpacing() {
-    if (this._spacingRequestId || !this.get('isShown') || this.get('isDestroying')) {
+    if (!this.get('isShown') || this.get('isDestroying')) {
       return;
     }
 
