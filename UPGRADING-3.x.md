@@ -29,7 +29,7 @@ no longer apply to ember-tooltips 3.x:
 * `keepInWindow` - All tooltips are now kept in the window by default. See
   [`popperOptions`](README.md#popper-options) for overriding this behavior via
   popper.js modifiers.
-* `enableLazyRendering`
+* `enableLazyRendering` - See [What happened to `enableLazyRendering`?](#what-happened-to-enablelazyrendering)
 
 e.g.
 
@@ -155,3 +155,36 @@ There are two ways this can be addressed, but it may depend on your application.
   [`popperOptions`](https://github.com/sir-dunxalot/ember-tooltips#popper-options)
 2. Use the [`popperContainer`](https://github.com/sir-dunxalot/ember-tooltips#popper-container)
    option to render the tooltip as a child of another element, such as `'body'`
+
+### What happened to `enableLazyRendering`?
+
+The use of `popper.js` in 3.x addresses performance in a couple different ways
+that mostly make the old lazy rendering option unnecessary.
+
+1. It uses `requestAnimationFrame` to handle updates to the DOM, which provides
+   smooth 60FPS updates.
+2. It does not update or re-position tooltips that are not shown.
+3. Tooltips are only rendered on activation & are torn down when hidden.
+
+The content will still be rendered in the DOM, but is hidden and not rendered
+into a tooltip/popover until it's activated.
+
+If the content inside the tooltip is what's costly to render, there is an escape
+hatch, e.g.:
+
+```
+{{#ember-popover as |popover|}}
+  {{#if popover.isShown}}
+      {{expensive-component-thing}}
+  {{/if}}
+{{/ember-popover}}
+```
+
+### My application assumed tooltips were appended to `<body>` and now all my tests/layout are breaking!
+
+In ember-tooltips 3.x, the decision was made to render tooltip content as a
+sibling to the target element, rather than as a direct child of `<body>`.
+
+You can restore the behavior of ember-tooltips 2.x by specifying
+`popperContainer='body'`, which will direct popper.js to render the tooltip or
+popover content as a child of `<body>`.
