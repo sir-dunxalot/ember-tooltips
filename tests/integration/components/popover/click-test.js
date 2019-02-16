@@ -153,48 +153,54 @@ module('Integration | Option | click', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: click target, click popover, click elsewhere (event == "none")', async function(assert) {
+  [
+    null,
+    "none"
+  ].forEach((event) => {
+    test(`Popover: click target, click popover, click elsewhere (event == ${event})`, async function(assert) {
 
-    assert.expect(5);
+      assert.expect(5);
 
-    this.set('showingPopover', false);
+      this.set('showingPopover', false);
+      this.set('event', event);
 
-    this.togglePopover = () => {
-      this.set('showingPopover', !this.get('showingPopover'));
-    };
+      this.togglePopover = () => {
+        this.set('showingPopover', !this.get('showingPopover'));
+      };
 
-    await render(hbs`
-      <div class="elsewhere">
-        <div class="target" onClick={{action togglePopover}}>
-          {{ember-popover isShown=showingPopover event='none' popoverHideDelay=0}}
+      await render(hbs`
+        <div class="elsewhere">
+          <div class="target" onClick={{action togglePopover}}>
+            {{ember-popover isShown=showingPopover event=event popoverHideDelay=0}}
+          </div>
         </div>
-      </div>
-    `);
+      `);
 
-    assertTooltipNotRendered(assert);
+      assertTooltipNotRendered(assert);
 
-    await click('.target');
+      await click('.target');
 
-    assertTooltipVisible(assert);
+      assertTooltipVisible(assert);
 
-    /* Mimic user's cursor entering popover and clicking it */
+      /* Mimic user's cursor entering popover and clicking it */
 
-    await triggerEvent('.ember-popover', 'mouseenter');
+      await triggerEvent('.ember-popover', 'mouseenter');
 
-    await click('.ember-popover');
+      await click('.ember-popover');
 
-    assertTooltipVisible(assert);
+      assertTooltipVisible(assert);
 
-    /* Mimic user's cursor leaving popover and clicking away from it */
+      /* Mimic user's cursor leaving popover and clicking away from it */
 
-    await triggerEvent('.ember-popover', 'mouseleave');
+      await triggerEvent('.ember-popover', 'mouseleave');
 
-    await click('.elsewhere');
+      await click('.elsewhere');
 
-    assertTooltipVisible(assert);
+      assertTooltipVisible(assert);
 
-    await click('.target');
+      await click('.target');
 
-    assertTooltipNotVisible(assert);
-  });
+      assertTooltipNotVisible(assert);
+    });
+  })
 });
