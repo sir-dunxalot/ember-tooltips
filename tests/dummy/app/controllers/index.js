@@ -5,6 +5,7 @@ import { cancel, later, scheduleOnce } from '@ember/runloop';
 export default Controller.extend({
   asyncContent: null,
   showTooltips: false,
+  showToggleablePopover: false,
 
   actions: {
     setAsyncContent() {
@@ -15,6 +16,10 @@ export default Controller.extend({
         }, 2000);
       });
     },
+
+    togglePopover() {
+      this.toggleProperty('showToggleablePopover');
+    }
   },
 
   init() {
