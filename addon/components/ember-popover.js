@@ -1,15 +1,9 @@
-import { deprecatingAlias } from '@ember/object/computed';
 import { cancel, later } from '@ember/runloop';
 import EmberTooltipBase from 'ember-tooltips/components/ember-tooltip-base';
 
 export default EmberTooltipBase.extend({
   popoverHideDelay: 250,
   tooltipClassName: 'ember-popover',
-
-  hideDelay: deprecatingAlias('popoverHideDelay', {
-    id: 'EmberTooltipBase.popoverHideDelay',
-    until: '3.2.0',
-  }),
 
   _isMouseInside: false,
 
