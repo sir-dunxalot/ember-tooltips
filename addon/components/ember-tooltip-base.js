@@ -1,5 +1,6 @@
 import Tooltip from 'tooltip.js';
 import Ember from 'ember';
+import { getOwner } from '@ember/application';
 import { computed } from '@ember/object';
 import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
@@ -157,6 +158,19 @@ export default Component.extend({
 
   wormholeId: computed('elementId', function() {
     return `${this.get('elementId')}-wormhole`;
+  }),
+
+  _fastboot: computed(function() {
+    let owner = getOwner(this);
+    return owner.lookup('service:fastboot');
+  }),
+
+  _shouldRenderContent: computed(
+    '_fastboot.isFastBoot',
+    '_awaitingTooltipElementRendered',
+    function() {
+    return this.get('_fastboot.isFastBoot') ||
+      !this.get('_awaitingTooltipElementRendered');
   }),
 
   _awaitingTooltipElementRendered: true,
