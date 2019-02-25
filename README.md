@@ -128,9 +128,9 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [duration](#duration)
 - [effect](#effect)
 - [event](#event)
-- [hideDelay (popover only)](#hide-delay)
 - [hideOn](#hide-on)
 - [isShown](#is-shown)
+- [popoverHideDelay (popover only)](#popover-hide-delay)
 - [popperContainer](#popper-container)
 - [popperOptions](#popper-options)
 - [side](#side)
@@ -417,7 +417,7 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 {{ember-tooltip isShown=showTooltip event='none'}}
 ```
 
-#### Hide delay
+#### Popover hide delay
 
 | Type    | Number |
 |---------|---------|
@@ -426,7 +426,7 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 **POPOVER ONLY:** The number of milliseconds before the popover will hide after the user hovers away from the popover and the popover target. This is only applicable when `event='hover'`.
 
 ```hbs
-{{ember-popover event='hover' hideDelay=300}}
+{{ember-popover event='hover' popoverHideDelay=300}}
 ```
 
 ![popover-hover](https://cloud.githubusercontent.com/assets/7050871/18113238/e010ee64-6ee2-11e6-9ff1-a0c674a6d702.gif)
@@ -445,6 +445,10 @@ export default EmberTooltipComponent.extend({
   side: 'bottom',
 });
 ```
+
+**Note**: Do not provide a template `hbs` file, when overriding/extending
+`ember-tooltips` or `ember-popover`, as this will override the template provided
+and prevent tooltip or popover content from appearing.
 
 ## Actions
 

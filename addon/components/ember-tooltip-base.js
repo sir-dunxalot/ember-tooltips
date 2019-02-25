@@ -1,5 +1,6 @@
-/* global Tooltip */
+import Tooltip from 'tooltip.js';
 import Ember from 'ember';
+import { getOwner } from '@ember/application';
 import { computed } from '@ember/object';
 import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
@@ -159,6 +160,19 @@ export default Component.extend({
     return `${this.get('elementId')}-wormhole`;
   }),
 
+  _fastboot: computed(function() {
+    let owner = getOwner(this);
+    return owner.lookup('service:fastboot');
+  }),
+
+  _shouldRenderContent: computed(
+    '_fastboot.isFastBoot',
+    '_awaitingTooltipElementRendered',
+    function() {
+    return this.get('_fastboot.isFastBoot') ||
+      !this.get('_awaitingTooltipElementRendered');
+  }),
+
   _awaitingTooltipElementRendered: true,
   _tooltipEvents: null,
   _tooltip: null,
@@ -292,13 +306,10 @@ export default Component.extend({
 
     this._addEventListener('keydown', (keyEvent) => {
 
-      keyEvent.stopImmediatePropagation(); /* So this callback only fires once per keydown */
-
-      if (keyEvent.which === 27) {
+      if (keyEvent.which === 27 && this.get('isShown')) {
         this.hide();
-
+        keyEvent.stopImmediatePropagation(); /* So this callback only fires once per keydown */
         keyEvent.preventDefault();
-
         return false;
       }
     }, document);
@@ -373,7 +384,7 @@ export default Component.extend({
   },
 
   setSpacing() {
-    if (this._spacingRequestId || !this.get('isShown') || this.get('isDestroying')) {
+    if (!this.get('isShown') || this.get('isDestroying')) {
       return;
     }
 
@@ -502,7 +513,7 @@ export default Component.extend({
       this.set('isShown', false);
       this._dispatchAction('onHide', this);
     }, this.get('_animationDuration'));
-    
+
     this.set('_completeHideTimer', _completeHideTimer);
   },
 

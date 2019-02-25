@@ -1,9 +1,10 @@
 # Upgrading to 3.0 from 2.x
 
 ember-tooltips 3.x replaces the underlying tooltip implementation with the robust
-and mature [`tooltip.js`](https://popper.js.org/tooltip-examples.html) library powered by [`popper.js`](https://popper.js.org/). It has enabled a simpler ember-tooltips implementation,
-while providing more functionality and coverage for use cases not easily supported
-by earlier versions of ember-tooltips.
+and mature [`tooltip.js`](https://popper.js.org/tooltip-examples.html) library
+powered by [`popper.js`](https://popper.js.org/). It has enabled a simpler
+ember-tooltips implementation, while providing more functionality and coverage
+for use cases not easily supported by earlier versions of ember-tooltips.
 
 ## Migrating existing code
 
@@ -26,8 +27,9 @@ no longer apply to ember-tooltips 3.x:
 
 * `setPin` - No longer needed
 * `keepInWindow` - All tooltips are now kept in the window by default. See
-  [`popperOptions`](README.md#popper-options) for overriding this behavior via popper.js modifiers.
-* `enableLazyRendering`
+  [`popperOptions`](README.md#popper-options) for overriding this behavior via
+  popper.js modifiers.
+* `enableLazyRendering` - See [What happened to `enableLazyRendering`?](#what-happened-to-enablelazyrendering)
 
 e.g.
 
@@ -136,3 +138,53 @@ be needed, as `popper.js` is smarter about positioning and provides
 some broader control over it. For example, position variants supported by
 `popper.js` may supplant the need for some custom positioning CSS. See [`side`](README.md#test-helper-option-side)
 option for more details.
+
+
+## FAQ / Gotchas
+
+### My tooltips appear clipped! (use within elements using `overflow: hidden`)
+
+One notable difference between the way 2.x renders versus 3.x is that 3.x now
+renders tooltips as siblings of their target element. Generally, this shouldn't
+change the appearance of the tooltips. However, when a tooltip exists inside of
+a parent element with `overflow: hidden` the tooltip may appear clipped in 3.x.
+
+There are two ways this can be addressed, but it may depend on your application.
+
+1. Disable `escapeWithReference` for the `preventOverflow` popper.js modifier through
+  [`popperOptions`](https://github.com/sir-dunxalot/ember-tooltips#popper-options)
+2. Use the [`popperContainer`](https://github.com/sir-dunxalot/ember-tooltips#popper-container)
+   option to render the tooltip as a child of another element, such as `'body'`
+
+### What happened to `enableLazyRendering`?
+
+The use of `popper.js` in 3.x addresses performance in a couple different ways
+that mostly make the old lazy rendering option unnecessary.
+
+1. It uses `requestAnimationFrame` to handle updates to the DOM, which provides
+   smooth 60FPS updates.
+2. It does not update or re-position tooltips that are not shown.
+3. Tooltips are only rendered on activation & are torn down when hidden.
+
+The content will still be rendered in the DOM, but is hidden and not rendered
+into a tooltip/popover until it's activated.
+
+If the content inside the tooltip is what's costly to render, there is an escape
+hatch, e.g.:
+
+```
+{{#ember-popover as |popover|}}
+  {{#if popover.isShown}}
+      {{expensive-component-thing}}
+  {{/if}}
+{{/ember-popover}}
+```
+
+### My application assumed tooltips were appended to `<body>` and now all my tests/layout are breaking!
+
+In ember-tooltips 3.x, the decision was made to render tooltip content as a
+sibling to the target element, rather than as a direct child of `<body>`.
+
+You can restore the behavior of ember-tooltips 2.x by specifying
+`popperContainer='body'`, which will direct popper.js to render the tooltip or
+popover content as a child of `<body>`.
