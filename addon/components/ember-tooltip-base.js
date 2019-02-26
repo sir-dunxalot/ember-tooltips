@@ -2,9 +2,11 @@ import Tooltip from 'tooltip.js';
 import Ember from 'ember';
 import { getOwner } from '@ember/application';
 import { computed } from '@ember/object';
+import { deprecatingAlias } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { warn } from '@ember/debug';
+import { capitalize, w } from "@ember/string";
 import Component from '@ember/component';
 import config from 'ember-get-config';
 import layout from '../templates/components/ember-tooltip-base';
@@ -20,10 +22,6 @@ const POPPER_DEFAULT_MODIFIERS = {
     escapeWithReference: true
   }
 };
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.substring(1);
-}
 
 function getOppositeSide(placement) {
   if (!placement) {
@@ -76,8 +74,13 @@ export default Component.extend({
   duration: 0,
   effect: 'slide', // Options: fade, slide, none // TODO - make slide work
   event: 'hover', // Options: hover, click, focus, none
-  tooltipBaseClass: 'tooltip',
-  tooltipClassName: 'ember-tooltip', /* Custom classes */
+  tooltipClass: 'tooltip',
+  arrowClass: 'tooltip-arrow',
+  innerClass: 'tooltip-inner',
+  tooltipClassName: deprecatingAlias('_tooltipVariantClass', {
+    id: 'EmberTooltipBase._tooltipVariantClass',
+    until: '4.0.0',
+  }),
   isShown: false,
   text: null,
   side: 'top',
@@ -222,13 +225,7 @@ export default Component.extend({
 
     /* Remove event listeners used to show and hide the tooltip */
 
-    _tooltipEvents.forEach((tooltipEvent) => {
-      const {
-        callback,
-        target,
-        eventName,
-      } = tooltipEvent;
-
+    _tooltipEvents.forEach(({ callback, target, eventName } = {}) => {
       target.removeEventListener(eventName, callback);
     });
 
@@ -318,8 +315,12 @@ export default Component.extend({
 
   createTooltip() {
     const target = this.get('target');
-    const tooltipBaseClass = this.get('tooltipBaseClass');
-    const tooltipExtraClasses = this.get('tooltipClassName');
+    const tooltipClass = this.get('tooltipClass');
+    const arrowClass = this.get('arrowClass');
+    const innerClass = this.get('innerClass');
+    const emberTooltipClass = this.get('_tooltipVariantClass');
+    const emberTooltipArrowClass = `${w(emberTooltipClass).join('-arrow ')}-arrow`;
+    const emberTooltipInnerClass = `${w(emberTooltipClass).join('-inner ')}-inner`;
 
     const targetTitle = target.title;
 
@@ -331,9 +332,15 @@ export default Component.extend({
       placement: this.get('side'),
       title: '<span></span>',
       trigger: 'manual',
-      template: `<div class="${tooltipBaseClass} ${tooltipExtraClasses} ember-tooltip-effect-${this.get('effect')}" role="tooltip" style="margin:0;margin-${getOppositeSide(this.get('side'))}: ${this.get('spacing')}px;">
-                   <div class="${tooltipBaseClass}-arrow ember-tooltip-arrow"></div>
-                   <div class="${tooltipBaseClass}-inner" id="${this.get('wormholeId')}"></div>
+      arrowSelector: `.${w(emberTooltipArrowClass).join('.')}`,
+      innerSelector: `.${w(emberTooltipInnerClass).join('.')}`,
+      template: `<div
+                   class="${tooltipClass} ${emberTooltipClass} ember-tooltip-effect-${this.get('effect')}"
+                   role="tooltip"
+                   style="margin:0;margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;"
+                 >
+                   <div class="${arrowClass} ${emberTooltipArrowClass}"></div>
+                   <div class="${innerClass} ${emberTooltipInnerClass}" id="${this.get('wormholeId')}"></div>
                  </div>`,
 
       popperOptions: {

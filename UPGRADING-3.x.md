@@ -37,24 +37,24 @@ e.g.
 -      {{#tooltip-on-element
 -        class="user-banner__photo__tooltip js-user-photo-tooltip"
 -        enableLazyRendering=true
--        side='right'}}
+-        side="right"}}
 +      {{#ember-tooltip
 +        class="js-user-photo-tooltip"
-+        tooltipClassName="ember-tooltip user-banner__photo__tooltip"
-+        side='right'}}
++        tooltipClass="user-banner__photo__tooltip"
++        side="right"}}
          <img src={{user.photo_url}} alt="User photo" />
 -      {{/tooltip-on-element}}
 +      {{/ember-tooltip}}
 ```
 
-### 3. Update `class` and `tooltipClassName`
+### 3. Update `class` and `tooltipClass`
 
 When specifying `class` with an `ember-tooltip`, this will apply to the tooltip
 wrapper component, but will not contain the actual tooltip content. `class` may
 still be used for targeting tooltips using the `ember-tooltips` test helpers.
 
 For other uses where you're looking to set a class on the actual tooltip used
-for display (e.g. changing styling), use `tooltipClassName`, which will
+for display (e.g. changing styling), use `tooltipClass`, which will
 apply to the `popper.js` tooltip instance in the DOM.
 
 e.g.
@@ -64,7 +64,7 @@ e.g.
 {{ember-tooltip
   text="Hello"
   class="js-my-test-tooltip"
-  tooltipClassName="ember-tooltip tooltip-warning"
+  tooltipClass="tooltip-warning"
 }}
 ```
 
