@@ -185,7 +185,7 @@ Adds extra classes to tooltip arrows.
 Usually used along with [`tooltipClass`](#tooltipclass).
 
 ```hbs
-{{ember-tooltip tooltipClass='hoverhelp__arrow'}}
+{{ember-tooltip arrowClass='hoverhelp__arrow'}}
 ```
 
 This will create html similar to:
