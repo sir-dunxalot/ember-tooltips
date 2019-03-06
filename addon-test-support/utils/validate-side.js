@@ -1,6 +1,6 @@
 import { assert as emberAssert } from '@ember/debug';
 
-export default function validateSide(side, testHelper = 'assertTooltipSide') {
+export function validateSide(side, testHelper = 'assertTooltipSide') {
   const sideIsValid = (
     side === 'top' ||
     side === 'right' ||
@@ -15,3 +15,5 @@ export default function validateSide(side, testHelper = 'assertTooltipSide') {
     emberAssert(`You must pass side like ${testHelper}(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`);
   }
 }
+
+export default validateSide;

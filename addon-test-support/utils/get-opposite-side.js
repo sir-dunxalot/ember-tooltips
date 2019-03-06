@@ -1,4 +1,4 @@
-export default function getOppositeSide(side) {
+export function getOppositeSide(side) {
   switch (side) {
     case 'top': return 'bottom';
     case 'right': return 'left';
@@ -6,3 +6,5 @@ export default function getOppositeSide(side) {
     case 'left': return 'right';
   }
 }
+
+export default getOppositeSide;
