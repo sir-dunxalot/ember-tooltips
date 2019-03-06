@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipSide,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom/assertions';
 
 module('Integration | Option | side', function(hooks) {
   setupRenderingTest(hooks);

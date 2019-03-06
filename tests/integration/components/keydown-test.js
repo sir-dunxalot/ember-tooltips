@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipVisible,
   assertTooltipNotVisible
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom/assertions';
 
 module('Integration | Component | keydown', function(hooks) {
   setupRenderingTest(hooks);
@@ -25,7 +25,7 @@ module('Integration | Component | keydown', function(hooks) {
 
     assertTooltipVisible(assert, { selector: '.test-tooltip1' });
     assertTooltipVisible(assert, { selector: '.test-tooltip2' });
-    
+
     const { element } = this;
     await triggerKeyEvent(element, 'keydown', 27);
 

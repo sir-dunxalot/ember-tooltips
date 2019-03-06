@@ -6,7 +6,7 @@ import {
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   assertTooltipVisible,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom/assertions';
 
 module('Integration | Option | hideOn', function(hooks) {
   setupRenderingTest(hooks);

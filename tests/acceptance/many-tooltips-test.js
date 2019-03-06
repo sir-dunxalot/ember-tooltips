@@ -4,14 +4,13 @@ import {
   triggerEvent,
   visit
 } from '@ember/test-helpers';
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   assertTooltipNotRendered,
   assertTooltipRendered,
   assertTooltipVisible,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom/assertions';
 
 module('Acceptance | many-tooltips', function(hooks) {
   setupApplicationTest(hooks);
@@ -30,15 +29,14 @@ module('Acceptance | many-tooltips', function(hooks) {
     }, []);
 
     for (const tooltip of tooltips) {
-      const $tooltipTarget = $(`${tooltip}-target`);
-      const [ tooltipTarget ] = $tooltipTarget;
+      const tooltipTarget = document.querySelector(`${tooltip}-target`);
       const tooltipOptions = {
         selector: tooltip,
       };
 
-      assert.equal($tooltipTarget.length, 1, 'there should be one $tooltipTarget');
+      assert.ok(tooltipTarget, 'there should be one $tooltipTarget');
       assertTooltipNotRendered(assert, tooltipOptions);
-      await triggerEvent(tooltipTarget, 'mouseenter')
+      await triggerEvent(tooltipTarget, 'mouseenter');
       assertTooltipRendered(assert, tooltipOptions);
       assertTooltipVisible(assert, tooltipOptions);
     }

@@ -5,7 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import {
   findTooltip,
   findTooltipTarget,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom';
 
 module('Integration | Option | popperContainer', function(hooks) {
   setupRenderingTest(hooks);
@@ -17,10 +17,10 @@ module('Integration | Option | popperContainer', function(hooks) {
       </div>
     `);
     const expectedContainer = this.element;
-    const [ target ] = findTooltipTarget();
+    const target = findTooltipTarget();
     await triggerEvent(target, 'mouseenter');
     const tooltip = findTooltip();
-    assert.equal(tooltip.parent()[0], expectedContainer,
+    assert.equal(tooltip.parentElement, expectedContainer,
       'The tooltip should be a sibling of its target');
   });
 
@@ -32,10 +32,10 @@ module('Integration | Option | popperContainer', function(hooks) {
       </div>
     `);
     const expectedContainer = find('#tooltip-container');
-    const [ target ] = findTooltipTarget();
+    const target = findTooltipTarget();
     await triggerEvent(target, 'mouseenter');
     const tooltip = findTooltip();
-    assert.equal(tooltip.parent()[0], expectedContainer,
+    assert.equal(tooltip.parentElement, expectedContainer,
       'The element identified by the popperContainer attribute should be the tooltip parent');
   });
 });
