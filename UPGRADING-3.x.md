@@ -30,6 +30,7 @@ no longer apply to ember-tooltips 3.x:
   [`popperOptions`](README.md#popper-options) for overriding this behavior via
   popper.js modifiers.
 * `enableLazyRendering` - See [What happened to `enableLazyRendering`?](#what-happened-to-enablelazyrendering)
+* `target` - Use [`targetId`](README.md#targetid) with the ID of the target element
 
 e.g.
 
@@ -165,20 +166,8 @@ that mostly make the old lazy rendering option unnecessary.
    smooth 60FPS updates.
 2. It does not update or re-position tooltips that are not shown.
 3. Tooltips are only rendered on activation & are torn down when hidden.
-
-The content will still be rendered in the DOM, but is hidden and not rendered
-into a tooltip/popover until it's activated.
-
-If the content inside the tooltip is what's costly to render, there is an escape
-hatch, e.g.:
-
-```
-{{#ember-popover as |popover|}}
-  {{#if popover.isShown}}
-      {{expensive-component-thing}}
-  {{/if}}
-{{/ember-popover}}
-```
+4. Content is only rendered into the DOM when the tooltip is activated for the
+   first time (essentially what `enableLazyRendering` did)
 
 ### My application assumed tooltips were appended to `<body>` and now all my tests/layout are breaking!
 
