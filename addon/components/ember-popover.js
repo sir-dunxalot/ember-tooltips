@@ -3,7 +3,7 @@ import EmberTooltipBase from 'ember-tooltips/components/ember-tooltip-base';
 
 export default EmberTooltipBase.extend({
   popoverHideDelay: 250,
-  tooltipClassName: 'ember-popover',
+  _tooltipVariantClass: 'ember-popover',
 
   _isMouseInside: false,
 

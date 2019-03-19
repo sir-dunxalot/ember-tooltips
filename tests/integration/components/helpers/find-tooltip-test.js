@@ -38,10 +38,19 @@ module('Integration | Helpers | findTooltip', function(hooks) {
     assertTooltipRendered(assert, { selector: '.js-tooltip-component-element' });
   });
 
+  // Deprecated. Maintaining until 4.0.0
   test('findTooltip() can find a tooltip based on tooltipClassName passed to the component', async function(assert) {
     assert.expect(1);
 
     await render(hbs`{{ember-tooltip text='hello' tooltipClassName='ember-tooltip js-class-on-the-popper-element' isShown=true}}`);
+
+    assertTooltipRendered(assert, { selector: '.js-class-on-the-popper-element' });
+  });
+
+  test('findTooltip() can find a tooltip based on tooltipClass passed to the component', async function(assert) {
+    assert.expect(1);
+
+    await render(hbs`{{ember-tooltip text='hello' tooltipClass='js-class-on-the-popper-element' isShown=true}}`);
 
     assertTooltipRendered(assert, { selector: '.js-class-on-the-popper-element' });
   });

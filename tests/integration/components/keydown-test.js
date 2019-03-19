@@ -17,15 +17,15 @@ module('Integration | Component | keydown', function(hooks) {
     /* Create two tooltips and hide one after another with two keydown events */
 
     await render(hbs`
-      {{ember-tooltip isShown=true tooltipClassName='ember-tooltip test-tooltip1' text='I am here'}}
-      {{ember-tooltip isShown=true tooltipClassName='ember-tooltip test-tooltip2' text='I am there'}}
+      {{ember-tooltip isShown=true tooltipClass='test-tooltip1' text='I am here'}}
+      {{ember-tooltip isShown=true tooltipClass='test-tooltip2' text='I am there'}}
     `);
 
     await settled();
 
     assertTooltipVisible(assert, { selector: '.test-tooltip1' });
     assertTooltipVisible(assert, { selector: '.test-tooltip2' });
-    
+
     const { element } = this;
     await triggerKeyEvent(element, 'keydown', 27);
 
