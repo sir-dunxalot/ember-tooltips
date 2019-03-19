@@ -122,6 +122,7 @@ For example, if you want to show a tooltip over a button when the user hovers ov
 
 Options are set as attributes on the tooltip/popover components. Current tooltip/popover properties this addon supports are:
 
+- [animationDuration](#animation-duration)
 - [class](#class)
 - [delay](#delay)
 - [delayOnChange](#delay-on-change)
@@ -137,6 +138,18 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [showOn](#show-on)
 - [spacing](#spacing)
 - [text (tooltip only)](#text)
+
+#### Animation duration
+
+| Type    | Number  |
+|---------|---------|
+| Default | 200     |
+
+Defines the duration of tooltip animation in milliseconds. In testing animation duration is always 0.
+
+```hbs
+{{ember-tooltip animationDuration=0}}
+```
 
 #### class
 
