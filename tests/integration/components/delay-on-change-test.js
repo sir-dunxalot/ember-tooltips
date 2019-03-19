@@ -17,7 +17,7 @@ module('Integration | Option | delayOnChange', function(hooks) {
     /* Create two tooltips and show one */
 
     await render(hbs`
-      {{ember-tooltip delay=300 delayOnChange=false tooltipClassName='ember-tooltip test-tooltip' text='Hey'}}
+      {{ember-tooltip delay=300 delayOnChange=false tooltipClass='test-tooltip' text='Hey'}}
       {{ember-tooltip delayOnChange=false isShown=true event='none' text='Hi'}}
     `);
 

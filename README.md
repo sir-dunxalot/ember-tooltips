@@ -138,16 +138,84 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [spacing](#spacing)
 - [text (tooltip only)](#text)
 
-#### Class
+#### class
 
 | Type    | String  |
 |---------|---------|
 | Default | none    |
 
-Adds a class to any tooltip:
+Adds a class to any tooltip wrapper:
 
 ```hbs
-{{ember-tooltip class='tooltip-warning'}}
+{{ember-tooltip class='tooltip-wrapper'}}
+```
+**Note:** This is usually not what you want, as the wrapper itself is hidden by default.
+You are probably looking for [`tooltipClass`](#tooltipclass).
+
+#### tooltipClass
+
+| Type    | String          |
+|---------|-----------------|
+| Default | 'tooltip'       |
+
+Adds extra classes to tooltips.
+
+Useful to avoid conflicts with other libraries.
+
+```hbs
+{{ember-tooltip tooltipClass='hoverhelp'}}
+```
+
+This will create html similar to:
+```html
+<div class="hoverhelp">
+  <div class="tooltip-arrow"></div>
+  <div class="tooltip-inner"><!-- content --></div>
+</div>
+```
+
+#### arrowClass
+
+| Type    | String          |
+|---------|-----------------|
+| Default | 'tooltip-arrow' |
+
+Adds extra classes to tooltip arrows.
+
+Usually used along with [`tooltipClass`](#tooltipclass).
+
+```hbs
+{{ember-tooltip arrowClass='hoverhelp__arrow'}}
+```
+
+This will create html similar to:
+```html
+<div class="tooltip">
+  <div class="hoverhelp__arrow"></div>
+  <div class="tooltip-inner"><!-- content --></div>
+</div>
+```
+
+#### innerClass
+
+| Type    | String          |
+|---------|-----------------|
+| Default | 'tooltip-inner' |
+
+Adds extra classes to inner tooltips.
+
+Usually used along with [`tooltipClass`](#tooltipclass).
+
+```hbs
+{{ember-tooltip innerClass='hoverhelp__inner'}}
+```
+
+This will create html similar to:
+```html
+<div class="tooltip">
+  <div class="tooltip-arrow"></div>
+  <div class="hoverhelp__inner"><!-- content --></div>
+</div>
 ```
 
 #### Delay
