@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   findTooltip,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom';
 
 module('Integration | Config | body-element-id', function(hooks) {
   setupRenderingTest(hooks);
@@ -15,11 +15,11 @@ module('Integration | Config | body-element-id', function(hooks) {
 
     await render(hbs`{{ember-tooltip isShown=true}}`);
 
-    const $tooltip = findTooltip();
-    const $tooltipParent = $tooltip.parent();
-    const tooltipParentId = $tooltipParent.attr('id');
+    const tooltip = findTooltip();
+    const tooltipParent = tooltip.parentElement;
+    const tooltipParentId = tooltipParent.getAttribute('id');
 
-    assert.notEqual($tooltipParent.attr('tagname'), 'body',
+    assert.notEqual(tooltipParent.tagName, 'BODY',
       'The tooltip should not be a child of the document body');
 
     assert.equal(tooltipParentId, 'ember-testing',

@@ -6,8 +6,8 @@ import {
   assertTooltipContent,
   assertTooltipNotVisible,
   assertTooltipVisible,
-  findTooltipTarget,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom/assertions';
+import { findTooltipTarget} from 'ember-tooltips/test-support/dom';
 
 module('Integration | Component | title', function(hooks) {
   setupRenderingTest(hooks);
@@ -21,7 +21,7 @@ module('Integration | Component | title', function(hooks) {
       </div>
     `);
 
-    const [ target ] = findTooltipTarget();
+    const target = findTooltipTarget();
 
     await triggerEvent(target, 'mouseenter');
 

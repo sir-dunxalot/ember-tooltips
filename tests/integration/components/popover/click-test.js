@@ -1,12 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render, triggerEvent } from '@ember/test-helpers';
+import { click, render, triggerEvent, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipVisible,
   assertTooltipNotRendered,
   assertTooltipNotVisible,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom/assertions';
 
 module('Integration | Option | click', function(hooks) {
   setupRenderingTest(hooks);
@@ -135,7 +135,7 @@ module('Integration | Option | click', function(hooks) {
       {{ember-popover event='click' targetId='some-input' popoverHideDelay=0}}
     `);
 
-    const [ popoverTarget ] = this.$('#some-input');
+    const popoverTarget = find('#some-input');
 
     assertTooltipNotRendered(assert);
 

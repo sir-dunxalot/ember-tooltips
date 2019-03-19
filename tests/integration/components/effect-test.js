@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   findTooltip,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom';
 
 module('Integration | Component | tooltip on element', function(hooks) {
   setupRenderingTest(hooks);
@@ -18,9 +18,9 @@ module('Integration | Component | tooltip on element', function(hooks) {
 
       await render(hbs`{{ember-tooltip effect=effect isShown=true}}`);
 
-      const $tooltip = findTooltip();
+      const tooltip = findTooltip();
 
-      assert.ok($tooltip.hasClass(`ember-tooltip-effect-${effect}`),
+      assert.ok(tooltip.classList.contains(`ember-tooltip-effect-${effect}`),
         `the tooltip should have the ${effect} effect class`);
 
     });

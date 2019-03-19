@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { render, triggerEvent, find } from '@ember/test-helpers';
 import {
   assertTooltipNotVisible,
   assertTooltipNotRendered,
 	assertTooltipVisible,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom/assertions';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Option | click', function(hooks) {
@@ -20,7 +20,7 @@ module('Integration | Option | click', function(hooks) {
       {{ember-tooltip event="click" targetId="some-input" enableLazyRendering=true}}
     `);
 
-    const [ tooltipTarget ] = this.$('#some-input');
+    const tooltipTarget = find('#some-input');
 
     assertTooltipNotRendered(assert);
 

@@ -3,8 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
-  assertTooltipNotRendered,
-} from 'ember-tooltips/test-support';
+  assertTooltipNotRendered
+} from 'ember-tooltips/test-support/dom/assertions';
 
 module('Integration | Option | event', function(hooks) {
   setupRenderingTest(hooks);
@@ -15,7 +15,7 @@ module('Integration | Option | event', function(hooks) {
 
     await render(hbs`{{ember-popover event='none'}}`);
 
-    const [ popoverTarget ] = this.$();
+    const popoverTarget = this.element;
 
     assertTooltipNotRendered(assert);
 

@@ -1,11 +1,10 @@
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { render, triggerEvent, find, click } from '@ember/test-helpers';
 import {
   assertTooltipVisible,
-  assertTooltipNotRendered,
-} from 'ember-tooltips/test-support';
+  assertTooltipNotRendered
+} from 'ember-tooltips/test-support/dom/assertions';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Option | Event bubbling', function(hooks) {
@@ -58,16 +57,16 @@ module('Integration | Option | Event bubbling', function(hooks) {
 
     await triggerEvent(this.element, 'mouseenter');
 
-    const $button = $('.test-button-with-action');
+    const button = find('.test-button-with-action');
 
     assertTooltipVisible(assert);
 
-    assert.equal($button.length, 1, 'the button can be found');
+    assert.ok(button, 'the button can be found');
 
     /* Click the button to fire testAction. This will
     call the final assertion and the test will end. */
 
-    $button.trigger('click');
+    await click(button);
 
   });
 });

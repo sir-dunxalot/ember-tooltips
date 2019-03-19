@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { render, triggerEvent, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotVisible,
   assertTooltipNotRendered,
-  assertTooltipVisible,
-  findTooltip,
-} from 'ember-tooltips/test-support';
+  assertTooltipVisible
+} from 'ember-tooltips/test-support/dom/assertions';
+import { findTooltip } from 'ember-tooltips/test-support/dom';
 
 // const MS_FOR_BLUR = 100;
 
@@ -23,7 +23,7 @@ module('Integration | Option | focus', function(hooks) {
 
     await triggerEvent(this.element, 'focus');
 
-    const [ popover ] = findTooltip();
+    const popover = findTooltip();
 
     assertTooltipVisible(assert);
 
@@ -48,7 +48,7 @@ module('Integration | Option | focus', function(hooks) {
 
     await triggerEvent(this.element, 'focus');
 
-    const [ popover ] = findTooltip();
+    const popover = findTooltip();
 
     await triggerEvent('.target-interior', 'focus');
 
@@ -76,7 +76,7 @@ module('Integration | Option | focus', function(hooks) {
 
     await triggerEvent(this.element, 'focus');
 
-    const [ popover ] = findTooltip();
+    const popover = findTooltip();
 
     assertTooltipVisible(assert);
 
@@ -101,7 +101,7 @@ module('Integration | Option | focus', function(hooks) {
       {{ember-popover event='focus' targetId='some-input' popoverHideDelay=0}}
     `);
 
-    const [ popoverTarget ] = this.$('#some-input');
+    const popoverTarget = find('#some-input');
 
     assertTooltipNotRendered(assert);
 

@@ -6,7 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
   assertTooltipVisible,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/dom/assertions';
 
 module('Integration | Component | show-hide-show', function(hooks) {
   setupRenderingTest(hooks);
