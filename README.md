@@ -21,7 +21,6 @@ Documentation for usage is below:
 - [Usage](#usage)
   - [ember-tooltip](#ember-tooltip)
   - [ember-popover](#ember-popover)
-  - [Targets](#targets)
 - [Options](#options)
   - [Setting defaults](#setting-defaults)
 - [Actions](#actions)
@@ -68,7 +67,7 @@ The tooltip will always be rendered on its parent element unless you specify the
 {{/ember-tooltip}}
 ```
 
-Tooltips and popovers are lazy rendered. That means the are only rendered in the DOM once the user interacts with the [target element](#targets).
+Tooltips and popovers are lazy rendered. That means the are only rendered in the DOM once the user interacts with the [target element](#targetid).
 
 Options can be set on the `{{ember-tooltip}}` as attributes:
 
@@ -88,7 +87,7 @@ Documentation for supported options is located [here](#options).
 
 Popovers can be created with the `{{ember-popover}}` component, which is added to apps just like `{{ember-tooltip}}`.
 
-Popovers support the same `target` behavior as tooltips; popovers will render on their parent element unless a `targetId` is supplied.
+Popovers support the same target behavior as tooltips; popovers will render on their parent element unless a `targetId` is supplied.
 
 All the [options](#options) passed to tooltip components can be passed to popover components:
 
@@ -110,84 +109,45 @@ Popovers also benefit from a `hide` API made publically acessible:
 {{/ember-popover}}
 ```
 
-In addition, a [popoverHideDelay](#popover-hide-delay) option is made available for popovers only.
-
-## Targets
-
-The concept of a 'target' is used through this addon. A target is the element that the tooltip or popover is attached to. Each tooltip or popvers has its own target. Interacting with this target will render and/or show the tooltip or popover.
-
-For example, if you want to show a tooltip over a button when the user hovers over the button, the button is the target. If you want to show a popover over an input when the user focuses on the input, the input is the target.
+In addition, a [popoverHideDelay](#popoverhidedelay) option is made available for popovers only.
 
 ## Options
 
 Options are set as attributes on the tooltip/popover components. Current tooltip/popover properties this addon supports are:
 
-- [animationDuration](#animation-duration)
+- [animationDuration](#animationduration)
+- [arrowClass](#arrowclass)
 - [class](#class)
 - [delay](#delay)
-- [delayOnChange](#delay-on-change)
+- [delayOnChange](#delayonchange)
 - [duration](#duration)
 - [effect](#effect)
 - [event](#event)
-- [hideOn](#hide-on)
-- [isShown](#is-shown)
-- [popoverHideDelay (popover only)](#popover-hide-delay)
-- [popperContainer](#popper-container)
-- [popperOptions](#popper-options)
+- [hideOn](#hideon)
+- [isShown](#isshown)
+- [popoverHideDelay (popover only)](#popoverhidedelay)
+- [popperContainer](#poppercontainer)
+- [popperOptions](#popperoptions)
 - [side](#side)
-- [showOn](#show-on)
+- [showOn](#showon)
 - [spacing](#spacing)
-- [text (tooltip only)](#text)
+- [targetId](#targetid)
+- [text](#text)
+- [tooltipClass](#tooltipclass)
 
-#### Animation duration
+#### `animationDuration`
 
 | Type    | Number  |
 |---------|---------|
 | Default | 200     |
 
-Defines the duration of tooltip animation in milliseconds. In testing animation duration is always 0.
+Defines the duration of tooltip animation in milliseconds. In testing, animation duration is always 0.
 
 ```hbs
 {{ember-tooltip animationDuration=0}}
 ```
 
-#### class
-
-| Type    | String  |
-|---------|---------|
-| Default | none    |
-
-Adds a class to any tooltip wrapper:
-
-```hbs
-{{ember-tooltip class='tooltip-wrapper'}}
-```
-**Note:** This is usually not what you want, as the wrapper itself is hidden by default.
-You are probably looking for [`tooltipClass`](#tooltipclass).
-
-#### tooltipClass
-
-| Type    | String          |
-|---------|-----------------|
-| Default | 'tooltip'       |
-
-Adds extra classes to tooltips.
-
-Useful to avoid conflicts with other libraries.
-
-```hbs
-{{ember-tooltip tooltipClass='hoverhelp'}}
-```
-
-This will create html similar to:
-```html
-<div class="hoverhelp">
-  <div class="tooltip-arrow"></div>
-  <div class="tooltip-inner"><!-- content --></div>
-</div>
-```
-
-#### arrowClass
+#### `arrowClass`
 
 | Type    | String          |
 |---------|-----------------|
@@ -209,7 +169,134 @@ This will create html similar to:
 </div>
 ```
 
-#### innerClass
+#### `class`
+
+| Type    | String  |
+|---------|---------|
+| Default | none    |
+
+Adds a class to any tooltip wrapper:
+
+```hbs
+{{ember-tooltip class='tooltip-wrapper'}}
+```
+**Note:** This is usually not what you want, as the wrapper itself is hidden by default.
+You are probably looking for [`tooltipClass`](#tooltipclass).
+
+#### `delay`
+
+| Type    | Number  |
+|---------|---------|
+| Default | 0       |
+
+Delays showing the tooltip by the given number of milliseconds.
+
+```hbs
+{{!--Delays the show animation by 500ms--}}
+
+{{ember-tooltip delay=500}}
+```
+
+This does not affect the hiding of the tooltip. See also, [delayOnChange](#delayonchange).
+
+#### `delayOnChange`
+
+| Type    | Boolean |
+|---------|---------|
+| Default | true    |
+
+Whether or not to enforce the delay even when the user transitions their cursor between multiple target elements with tooltips.
+
+See this animation for a visual explanation:
+
+![](https://cloud.githubusercontent.com/assets/669410/15400803/d99f671e-1dba-11e6-8183-8b160cbcda10.gif)
+
+```hbs
+{{!--Forces delay to be enforced when the user skips
+between elements with tooltips--}}
+
+{{ember-tooltip delayOnChange=true}}
+```
+
+#### `duration`
+
+| Type    | Number  |
+|---------|---------|
+| Default | 0       |
+
+Sets the duration for which the tooltip will be open, in milliseconds. When the tooltip has been opened for the duration set it will hide itself.
+
+The user will still hide the tooltip if the hide event occurs before the duration expires.
+
+```hbs
+{{!-- Closes the tooltip after 1000ms--}}
+
+{{ember-tooltip duration=1000}}
+```
+
+Leave as `0` if you wish for the tooltip to remain open indefinitely.
+
+#### `effect`
+
+| Type    | String  |
+|---------|---------|
+| Default | 'slide' |
+
+Sets the animation used to show and hide the tooltip. Possible options are:
+
+- `'fade'`
+- `'slide'`
+- `'none'`
+
+```hbs
+{{ember-tooltip effect='slide'}}
+```
+
+#### `event`
+
+| Type    | String  |
+|---------|---------|
+| Default | 'hover' |
+
+The event that the tooltip will hide and show for. Possible options are:
+
+- `'hover'`
+- `'click'`
+- `'focus'` (hides on blur)
+- `'none'`
+
+```hbs
+{{ember-tooltip event='click'}}
+```
+
+This event is overwritten by the individual [`hideOn`](#hideon) and [`showOn`](#showon) properties. In effect, setting `event` sets `hideOn` and `shownOn` for you.
+
+The tooltip can also be shown programatically by passing in the `isShown` property, [documented here](#isshown).
+
+#### `hideOn`
+
+| Type    | String  |
+|---------|---------|
+| Default | 'none'  |
+
+Sets the event that the tooltip will hide on. This overwrites any event set with the [event](#event) option.
+
+This can be any javascript-emitted event.
+
+```hbs
+{{!--This tooltip will hide on mouseleave, NOT click--}}
+
+{{ember-tooltip
+  event='click'
+  hideOn='mouseleave'
+}}
+```
+
+Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automatically, instead of this option.
+
+This option does not affect the event the tooltip shows on. That is set by the [showOn](#showon) option. This will override [the event property](#event) in deciding when the tooltip is hidden.
+
+#### `innerClass`
 
 | Type    | String          |
 |---------|-----------------|
@@ -231,120 +318,36 @@ This will create html similar to:
 </div>
 ```
 
-#### Delay
-
-| Type    | Number  |
-|---------|---------|
-| Default | 0       |
-
-Delays showing the tooltip by the given number of milliseconds.
-
-```hbs
-{{!--Delays the show animation by 500ms--}}
-
-{{ember-tooltip delay=500}}
-```
-
-This does not affect the hiding of the tooltip. See also, [delayOnChange](#delay-on-change).
-
-#### Delay on change
+#### `isShown`
 
 | Type    | Boolean |
 |---------|---------|
-| Default | true    |
+| Default | false   |
 
-Whether or not to enforce the delay even when the user transitions their cursor between multiple target elements with tooltips.
+Gives you a programatic way to hide and show a tooltip. Set this value to `true` to manually show the tooltip.
 
-See this animation for a visual explanation:
-
-![](https://cloud.githubusercontent.com/assets/669410/15400803/d99f671e-1dba-11e6-8183-8b160cbcda10.gif)
+This can be useful alongside `event='none'` when you only want to toolip to show when you specific and not based on an user action.
 
 ```hbs
-{{!--Forces delay to be enforced when the user skips
-between elements with tooltips--}}
-
-{{ember-tooltip delayOnChange=true}}
+{{!--Binds the tooltip visibility to the showTooltip property--}}
+{{ember-tooltip isShown=showTooltip event='none'}}
 ```
 
-#### Duration
+#### `popoverHideDelay`
 
-| Type    | Number  |
+| Type    | Number |
 |---------|---------|
-| Default | 0       |
+| Default | 250   |
 
-Sets the duration for which the tooltip will be open, in milliseconds. When the tooltip has been opened for the duration set it will hide itself.
-
-The user will still hide the tooltip if the hide event occurs before the duration expires.
+**POPOVER ONLY:** The number of milliseconds before the popover will hide after the user hovers away from the popover and the popover target. This is only applicable when `event='hover'`.
 
 ```hbs
-{{!-- Closes the tooltip after 1000ms--}}
-
-{{ember-tooltip duration=1000}}
+{{ember-popover event='hover' popoverHideDelay=300}}
 ```
 
-Leave as `0` if you wish for the tooltip to remain open indefinitely.
+![popover-hover](https://cloud.githubusercontent.com/assets/7050871/18113238/e010ee64-6ee2-11e6-9ff1-a0c674a6d702.gif)
 
-#### Effect
-
-| Type    | String  |
-|---------|---------|
-| Default | 'slide' |
-
-Sets the animation used to show and hide the tooltip. Possible options are:
-
-- `'fade'`
-- `'slide'`
-- `'none'`
-
-```hbs
-{{ember-tooltip effect='slide'}}
-```
-
-#### Event
-
-| Type    | String  |
-|---------|---------|
-| Default | 'hover' |
-
-The event that the tooltip will hide and show for. Possible options are:
-
-- `'hover'`
-- `'click'`
-- `'focus'` (hides on blur)
-- `'none'`
-
-```hbs
-{{ember-tooltip event='click'}}
-```
-
-This event is overwritten by the individual [`hideOn`](#hide-on) and [`showOn`](#show-on) properties. In effect, setting `event` sets `hideOn` and `shownOn` for you.
-
-The tooltip can also be shown programatically by passing in the `isShown` property, [documented here](#is-shown).
-
-#### Hide on
-
-| Type    | String  |
-|---------|---------|
-| Default | 'none'  |
-
-Sets the event that the tooltip will hide on. This overwrites any event set with the [event](#event) option.
-
-This can be any javascript-emitted event.
-
-```hbs
-{{!--This tooltip will hide on mouseleave, NOT click--}}
-
-{{ember-tooltip
-  event='click'
-  hideOn='mouseleave'
-}}
-```
-
-Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automatically, instead of this option.
-
-This option does not affect the event the tooltip shows on. That is set by the [showOn](#show-on) option. This will override [the event property](#event) in deciding when the tooltip is hidden.
-
-#### Popper container
+#### `popperContainer`
 
 | Type | `HTMLElement` \| `String` \| `false` |
 |---|---|
@@ -358,7 +361,7 @@ Appends the tooltip to a specific element.  By default, the tooltip will be rend
 {{ember-tooltip popperContainer='body'}}
 ```
 
-#### Popper options
+#### `popperOptions`
 
 | Type    | Object |
 |---------|--------|
@@ -405,7 +408,7 @@ export default Component.extend({
 Note that `popperOptions` is only applied during tooltip creation and that it is
 not reapplied if the value changes after the tooltip is rendered.
 
-#### Side
+#### `side`
 
 | Type    | String  |
 |---------|---------|
@@ -432,7 +435,7 @@ position from the bottom right.
 }}
 ```
 
-#### Show on
+#### `showOn`
 
 | Type    | String  |
 |---------|---------|
@@ -452,9 +455,10 @@ This can be any javascript-emitted event.
 
 Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automatically, instead of this option.
 
-This opeion does not affect the event the tooltip hides on. That is set by the [hideOn](#hide-on) option. This will override [the event property](#event) in deciding when the tooltip is shown.
+This opeion does not affect the event the tooltip hides on. That is set by the [hideOn](#hide
+on) option. This will override [the event property](#event) in deciding when the tooltip is shown.
 
-#### Spacing
+#### `spacing`
 
 | Type    | Number  |
 |---------|---------|
@@ -467,7 +471,27 @@ Sets the number of pixels the tooltip will render from the target element. A hig
 {{ember-tooltip spacing=20}}
 ```
 
-#### Text
+#### `targetId`
+
+| Type    | String                               |
+|---------|--------------------------------------|
+| Default | null (parent element of the tooltip) |
+
+The concept of a 'target' is used through this addon. A target is the element that the tooltip or popover is attached to. Each tooltip or popvers has its own target. Interacting with this target will render and/or show the tooltip or popover. By default, the tooltip's target is the parent element.
+However, with `targetId`, you can specify another element's ID to attach the tooltip to another
+element on the page.
+
+For example, if you want to show a tooltip over a button when the user hovers over the button, the button is the target. If you want to show a popover over an input when the user focuses on the input, the input is the target.
+
+```hbs
+{{input id='has-info-tooltip'}}
+
+{{#ember-tooltip targetId='has-info-tooltip'}}
+  Here is some more info
+{{/ember-tooltip}}
+```
+
+#### `text`
 
 | Type    | String  |
 |---------|---------|
@@ -483,34 +507,27 @@ Sets the text of any tooltip without needing the tooltip to be written in block 
 {{/my-component}}
 ```
 
-#### Is Shown
+#### `tooltipClass`
 
-| Type    | Boolean |
-|---------|---------|
-| Default | false   |
+| Type    | String          |
+|---------|-----------------|
+| Default | 'tooltip'       |
 
-Gives you a programatic way to hide and show a tooltip. Set this value to `true` to manually show the tooltip.
+Adds extra classes to tooltips.
 
-This can be useful alongside `event='none'` when you only want to toolip to show when you specific and not based on an user action.
-
-```hbs
-{{!--Binds the tooltip visibility to the showTooltip property--}}
-{{ember-tooltip isShown=showTooltip event='none'}}
-```
-
-#### Popover hide delay
-
-| Type    | Number |
-|---------|---------|
-| Default | 250   |
-
-**POPOVER ONLY:** The number of milliseconds before the popover will hide after the user hovers away from the popover and the popover target. This is only applicable when `event='hover'`.
+Useful to avoid conflicts with other libraries.
 
 ```hbs
-{{ember-popover event='hover' popoverHideDelay=300}}
+{{ember-tooltip tooltipClass='hoverhelp'}}
 ```
 
-![popover-hover](https://cloud.githubusercontent.com/assets/7050871/18113238/e010ee64-6ee2-11e6-9ff1-a0c674a6d702.gif)
+This will create html similar to:
+```html
+<div class="hoverhelp">
+  <div class="tooltip-arrow"></div>
+  <div class="tooltip-inner"><!-- content --></div>
+</div>
+```
 
 ### Setting Defaults
 
@@ -634,7 +651,7 @@ test('Example test', async function(assert) {
 
 Please note, `assertTooltipRendered()` does not assert that the tooltip or popover is visible to the user - use [assertTooltipVisible()](#asserttooltipvisible) for that.
 
-Given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips will not be rendered until the target is interacted with.
+Given this addon's lazy rendering capabilities (explained in [`targetId`](#targetid)), tooltips will not be rendered until the target is interacted with.
 
 The [options hash](#test-helper-options) accepts:
 
@@ -644,7 +661,7 @@ The [options hash](#test-helper-options) accepts:
 
 Asserts that a tooltip or popover has not been rendered in the DOM.
 
-Why is this test helper useful? Well, given this addon's lazy rendering capabilities (explained in [Targets](#targets)), tooltips may not be rendered until the target is interacted with.
+Why is this test helper useful? Well, given this addon's lazy rendering capabilities (explained in [`targetId`](#targetid)), tooltips may not be rendered until the target is interacted with.
 
 ```js
 import { render, triggerEvent } from '@ember/test-helpers';
@@ -750,7 +767,7 @@ The [options hash](#test-helper-options) accepts:
 
 #### assertTooltipSide()
 
-Asserts that a tooltip or popover is rendered on the correct side of [the target](#targets).
+Asserts that a tooltip or popover is rendered on the correct side of [the target](#targetid).
 
 This helper tests [the side option](#side) that can be passed to tooltips and popovers.
 
@@ -779,7 +796,7 @@ The [options hash](#test-helper-options) accepts:
 
 #### assertTooltipSpacing()
 
-Asserts that a tooltip or popover is rendered a given number of pixels from [the target](#targets).
+Asserts that a tooltip or popover is rendered a given number of pixels from [the target](#targetid).
 
 This helper tests [the spacing option](#spacing) that can be passed to tooltips and popovers.
 
