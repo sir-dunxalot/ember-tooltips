@@ -26,6 +26,7 @@ Documentation for usage is below:
 - [Actions](#actions)
 - [Testing](#testing)
   - [Test helpers](#test-helpers)
+    - [Importing test helpers](#importing-test-helpers)
 - [Accessibility](#accessibility)
 - [Development](#development)
 
@@ -577,15 +578,39 @@ Publically available test helpers are:
 - [assertTooltipSide()](#asserttooltipside)
 - [assertTooltipSpacing()](#asserttooltipspacing)
 
-All assert helpers require `assert` to be passed as the first param and some accept a second, optional param for additional test options. For detailed usage instructions and examples, see the documentation for each test helper below.
+All assert helpers require `assert` to be passed as the first param and some accept a second, optional param for additional test options.
+All assert helpers work with both QUnit's `assert` and chai's `assert`.
 
-All test helpers can be imported from the following path:
+For detailed usage instructions and examples, see the documentation for each test helper below.
+
+#### Importing test helpers
+
+There are currently two supported flavors of test helpers: one implementation
+uses jQuery and one uses the browser's DOM APIs (`querySelector`, etc.). The two
+share the same APIs, with exception for the types of selectors they support.
+
+#### DOM API test helpers (3.3.0+)
+
+The DOM API assertion test helpers can be found under the following module:
+
+```js
+'ember-tooltips/test-support/dom/assertions';
+```
+
+#### jQuery test helpers (deprecated in 3.3.0+)
+
+The jQuery assertion test helpers support jQuery-specific pseudoselectors like
+`:contains`. However, as jQuery is now optional in Ember 3.4+ and the use-cases
+for jQuery-specific selectors and the use of the library are small, these
+helpers will likely be removed in the next major release of `ember-tooltips`.
+
+The jQuery assertion test helpers live under the following module.:
 
 ```js
 'ember-tooltips/test-support';
 ```
 
-For example:
+#### Example
 
 ```js
 /* appname/tests/integration/components/some-component.js */
@@ -596,6 +621,8 @@ import { render, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
 import { assertTooltipRendered } from 'ember-tooltips/test-support';
+// Or, on ember-tooltips 3.3.0+ and not using jQuery:
+// import { assertTooltipRendered } from 'ember-tooltips/test-support/dom/assertions';
 
 module('Integration | Component | Some component', function(hooks) {
   setupRenderingTest(hooks);
