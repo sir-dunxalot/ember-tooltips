@@ -657,6 +657,7 @@ The [options hash](#test-helper-options) accepts:
 
 - [`contentString`](#test-helper-option-contentstring)
 - [`selector`](#test-helper-option-selector)
+- [`targetSelector`](#test-helper-option-targetselector)
 
 #### assertTooltipRendered()
 
@@ -683,6 +684,7 @@ Given this addon's lazy rendering capabilities (explained in [`targetId`](#targe
 The [options hash](#test-helper-options) accepts:
 
 - [`selector`](#test-helper-option-selector)
+- [`targetSelector`](#test-helper-option-targetselector)
 
 #### assertTooltipNotRendered()
 
@@ -707,6 +709,7 @@ This helper does not assert that the tooltip or popover is not visible to the us
 The [options hash](#test-helper-options) accepts:
 
 - [`selector`](#test-helper-option-selector)
+- [`targetSelector`](#test-helper-option-targetselector)
 
 #### assertTooltipVisible()
 
@@ -752,6 +755,7 @@ test('Example test', async function(assert) {
 The [options hash](#test-helper-options) accepts:
 
 - [`selector`](#test-helper-option-selector)
+- [`targetSelector`](#test-helper-option-targetselector)
 
 #### assertTooltipNotVisible()
 
@@ -791,6 +795,7 @@ test('Example test', async function(assert) {
 The [options hash](#test-helper-options) accepts:
 
 - [`selector`](#test-helper-option-selector)
+- [`targetSelector`](#test-helper-option-targetselector)
 
 #### assertTooltipSide()
 

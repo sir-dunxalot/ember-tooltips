@@ -9,7 +9,7 @@ export default function assertTooltipContent(assert, options = {}) {
     emberAssert('You must specify a contentString property in the options parameter');
   }
 
-  const $tooltip = findTooltip(selector);
+  const $tooltip = findTooltip(selector, options);
   const tooltipContent = $tooltip.text().trim();
 
   assert.equal(tooltipContent, contentString,
