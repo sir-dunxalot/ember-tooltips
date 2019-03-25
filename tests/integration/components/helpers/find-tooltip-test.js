@@ -86,7 +86,6 @@ module('Integration | Helpers | findTooltip', function(hooks) {
       `);
 
       assertFn(assert, {
-        side: 'top',
         selector: '.common-tooltip',
         spacing: 30,
         targetSelector: '.target-a',
@@ -94,14 +93,12 @@ module('Integration | Helpers | findTooltip', function(hooks) {
       });
 
       assertFn(assert, {
-        side: 'left',
         selector: '.common-tooltip',
         targetSelector: '.target-b',
         contentString: 'Bye'
       });
 
       assertFn(assert, {
-        side: 'right',
         selector: '.common-tooltip',
         targetSelector: '.target-c',
         contentString: 'Huh'
