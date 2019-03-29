@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
+  assertTooltipContent,
   assertTooltipNotVisible,
   assertTooltipVisible,
   assertTooltipNotRendered,
@@ -53,5 +54,49 @@ module('Integration | Helpers | dom | findTooltip', function(hooks) {
 
     assertTooltipNotRendered(assert);
 
+  });
+
+  [
+    assertTooltipContent,
+    assertTooltipVisible,
+    assertTooltipRendered
+  ].forEach(function (assertFn) {
+    test('findTooltip() can find the correct tooltip among many when given a targetSelector', async function(assert) {
+      assert.expect(3);
+
+      await render(hbs`
+        <div class="target-a">
+          {{ember-tooltip class="common-tooltip" side='top' isShown=true text='Hi' effect='none' spacing=30}}
+        </div>
+        <div class="target-b">
+          {{ember-tooltip class="common-tooltip" side='left' isShown=true text='Bye' effect='none'}}
+        </div>
+        <div class="target-c">
+          {{ember-tooltip class="common-tooltip" side='right' isShown=true text='Huh' effect='none'}}
+        </div>
+      `);
+
+      assertFn(assert, {
+        side: 'top',
+        selector: '.common-tooltip',
+        spacing: 30,
+        targetSelector: '.target-a',
+        contentString: 'Hi'
+      });
+
+      assertFn(assert, {
+        side: 'left',
+        selector: '.common-tooltip',
+        targetSelector: '.target-b',
+        contentString: 'Bye'
+      });
+
+      assertFn(assert, {
+        side: 'right',
+        selector: '.common-tooltip',
+        targetSelector: '.target-c',
+        contentString: 'Huh'
+      });
+    });
   });
 });
