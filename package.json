@@ -29,7 +29,8 @@
     "test:all": "ember try:each"
   },
   "dependencies": {
-    "broccoli-funnel": "^2.0.1",
+    "@ember/optional-features": "^0.6.3",
+    "broccoli-file-creator": "^2.1.1",
     "broccoli-merge-trees": "^2.0.0",
     "ember-cli-babel": "^6.16.0",
     "ember-cli-htmlbars": "^3.0.0",
@@ -39,7 +40,6 @@
     "tooltip.js": "^1.1.5"
   },
   "devDependencies": {
-    "@ember/optional-features": "^0.6.3",
     "broccoli-asset-rev": "^2.7.0",
     "ember-ajax": "^3.1.0",
     "ember-cli": "~3.5.0",
