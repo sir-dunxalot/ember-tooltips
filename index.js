@@ -22,5 +22,23 @@ module.exports = {
         }
       ]
     });
+  },
+
+  treeForAddonTestSupport(tree) {
+    const writeFile = require('broccoli-file-creator');
+    const optionalFeatures = this.addons.find(a => a.name === '@ember/optional-features');
+    const testType = optionalFeatures.isFeatureEnabled('jquery-integration')
+      ? 'jquery'
+      : 'dom';
+
+    const reexportTree = writeFile(
+      'index.js',
+      `export * from '${this.moduleName()}/test-support/${testType}';`
+    );
+
+    const MergedTrees = require('broccoli-merge-trees');
+    const mergedTree = new MergedTrees([tree, reexportTree]);
+
+    return this._super(mergedTree);
   }
 };

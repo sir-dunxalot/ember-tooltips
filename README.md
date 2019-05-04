@@ -583,31 +583,27 @@ All assert helpers work with both QUnit's `assert` and chai's `assert`.
 
 For detailed usage instructions and examples, see the documentation for each test helper below.
 
-#### Importing test helpers
-
 There are currently two supported flavors of test helpers: one implementation
 uses jQuery and one uses the browser's DOM APIs (`querySelector`, etc.). The two
 share the same APIs, with exception for the types of selectors they support.
-
-#### DOM API test helpers (3.3.0+)
-
-The DOM API assertion test helpers can be found under the following module:
-
-```js
-'ember-tooltips/test-support/dom/assertions';
-```
-
-#### jQuery test helpers (deprecated in 3.3.0+)
 
 The jQuery assertion test helpers support jQuery-specific pseudoselectors like
 `:contains`. However, as jQuery is now optional in Ember 3.4+ and the use-cases
 for jQuery-specific selectors and the use of the library are small, these
 helpers will likely be removed in the next major release of `ember-tooltips`.
 
-The jQuery assertion test helpers live under the following module.:
+All test helpers live under the following modules:
 
 ```js
-'ember-tooltips/test-support';
+// (Recommended) Auto-selection of either jQuery or DOM-based APIs, based
+// on @ember/optional-features and whether jquery-integration is enabled.
+import { asserTooltipContent } from 'ember-tooltips/test-support';
+
+// Explicit path for DOM-based APIs
+import { asserTooltipContent } from 'ember-tooltips/test-support/dom';
+
+// Explicit path for jQuery-based APIs (deprecated)
+import { asserTooltipContent } from 'ember-tooltips/test-support/jquery';
 ```
 
 #### Example
