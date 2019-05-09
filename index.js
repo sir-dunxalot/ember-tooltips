@@ -14,6 +14,7 @@ module.exports = {
         }
       ]
     });
+    app.import("node_modules/popper.js/dist/umd/popper.js.map", { destDir: 'assets' });
     app.import("node_modules/tooltip.js/dist/umd/tooltip.js", {
       using: [
         {
@@ -22,6 +23,7 @@ module.exports = {
         }
       ]
     });
+    app.import("node_modules/tooltip.js/dist/umd/tooltip.js.map", { destDir: 'assets' });
   },
 
   treeForAddonTestSupport(tree) {
