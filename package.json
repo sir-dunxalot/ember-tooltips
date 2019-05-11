@@ -30,14 +30,18 @@
   },
   "dependencies": {
     "@ember/optional-features": "^0.6.3",
+    "broccoli-funnel": "^2.0.2",
     "broccoli-file-creator": "^2.1.1",
     "broccoli-merge-trees": "^2.0.0",
+    "broccoli-source": "^2.0.0",
+    "broccoli-string-replace": "^0.1.2",
     "ember-cli-babel": "^6.16.0",
     "ember-cli-htmlbars": "^3.0.0",
     "ember-get-config": "^0.2.4",
     "ember-wormhole": "^0.5.5",
     "popper.js": "^1.12.5",
-    "tooltip.js": "^1.1.5"
+    "tooltip.js": "^1.1.5",
+    "resolve": "^1.10.1"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.7.0",
