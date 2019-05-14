@@ -10,6 +10,11 @@ module.exports = function(defaults) {
 
     minifyCSS: {
       enabled: false // CSS minification w/ @import rules seems to be broken in Ember-CLI 3.3
+    },
+
+    sourcemaps: {
+      enabled: true,
+      extensions: ['js']
     }
   });
 
