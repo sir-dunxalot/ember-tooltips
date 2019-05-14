@@ -69,10 +69,12 @@ module.exports = {
 
   treeForAddonTestSupport(tree) {
     const writeFile = require('broccoli-file-creator');
-    const optionalFeatures = this.addons.find(a => a.name === '@ember/optional-features');
-    const testType = optionalFeatures.isFeatureEnabled('jquery-integration')
-      ? 'jquery'
-      : 'dom';
+    // this.project.findAddonByName is marked private, but everyone else is doing it
+    // so ¯\_(ツ)_/¯
+    const optionalFeatures = this.project.findAddonByName('@ember/optional-features');
+    const testType = optionalFeatures && !optionalFeatures.isFeatureEnabled('jquery-integration')
+      ? 'dom'
+      : 'jquery';
 
     const reexportTree = writeFile(
       'index.js',
