@@ -32,7 +32,7 @@ module.exports = {
   included: function(app) {
     this._super.included.apply(this, arguments);
 
-    app.import("vendor/popper.js", {
+    app.import("vendor/ember-tooltips--popper.js", {
       using: [
         {
           transformation: "amd",
@@ -40,7 +40,7 @@ module.exports = {
         }
       ]
     });
-    app.import("vendor/tooltip.js", {
+    app.import("vendor/ember-tooltips--tooltip.js", {
       using: [
         {
           transformation: "amd",
@@ -97,6 +97,14 @@ module.exports = {
 
     const mergedTree = new MergedTrees([tree, popperTree, tooltipTree]);
 
-    return this.removeSourcemapAnnotation(mergedTree);
+    return funnel(this.removeSourcemapAnnotation(mergedTree), {
+      getDestinationPath(relativePath) {
+        if (relativePath === 'popper.js' || relativePath === 'tooltip.js') {
+          return `ember-tooltips--${relativePath}`;
+        }
+
+        return relativePath;
+      }
+    });
   }
 };
