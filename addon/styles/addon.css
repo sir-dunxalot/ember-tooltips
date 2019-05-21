@@ -56,8 +56,19 @@
 
 .ember-tooltip, .ember-popover {
   opacity: 0;
+}
+
+.ember-tooltip.ember-tooltip-effect-fade,
+.ember-popover.ember-tooltip-effect-fade {
   -webkit-transition: opacity ease-out, margin ease-out;
   transition: opacity ease-out, margin ease-out;
+  transition-duration: 200ms;
+}
+
+.ember-tooltip.ember-tooltip-effect-slide,
+.ember-popover.ember-tooltip-effect-slide {
+  -webkit-transition: opacity ease-out, left ease-out, top ease-out;
+  transition: opacity ease-out, left ease-out, top ease-out;
   transition-duration: 200ms;
 }
 
@@ -65,7 +76,9 @@
 .ember-popover.ember-tooltip-effect-none,
 .ember-tooltip.ember-tooltip-show,
 .ember-popover.ember-tooltip-show {
+  left: 0;
   opacity: 1;
+  top: 0;
 }
 
 .ember-tooltip[x-placement^="top"] .ember-tooltip-arrow,
@@ -134,4 +147,24 @@
 
 .ember-popover[x-placement^="left"] .ember-tooltip-arrow {
   border-left-color: #fff;
+}
+
+.ember-tooltip.ember-tooltip-effect-slide[x-placement^="top"],
+.ember-popover.ember-tooltip-effect-slide[x-placement^="top"] {
+  top: 10px;
+}
+
+.ember-tooltip.ember-tooltip-effect-slide[x-placement^="right"],
+.ember-popover.ember-tooltip-effect-slide[x-placement^="right"] {
+  left: -10px;
+}
+
+.ember-tooltip.ember-tooltip-effect-slide[x-placement^="bottom"],
+.ember-popover.ember-tooltip-effect-slide[x-placement^="bottom"] {
+  top: -10px;
+}
+
+.ember-tooltip.ember-tooltip-effect-slide[x-placement^="left"],
+.ember-popover.ember-tooltip-effect-slide[x-placement^="left"] {
+  left: 10px;
 }
