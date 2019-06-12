@@ -456,7 +456,7 @@ This can be any javascript-emitted event.
 
 Usually, you'll use the `event` option, which sets `showOn` and `hideOn` automatically, instead of this option.
 
-This opeion does not affect the event the tooltip hides on. That is set by the [hideOn](#hide
+This option does not affect the event the tooltip hides on. That is set by the [hideOn](#hide
 on) option. This will override [the event property](#event) in deciding when the tooltip is shown.
 
 #### `spacing`
