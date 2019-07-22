@@ -45,7 +45,8 @@
   user-select: auto;
 }
 
-.ember-tooltip-arrow {
+.ember-tooltip-arrow,
+.ember-popover-arrow {
   width: 0;
   height: 0;
   border-style: solid;
@@ -68,8 +69,8 @@
   opacity: 1;
 }
 
-.ember-tooltip[x-placement^="top"] .ember-tooltip-arrow,
-.ember-popover[x-placement^="top"] .ember-tooltip-arrow {
+.ember-tooltip[x-placement^="top"] .tooltip-arrow,
+.ember-popover[x-placement^="top"] .tooltip-arrow {
   border-bottom-width: 0;
   bottom: -5px;
   left: calc(50% - 5px);
@@ -77,16 +78,16 @@
   margin-bottom: 0;
 }
 
-.ember-tooltip[x-placement^="top"] .ember-tooltip-arrow {
+.ember-tooltip[x-placement^="top"] .tooltip-arrow {
   border-top-color: #3a3c47;
 }
 
-.ember-popover[x-placement^="top"] .ember-tooltip-arrow {
+.ember-popover[x-placement^="top"] .tooltip-arrow {
   border-top-color: #fff;
 }
 
-.ember-tooltip[x-placement^="right"] .ember-tooltip-arrow,
-.ember-popover[x-placement^="right"] .ember-tooltip-arrow {
+.ember-tooltip[x-placement^="right"] .tooltip-arrow,
+.ember-popover[x-placement^="right"] .tooltip-arrow {
   border-left-width: 0;
   left: -5px;
   top: calc(50% - 5px);
@@ -94,16 +95,16 @@
   margin-left: 0;
 }
 
-.ember-tooltip[x-placement^="right"] .ember-tooltip-arrow {
+.ember-tooltip[x-placement^="right"] .tooltip-arrow {
   border-right-color: #3a3c47;
 }
 
-.ember-popover[x-placement^="right"] .ember-tooltip-arrow {
+.ember-popover[x-placement^="right"] .tooltip-arrow {
   border-right-color: #fff;
 }
 
-.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow,
-.ember-popover[x-placement^="bottom"] .ember-tooltip-arrow {
+.ember-tooltip[x-placement^="bottom"] .tooltip-arrow,
+.ember-popover[x-placement^="bottom"] .tooltip-arrow {
   border-top-width: 0;
   top: -5px;
   left: calc(50% - 5px);
@@ -111,16 +112,16 @@
   margin-top: 0;
 }
 
-.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
+.ember-tooltip[x-placement^="bottom"] .tooltip-arrow {
   border-bottom-color: #3a3c47;
 }
 
-.ember-popover[x-placement^="bottom"] .ember-tooltip-arrow {
+.ember-popover[x-placement^="bottom"] .tooltip-arrow {
   border-bottom-color: #fff;
 }
 
-.ember-tooltip[x-placement^="left"] .ember-tooltip-arrow,
-.ember-popover[x-placement^="left"] .ember-tooltip-arrow {
+.ember-tooltip[x-placement^="left"] .tooltip-arrow,
+.ember-popover[x-placement^="left"] .tooltip-arrow {
   border-right-width: 0;
   right: -5px;
   top: calc(50% - 5px);
@@ -128,10 +129,10 @@
   margin-right: 0;
 }
 
-.ember-tooltip[x-placement^="left"] .ember-tooltip-arrow {
+.ember-tooltip[x-placement^="left"] .tooltip-arrow {
   border-left-color: #3a3c47;
 }
 
-.ember-popover[x-placement^="left"] .ember-tooltip-arrow {
+.ember-popover[x-placement^="left"] .tooltip-arrow {
   border-left-color: #fff;
 }
