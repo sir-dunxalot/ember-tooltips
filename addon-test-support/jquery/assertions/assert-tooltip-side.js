@@ -1,7 +1,7 @@
 import {
   getPositionDifferences,
   validateSide,
-} from 'ember-tooltips/test-support';
+} from 'ember-tooltips/test-support/jquery';
 
 export default function assertTooltipSide(assert, options = {}) {
   const { side } = options;

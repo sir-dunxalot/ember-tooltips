@@ -1,4 +1,4 @@
-import { findTooltip } from 'ember-tooltips/test-support';
+import { findTooltip } from 'ember-tooltips/test-support/jquery';
 
 export default function assertTooltipNotVisible(assert, options = {}) {
   const { selector } = options;

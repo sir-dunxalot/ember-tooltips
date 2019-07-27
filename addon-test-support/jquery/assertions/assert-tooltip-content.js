@@ -1,6 +1,6 @@
 import { assert as emberAssert } from '@ember/debug';
 import { isNone } from '@ember/utils';
-import { findTooltip } from 'ember-tooltips/test-support';
+import { findTooltip } from 'ember-tooltips/test-support/jquery';
 
 export default function assertTooltipContent(assert, options = {}) {
   const { contentString, selector } = options;
