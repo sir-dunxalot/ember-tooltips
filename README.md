@@ -138,9 +138,9 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 
 #### `animationDuration`
 
-| Type    | Number  |
-|---------|---------|
-| Default | 200     |
+| Type   | Default |
+|--------|---------|
+| Number | 200     |
 
 Defines the duration of tooltip animation in milliseconds. In testing, animation duration is always 0.
 
@@ -150,9 +150,9 @@ Defines the duration of tooltip animation in milliseconds. In testing, animation
 
 #### `arrowClass`
 
-| Type    | String          |
+| Type    | Default         |
 |---------|-----------------|
-| Default | 'tooltip-arrow' |
+| String  | 'tooltip-arrow' |
 
 Adds extra classes to tooltip arrows.
 
@@ -172,9 +172,9 @@ This will create html similar to:
 
 #### `class`
 
-| Type    | String  |
-|---------|---------|
-| Default | none    |
+| Type   | Default |
+|--------|---------|
+| String | none    |
 
 Adds a class to any tooltip wrapper:
 
@@ -186,9 +186,9 @@ You are probably looking for [`tooltipClass`](#tooltipclass).
 
 #### `delay`
 
-| Type    | Number  |
+| Type    | Default |
 |---------|---------|
-| Default | 0       |
+| Number  | 0       |
 
 Delays showing the tooltip by the given number of milliseconds.
 
@@ -202,9 +202,9 @@ This does not affect the hiding of the tooltip. See also, [delayOnChange](#delay
 
 #### `delayOnChange`
 
-| Type    | Boolean |
+| Type    | Default |
 |---------|---------|
-| Default | true    |
+| Boolean | true    |
 
 Whether or not to enforce the delay even when the user transitions their cursor between multiple target elements with tooltips.
 
@@ -221,9 +221,9 @@ between elements with tooltips--}}
 
 #### `duration`
 
-| Type    | Number  |
+| Type    | Default |
 |---------|---------|
-| Default | 0       |
+| Number  | 0       |
 
 Sets the duration for which the tooltip will be open, in milliseconds. When the tooltip has been opened for the duration set it will hide itself.
 
@@ -239,9 +239,9 @@ Leave as `0` if you wish for the tooltip to remain open indefinitely.
 
 #### `effect`
 
-| Type    | String  |
+| Type    | Default |
 |---------|---------|
-| Default | 'slide' |
+| String  | 'slide' |
 
 Sets the animation used to show and hide the tooltip. Possible options are:
 
@@ -255,9 +255,9 @@ Sets the animation used to show and hide the tooltip. Possible options are:
 
 #### `event`
 
-| Type    | String  |
+| Type    | Default |
 |---------|---------|
-| Default | 'hover' |
+| String  | 'hover' |
 
 The event that the tooltip will hide and show for. Possible options are:
 
@@ -276,9 +276,9 @@ The tooltip can also be shown programatically by passing in the `isShown` proper
 
 #### `hideOn`
 
-| Type    | String  |
+| Type    | Default |
 |---------|---------|
-| Default | 'none'  |
+| String  | 'none'  |
 
 Sets the event that the tooltip will hide on. This overwrites any event set with the [event](#event) option.
 
@@ -299,9 +299,9 @@ This option does not affect the event the tooltip shows on. That is set by the [
 
 #### `innerClass`
 
-| Type    | String          |
+| Type    | Default         |
 |---------|-----------------|
-| Default | 'tooltip-inner' |
+| String  | 'tooltip-inner' |
 
 Adds extra classes to inner tooltips.
 
@@ -321,9 +321,9 @@ This will create html similar to:
 
 #### `isShown`
 
-| Type    | Boolean |
+| Type    | Default |
 |---------|---------|
-| Default | false   |
+| Boolean | false   |
 
 Gives you a programatic way to hide and show a tooltip. Set this value to `true` to manually show the tooltip.
 
@@ -336,9 +336,9 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 
 #### `popoverHideDelay`
 
-| Type    | Number |
-|---------|---------|
-| Default | 250   |
+| Type    | Default  |
+|---------|----------|
+| Number  | 250      |
 
 **POPOVER ONLY:** The number of milliseconds before the popover will hide after the user hovers away from the popover and the popover target. This is only applicable when `event='hover'`.
 
@@ -350,9 +350,9 @@ This can be useful alongside `event='none'` when you only want to toolip to show
 
 #### `popperContainer`
 
-| Type | `HTMLElement` \| `String` \| `false` |
-|---|---|
-| Default | false |
+| Type | Default |
+|------|---------|
+| `HTMLElement` \| `String` \| `false` | false |
 
 Appends the tooltip to a specific element.  By default, the tooltip will be rendered as a sibling of its target. This attribute can be set to render the tooltip elsewhere in the DOM.  See the [tooltip.js container option](https://popper.js.org/tooltip-documentation.html#new_Tooltip_new).
 
@@ -364,9 +364,9 @@ Appends the tooltip to a specific element.  By default, the tooltip will be rend
 
 #### `popperOptions`
 
-| Type    | Object |
-|---------|--------|
-| Default | null   |
+| Type    | Default  |
+|---------|----------|
+| Object  | null     |
 
 Sets the `popperOptions` on the underlying `tooltip.js` instance. Currently, only
 overriding `modifiers` is supported. See popper.js documentation for
@@ -411,9 +411,9 @@ not reapplied if the value changes after the tooltip is rendered.
 
 #### `side`
 
-| Type    | String  |
+| Type    | Default |
 |---------|---------|
-| Default | 'top'   |
+| String  | 'top'   |
 
 Sets the side the tooltip will render on.
 
@@ -438,9 +438,9 @@ position from the bottom right.
 
 #### `showOn`
 
-| Type    | String  |
+| Type    | Default |
 |---------|---------|
-| Default | 'none'  |
+| String  | 'none'  |
 
 Sets the event that the tooltip will show on. This overwrites any event set with the [event](#event) option.
 
@@ -461,9 +461,9 @@ on) option. This will override [the event property](#event) in deciding when the
 
 #### `spacing`
 
-| Type    | Number  |
+| Type    | Default |
 |---------|---------|
-| Default | 10      |
+| Number  | 10      |
 
 Sets the number of pixels the tooltip will render from the target element. A higher number will move the tooltip further from the target. This can be any number.
 
@@ -474,9 +474,9 @@ Sets the number of pixels the tooltip will render from the target element. A hig
 
 #### `targetId`
 
-| Type    | String                               |
-|---------|--------------------------------------|
-| Default | null (parent element of the tooltip) |
+| Type   | Default                              |
+|--------|--------------------------------------|
+| String | null (parent element of the tooltip) |
 
 The concept of a 'target' is used through this addon. A target is the element that the tooltip or popover is attached to. Each tooltip or popvers has its own target. Interacting with this target will render and/or show the tooltip or popover. By default, the tooltip's target is the parent element.
 However, with `targetId`, you can specify another element's ID to attach the tooltip to another
@@ -494,9 +494,9 @@ For example, if you want to show a tooltip over a button when the user hovers ov
 
 #### `text`
 
-| Type    | String  |
+| Type    | Default |
 |---------|---------|
-| Default | null    |
+| String  | null    |
 
 Sets the text of any tooltip without needing the tooltip to be written in block form.
 
@@ -510,9 +510,9 @@ Sets the text of any tooltip without needing the tooltip to be written in block 
 
 #### `tooltipClass`
 
-| Type    | String          |
+| Type    | Default         |
 |---------|-----------------|
-| Default | 'tooltip'       |
+| String  | 'tooltip'       |
 
 Adds extra classes to tooltips.
 
@@ -867,9 +867,9 @@ Most test helpers accept a second, optional param called `options`. This is an o
 
 The content string you expect the tooltip or popover to have.
 
-| Type    | String |
+| Type    |Default  |
 |---------|---------|
-| Default | null |
+| String  | null    |
 
 Usage example:
 
@@ -892,9 +892,9 @@ The selector of the tooltip or popover you are testing.
 
 If more than one tooltip or popover is found in the DOM when you run an assertion, you will be asked to specify this.
 
-| Type    | String |
+| Type    | Default |
 |---------|---------|
-| Default | `'.ember-tooltip, .ember-popover'` |
+| String  | `'.ember-tooltip, .ember-popover'` |
 
 Usage example:
 
@@ -921,9 +921,9 @@ test('Example test', async function(assert) {
 
 The value for the tooltip or popover's [`side` option](#side) that you are asserting.
 
-| Type    | String |
-|---------|---------|
-| Default | `null` |
+| Type    | Default  |
+|---------|----------|
+| String  | `null`   |
 
 For example, if you specify for the tooltip or popover be shown on the right of the target using `side='right'`, you will pass `side: 'right'` in assertions that test side. Here is the code for this example:
 
@@ -946,9 +946,9 @@ test('Example test', async function(assert) {
 
 The value for the tooltip or popover's [`spacing` option](#spacing) that you are asserting. Specify as a number of pixels expected (without a `px` unit).
 
-| Type    | Number |
-|---------|---------|
-| Default | `null` |
+| Type    | Default  |
+|---------|----------|
+| Number  | `null`   |
 
 For example, if you specify for the tooltip or popover be shown on the right of the target using `side='right'`, you will pass `side: 'right'` in assertions that test side. Here is the code for this example:
 
@@ -975,9 +975,9 @@ The selector of the target element of the tooltip or popover you are testing.
 If more than one tooltip or popover is found in the DOM with a particular selector
 when you run an assertion, you will be asked to specify this.
 
-| Type    | String |
-|---------|---------|
-| Default | `'.ember-tooltip-target, .ember-popover-target'` |
+| Type    | Default  |
+|---------|----------|
+| String  | `'.ember-tooltip-target, .ember-popover-target'` |
 
 Usage example:
 
