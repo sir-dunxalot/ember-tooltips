@@ -99,44 +99,64 @@ export default Component.extend({
   onRender: null,
   onShow: null,
 
-  hideOn: computed('event', function() {
-    const event  = this.get('event');
+  _hideOn: null,
+  hideOn: computed('event', {
+    get() {
+      if (this._hideOn) {
+        return this._hideOn;
+      }
 
-    let hideOn;
+      const event  = this.get('event');
 
-    switch (event) {
-      case 'hover':
-        hideOn = 'mouseleave';
-        break;
-      case 'focus':
-        hideOn = 'blur';
-        break;
-      case 'ready':
-        hideOn = null;
-        break;
-      default:
-        hideOn = event;
-        break;
+      let hideOn;
+
+      switch (event) {
+        case 'hover':
+          hideOn = 'mouseleave';
+          break;
+        case 'focus':
+          hideOn = 'blur';
+          break;
+        case 'ready':
+          hideOn = null;
+          break;
+        default:
+          hideOn = event;
+          break;
+      }
+
+      return hideOn;
+    },
+    set(_key, value) {
+      return this._hideOn = value;
     }
-
-    return hideOn;
   }),
 
-  showOn: computed('event', function() {
-    const event  = this.get('event');
+  _showOn: null,
+  showOn: computed('event', {
+    get() {
+      if (this._showOn) {
+        return this._showOn;
+      }
 
-    let showOn;
+      const event  = this.get('event');
 
-    switch (event) {
-      case 'hover':
-        showOn = 'mouseenter';
-        break;
-      default:
-        showOn = event;
-        break;
+      let showOn;
+
+      switch (event) {
+        case 'hover':
+          showOn = 'mouseenter';
+          break;
+        default:
+          showOn = event;
+          break;
+      }
+
+      return showOn;
+    },
+    set(_key, value) {
+      return this._showOn = value;
     }
-
-    return showOn;
   }),
 
   target: computed('targetId', function() {

@@ -9,8 +9,6 @@ import {
 } from 'ember-tooltips/test-support/dom/assertions';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
-// const MS_FOR_BLUR = 100;
-
 module('Integration | Option | focus', function(hooks) {
   setupRenderingTest(hooks);
 

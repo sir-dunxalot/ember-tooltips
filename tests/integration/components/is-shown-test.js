@@ -1,6 +1,11 @@
 import { module, test } from "qunit";
 import { setupRenderingTest } from "ember-qunit";
-import { find, render, settled, triggerEvent } from "@ember/test-helpers";
+import {
+  find,
+  render,
+  settled,
+  triggerEvent
+} from "@ember/test-helpers";
 import hbs from "htmlbars-inline-precompile";
 import {
   assertTooltipNotVisible,
