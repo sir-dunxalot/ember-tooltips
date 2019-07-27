@@ -7,7 +7,7 @@ import {
   assertTooltipNotVisible,
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
-import { findTooltipTarget} from 'ember-tooltips/test-support/dom';
+import { findTooltipTarget } from 'ember-tooltips/test-support/dom';
 
 module('Integration | Component | title', function(hooks) {
   setupRenderingTest(hooks);

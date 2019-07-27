@@ -21,8 +21,7 @@ module('Integration | Component | target', function(hooks) {
     const expectedTarget = find('#some-target');
     const target = findTooltipTarget();
 
-    assert.ok(expectedTarget.classList.contains('ember-tooltip-target'),
-        '#some-target should be the tooltip target');
+    assert.dom(expectedTarget).hasClass('ember-tooltip-target', '#some-target should be the tooltip target');
 
     assert.equal(expectedTarget, target,
       'The element with ID equal to targetID should be the tooltip target');

@@ -20,8 +20,10 @@ module('Integration | Component | tooltip on element', function(hooks) {
 
       const tooltip = findTooltip();
 
-      assert.ok(tooltip.classList.contains(`ember-tooltip-effect-${effect}`),
-        `the tooltip should have the ${effect} effect class`);
+      assert.dom(tooltip).hasClass(
+        `ember-tooltip-effect-${effect}`,
+        `the tooltip should have the ${effect} effect class`
+      );
 
     });
   });
