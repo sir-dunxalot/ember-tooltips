@@ -83,7 +83,7 @@
 }
 
 .ember-popover[x-placement^="top"] .ember-popover-arrow {
-  border-top-color: #fff;
+  border-top-color: #ccc;
 }
 
 .ember-tooltip[x-placement^="right"] .ember-tooltip-arrow,
@@ -100,7 +100,7 @@
 }
 
 .ember-popover[x-placement^="right"] .ember-popover-arrow {
-  border-right-color: #fff;
+  border-right-color: #ccc;
 }
 
 .ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow,
@@ -117,7 +117,7 @@
 }
 
 .ember-popover[x-placement^="bottom"] .ember-popover-arrow {
-  border-bottom-color: #fff;
+  border-bottom-color: #ccc;
 }
 
 .ember-tooltip[x-placement^="left"] .ember-tooltip-arrow,
@@ -134,5 +134,5 @@
 }
 
 .ember-popover[x-placement^="left"] .ember-popover-arrow {
-  border-left-color: #fff;
+  border-left-color: #ccc;
 }
