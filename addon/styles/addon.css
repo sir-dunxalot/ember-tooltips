@@ -45,7 +45,8 @@
   user-select: auto;
 }
 
-.ember-tooltip-arrow {
+.ember-tooltip-arrow,
+.ember-popover-arrow {
   width: 0;
   height: 0;
   border-style: solid;
@@ -69,7 +70,7 @@
 }
 
 .ember-tooltip[x-placement^="top"] .ember-tooltip-arrow,
-.ember-popover[x-placement^="top"] .ember-tooltip-arrow {
+.ember-popover[x-placement^="top"] .ember-popover-arrow {
   border-bottom-width: 0;
   bottom: -5px;
   left: calc(50% - 5px);
@@ -81,12 +82,12 @@
   border-top-color: #3a3c47;
 }
 
-.ember-popover[x-placement^="top"] .ember-tooltip-arrow {
-  border-top-color: #fff;
+.ember-popover[x-placement^="top"] .ember-popover-arrow {
+  border-top-color: #ccc;
 }
 
 .ember-tooltip[x-placement^="right"] .ember-tooltip-arrow,
-.ember-popover[x-placement^="right"] .ember-tooltip-arrow {
+.ember-popover[x-placement^="right"] .ember-popover-arrow {
   border-left-width: 0;
   left: -5px;
   top: calc(50% - 5px);
@@ -98,12 +99,12 @@
   border-right-color: #3a3c47;
 }
 
-.ember-popover[x-placement^="right"] .ember-tooltip-arrow {
-  border-right-color: #fff;
+.ember-popover[x-placement^="right"] .ember-popover-arrow {
+  border-right-color: #ccc;
 }
 
 .ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow,
-.ember-popover[x-placement^="bottom"] .ember-tooltip-arrow {
+.ember-popover[x-placement^="bottom"] .ember-popover-arrow {
   border-top-width: 0;
   top: -5px;
   left: calc(50% - 5px);
@@ -115,12 +116,12 @@
   border-bottom-color: #3a3c47;
 }
 
-.ember-popover[x-placement^="bottom"] .ember-tooltip-arrow {
-  border-bottom-color: #fff;
+.ember-popover[x-placement^="bottom"] .ember-popover-arrow {
+  border-bottom-color: #ccc;
 }
 
 .ember-tooltip[x-placement^="left"] .ember-tooltip-arrow,
-.ember-popover[x-placement^="left"] .ember-tooltip-arrow {
+.ember-popover[x-placement^="left"] .ember-popover-arrow {
   border-right-width: 0;
   right: -5px;
   top: calc(50% - 5px);
@@ -132,6 +133,6 @@
   border-left-color: #3a3c47;
 }
 
-.ember-popover[x-placement^="left"] .ember-tooltip-arrow {
-  border-left-color: #fff;
+.ember-popover[x-placement^="left"] .ember-popover-arrow {
+  border-left-color: #ccc;
 }
