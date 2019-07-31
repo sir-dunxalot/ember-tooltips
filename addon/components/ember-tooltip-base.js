@@ -227,7 +227,7 @@ export default Component.extend({
 
       /* If updateFor exists, update the tooltip incase the changed Attr affected the tooltip content's height or width */
 
-      if (this.get('updateFor') && this.get('_tooltip').popperInstance) {
+      if (this.get('updateFor') !== null && this.get('_tooltip').popperInstance) {
         const popper = this.get('_tooltip').popperInstance;
 
         if (popper) {
