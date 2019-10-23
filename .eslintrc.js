@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module'
@@ -16,6 +17,7 @@ module.exports = {
   },
   rules: {
     'no-console': ["error", { allow: ["warn", "error"] }],
+    'ember/no-jquery': 'error'
   },
   overrides: [
     // node files

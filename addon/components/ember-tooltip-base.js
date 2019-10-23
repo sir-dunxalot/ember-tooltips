@@ -228,11 +228,7 @@ export default Component.extend({
       /* If updateFor exists, update the tooltip incase the changed Attr affected the tooltip content's height or width */
 
       if (this.get('updateFor') !== null && this.get('_tooltip').popperInstance) {
-        const popper = this.get('_tooltip').popperInstance;
-
-        if (popper) {
-          run.scheduleOnce('afterRender', popper, popper.update);
-        }
+        this._updatePopper();
       }
     } else {
       this.hide();
@@ -370,7 +366,7 @@ export default Component.extend({
           this.get('popperOptions.modifiers')
         ),
 
-        onCreate: (tooltipData) => {
+        onCreate: () => {
           run(() => {
 
             this._dispatchAction('onRender', this);
@@ -382,12 +378,7 @@ export default Component.extend({
             this.addTooltipBaseEventListeners();
 
             /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
-
-            run.scheduleOnce('afterRender', () => {
-              const popperInstance = tooltipData.instance;
-
-              popperInstance.update();
-            });
+            run.scheduleOnce('afterRender', this, this._updatePopper);
 
             target.setAttribute('title', targetTitle);
           });
@@ -411,6 +402,11 @@ export default Component.extend({
     if (this.get('isShown')) {
       this.show();
     }
+  },
+
+  _updatePopper() {
+    const { popperInstance } = this.get('_tooltip');
+    popperInstance.update();
   },
 
   setSpacing() {
