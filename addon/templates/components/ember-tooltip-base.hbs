@@ -1,4 +1,4 @@
-{{#ember-wormhole to=wormholeId renderInPlace=_awaitingTooltipElementRendered}}
+{{#maybe-in-element _renderElement _awaitingTooltipElementRendered}}
   <div>
     {{#if _shouldRenderContent}}
       {{#if (hasBlock)}}
@@ -8,4 +8,4 @@
       {{/if}}
     {{/if}}
   </div>
-{{/ember-wormhole}}
+{{/maybe-in-element}}
