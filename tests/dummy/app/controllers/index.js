@@ -25,6 +25,7 @@ export default Controller.extend({
   init() {
     this._super(...arguments);
 
+    // eslint-disable-next-line ember/no-incorrect-calls-with-inline-anonymous-functions
     scheduleOnce('afterRender', () => {
       this._logoTimer = later(() => {
         this.set('showLogoTooltip', true);

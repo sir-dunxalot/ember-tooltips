@@ -1,3 +1,4 @@
+/* eslint-disable ember/no-jquery */
 import $ from 'jquery';
 
 export default function findTooltipTarget(selector) {
