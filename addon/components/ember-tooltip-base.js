@@ -620,7 +620,7 @@ function mergeModifiers(defaults, overrides = {}) {
   }, []);
   const modifiers = assign({}, defaults);
 
-  for (const key of keys) {
+  keys.forEach((key) => {
     if (defaultKeys.includes(key) && overriddenKeys.includes(key)) {
       modifiers[key] = assign(
         {},
@@ -630,7 +630,7 @@ function mergeModifiers(defaults, overrides = {}) {
     } else if (overriddenKeys.includes(key)) {
       modifiers[key] = overrides[key];
     }
-  }
+  });
 
   return modifiers;
 }
