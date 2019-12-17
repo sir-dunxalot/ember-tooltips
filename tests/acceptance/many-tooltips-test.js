@@ -28,7 +28,8 @@ module('Acceptance | many-tooltips', function(hooks) {
       return acc;
     }, []);
 
-    for (const tooltip of tooltips) {
+    for(let i = 0; i < tooltips.length; i++) {
+      const tooltip = tooltips[i];
       const tooltipTarget = document.querySelector(`${tooltip}-target`);
       const tooltipOptions = {
         selector: tooltip,
