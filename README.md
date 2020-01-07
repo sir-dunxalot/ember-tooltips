@@ -597,13 +597,13 @@ All test helpers live under the following modules:
 ```js
 // (Recommended) Auto-selection of either jQuery or DOM-based APIs, based
 // on @ember/optional-features and whether jquery-integration is enabled.
-import { asserTooltipContent } from 'ember-tooltips/test-support';
+import { assertTooltipContent } from 'ember-tooltips/test-support';
 
 // Explicit path for DOM-based APIs
-import { asserTooltipContent } from 'ember-tooltips/test-support/dom';
+import { assertTooltipContent } from 'ember-tooltips/test-support/dom';
 
 // Explicit path for jQuery-based APIs (deprecated)
-import { asserTooltipContent } from 'ember-tooltips/test-support/jquery';
+import { assertTooltipContent } from 'ember-tooltips/test-support/jquery';
 ```
 
 #### Example
