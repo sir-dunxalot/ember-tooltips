@@ -1,21 +1,20 @@
 <div style="height: 300px" {{! template-lint-disable }} ></div>
 <h1 class="js-test-tooltip-target" style="display: flex; justify-content: center;" {{! template-lint-disable }}>
   Hover here
-  {{#ember-tooltip
-    tooltipClass="js-test-tooltip"
-    updateFor=isLoading
-    onShow=(action "fetchData")
-    onHide=(action "deleteData")
-    side="top"
-  }}
-    {{#if isLoading}}
+  <EmberTooltip
+    @tooltipClass="js-test-tooltip"
+    @updateFor={{this.isLoading}}
+    @onShow={{action "fetchData"}}
+    @onHide={{action "deleteData"}}
+    @side="top" {{! template-lint-disable no-action }}>
+    {{#if this.isLoading}}
       <span class="js-test-loading">Loading</span>
     {{else}}
       <table class="js-test-table">
         <thead>
         </thead>
         <tbody>
-          {{#each rows as |row|}}
+          {{#each this.rows as |row|}}
             <tr>
               <td>
                 {{row.text}}
@@ -28,6 +27,6 @@
         </tbody>
       </table>
     {{/if}}
-  {{/ember-tooltip}}
+  </EmberTooltip>
 </h1>
 {{outlet}}

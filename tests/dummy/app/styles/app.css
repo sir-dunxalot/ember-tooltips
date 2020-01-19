@@ -55,6 +55,10 @@ h3 {
   margin-left: 1rem;
 }
 
+.badges .badge {
+  max-width: 100%;
+}
+
 .logo-tooltip {
   font-size: 2rem;
   top: 16px !important;
