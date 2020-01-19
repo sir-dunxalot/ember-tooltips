@@ -181,8 +181,22 @@ export default Component.extend({
 
   /* An ID used to identify this tooltip from other tooltips */
 
-  wormholeId: computed('elementId', function() {
-    return `${this.get('elementId')}-wormhole`;
+  _renderElementId: computed('elementId', function() {
+    const elementId = this.get('elementId');
+    if (elementId) {
+      return `${elementId}-et-target`;
+    } else {
+      return null;
+    }
+  }),
+
+  _renderElement: computed('_renderElementId', function() {
+    const renderElementId = this.get('_renderElementId');
+    if (renderElementId) {
+      return document.getElementById(renderElementId);
+    } else {
+      return null;
+    }
   }),
 
   _fastboot: computed(function() {
@@ -357,7 +371,7 @@ export default Component.extend({
                    style="margin:0;margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;"
                  >
                    <div class="${arrowClass} ${emberTooltipArrowClass}"></div>
-                   <div class="${innerClass} ${emberTooltipInnerClass}" id="${this.get('wormholeId')}"></div>
+                   <div class="${innerClass} ${emberTooltipInnerClass}" id="${this.get('_renderElementId')}"></div>
                  </div>`,
 
       popperOptions: {
