@@ -170,6 +170,12 @@ li {
   transform: none !important; /* scaling the test window with transform breaks popper.js positioning */
 }
 
+/* For application-wrapper */
+body > #ember-testing {
+  padding: 100px; /* Give tooltips space on all sides so they can render without flipping */
+}
+
+/* For application-wrapper-less */
 #ember-testing-container {
   box-sizing: border-box;
   padding: 100px; /* Give tooltips space on all sides so they can render without flipping */

@@ -22,8 +22,9 @@ module('Integration | Config | body-element-id', function(hooks) {
     assert.notEqual(tooltipParent.tagName, 'BODY',
       'The tooltip should not be a child of the document body');
 
-    assert.equal(tooltipParentId, 'ember-testing-container',
-      'The tooltip should be a child of #ember-testing-container');
+
+    assert.ok(tooltipParentId.match(/ember-testing(-container)?/),
+      'The tooltip should be a child of an ember-testing container');
 
   });
 });
