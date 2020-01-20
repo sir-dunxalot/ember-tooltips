@@ -9,7 +9,10 @@ module.exports = async function() {
       {
         name: 'ember-lts-2.18',
         env: {
-          EMBER_OPTIONAL_FEATURES: JSON.stringify({ 'jquery-integration': true }),
+          EMBER_OPTIONAL_FEATURES: JSON.stringify({
+            'application-template-wrapper': true,
+            'jquery-integration': true
+          }),
         },
         npm: {
           devDependencies: {
