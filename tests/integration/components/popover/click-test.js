@@ -7,6 +7,7 @@ import {
   assertTooltipNotRendered,
   assertTooltipNotVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
+import { findTooltip } from 'ember-tooltips/test-support/dom';
 
 module('Integration | Option | click', function(hooks) {
   setupRenderingTest(hooks);
@@ -42,7 +43,8 @@ module('Integration | Option | click', function(hooks) {
 
     assertTooltipVisible(assert);
 
-    await triggerEvent('.ember-popover', 'click');
+    const popover = findTooltip();
+    await triggerEvent(popover, 'click');
 
     assertTooltipVisible(assert);
 
@@ -92,16 +94,16 @@ module('Integration | Option | click', function(hooks) {
     assertTooltipVisible(assert);
 
     /* Mimic user's cursor entering popover and clicking it */
+    const popover = findTooltip();
+    await triggerEvent(popover, 'mouseenter');
 
-    await triggerEvent('.ember-popover', 'mouseenter');
-
-    await click('.ember-popover');
+    await click(popover);
 
     assertTooltipVisible(assert);
 
     /* Mimic user's cursor leaving popover and clicking away from it */
 
-    await triggerEvent('.ember-popover', 'mouseleave');
+    await triggerEvent(popover, 'mouseleave');
 
     await click('.elsewhere');
 
@@ -183,16 +185,16 @@ module('Integration | Option | click', function(hooks) {
       assertTooltipVisible(assert);
 
       /* Mimic user's cursor entering popover and clicking it */
+      const popover = findTooltip();
+      await triggerEvent(popover, 'mouseenter');
 
-      await triggerEvent('.ember-popover', 'mouseenter');
-
-      await click('.ember-popover');
+      await click(popover);
 
       assertTooltipVisible(assert);
 
       /* Mimic user's cursor leaving popover and clicking away from it */
 
-      await triggerEvent('.ember-popover', 'mouseleave');
+      await triggerEvent(popover, 'mouseleave');
 
       await click('.elsewhere');
 

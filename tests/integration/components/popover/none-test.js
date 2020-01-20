@@ -60,7 +60,7 @@ module('Integration | Option | event', function(hooks) {
     await triggerEvent(popover, 'focus');
     assertTooltipVisible(assert);
 
-    await triggerEvent('.popover-interior', 'focus');
+    await triggerEvent(popover.querySelector('.popover-interior'), 'focus');
     assertTooltipVisible(assert);
 
     await triggerEvent(popover, 'focusout');
@@ -87,7 +87,7 @@ module('Integration | Option | event', function(hooks) {
     await triggerEvent(popover, 'mouseenter');
     assertTooltipVisible(assert);
 
-    await triggerEvent('.popover-interior', 'mouseenter');
+    await triggerEvent(popover.querySelector('.popover-interior'), 'mouseenter');
     assertTooltipVisible(assert);
 
     await triggerEvent(popover, 'mouseleave');

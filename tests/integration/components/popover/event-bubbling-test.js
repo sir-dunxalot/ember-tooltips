@@ -1,11 +1,12 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent, find, click } from '@ember/test-helpers';
+import { render, triggerEvent, click } from '@ember/test-helpers';
 import {
   assertTooltipVisible,
   assertTooltipNotRendered
 } from 'ember-tooltips/test-support/dom/assertions';
 import hbs from 'htmlbars-inline-precompile';
+import { findTooltip } from 'ember-tooltips/test-support/dom';
 
 module('Integration | Option | Event bubbling', function(hooks) {
   setupRenderingTest(hooks);
@@ -49,7 +50,7 @@ module('Integration | Option | Event bubbling', function(hooks) {
 
     await render(hbs`
       {{#ember-popover popoverHideDelay=0}}
-        <button class="test-button-with-action" {{action 'testAction'}}>test button</button>
+        <button class="test-button-with-action" type="button" onClick={{action 'testAction'}}>test button</button>
       {{/ember-popover}}
     `);
 
@@ -57,7 +58,8 @@ module('Integration | Option | Event bubbling', function(hooks) {
 
     await triggerEvent(this.element, 'mouseenter');
 
-    const button = find('.test-button-with-action');
+    const popover = findTooltip();
+    const button = popover.querySelector('.test-button-with-action');
 
     assertTooltipVisible(assert);
 

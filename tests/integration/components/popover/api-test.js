@@ -12,6 +12,7 @@ import {
   assertTooltipNotVisible,
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
+import { findTooltip } from 'ember-tooltips/test-support/dom';
 
 module('Integration | Option | API', function(hooks) {
   setupRenderingTest(hooks);
@@ -31,7 +32,8 @@ module('Integration | Option | API', function(hooks) {
 
     assertTooltipVisible(assert);
 
-    await click('.hide-action');
+    const popover = findTooltip();
+    await click(popover.querySelector('.hide-action'));
 
     // await settled();
 
@@ -55,7 +57,8 @@ module('Integration | Option | API', function(hooks) {
 
     assertTooltipVisible(assert);
 
-    await click('.hide-action');
+    const popover = findTooltip();
+    await click(popover.querySelector('.hide-action'));
     await triggerEvent(element, "mouseleave");
 
     assertTooltipNotVisible(assert);
@@ -84,11 +87,13 @@ module('Integration | Option | API', function(hooks) {
 
     assertTooltipVisible(assert);
 
-    await click('.ember-popover');
+    const popover = findTooltip();
+
+    await click(popover);
 
     assertTooltipVisible(assert);
 
-    await click('.hide-action');
+    await click(popover.querySelector('.hide-action'));
 
     assertTooltipNotVisible(assert);
 

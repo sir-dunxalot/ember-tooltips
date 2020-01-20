@@ -8,6 +8,11 @@ module.exports = function(defaults) {
     includeHighlightStyle: false,
     snippetSearchPaths: ['app', 'tests'],
 
+    autoImport: {
+      exclude: ['highlight.js', 'popper.js', 'tooltip.js'],
+      forbidEval: true
+    },
+
     minifyCSS: {
       enabled: false // CSS minification w/ @import rules seems to be broken in Ember-CLI 3.3
     },

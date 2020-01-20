@@ -1,4 +1,4 @@
-import { assert as emberAssert } from '@ember/debug';
+import { assert } from '@ember/debug';
 
 export function validateSide(side, testHelper = 'assertTooltipSide') {
   const sideIsValid = (
@@ -12,7 +12,7 @@ export function validateSide(side, testHelper = 'assertTooltipSide') {
   use Ember.assert because assert is passed in from QUnit */
 
   if (!sideIsValid) {
-    emberAssert(`You must pass side like ${testHelper}(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`);
+    assert(`You must pass side like ${testHelper}(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`);
   }
 }
 

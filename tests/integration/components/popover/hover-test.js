@@ -8,6 +8,7 @@ import {
   assertTooltipNotVisible,
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
+import { findTooltip } from 'ember-tooltips/test-support/dom';
 
 module('Integration | Option | hover', function(hooks) {
   setupRenderingTest(hooks);
@@ -95,7 +96,8 @@ module('Integration | Option | hover', function(hooks) {
     later(() => {
       assertTooltipVisible(assert);
 
-      triggerEvent('.ember-popover', 'mouseenter');
+      const popover = findTooltip();
+      triggerEvent(popover, 'mouseenter');
     }, 100);
 
     later(() => {
@@ -103,7 +105,8 @@ module('Integration | Option | hover', function(hooks) {
     }, 200);
 
     later(() => {
-      triggerEvent('.ember-popover', 'mouseleave');
+      const popover = findTooltip();
+      triggerEvent(popover, 'mouseleave');
     }, 300);
 
     later(() => {

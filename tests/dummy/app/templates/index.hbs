@@ -1,45 +1,42 @@
-{{! template-lint-disable block-indentation no-inline-styles }}
-
 <div class="hero">
   <h1 class="visuallyhidden">Ember Tooltips</h1>
 
   <div id="headline">
-    <img src="http://miguelcobain.github.io/ember-paper/ember-logo-white-955db9d87b940bf54a17bd1fa78d0713.png" id="ember-logo" alt="Ember JS logo">
-    {{!-- <span class="hero-text">Tooltips</span> --}}
+    <img src="http://miguelcobain.github.io/ember-paper/ember-logo-white-955db9d87b940bf54a17bd1fa78d0713.png" id="ember-logo" alt="Ember JS">
   </div>
 
   <div class="badges">
 
-    <a href="https://travis-ci.org/sir-dunxalot/ember-tooltips"><img src="https://camo.githubusercontent.com/0928f8bea4cb764feceb44750753eec0dda770b0/68747470733a2f2f7472617669732d63692e6f72672f7369722d64756e78616c6f742f656d6265722d746f6f6c746970732e737667" alt="Build Status" data-canonical-src="https://travis-ci.org/sir-dunxalot/ember-tooltips.svg?branch=master" style="max-width:100%;"></a>
+    <a href="https://travis-ci.org/sir-dunxalot/ember-tooltips"><img src="https://camo.githubusercontent.com/0928f8bea4cb764feceb44750753eec0dda770b0/68747470733a2f2f7472617669732d63692e6f72672f7369722d64756e78616c6f742f656d6265722d746f6f6c746970732e737667" alt="Build Status" data-canonical-src="https://travis-ci.org/sir-dunxalot/ember-tooltips.svg?branch=master" class="badge"></a>
 
-    <a href="https://www.npmjs.com/package/ember-tooltips"><img src="https://camo.githubusercontent.com/20b25311bfe9f6a298f2a1c7dc4908101c8b8b30/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f656d6265722d746f6f6c746970732e737667" alt="npm" data-canonical-src="https://img.shields.io/npm/v/ember-tooltips.svg" style="max-width:100%;"></a>
+    <a href="https://www.npmjs.com/package/ember-tooltips"><img src="https://camo.githubusercontent.com/20b25311bfe9f6a298f2a1c7dc4908101c8b8b30/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f656d6265722d746f6f6c746970732e737667" alt="npm" data-canonical-src="https://img.shields.io/npm/v/ember-tooltips.svg" class="badge"></a>
 
-    <a href="https://emberobserver.com/addons/ember-tooltips"><img src="https://emberobserver.com/badges/ember-tooltips.svg" alt="Ember Observer Score" style="max-width:100%;"></a>
+    <a href="https://emberobserver.com/addons/ember-tooltips"><img src="https://emberobserver.com/badges/ember-tooltips.svg" alt="Ember Observer Score" class="badge"></a>
 
-   <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=star&count=true" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
+   <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=star&count=true" title="Star on GitHub" frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
 
   </div>
 
 </div>
 
-{{#ember-tooltip
-  tooltipClass="logo-tooltip"
-  event="none"
-  targetId="ember-logo"
-  isShown=showLogoTooltip
-  side="right"
-  spacing=15
-}}
+<EmberTooltip
+  @tooltipClass="logo-tooltip"
+  @event="none"
+  @targetId="ember-logo"
+  @isShown={{this.showLogoTooltip}}
+  @side="right"
+  @spacing={{15}}
+>
   Tooltips
-{{/ember-tooltip}}
+</EmberTooltip>
 
 <div class="page-content">
 
   <h2>Documentation</h2>
 
-  <p>Documentation is available <a href="https://github.com/sir-dunxalot/ember-tooltips" target="_blank" rel="noopener">In the repo</a>.</p>
+  <p>Documentation is available <a href="https://github.com/sir-dunxalot/ember-tooltips" target="_blank" rel="noopener noreferrer">In the repo</a>.</p>
 
-  <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=fork&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+  <iframe src="https://ghbtns.com/github-btn.html?user=sir-dunxalot&repo=ember-tooltips&type=fork&count=true" title="Fork on GitHub" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
 
 </div>
 
@@ -65,16 +62,16 @@
   <h3 id="component">Basic usage with components</h3>
 
 {{!-- BEGIN-SNIPPET basic-usage-components --}}
-{{#some-component}}
+<SomeComponent>
   Hover for more info
 
-  {{#ember-tooltip class="test-basic-component-example" side="right"}}
+  <EmberTooltip class="test-basic-component-example" @side="right">
     Here is the info!
-  {{/ember-tooltip}}
-{{/some-component}}
+  </EmberTooltip>
+</SomeComponent>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="basic-usage-components.hbs"}}
+  <CodeSnippet @name="basic-usage-components.hbs" />
 
 </div>
 
@@ -85,13 +82,13 @@
 <div class="some-component">
   Click for more info
 
-  {{#ember-tooltip event="click"}}
+  <EmberTooltip @event="click">
     Here is the info!
-  {{/ember-tooltip}}
+  </EmberTooltip>
 </div>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="basic-usage-elements.hbs"}}
+  <CodeSnippet @name="basic-usage-elements.hbs" />
 
 </div>
 
@@ -99,46 +96,46 @@
   <h3 id="target">Using with a target</h3>
 
 {{!-- BEGIN-SNIPPET basic-usage-target --}}
-{{input id="my-input" value="Some value"}}
+<input id="my-input" value="Some value" />
 
-{{#ember-tooltip targetId="my-input" event="click"}}
+<EmberTooltip @targetId="my-input" @event="click">
   Here is the info!
-{{/ember-tooltip}}
+</EmberTooltip>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="basic-usage-target.hbs"}}
+  <CodeSnippet @name="basic-usage-target.hbs" />
 </div>
 
 <div class="page-content gray">
   <h3 id="delay">Using a delay</h3>
 
 {{!-- BEGIN-SNIPPET using-with-delay --}}
-{{#some-component}}
+<SomeComponent>
   Tooltip will show after 1000ms
 
-  {{#ember-tooltip delay=1000}}
+  <EmberTooltip @delay={{1000}}>
     Here is the info!
-  {{/ember-tooltip}}
-{{/some-component}}
+  </EmberTooltip>
+</SomeComponent>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="using-with-delay.hbs"}}
+  <CodeSnippet @name="using-with-delay.hbs" />
 </div>
 
 <div class="page-content">
   <h3 id="duration">Using a duration</h3>
 
 {{!-- BEGIN-SNIPPET using-with-duration --}}
-{{#some-component}}
+<SomeComponent>
   Tooltip will disappear after 1000ms
 
-  {{#ember-tooltip duration=1000}}
+  <EmberTooltip @duration={{1000}}>
     Here is the info!
-  {{/ember-tooltip}}
-{{/some-component}}
+  </EmberTooltip>
+</SomeComponent>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="using-with-duration.hbs"}}
+  <CodeSnippet @name="using-with-duration.hbs" />
 
 </div>
 
@@ -157,16 +154,16 @@
   }
 </style>
 
-{{#some-component}}
+<SomeComponent>
   Show an error
 
-  {{#ember-tooltip tooltipClass="tooltip-error"}}
+  <EmberTooltip @tooltipClass="tooltip-error">
     Here is the error!
-  {{/ember-tooltip}}
-{{/some-component}}
+  </EmberTooltip>
+</SomeComponent>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="custom-styling.hbs"}}
+  <CodeSnippet @name="custom-styling.hbs" />
 
 </div>
 
@@ -178,20 +175,20 @@
   <p>The tooltip will reposition itself whenever the <code>updateFor</code> property changes.</p>
 
 {{!-- BEGIN-SNIPPET async-content --}}
-{{#some-component}}
+<SomeComponent>
   Tooltip has async content
 
-  {{#ember-tooltip onShow=(action "setAsyncContent") updateFor=asyncContent}}
-    {{#if asyncContent}}
-      {{asyncContent}}
+  <EmberTooltip @onShow={{action "setAsyncContent"}} @updateFor={{this.asyncContent}} {{! template-lint-disable no-action }}>
+    {{#if this.asyncContent}}
+      {{this.asyncContent}}
     {{else}}
-      {{some-spinner}}
+      <SomeSpinner />
     {{/if}}
-  {{/ember-tooltip}}
-{{/some-component}}
+  </EmberTooltip>
+</SomeComponent>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="async-content.hbs"}}
+  <CodeSnippet @name="async-content.hbs" />
 
 </div>
 
@@ -199,19 +196,19 @@
   <h3 id="popover">Using a popover instead of a tooltip</h3>
 
 {{!-- BEGIN-SNIPPET popover --}}
-{{#some-component}}
+<SomeComponent>
   View more information
 
-  {{#ember-popover class="test-popover-example" as |popover|}}
+  <EmberPopover class="test-popover-example" as |popover|>
     <h3>More info</h3>
     <p>Here is more information!</p>
 
-    <button {{action "hide" target=popover}}>Hide</button>
-  {{/ember-popover}}
-{{/some-component}}
+    <button {{action "hide" target=popover}} type="button" {{! template-lint-disable no-action }}>Hide</button>
+  </EmberPopover>
+</SomeComponent>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="popover.hbs"}}
+  <CodeSnippet @name="popover.hbs" />
 
 </div>
 
@@ -219,19 +216,19 @@
   <h3 id="programatic-toggle">Toggling programatically</h3>
 
 {{!-- BEGIN-SNIPPET programatic-toggle --}}
-{{#some-component}}
-  <div onClick={{action "togglePopover"}} {{! template-lint-disable no-invalid-interactive }}>
+<SomeComponent>
+  <div onClick={{action "togglePopover"}} role="button" {{! template-lint-disable no-action }}>
     Click me to toggle popover
   </div>
 
-  {{#ember-popover isShown=showToggleablePopover event="none" class="test-programatic-toggle-example"}}
+  <EmberPopover @isShown={{this.showToggleablePopover}} @event="none" class="test-programatic-toggle-example">
     <h3>More info</h3>
     <p>Here is more information!</p>
-  {{/ember-popover}}
-{{/some-component}}
+  </EmberPopover>
+</SomeComponent>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="programatic-toggle.hbs"}}
+  <CodeSnippet @name="programatic-toggle.hbs" />
 
 </div>
 
@@ -239,13 +236,13 @@
   <h3 id="inline">Using in inline form</h3>
 
 {{!-- BEGIN-SNIPPET inline-content --}}
-{{#some-component}}
+<SomeComponent>
   View more information
 
-  {{ember-tooltip text="More info here"}}
-{{/some-component}}
+  <EmberTooltip @text="More info here" />
+</SomeComponent>
 {{!-- END-SNIPPET --}}
 
-  {{code-snippet name="inline-content.hbs"}}
+  <CodeSnippet @name="inline-content.hbs" />
 
 </div>
