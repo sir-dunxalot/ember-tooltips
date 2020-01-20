@@ -82,7 +82,7 @@ module('Integration | Option | focus', function(hooks) {
 
     assertTooltipVisible(assert);
 
-    await triggerEvent('.popover-interior', 'focus');
+    await triggerEvent(popover.querySelector('.popover-interior'), 'focus');
 
     assertTooltipVisible(assert);
 

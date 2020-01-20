@@ -166,7 +166,11 @@ li {
 /* End of async spinner */
 
 #ember-testing {
-  padding: 100px; /* Give tooltips space on all sides so they can render without flipping */
   box-sizing: border-box;
   transform: none !important; /* scaling the test window with transform breaks popper.js positioning */
+}
+
+#ember-testing-container {
+  box-sizing: border-box;
+  padding: 100px; /* Give tooltips space on all sides so they can render without flipping */
 }

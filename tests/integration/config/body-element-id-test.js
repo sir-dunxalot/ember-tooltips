@@ -9,7 +9,7 @@ import {
 module('Integration | Config | body-element-id', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('Tooltip is rendered on rootElement not body', async function(assert) {
+  test('Tooltip is rendered on #ember-testing-container not body', async function(assert) {
 
     assert.expect(2);
 
@@ -22,8 +22,8 @@ module('Integration | Config | body-element-id', function(hooks) {
     assert.notEqual(tooltipParent.tagName, 'BODY',
       'The tooltip should not be a child of the document body');
 
-    assert.equal(tooltipParentId, 'ember-testing',
-      'The tooltip should be a child of the #ember-testing rootElement');
+    assert.equal(tooltipParentId, 'ember-testing-container',
+      'The tooltip should be a child of #ember-testing-container');
 
   });
 });
