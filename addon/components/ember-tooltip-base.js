@@ -8,10 +8,7 @@ import { run } from '@ember/runloop';
 import { warn } from '@ember/debug';
 import { capitalize, w } from "@ember/string";
 import Component from '@ember/component';
-import config from 'ember-get-config';
 import layout from '../templates/components/ember-tooltip-base';
-
-const { environment } = config;
 
 const ANIMATION_CLASS = 'ember-tooltip-show';
 const POPPER_DEFAULT_MODIFIERS = {
@@ -218,7 +215,8 @@ export default Component.extend({
   _spacingRequestId: null,
 
   _animationDuration: computed(function() {
-    const inTestingMode = environment === 'test' || Ember.testing;
+    const config = getOwner(this).resolveRegistration('config:environment');
+    const inTestingMode = config.environment === 'test' || Ember.testing;
 
     return inTestingMode ? 0 : this.animationDuration;
   }),
