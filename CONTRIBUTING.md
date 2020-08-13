@@ -47,7 +47,7 @@ If you want to run the test suite for a given ember-try scenario, you can use CL
 
 ```sh
 # To run the test suite for a given ember-try scenario:
-ember try:one ember-lts-2.18 --- ember serve # https://localhost:4200
+ember try:one ember-lts-3.16 --- ember serve # https://localhost:4200
 
 # To run the tests for all scenarios in config/ember-try.js
 ember try:testall

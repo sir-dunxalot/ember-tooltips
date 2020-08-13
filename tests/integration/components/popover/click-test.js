@@ -167,7 +167,7 @@ module('Integration | Option | click', function(hooks) {
       this.set('event', event);
 
       this.togglePopover = () => {
-        this.set('showingPopover', !this.get('showingPopover'));
+        this.set('showingPopover', !this.showingPopover);
       };
 
       await render(hbs`
