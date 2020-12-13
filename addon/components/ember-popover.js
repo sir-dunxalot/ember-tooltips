@@ -57,8 +57,8 @@ export default EmberTooltipBase.extend({
       this.set('_isMouseInside', false);
     });
 
-    this._addEventListener('focusout', () => {
-      if (!this.get('_isMouseInside') && this.get('hideOn') !== 'none') {
+    this._addEventListener('focusout', (event) => {
+      if (!this.get('_isMouseInside') && this.get('hideOn') !== 'none' && !this._isTargetReceivingFocusInsidePopover(event)) {
         this.hide();
       }
     });
@@ -88,8 +88,8 @@ export default EmberTooltipBase.extend({
       }
     }, popover);
 
-    this._addEventListener('focusout', () => {
-      if (!this.get('_isMouseInside') && this.get('isShown') && this.get('hideOn') !== 'none') {
+    this._addEventListener('focusout', (event) => { 
+      if (!this.get('_isMouseInside') && this.get('isShown') && this.get('hideOn') !== 'none' && !this._isTargetReceivingFocusInsidePopover(event)) {
         this.hide();
       }
     }, popover);

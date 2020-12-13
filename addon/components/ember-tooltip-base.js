@@ -221,6 +221,17 @@ export default Component.extend({
     return inTestingMode ? 0 : this.animationDuration;
   }),
 
+
+  /** 
+   * Check if the EventTarget receiving focus is inside the popover (e.g. by keyboard navigation) 
+   * @param {FocusEvent} event - event.relatedTarget is an EventTarget receiving focus (if any)
+   * @returns {boolean} true if the focus shifts to an element that is contained within the popover
+   */
+
+  _isTargetReceivingFocusInsidePopover(event) {
+    return !!this.get('_tooltip.popperInstance.popper')?.contains(event.relatedTarget)
+  },
+
   init() {
     this._super(...arguments);
     this.set('_tooltipEvents', []);
@@ -326,8 +337,10 @@ export default Component.extend({
         });
       }
 
-      this._addEventListener('focusout', () => {
-        this.hide();
+      this._addEventListener('focusout', (event) => {
+        if (!this._isTargetReceivingFocusInsidePopover(event)) {
+          this.hide();
+        } 
       });
     }
 
