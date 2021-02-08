@@ -36,7 +36,7 @@
     "broccoli-string-replace": "^0.1.2",
     "ember-cli-babel": "^7.13.0",
     "ember-cli-htmlbars": "^4.2.0",
-    "ember-in-element-polyfill": "^1.0.0",
+    "ember-in-element-polyfill": "^1.0.1",
     "popper.js": "^1.12.5",
     "resolve": "^1.10.1",
     "tooltip.js": "^1.1.5"
