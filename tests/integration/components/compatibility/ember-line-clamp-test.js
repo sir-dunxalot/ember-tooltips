@@ -3,15 +3,14 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
 import {
   assertTooltipNotRendered,
-	assertTooltipVisible,
+  assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Compatibility | ember-line-clamp', function(hooks) {
+module('Integration | Compatibility | ember-line-clamp', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('It renders with one tooltip', async function(assert) {
-
+  test('It renders with one tooltip', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -28,8 +27,7 @@ module('Integration | Compatibility | ember-line-clamp', function(hooks) {
     assertTooltipVisible(assert);
   });
 
-  test('It renders with two tooltips', async function(assert) {
-
+  test('It renders with two tooltips', async function (assert) {
     assert.expect(3);
 
     await render(hbs`

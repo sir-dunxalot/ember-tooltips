@@ -32,14 +32,20 @@ import { findTooltipTarget } from './find-tooltip-target';
  */
 
 export function getPositionDifferences(options = {}) {
-  const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(options);
+  const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(
+    options
+  );
   const { side } = options;
 
   const distanceToTarget = targetPosition[side];
   const distanceToTooltip = tooltipPosition[getOppositeSide(side)];
   const shouldTooltipBeCloserThanTarget = side === 'top' || side === 'left';
-  const expectedGreaterDistance = shouldTooltipBeCloserThanTarget ? distanceToTarget : distanceToTooltip;
-  const expectedLesserDistance = shouldTooltipBeCloserThanTarget ? distanceToTooltip : distanceToTarget;
+  const expectedGreaterDistance = shouldTooltipBeCloserThanTarget
+    ? distanceToTarget
+    : distanceToTooltip;
+  const expectedLesserDistance = shouldTooltipBeCloserThanTarget
+    ? distanceToTooltip
+    : distanceToTarget;
 
   return { expectedGreaterDistance, expectedLesserDistance };
 }
@@ -54,7 +60,7 @@ export function getTooltipAndTargetPosition(options = {}) {
 
   return {
     targetPosition,
-    tooltipPosition
+    tooltipPosition,
   };
 }
 

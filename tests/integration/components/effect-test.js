@@ -2,16 +2,13 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import {
-  findTooltip,
-} from 'ember-tooltips/test-support/dom';
+import { findTooltip } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Component | tooltip on element', function(hooks) {
+module('Integration | Component | tooltip on element', function (hooks) {
   setupRenderingTest(hooks);
 
   ['slide', 'fade', 'none'].forEach((effect) => {
-    test(`ember-tooltip effect=${effect} class test`, async function(assert) {
-
+    test(`ember-tooltip effect=${effect} class test`, async function (assert) {
       assert.expect(1);
 
       this.set('effect', effect);
@@ -20,11 +17,12 @@ module('Integration | Component | tooltip on element', function(hooks) {
 
       const tooltip = findTooltip();
 
-      assert.dom(tooltip).hasClass(
-        `ember-tooltip-effect-${effect}`,
-        `the tooltip should have the ${effect} effect class`
-      );
-
+      assert
+        .dom(tooltip)
+        .hasClass(
+          `ember-tooltip-effect-${effect}`,
+          `the tooltip should have the ${effect} effect class`
+        );
     });
   });
 });

@@ -2,15 +2,12 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import {
-  assertTooltipContent,
-} from 'ember-tooltips/test-support/dom/assertions';
+import { assertTooltipContent } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Option | content', function(hooks) {
+module('Integration | Option | content', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('assertTooltipContent correctly matches expected tootltip content for inline tooltip', async function(assert) {
-
+  test('assertTooltipContent correctly matches expected tootltip content for inline tooltip', async function (assert) {
     assert.expect(1);
 
     await render(hbs`{{ember-tooltip text='foo' isShown=true}}`);
@@ -20,8 +17,7 @@ module('Integration | Option | content', function(hooks) {
     });
   });
 
-  test('assertTooltipContent correctly matches expected tootltip content for block tooltip', async function(assert) {
-
+  test('assertTooltipContent correctly matches expected tootltip content for block tooltip', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -35,14 +31,13 @@ module('Integration | Option | content', function(hooks) {
     });
   });
 
-  test('assertTooltipContent correctly compares expected and discovered tooltip content of tooltip', async function(assert) {
-
+  test('assertTooltipContent correctly compares expected and discovered tooltip content of tooltip', async function (assert) {
     assert.expect(2);
 
     await render(hbs`{{ember-tooltip text='foo' isShown=true}}`);
 
     const stubbedAssert = {
-      equal(arg1, arg2/* , msg */) {
+      equal(arg1, arg2 /* , msg */) {
         assert.equal(
           arg1,
           'foo',
@@ -62,8 +57,7 @@ module('Integration | Option | content', function(hooks) {
     });
   });
 
-  test('assertTooltipContent supports passing a selector to target a specific tooltip', async function(assert) {
-
+  test('assertTooltipContent supports passing a selector to target a specific tooltip', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -73,7 +67,7 @@ module('Integration | Option | content', function(hooks) {
 
     assertTooltipContent(assert, {
       contentString: 'bar',
-      selector: '.the-best-tooltip'
+      selector: '.the-best-tooltip',
     });
   });
 });

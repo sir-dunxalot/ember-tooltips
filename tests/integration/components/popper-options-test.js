@@ -3,31 +3,33 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Option | popper-options', function(hooks) {
+module('Integration | Option | popper-options', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('passes through popperOptions.modifiers, preserving nonoverridden defaults', async function(assert) {
+  test('passes through popperOptions.modifiers, preserving nonoverridden defaults', async function (assert) {
     assert.expect(3);
 
     this.set('popperOptions', {
       modifiers: {
         flip: {
-          enabled: false
+          enabled: false,
         },
         offset: {
-          offset: 30
-        }
-      }
+          offset: 30,
+        },
+      },
     });
 
-    this.set('onRender', function(component) {
+    this.set('onRender', function (component) {
       const { options } = component.get('_tooltip');
-      const { popperOptions: { modifiers } } = options;
+      const {
+        popperOptions: { modifiers },
+      } = options;
 
       assert.equal(
         modifiers.preventOverflow.escapeWithReference,
         true,
-        "expected `preventOverflow` modifier defaults to be preserved"
+        'expected `preventOverflow` modifier defaults to be preserved'
       );
 
       assert.equal(
@@ -38,7 +40,7 @@ module('Integration | Option | popper-options', function(hooks) {
       assert.equal(
         modifiers.flip.enabled,
         false,
-        "expected `flip.enabled` to be overridden"
+        'expected `flip.enabled` to be overridden'
       );
     });
 

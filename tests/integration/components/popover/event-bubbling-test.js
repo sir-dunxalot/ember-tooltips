@@ -3,17 +3,18 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent, click } from '@ember/test-helpers';
 import {
   assertTooltipVisible,
-  assertTooltipNotRendered
+  assertTooltipNotRendered,
 } from 'ember-tooltips/test-support/dom/assertions';
 import hbs from 'htmlbars-inline-precompile';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Option | Event bubbling', function(hooks) {
+module('Integration | Option | Event bubbling', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
+    this.send = (actionName, ...args) =>
+      this.actions[actionName].apply(this, args);
   });
 
   /* This module tests whether actions not related to popovers
@@ -34,18 +35,14 @@ module('Integration | Option | Event bubbling', function(hooks) {
   popover is captured by the context of the test.
   */
 
-  test('Popover: bubble click event', async function(assert) {
-
+  test('Popover: bubble click event', async function (assert) {
     assert.expect(4);
 
-    this.actions.testAction = function() {
-
+    this.actions.testAction = function () {
       /* The testAction action is fired when the
       button is clicked */
 
-      assert.ok(true,
-        'The eventhandler should be fired');
-
+      assert.ok(true, 'The eventhandler should be fired');
     };
 
     await render(hbs`
@@ -69,6 +66,5 @@ module('Integration | Option | Event bubbling', function(hooks) {
     call the final assertion and the test will end. */
 
     await click(button);
-
   });
 });
