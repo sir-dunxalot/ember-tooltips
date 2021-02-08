@@ -129,6 +129,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [effect](#effect)
 - [event](#event)
 - [hideOn](#hideon)
+- [innerClass](#innerclass)
 - [isShown](#isshown)
 - [popoverHideDelay (popover only)](#popoverhidedelay)
 - [popperContainer](#poppercontainer)

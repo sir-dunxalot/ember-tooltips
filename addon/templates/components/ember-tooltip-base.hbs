@@ -1,4 +1,4 @@
-{{#maybe-in-element this._renderElement this._awaitingTooltipElementRendered}}
+{{#if this._awaitingTooltipElementRendered}}
   <div>
     {{#if this._shouldRenderContent}}
       {{#if (hasBlock)}}
@@ -8,4 +8,14 @@
       {{/if}}
     {{/if}}
   </div>
-{{/maybe-in-element}}
+{{else}}
+  {{#in-element this._renderElement}}
+    <div>
+      {{#if (hasBlock)}}
+        {{yield this}}
+      {{else}}
+        {{this.text}}
+      {{/if}}
+    </div>
+  {{/in-element}}
+{{/if}}

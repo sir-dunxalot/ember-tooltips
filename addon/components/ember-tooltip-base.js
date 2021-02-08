@@ -627,19 +627,19 @@ function mergeModifiers(defaults, overrides = {}) {
   const defaultKeys = Object.keys(defaults);
   const overriddenKeys = Object.keys(overrides);
   const keys = [].concat(defaultKeys, overriddenKeys).reduce((acc, key) => {
-    if (!acc.includes(key)) acc.push(key);
+    if (acc.indexOf(key) === -1) acc.push(key);
     return acc;
   }, []);
   const modifiers = assign({}, defaults);
 
   keys.forEach((key) => {
-    if (defaultKeys.includes(key) && overriddenKeys.includes(key)) {
+    if (defaultKeys.indexOf(key) !== -1 && overriddenKeys.indexOf(key) !== -1) {
       modifiers[key] = assign(
         {},
         defaults[key],
         overrides[key]
       );
-    } else if (overriddenKeys.includes(key)) {
+    } else if (overriddenKeys.indexOf(key) !== -1) {
       modifiers[key] = overrides[key];
     }
   });
