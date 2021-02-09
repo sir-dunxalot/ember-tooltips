@@ -2,14 +2,12 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import {
-  assertTooltipSpacing,
-} from 'ember-tooltips/test-support/dom/assertions';
+import { assertTooltipSpacing } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Option | spacing', function(hooks) {
+module('Integration | Option | spacing', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('ember-tooltip shows with spacing=default', async function(assert) {
+  test('ember-tooltip shows with spacing=default', async function (assert) {
     assert.expect(1);
 
     /* Check the default spacing */
@@ -26,7 +24,7 @@ module('Integration | Option | spacing', function(hooks) {
     });
   });
 
-  test('ember-tooltip shows with spacing=20', async function(assert) {
+  test('ember-tooltip shows with spacing=20', async function (assert) {
     assert.expect(1);
 
     /* Check custom spacing */
@@ -43,7 +41,7 @@ module('Integration | Option | spacing', function(hooks) {
     });
   });
 
-  test('ember-tooltip shows with spacing=20 and side=right', async function(assert) {
+  test('ember-tooltip shows with spacing=20 and side=right', async function (assert) {
     assert.expect(1);
 
     /* Check custom spacing */
@@ -64,8 +62,7 @@ module('Integration | Option | spacing', function(hooks) {
     });
   });
 
-  test('ember-tooltip shows with spacing=53 and side=bottom', async function(assert) {
-
+  test('ember-tooltip shows with spacing=53 and side=bottom', async function (assert) {
     assert.expect(1);
 
     /* Check custom spacing */
@@ -86,7 +83,7 @@ module('Integration | Option | spacing', function(hooks) {
     });
   });
 
-  test('ember-tooltip supports position variants', async function(assert) {
+  test('ember-tooltip supports position variants', async function (assert) {
     assert.expect(1);
 
     await render(hbs`
@@ -107,7 +104,7 @@ module('Integration | Option | spacing', function(hooks) {
 
     assertTooltipSpacing(assert, {
       side: 'right',
-      spacing: 35
+      spacing: 35,
     });
   });
 });

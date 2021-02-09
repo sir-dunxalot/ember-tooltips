@@ -5,7 +5,9 @@ export default function assertTooltipVisible(assert, options = {}) {
   const $tooltip = findTooltip(selector, options);
   const ariaHidden = $tooltip.attr('aria-hidden');
 
-  assert.ok(ariaHidden === 'false',
+  assert.ok(
+    ariaHidden === 'false',
     `assertTooltipVisible(): the ember-tooltip should be visible:
-      aria-hidden = ${ariaHidden}`);
+      aria-hidden = ${ariaHidden}`
+  );
 }

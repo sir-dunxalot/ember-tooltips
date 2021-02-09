@@ -9,10 +9,10 @@ import {
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Option | duration', function(hooks) {
+module('Integration | Option | duration', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('ember-tooltip hides after the given duration', async function(assert) {
+  test('ember-tooltip hides after the given duration', async function (assert) {
     assert.expect(3);
 
     await render(hbs`{{ember-tooltip duration=300}}`);
@@ -34,8 +34,7 @@ module('Integration | Option | duration', function(hooks) {
     }, 400);
   });
 
-  test('ember-tooltip hides before the given duration, if requested', async function(assert) {
-
+  test('ember-tooltip hides before the given duration, if requested', async function (assert) {
     assert.expect(2);
 
     await render(hbs`{{ember-tooltip duration=300}}`);
@@ -57,7 +56,7 @@ module('Integration | Option | duration', function(hooks) {
     }, 100);
   });
 
-  test('ember-tooltip uses duration after the first show', async function(assert) {
+  test('ember-tooltip uses duration after the first show', async function (assert) {
     assert.expect(4);
 
     await render(hbs`{{ember-tooltip duration=300}}`);

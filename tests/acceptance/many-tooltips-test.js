@@ -1,9 +1,4 @@
-import {
-  currentURL,
-  settled,
-  triggerEvent,
-  visit
-} from '@ember/test-helpers';
+import { currentURL, settled, triggerEvent, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import {
@@ -12,10 +7,10 @@ import {
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Acceptance | many-tooltips', function(hooks) {
+module('Acceptance | many-tooltips', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('does not raise infinite render invalidation errors when destroying many tooltips', async function(assert) {
+  test('does not raise infinite render invalidation errors when destroying many tooltips', async function (assert) {
     assert.expect(63);
 
     await visit('/many-tooltips');
@@ -28,7 +23,7 @@ module('Acceptance | many-tooltips', function(hooks) {
       return acc;
     }, []);
 
-    for(let i = 0; i < tooltips.length; i++) {
+    for (let i = 0; i < tooltips.length; i++) {
       const tooltip = tooltips[i];
       const tooltipTarget = document.querySelector(`${tooltip}-target`);
       const tooltipOptions = {

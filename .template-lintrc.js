@@ -5,9 +5,7 @@ module.exports = {
 
   rules: {
     'no-curly-component-invocation': {
-      allow: [
-        'maybe-in-element',
-      ]
-    }
-  }
+      allow: ['maybe-in-element'],
+    },
+  },
 };

@@ -7,10 +7,10 @@ import {
   assertTooltipContent,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Component | inline', function(hooks) {
+module('Integration | Component | inline', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('ember-tooltip renders with text param', async function(assert) {
+  test('ember-tooltip renders with text param', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -24,7 +24,7 @@ module('Integration | Component | inline', function(hooks) {
     });
   });
 
-  test('ember-tooltip updates when text param changes', async function(assert) {
+  test('ember-tooltip updates when text param changes', async function (assert) {
     assert.expect(3);
 
     this.set('tooltipText', 'Here is more info');

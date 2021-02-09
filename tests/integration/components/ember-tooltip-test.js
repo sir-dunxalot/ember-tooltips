@@ -5,15 +5,14 @@ import { render, triggerEvent } from '@ember/test-helpers';
 import {
   assertTooltipContent,
   assertTooltipRendered,
-  assertTooltipNotRendered
+  assertTooltipNotRendered,
 } from 'ember-tooltips/test-support/dom/assertions';
 import { findTooltipTarget } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Component | ember-tooltip', function(hooks) {
+module('Integration | Component | ember-tooltip', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('ember-tooltip renders', async function(assert) {
-
+  test('ember-tooltip renders', async function (assert) {
     assert.expect(3);
 
     await render(hbs`
@@ -29,12 +28,11 @@ module('Integration | Component | ember-tooltip', function(hooks) {
     assertTooltipRendered(assert);
 
     assertTooltipContent(assert, {
-      contentString: 'template block text'
+      contentString: 'template block text',
     });
   });
 
-  test('ember-tooltip has the proper aria-describedby tag', async function(assert) {
-
+  test('ember-tooltip has the proper aria-describedby tag', async function (assert) {
     assert.expect(2);
 
     await render(hbs`
@@ -56,7 +54,7 @@ module('Integration | Component | ember-tooltip', function(hooks) {
 
     assertTooltipContent(assert, {
       selector: `#${describedBy}`,
-      contentString: 'Some info in a tooltip.'
+      contentString: 'Some info in a tooltip.',
     });
 
     assert.equal(describedBy.indexOf('#'), '-1');

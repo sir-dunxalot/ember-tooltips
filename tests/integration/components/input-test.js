@@ -4,15 +4,14 @@ import { render, triggerEvent, find } from '@ember/test-helpers';
 import {
   assertTooltipNotVisible,
   assertTooltipNotRendered,
-	assertTooltipVisible,
+  assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Option | click', function(hooks) {
+module('Integration | Option | click', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('Tooltip: focusin/click input, click input', async function(assert) {
-
+  test('Tooltip: focusin/click input, click input', async function (assert) {
     assert.expect(3);
 
     await render(hbs`

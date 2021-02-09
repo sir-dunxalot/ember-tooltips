@@ -8,11 +8,10 @@ import {
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Option | event', function(hooks) {
+module('Integration | Option | event', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('ember-tooltip toggles with hover', async function(assert) {
-
+  test('ember-tooltip toggles with hover', async function (assert) {
     assert.expect(3);
 
     await render(hbs`{{ember-tooltip}}`);
@@ -30,8 +29,7 @@ module('Integration | Option | event', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('ember-tooltip toggles with click', async function(assert) {
-
+  test('ember-tooltip toggles with click', async function (assert) {
     assert.expect(3);
 
     await render(hbs`{{ember-tooltip event='click'}}`);
@@ -49,8 +47,7 @@ module('Integration | Option | event', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('ember-tooltip toggles with focus', async function(assert) {
-
+  test('ember-tooltip toggles with focus', async function (assert) {
     assert.expect(3);
 
     await render(hbs`{{ember-tooltip event='focus'}}`);
@@ -68,8 +65,7 @@ module('Integration | Option | event', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('ember-tooltip does not show when event=none', async function(assert) {
-
+  test('ember-tooltip does not show when event=none', async function (assert) {
     assert.expect(4);
 
     await render(hbs`{{ember-tooltip event='none'}}`);
@@ -97,8 +93,7 @@ module('Integration | Option | event', function(hooks) {
     assertTooltipNotRendered(assert);
   });
 
-  test('ember-tooltip closes when esc is pressed', async function(assert) {
-
+  test('ember-tooltip closes when esc is pressed', async function (assert) {
     assert.expect(2);
 
     await render(hbs`{{ember-tooltip isShown=true}}`);

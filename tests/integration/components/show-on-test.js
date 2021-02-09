@@ -7,11 +7,10 @@ import {
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Option | showOn', function(hooks) {
+module('Integration | Option | showOn', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('ember-tooltip shows with showOn', async function(assert) {
-
+  test('ember-tooltip shows with showOn', async function (assert) {
     assert.expect(3);
 
     await render(hbs`{{ember-tooltip showOn='click'}}`);

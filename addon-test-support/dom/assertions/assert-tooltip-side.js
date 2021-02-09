@@ -6,13 +6,18 @@ export default function assertTooltipSide(assert, options = {}) {
 
   validateSide(side);
 
-  const { expectedGreaterDistance, expectedLesserDistance } = getPositionDifferences(options);
+  const {
+    expectedGreaterDistance,
+    expectedLesserDistance,
+  } = getPositionDifferences(options);
 
   /* When the side is top or left, the greater number
   is the target's position. Thus, we check that the
   target's position is greater than the tooltip's
   position. */
 
-  assert.ok(expectedGreaterDistance > expectedLesserDistance,
-    `Tooltip should be on the ${side} side of the target`);
+  assert.ok(
+    expectedGreaterDistance > expectedLesserDistance,
+    `Tooltip should be on the ${side} side of the target`
+  );
 }
