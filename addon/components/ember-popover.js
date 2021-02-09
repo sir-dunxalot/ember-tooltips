@@ -26,25 +26,30 @@ export default EmberTooltipBase.extend({
 
     /* If the user clicks outside the popover, hide the popover. */
 
-    this._addEventListener('click', (event) => {
-      const { target: eventTarget } = event;
-      const clickIsOnPopover = eventTarget == _tooltip.popperInstance.popper;
-      const clickIsOnTarget = eventTarget == target;
-      const hasHideOnEvent = this.get('hideOn') && this.get('hideOn') !== 'none';
-      const hideOnOutsideClick = hasHideOnEvent &&
-        !this.get('_isMouseInside') &&
-        !clickIsOnPopover &&
-        !clickIsOnTarget &&
-        this.get('isShown');
+    this._addEventListener(
+      'click',
+      (event) => {
+        const { target: eventTarget } = event;
+        const clickIsOnPopover = eventTarget == _tooltip.popperInstance.popper;
+        const clickIsOnTarget = eventTarget == target;
+        const hasHideOnEvent =
+          this.get('hideOn') && this.get('hideOn') !== 'none';
+        const hideOnOutsideClick =
+          hasHideOnEvent &&
+          !this.get('_isMouseInside') &&
+          !clickIsOnPopover &&
+          !clickIsOnTarget &&
+          this.get('isShown');
 
-      if (hideOnOutsideClick) {
-        this.hide();
-      }
-    }, document);
+        if (hideOnOutsideClick) {
+          this.hide();
+        }
+      },
+      document
+    );
   },
 
   addPopoverTargetEventListeners() {
-
     /* We must use mouseover because it correctly
     registers hover interactivity when spacing='0'
     */
@@ -72,27 +77,43 @@ export default EmberTooltipBase.extend({
     registers hover interactivity when spacing='0'
     */
 
-    this._addEventListener('mouseenter', () => {
-      this.set('_isMouseInside', true);
+    this._addEventListener(
+      'mouseenter',
+      () => {
+        this.set('_isMouseInside', true);
 
-      if (this.get('showOn') === 'mouseenter' && !this.get('isShown')) {
-        this.show();
-      }
-    }, popover);
+        if (this.get('showOn') === 'mouseenter' && !this.get('isShown')) {
+          this.show();
+        }
+      },
+      popover
+    );
 
-    this._addEventListener('mouseleave', () => {
-      this.set('_isMouseInside', false);
+    this._addEventListener(
+      'mouseleave',
+      () => {
+        this.set('_isMouseInside', false);
 
-      if (this.get('hideOn') === 'mouseleave' && this.get('isShown')) {
-        this.hide();
-      }
-    }, popover);
+        if (this.get('hideOn') === 'mouseleave' && this.get('isShown')) {
+          this.hide();
+        }
+      },
+      popover
+    );
 
-    this._addEventListener('focusout', () => {
-      if (!this.get('_isMouseInside') && this.get('isShown') && this.get('hideOn') !== 'none') {
-        this.hide();
-      }
-    }, popover);
+    this._addEventListener(
+      'focusout',
+      () => {
+        if (
+          !this.get('_isMouseInside') &&
+          this.get('isShown') &&
+          this.get('hideOn') !== 'none'
+        ) {
+          this.hide();
+        }
+      },
+      popover
+    );
   },
 
   hide() {
@@ -111,5 +132,4 @@ export default EmberTooltipBase.extend({
       }
     }, +this.get('popoverHideDelay'));
   },
-
 });

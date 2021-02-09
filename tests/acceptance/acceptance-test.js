@@ -1,18 +1,18 @@
-import { settled, triggerEvent, visit } from '@ember/test-helpers';
+import { triggerEvent, visit } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   assertTooltipNotRendered,
   assertTooltipRendered,
   assertTooltipNotVisible,
-  assertTooltipVisible
+  assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
-module('Acceptance | acceptance', function(hooks) {
+module('Acceptance | acceptance', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('all acceptance tests', async function(assert) {
+  test('all acceptance tests', async function (assert) {
     assert.expect(12);
 
     await visit('/acceptance');
@@ -22,7 +22,7 @@ module('Acceptance | acceptance', function(hooks) {
     const tooltipTargets = document.querySelectorAll('.js-test-tooltip-target');
     const tooltipTarget = tooltipTargets[0];
     const tooltipOptions = {
-      selector: '.js-test-tooltip'
+      selector: '.js-test-tooltip',
     };
 
     assert.equal(tooltipTargets.length, 1, 'there should be one tooltipTarget');
@@ -37,14 +37,12 @@ module('Acceptance | acceptance', function(hooks) {
 
     await triggerEvent(tooltipTarget, 'mouseleave');
 
-    await settled();
-
     assertTooltipNotVisible(assert, tooltipOptions);
 
     const popoverTargets = document.querySelectorAll('.js-test-popover-target');
     const popoverTarget = popoverTargets[0];
     const popoverOptions = {
-      selector: '.js-test-popover'
+      selector: '.js-test-popover',
     };
 
     assert.equal(popoverTargets.length, 1, 'there should be one popoverTarget');
@@ -59,11 +57,12 @@ module('Acceptance | acceptance', function(hooks) {
 
     await triggerEvent(popoverTarget, 'mouseleave');
 
-    await settled();
-
     assertTooltipNotVisible(assert, popoverOptions);
 
-    assert.equal(findTooltip(null, { multiple: true }).length, 2,
-      'There should only be 2 tooltips or popovers rendered');
+    assert.equal(
+      findTooltip(null, { multiple: true }).length,
+      2,
+      'There should only be 2 tooltips or popovers rendered'
+    );
   });
 });

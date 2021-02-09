@@ -10,10 +10,10 @@ import {
 } from 'ember-tooltips/test-support/dom/assertions';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Option | hover', function(hooks) {
+module('Integration | Option | hover', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('Popover: hover target, hover elsewhere', async function(assert) {
+  test('Popover: hover target, hover elsewhere', async function (assert) {
     assert.expect(4);
 
     await render(hbs`{{ember-popover event='hover'}}`);
@@ -35,7 +35,7 @@ module('Integration | Option | hover', function(hooks) {
     }, 300);
   });
 
-  test('Popover: hover target, hover popover (too slow)', async function(assert) {
+  test('Popover: hover target, hover popover (too slow)', async function (assert) {
     assert.expect(4);
 
     await render(hbs`{{ember-popover event='hover'}}`);
@@ -57,8 +57,7 @@ module('Integration | Option | hover', function(hooks) {
     }, 500);
   });
 
-  test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', async function(assert) {
-
+  test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', async function (assert) {
     /*
     Timeline: the popover should only hide if neither elements
     have been moused-over within the 250ms default hideDelay

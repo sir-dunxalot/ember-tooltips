@@ -1,5 +1,6 @@
 export function findTooltipTarget(selector) {
-  if (!selector) { // In case of passing null, undefined, etc
+  if (!selector) {
+    // In case of passing null, undefined, etc
     selector = '.ember-tooltip-target, .ember-popover-target';
   }
 
@@ -7,9 +8,13 @@ export function findTooltipTarget(selector) {
   const tooltipTarget = body.querySelectorAll(selector);
 
   if (tooltipTarget.length === 0) {
-    throw new Error('ember-tooltips/test-support/dom/find-tooltip-target: No tooltip targets were found.');
+    throw new Error(
+      'ember-tooltips/test-support/dom/find-tooltip-target: No tooltip targets were found.'
+    );
   } else if (tooltipTarget.length > 1) {
-    throw new Error('ember-tooltips/test-support/dom/find-tooltip-target: Multiple tooltip targets were found. Please provide an {option.targetSelector = ".specific-tooltip-target-class"}');
+    throw new Error(
+      'ember-tooltips/test-support/dom/find-tooltip-target: Multiple tooltip targets were found. Please provide an {option.targetSelector = ".specific-tooltip-target-class"}'
+    );
   }
 
   return tooltipTarget[0];

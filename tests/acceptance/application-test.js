@@ -6,15 +6,15 @@ const { QUnit } = window;
 
 let originalTimeout;
 
-module('Acceptance | application', function(hooks) {
+module('Acceptance | application', function (hooks) {
   setupApplicationTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     originalTimeout = QUnit.config.testTimeout;
     QUnit.config.testTimeout = 3000;
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     QUnit.config.testTimeout = originalTimeout;
   });
 
@@ -24,7 +24,7 @@ module('Acceptance | application', function(hooks) {
   immediately in testing mode, the test will timeout.
   */
 
-  test('visiting /', async function(assert) {
+  test('visiting /', async function (assert) {
     await visit('/');
 
     assert.equal(currentURL(), '/');

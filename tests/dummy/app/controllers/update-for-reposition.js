@@ -13,29 +13,31 @@ export default Controller.extend({
   actions: {
     fetchData() {
       setTimeout(() => {
-        if (this.isDestroying) { return; }
+        if (this.isDestroying) {
+          return;
+        }
 
         set(this, 'rows', [
           {
             text: 'random text',
-            number: 1
+            number: 1,
           },
           {
             text: 'random text',
-            number: 2
+            number: 2,
           },
           {
             text: 'random text',
-            number: 3
-          }
+            number: 3,
+          },
         ]);
         set(this, 'isLoading', false);
-      }, 1000)
+      }, 1000);
     },
 
     deleteData() {
       set(this, 'isLoading', true);
       set(this, 'rows', []);
-    }
-  }
+    },
+  },
 });

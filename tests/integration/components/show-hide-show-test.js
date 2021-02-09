@@ -8,11 +8,11 @@ import {
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Component | show-hide-show', function(hooks) {
+module('Integration | Component | show-hide-show', function (hooks) {
   setupRenderingTest(hooks);
 
   //Prevents a race condition regression between hiding and showing the tooltip when the user moves their mouse over quickly.
-  test('ember-tooltip shows after quickly showing then hiding then showing again.', async function(assert) {
+  test('ember-tooltip shows after quickly showing then hiding then showing again.', async function (assert) {
     assert.expect(2);
 
     await render(hbs`{{ember-tooltip}}`);

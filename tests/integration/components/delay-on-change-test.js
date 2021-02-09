@@ -7,11 +7,10 @@ import {
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Option | delayOnChange', function(hooks) {
+module('Integration | Option | delayOnChange', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('ember-tooltip animates with a delay', async function(assert) {
-
+  test('ember-tooltip animates with a delay', async function (assert) {
     assert.expect(2);
 
     /* Create two tooltips and show one */
@@ -20,8 +19,6 @@ module('Integration | Option | delayOnChange', function(hooks) {
       {{ember-tooltip delay=300 delayOnChange=false tooltipClass='test-tooltip' text='Hey'}}
       {{ember-tooltip delayOnChange=false isShown=true event='none' text='Hi'}}
     `);
-
-    await settled();
 
     assertTooltipNotRendered(assert, { selector: '.test-tooltip' });
 

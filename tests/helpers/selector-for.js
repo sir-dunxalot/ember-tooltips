@@ -1,3 +1,3 @@
-export default function(name) {
+export default function (name) {
   return `[data-test="${name}"]`;
 }

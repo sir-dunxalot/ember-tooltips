@@ -6,12 +6,16 @@ export default function assertTooltipVisible(qunitAssert, options = {}) {
   const tooltip = findTooltip(selector, options);
 
   if (!tooltip) {
-    assert(`assertTooltipVisible(): Could not find a tooltip for selector: ${selector}`);
+    assert(
+      `assertTooltipVisible(): Could not find a tooltip for selector: ${selector}`
+    );
   }
 
   const ariaHidden = tooltip.getAttribute('aria-hidden');
 
-  qunitAssert.ok(ariaHidden === 'false',
+  qunitAssert.ok(
+    ariaHidden === 'false',
     `assertTooltipVisible(): the ember-tooltip should be visible:
-      aria-hidden = ${ariaHidden}`);
+      aria-hidden = ${ariaHidden}`
+  );
 }

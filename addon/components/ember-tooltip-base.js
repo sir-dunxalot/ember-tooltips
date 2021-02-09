@@ -6,7 +6,7 @@ import { deprecatingAlias } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { warn } from '@ember/debug';
-import { capitalize, w } from "@ember/string";
+import { capitalize, w } from '@ember/string';
 import Component from '@ember/component';
 import layout from '../templates/components/ember-tooltip-base';
 
@@ -16,8 +16,8 @@ const POPPER_DEFAULT_MODIFIERS = {
     enabled: true,
   },
   preventOverflow: {
-    escapeWithReference: true
-  }
+    escapeWithReference: true,
+  },
 };
 
 function getOppositeSide(placement) {
@@ -97,13 +97,14 @@ export default Component.extend({
   onShow: null,
 
   _hideOn: null,
+  // eslint-disable-next-line ember/require-computed-property-dependencies
   hideOn: computed('event', {
     get() {
-      if (this._hideOn) {
-        return this._hideOn;
+      if (this.get('_hideOn')) {
+        return this.get('_hideOn');
       }
 
-      const event  = this.get('event');
+      const event = this.get('event');
 
       let hideOn;
 
@@ -125,18 +126,19 @@ export default Component.extend({
       return hideOn;
     },
     set(_key, value) {
-      return this._hideOn = value;
-    }
+      return (this._hideOn = value);
+    },
   }),
 
   _showOn: null,
+  // eslint-disable-next-line ember/require-computed-property-dependencies
   showOn: computed('event', {
     get() {
-      if (this._showOn) {
-        return this._showOn;
+      if (this.get('_showOn')) {
+        return this.get('_showOn');
       }
 
-      const event  = this.get('event');
+      const event = this.get('event');
 
       let showOn;
 
@@ -152,11 +154,12 @@ export default Component.extend({
       return showOn;
     },
     set(_key, value) {
-      return this._showOn = value;
-    }
+      return (this._showOn = value);
+    },
   }),
 
-  target: computed('targetId', function() {
+  // eslint-disable-next-line ember/require-computed-property-dependencies
+  target: computed('targetId', function () {
     const targetId = this.get('targetId');
 
     let target;
@@ -166,7 +169,7 @@ export default Component.extend({
 
       if (!target) {
         warn('No target found for targetId ', targetId, {
-          id: 'ember-tooltips.no-element-with-targetId'
+          id: 'ember-tooltips.no-element-with-targetId',
         });
       }
     } else {
@@ -178,7 +181,7 @@ export default Component.extend({
 
   /* An ID used to identify this tooltip from other tooltips */
 
-  _renderElementId: computed('elementId', function() {
+  _renderElementId: computed('elementId', function () {
     const elementId = this.get('elementId');
     if (elementId) {
       return `${elementId}-et-target`;
@@ -187,7 +190,7 @@ export default Component.extend({
     }
   }),
 
-  _renderElement: computed('_renderElementId', function() {
+  _renderElement: computed('_renderElementId', function () {
     const renderElementId = this.get('_renderElementId');
     if (renderElementId) {
       return document.getElementById(renderElementId);
@@ -196,7 +199,7 @@ export default Component.extend({
     }
   }),
 
-  _fastboot: computed(function() {
+  _fastboot: computed(function () {
     let owner = getOwner(this);
     return owner.lookup('service:fastboot');
   }),
@@ -204,21 +207,24 @@ export default Component.extend({
   _shouldRenderContent: computed(
     '_fastboot.isFastBoot',
     '_awaitingTooltipElementRendered',
-    function() {
-    return this.get('_fastboot.isFastBoot') ||
-      !this.get('_awaitingTooltipElementRendered');
-  }),
+    function () {
+      return (
+        this.get('_fastboot.isFastBoot') ||
+        !this.get('_awaitingTooltipElementRendered')
+      );
+    }
+  ),
 
   _awaitingTooltipElementRendered: true,
   _tooltipEvents: null,
   _tooltip: null,
   _spacingRequestId: null,
 
-  _animationDuration: computed(function() {
+  _animationDuration: computed('animationDuration', function () {
     const config = getOwner(this).resolveRegistration('config:environment');
     const inTestingMode = config.environment === 'test' || Ember.testing;
 
-    return inTestingMode ? 0 : this.animationDuration;
+    return inTestingMode ? 0 : this.get('animationDuration');
   }),
 
   init() {
@@ -239,7 +245,10 @@ export default Component.extend({
 
       /* If updateFor exists, update the tooltip incase the changed Attr affected the tooltip content's height or width */
 
-      if (this.get('updateFor') !== null && this.get('_tooltip').popperInstance) {
+      if (
+        this.get('updateFor') !== null &&
+        this.get('_tooltip').popperInstance
+      ) {
         this._updatePopper();
       }
     } else {
@@ -269,12 +278,9 @@ export default Component.extend({
     this.addTooltipTargetEventListeners();
   },
 
-  addTooltipBaseEventListeners() {
-
-  },
+  addTooltipBaseEventListeners() {},
 
   addTooltipTargetEventListeners() {
-
     /* Setup event handling to hide and show the tooltip */
 
     const event = this.get('event');
@@ -296,7 +302,6 @@ export default Component.extend({
         this.toggle();
       });
     } else {
-
       /* Else, add the show and hide events individually */
 
       if (showOn !== 'none') {
@@ -316,7 +321,6 @@ export default Component.extend({
     for accessibility */
 
     if (event !== 'focus') {
-
       /* If the event is click, we don't want the
       click to also trigger focusin */
 
@@ -331,15 +335,18 @@ export default Component.extend({
       });
     }
 
-    this._addEventListener('keydown', (keyEvent) => {
-
-      if (keyEvent.which === 27 && this.get('isShown')) {
-        this.hide();
-        keyEvent.stopImmediatePropagation(); /* So this callback only fires once per keydown */
-        keyEvent.preventDefault();
-        return false;
-      }
-    }, document);
+    this._addEventListener(
+      'keydown',
+      (keyEvent) => {
+        if (keyEvent.which === 27 && this.get('isShown')) {
+          this.hide();
+          keyEvent.stopImmediatePropagation(); /* So this callback only fires once per keydown */
+          keyEvent.preventDefault();
+          return false;
+        }
+      },
+      document
+    );
   },
 
   createTooltip() {
@@ -348,8 +355,12 @@ export default Component.extend({
     const arrowClass = this.get('arrowClass');
     const innerClass = this.get('innerClass');
     const emberTooltipClass = this.get('_tooltipVariantClass');
-    const emberTooltipArrowClass = `${w(emberTooltipClass).join('-arrow ')}-arrow`;
-    const emberTooltipInnerClass = `${w(emberTooltipClass).join('-inner ')}-inner`;
+    const emberTooltipArrowClass = `${w(emberTooltipClass).join(
+      '-arrow '
+    )}-arrow`;
+    const emberTooltipInnerClass = `${w(emberTooltipClass).join(
+      '-inner '
+    )}-inner`;
 
     const targetTitle = target.title;
 
@@ -363,14 +374,16 @@ export default Component.extend({
       trigger: 'manual',
       arrowSelector: `.${w(emberTooltipArrowClass).join('.')}`,
       innerSelector: `.${w(emberTooltipInnerClass).join('.')}`,
+      // eslint-disable prettier/prettier
+      // prettier-ignore
       template: `<div
                    class="${tooltipClass} ${emberTooltipClass} ember-tooltip-effect-${this.get('effect')}"
                    role="tooltip"
-                   style="margin:0;margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;"
-                 >
+                   style="margin:0;margin-${getOppositeSide(this.get('side'))}:${this.get('spacing')}px;">
                    <div class="${arrowClass} ${emberTooltipArrowClass}"></div>
                    <div class="${innerClass} ${emberTooltipInnerClass}" id="${this.get('_renderElementId')}"></div>
                  </div>`,
+      // eslint-enable prettier/prettier
 
       popperOptions: {
         modifiers: mergeModifiers(
@@ -380,7 +393,6 @@ export default Component.extend({
 
         onCreate: () => {
           run(() => {
-
             this._dispatchAction('onRender', this);
 
             this.set('_awaitingTooltipElementRendered', false);
@@ -444,12 +456,13 @@ export default Component.extend({
       style.marginBottom = 0;
       style.marginLeft = 0;
 
-      popper.style[`margin${capitalize(marginSide)}`] = `${this.get('spacing')}px`;
+      popper.style[`margin${capitalize(marginSide)}`] = `${this.get(
+        'spacing'
+      )}px`;
     });
   },
 
   hide() {
-
     if (this.get('isDestroying')) {
       return;
     }
@@ -463,7 +476,6 @@ export default Component.extend({
   },
 
   show() {
-
     if (this.get('isDestroying')) {
       return;
     }
@@ -491,7 +503,6 @@ export default Component.extend({
     run.cancel(this.get('_hideTimer'));
 
     if (duration) {
-
       /* Hide tooltip after specified duration */
 
       const hideTimer = run.later(this, this.hide, duration);
@@ -507,22 +518,27 @@ export default Component.extend({
     delay = cleanNumber(delay);
 
     if (!this.get('delayOnChange')) {
-
       /* If the `delayOnChange` property is set to false, we
       don't want to delay opening this tooltip/popover if there is
       already a tooltip/popover shown in the DOM. Check that here
       and adjust the delay as needed. */
 
-      let shownTooltipsOrPopovers = document.querySelectorAll(`.${ANIMATION_CLASS}`);
+      let shownTooltipsOrPopovers = document.querySelectorAll(
+        `.${ANIMATION_CLASS}`
+      );
 
       if (shownTooltipsOrPopovers.length) {
         delay = 0;
       }
     }
 
-    const _showTimer = run.later(this, () => {
-      this._showTooltip();
-    }, delay);
+    const _showTimer = run.later(
+      this,
+      () => {
+        this._showTooltip();
+      },
+      delay
+    );
 
     this.set('_showTimer', _showTimer);
   },
@@ -539,7 +555,6 @@ export default Component.extend({
     }
 
     const _completeHideTimer = run.later(() => {
-
       if (this.get('isDestroying')) {
         return;
       }
@@ -556,7 +571,6 @@ export default Component.extend({
   },
 
   _showTooltip() {
-
     if (this.get('isDestroying')) {
       return;
     }
@@ -579,7 +593,6 @@ export default Component.extend({
   },
 
   toggle() {
-
     /* We don't use toggleProperty because we centralize
     logic for showing and hiding in the show() and hide()
     methods. */
@@ -620,7 +633,7 @@ export default Component.extend({
   _cleanupTimers() {
     run.cancel(this.get('_showTimer'));
     cancelAnimationFrame(this._spacingRequestId);
-  }
+  },
 });
 
 function mergeModifiers(defaults, overrides = {}) {
@@ -634,11 +647,7 @@ function mergeModifiers(defaults, overrides = {}) {
 
   keys.forEach((key) => {
     if (defaultKeys.indexOf(key) !== -1 && overriddenKeys.indexOf(key) !== -1) {
-      modifiers[key] = assign(
-        {},
-        defaults[key],
-        overrides[key]
-      );
+      modifiers[key] = assign({}, defaults[key], overrides[key]);
     } else if (overriddenKeys.indexOf(key) !== -1) {
       modifiers[key] = overrides[key];
     }

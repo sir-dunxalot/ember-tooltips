@@ -8,11 +8,10 @@ import {
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Option | hideOn', function(hooks) {
+module('Integration | Option | hideOn', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('ember-tooltip hides with hideOn', async function(assert) {
-
+  test('ember-tooltip hides with hideOn', async function (assert) {
     assert.expect(3);
 
     await render(hbs`{{ember-tooltip hideOn='click'}}`);

@@ -5,14 +5,14 @@ import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotVisible,
   assertTooltipNotRendered,
-  assertTooltipVisible
+  assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Option | focus', function(hooks) {
+module('Integration | Option | focus', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('Popover: target focus, popover focus, popover blur', async function(assert) {
+  test('Popover: target focus, popover focus, popover blur', async function (assert) {
     assert.expect(4);
 
     await render(hbs`{{ember-popover event='focus' popoverHideDelay=0}}`);
@@ -34,7 +34,7 @@ module('Integration | Option | focus', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: target focus, target-interior focus, popover focus, popover blur', async function(assert) {
+  test('Popover: target focus, target-interior focus, popover focus, popover blur', async function (assert) {
     assert.expect(4);
 
     await render(hbs`
@@ -61,7 +61,7 @@ module('Integration | Option | focus', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: target focus, popover focus, popover-interior focus, popover blur', async function(assert) {
+  test('Popover: target focus, popover focus, popover-interior focus, popover blur', async function (assert) {
     assert.expect(5);
 
     await render(hbs`
@@ -91,7 +91,7 @@ module('Integration | Option | focus', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: input focus, input blur', async function(assert) {
+  test('Popover: input focus, input blur', async function (assert) {
     assert.expect(3);
 
     await render(hbs`

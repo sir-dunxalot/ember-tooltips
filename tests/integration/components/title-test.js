@@ -9,10 +9,10 @@ import {
 } from 'ember-tooltips/test-support/dom/assertions';
 import { findTooltipTarget } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Component | title', function(hooks) {
+module('Integration | Component | title', function (hooks) {
   setupRenderingTest(hooks);
 
-  test(`ember-tooltip uses text instead of parent's title attribute`, async function(assert) {
+  test(`ember-tooltip uses text instead of parent's title attribute`, async function (assert) {
     assert.expect(5);
 
     await render(hbs`
@@ -43,7 +43,10 @@ module('Integration | Component | title', function(hooks) {
       contentString: 'Here is more info',
     });
 
-    assert.equal(target.title, 'Hover for more info',
-      'The target should have the original title');
+    assert.equal(
+      target.title,
+      'Hover for more info',
+      'The target should have the original title'
+    );
   });
 });

@@ -10,11 +10,18 @@ export default function assertTooltipSpacing(qunitAssert, options) {
   validateSide(side, 'assertTooltipSpacing');
 
   if (typeof spacing !== 'number') {
-    assert(`You must pass spacing as a number like assertTooltipSpacing(assert, { side: 'top', spacing: 10 });`);
+    assert(
+      `You must pass spacing as a number like assertTooltipSpacing(assert, { side: 'top', spacing: 10 });`
+    );
   }
 
-  const { expectedGreaterDistance, expectedLesserDistance } = getPositionDifferences(options);
-  const actualSpacing = Math.round(expectedGreaterDistance - expectedLesserDistance);
+  const {
+    expectedGreaterDistance,
+    expectedLesserDistance,
+  } = getPositionDifferences(options);
+  const actualSpacing = Math.round(
+    expectedGreaterDistance - expectedLesserDistance
+  );
 
   /* When the side is top or left, the greater number
   is the target's position. Thus, we check that the
@@ -24,8 +31,10 @@ export default function assertTooltipSpacing(qunitAssert, options) {
   const isSideCorrect = expectedGreaterDistance > expectedLesserDistance;
   const isSpacingCorrect = actualSpacing === spacing;
 
-  qunitAssert.ok(isSideCorrect && isSpacingCorrect,
+  qunitAssert.ok(
+    isSideCorrect && isSpacingCorrect,
     `assertTooltipSpacing(): the tooltip should be in the correct position:
         - Tooltip should be on the ${side} side of the target: ${isSideCorrect}.
-        - On the ${side} side of the target, the tooltip should be ${spacing}px from the target but it was ${actualSpacing}px`);
+        - On the ${side} side of the target, the tooltip should be ${spacing}px from the target but it was ${actualSpacing}px`
+  );
 }
