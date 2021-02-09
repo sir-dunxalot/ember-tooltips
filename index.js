@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const funnel = require('broccoli-funnel');
 const stringReplace = require('broccoli-string-replace');
@@ -7,7 +7,7 @@ const UnwatchedDir = require('broccoli-source').UnwatchedDir;
 const path = require('path');
 
 module.exports = {
-  name: require("./package").name,
+  name: require('./package').name,
 
   findModulePath(basedir, moduleName) {
     try {
@@ -29,24 +29,24 @@ module.exports = {
     }
   },
 
-  included: function(app) {
+  included: function (app) {
     this._super.included.apply(this, arguments);
 
-    app.import("vendor/ember-tooltips--popper.js", {
+    app.import('vendor/ember-tooltips--popper.js', {
       using: [
         {
-          transformation: "amd",
-          as: "popper.js"
-        }
-      ]
+          transformation: 'amd',
+          as: 'popper.js',
+        },
+      ],
     });
-    app.import("vendor/ember-tooltips--tooltip.js", {
+    app.import('vendor/ember-tooltips--tooltip.js', {
       using: [
         {
-          transformation: "amd",
-          as: "tooltip.js"
-        }
-      ]
+          transformation: 'amd',
+          as: 'tooltip.js',
+        },
+      ],
     });
   },
 
@@ -57,22 +57,26 @@ module.exports = {
       patterns: [
         {
           match: /\/\/# sourceMappingURL=popper.js.map/g,
-          replacement: ''
+          replacement: '',
         },
         {
           match: /\/\/# sourceMappingURL=tooltip.js.map/g,
-          replacement: ''
-        }
-      ]
+          replacement: '',
+        },
+      ],
     });
   },
 
   treeForAddonTestSupport(tree) {
     const writeFile = require('broccoli-file-creator');
-    const optionalFeatures = this.project.findAddonByName('@ember/optional-features');
-    const testType = optionalFeatures && !optionalFeatures.isFeatureEnabled('jquery-integration')
-      ? 'dom'
-      : 'jquery';
+    const optionalFeatures = this.project.findAddonByName(
+      '@ember/optional-features'
+    );
+    const testType =
+      optionalFeatures &&
+      !optionalFeatures.isFeatureEnabled('jquery-integration')
+        ? 'dom'
+        : 'jquery';
 
     const reexportTree = writeFile(
       'index.js',
@@ -87,12 +91,12 @@ module.exports = {
   treeForVendor(tree) {
     let popperPath = this.findModulePath(this.project.root, 'popper.js');
     let popperTree = funnel(new UnwatchedDir(popperPath), {
-      include: ['popper.js']
+      include: ['popper.js'],
     });
 
     let tooltipPath = this.findModulePath(this.project.root, 'tooltip.js');
     let tooltipTree = funnel(new UnwatchedDir(tooltipPath), {
-      include: ['tooltip.js']
+      include: ['tooltip.js'],
     });
 
     const mergedTree = new MergedTrees([tree, popperTree, tooltipTree]);
@@ -104,7 +108,7 @@ module.exports = {
         }
 
         return relativePath;
-      }
+      },
     });
-  }
+  },
 };

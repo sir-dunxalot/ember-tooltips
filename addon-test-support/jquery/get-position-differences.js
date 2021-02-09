@@ -34,22 +34,28 @@ the target on the given side.
 */
 
 export default function getPositionDifferences(options = {}) {
-  const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(options);
+  const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(
+    options
+  );
   const { side } = options;
 
   const distanceToTarget = targetPosition[side];
   const distanceToTooltip = tooltipPosition[getOppositeSide(side)];
   const shouldTooltipBeCloserThanTarget = side === 'top' || side === 'left';
-  const expectedGreaterDistance = shouldTooltipBeCloserThanTarget ? distanceToTarget : distanceToTooltip;
-  const expectedLesserDistance = shouldTooltipBeCloserThanTarget ? distanceToTooltip : distanceToTarget;
+  const expectedGreaterDistance = shouldTooltipBeCloserThanTarget
+    ? distanceToTarget
+    : distanceToTooltip;
+  const expectedLesserDistance = shouldTooltipBeCloserThanTarget
+    ? distanceToTooltip
+    : distanceToTarget;
 
   return { expectedGreaterDistance, expectedLesserDistance };
 }
 
 export function getTooltipAndTargetPosition(options = {}) {
   const { selector, targetSelector } = options;
-  const [ target ] = findTooltipTarget(targetSelector);
-  const [ tooltip ] = findTooltip(selector, { targetSelector });
+  const [target] = findTooltipTarget(targetSelector);
+  const [tooltip] = findTooltip(selector, { targetSelector });
 
   const targetPosition = target.getBoundingClientRect();
   const tooltipPosition = tooltip.getBoundingClientRect();

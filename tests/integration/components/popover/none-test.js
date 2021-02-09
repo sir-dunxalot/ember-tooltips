@@ -4,15 +4,14 @@ import { render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
-  assertTooltipVisible
+  assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Option | event', function(hooks) {
+module('Integration | Option | event', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('Popover: never shows automatically with none', async function(assert) {
-
+  test('Popover: never shows automatically with none', async function (assert) {
     assert.expect(4);
 
     await render(hbs`{{ember-popover event='none'}}`);
@@ -40,7 +39,7 @@ module('Integration | Option | event', function(hooks) {
     assertTooltipNotRendered(assert);
   });
 
-  test("Popover: doesn't hide automatically with none w/ focus events", async function(assert) {
+  test("Popover: doesn't hide automatically with none w/ focus events", async function (assert) {
     assert.expect(5);
 
     await render(hbs`
@@ -67,7 +66,7 @@ module('Integration | Option | event', function(hooks) {
     assertTooltipVisible(assert);
   });
 
-  test("Popover: doesn't hide automatically with none w/ mouse events", async function(assert) {
+  test("Popover: doesn't hide automatically with none w/ mouse events", async function (assert) {
     assert.expect(5);
 
     await render(hbs`
@@ -87,7 +86,10 @@ module('Integration | Option | event', function(hooks) {
     await triggerEvent(popover, 'mouseenter');
     assertTooltipVisible(assert);
 
-    await triggerEvent(popover.querySelector('.popover-interior'), 'mouseenter');
+    await triggerEvent(
+      popover.querySelector('.popover-interior'),
+      'mouseenter'
+    );
     assertTooltipVisible(assert);
 
     await triggerEvent(popover, 'mouseleave');

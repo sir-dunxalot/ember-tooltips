@@ -2,25 +2,25 @@
 
 const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
-module.exports = function(defaults) {
-  var app = new EmberAddon(defaults, {
+module.exports = function (defaults) {
+  let app = new EmberAddon(defaults, {
     includeHighlightJS: false,
     includeHighlightStyle: false,
     snippetSearchPaths: ['app', 'tests'],
 
     autoImport: {
       exclude: ['highlight.js', 'popper.js', 'tooltip.js'],
-      forbidEval: true
+      forbidEval: true,
     },
 
     minifyCSS: {
-      enabled: false // CSS minification w/ @import rules seems to be broken in Ember-CLI 3.3
+      enabled: false, // CSS minification w/ @import rules seems to be broken in Ember-CLI 3.3
     },
 
     sourcemaps: {
       enabled: true,
-      extensions: ['js']
-    }
+      extensions: ['js'],
+    },
   });
 
   /*
@@ -30,10 +30,12 @@ module.exports = function(defaults) {
   */
 
   app.import('vendor/highlight.pack.js', {
-    using: [{
-      transformation: 'amd',
-      as: 'highlight.js'
-    }]
+    using: [
+      {
+        transformation: 'amd',
+        as: 'highlight.js',
+      },
+    ],
   });
 
   return app.toTree();

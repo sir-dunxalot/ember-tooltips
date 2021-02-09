@@ -1,11 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import {
-  click,
-  render,
-  settled,
-  triggerEvent
-} from '@ember/test-helpers';
+import { click, render, settled, triggerEvent } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
@@ -14,10 +9,10 @@ import {
 } from 'ember-tooltips/test-support/dom/assertions';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Option | API', function(hooks) {
+module('Integration | Option | API', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('Popover: click target, click hide-action', async function(assert) {
+  test('Popover: click target, click hide-action', async function (assert) {
     assert.expect(3);
 
     await render(hbs`
@@ -40,7 +35,7 @@ module('Integration | Option | API', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: click target, click hide-action, click target', async function(assert) {
+  test('Popover: click target, click hide-action, click target', async function (assert) {
     assert.expect(4);
 
     await render(hbs`
@@ -59,7 +54,7 @@ module('Integration | Option | API', function(hooks) {
 
     const popover = findTooltip();
     await click(popover.querySelector('.hide-action'));
-    await triggerEvent(element, "mouseleave");
+    await triggerEvent(element, 'mouseleave');
 
     assertTooltipNotVisible(assert);
 
@@ -70,7 +65,7 @@ module('Integration | Option | API', function(hooks) {
     assertTooltipVisible(assert);
   });
 
-  test('Popover: click target, click popover, click hide-action, click target', async function(assert) {
+  test('Popover: click target, click popover, click hide-action, click target', async function (assert) {
     assert.expect(5);
 
     await render(hbs`

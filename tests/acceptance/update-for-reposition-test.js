@@ -1,17 +1,17 @@
-import { settled, triggerEvent, visit, waitFor } from '@ember/test-helpers';
+import { triggerEvent, visit, waitFor } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
 import {
   assertTooltipNotRendered,
   assertTooltipRendered,
   assertTooltipNotVisible,
-  assertTooltipVisible
+  assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Acceptance | updateFor reposition stability', function(hooks) {
+module('Acceptance | updateFor reposition stability', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('updateFor reposition stability', async function(assert) {
+  test('updateFor reposition stability', async function (assert) {
     assert.expect(7);
 
     await visit('/update-for-reposition');
@@ -22,7 +22,7 @@ module('Acceptance | updateFor reposition stability', function(hooks) {
     const tooltipTargets = document.querySelectorAll('.js-test-tooltip-target');
     const tooltipTarget = tooltipTargets[0];
     const tooltipOptions = {
-      selector: tooltipSelector
+      selector: tooltipSelector,
     };
 
     assert.equal(tooltipTargets.length, 1, 'there should be one tooltipTarget');
@@ -33,7 +33,9 @@ module('Acceptance | updateFor reposition stability', function(hooks) {
     await waitFor('.js-test-loading', { count: 1 });
 
     let tooltip = document.querySelector(tooltipSelector);
-    const originalTooltipPosBottom = Math.floor(tooltip.getClientRects()[0].bottom);
+    const originalTooltipPosBottom = Math.floor(
+      tooltip.getClientRects()[0].bottom
+    );
 
     assertTooltipRendered(assert, tooltipOptions);
     assertTooltipVisible(assert, tooltipOptions);
@@ -44,8 +46,6 @@ module('Acceptance | updateFor reposition stability', function(hooks) {
     assert.equal(originalTooltipPosBottom, newTooltipPosBottom);
 
     await triggerEvent(tooltipTarget, 'mouseleave');
-
-    await settled();
 
     assertTooltipNotVisible(assert, tooltipOptions);
   });

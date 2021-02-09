@@ -7,10 +7,10 @@ import {
   findTooltipTarget,
 } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Option | popperContainer', function(hooks) {
+module('Integration | Option | popperContainer', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('by default, the tooltip is rendered adjacent to its target', async function(assert) {
+  test('by default, the tooltip is rendered adjacent to its target', async function (assert) {
     await render(hbs`
       <div id='tooltip-target'>
         {{ember-tooltip text='tooltip-text'}}
@@ -20,11 +20,14 @@ module('Integration | Option | popperContainer', function(hooks) {
     const target = findTooltipTarget();
     await triggerEvent(target, 'mouseenter');
     const tooltip = findTooltip();
-    assert.equal(tooltip.parentElement, expectedContainer,
-      'The tooltip should be a sibling of its target');
+    assert.equal(
+      tooltip.parentElement,
+      expectedContainer,
+      'The tooltip should be a sibling of its target'
+    );
   });
 
-  test('the popperContainer attribute allows the tooltip parent to be set', async function(assert) {
+  test('the popperContainer attribute allows the tooltip parent to be set', async function (assert) {
     await render(hbs`
       <div id='tooltip-container'></div>
       <div id='tooltip-target'>
@@ -35,7 +38,10 @@ module('Integration | Option | popperContainer', function(hooks) {
     const target = findTooltipTarget();
     await triggerEvent(target, 'mouseenter');
     const tooltip = findTooltip();
-    assert.equal(tooltip.parentElement, expectedContainer,
-      'The element identified by the popperContainer attribute should be the tooltip parent');
+    assert.equal(
+      tooltip.parentElement,
+      expectedContainer,
+      'The element identified by the popperContainer attribute should be the tooltip parent'
+    );
   });
 });

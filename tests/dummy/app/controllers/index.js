@@ -19,7 +19,7 @@ export default Controller.extend({
 
     togglePopover() {
       this.toggleProperty('showToggleablePopover');
-    }
+    },
   },
 
   init() {
@@ -36,5 +36,5 @@ export default Controller.extend({
   willDestroy() {
     this._super(...arguments);
     cancel(this._logoTimer);
-  }
+  },
 });

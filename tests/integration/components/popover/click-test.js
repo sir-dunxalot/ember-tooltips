@@ -9,10 +9,10 @@ import {
 } from 'ember-tooltips/test-support/dom/assertions';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
-module('Integration | Option | click', function(hooks) {
+module('Integration | Option | click', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('Popover: click target, click target', async function(assert) {
+  test('Popover: click target, click target', async function (assert) {
     assert.expect(3);
 
     await render(hbs`{{ember-popover event='click' popoverHideDelay=0}}`);
@@ -30,7 +30,7 @@ module('Integration | Option | click', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: click target, click popover, click target', async function(assert) {
+  test('Popover: click target, click popover, click target', async function (assert) {
     assert.expect(4);
 
     await render(hbs`{{ember-popover event='click' popoverHideDelay=0}}`);
@@ -53,7 +53,7 @@ module('Integration | Option | click', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: click target, click elsewhere', async function(assert) {
+  test('Popover: click target, click elsewhere', async function (assert) {
     assert.expect(3);
 
     await render(hbs`
@@ -75,8 +75,7 @@ module('Integration | Option | click', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: click target, click popover, click elsewhere', async function(assert) {
-
+  test('Popover: click target, click popover, click elsewhere', async function (assert) {
     assert.expect(4);
 
     await render(hbs`
@@ -110,7 +109,7 @@ module('Integration | Option | click', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: click target-interior, click target-interior', async function(assert) {
+  test('Popover: click target-interior, click target-interior', async function (assert) {
     assert.expect(3);
 
     await render(hbs`
@@ -129,7 +128,7 @@ module('Integration | Option | click', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  test('Popover: focusin/click input, click input', async function(assert) {
+  test('Popover: focusin/click input, click input', async function (assert) {
     assert.expect(3);
 
     await render(hbs`
@@ -155,19 +154,15 @@ module('Integration | Option | click', function(hooks) {
     assertTooltipNotVisible(assert);
   });
 
-  [
-    null,
-    "none"
-  ].forEach((event) => {
-    test(`Popover: click target, click popover, click elsewhere (event == ${event})`, async function(assert) {
-
+  [null, 'none'].forEach((event) => {
+    test(`Popover: click target, click popover, click elsewhere (event == ${event})`, async function (assert) {
       assert.expect(5);
 
       this.set('showingPopover', false);
       this.set('event', event);
 
       this.togglePopover = () => {
-        this.set('showingPopover', !this.get('showingPopover'));
+        this.set('showingPopover', !this.showingPopover);
       };
 
       await render(hbs`
@@ -204,5 +199,5 @@ module('Integration | Option | click', function(hooks) {
 
       assertTooltipNotVisible(assert);
     });
-  })
+  });
 });

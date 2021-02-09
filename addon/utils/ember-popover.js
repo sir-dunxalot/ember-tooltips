@@ -42,7 +42,10 @@ export function isElementInTargetAndNotInPopover(element, target, popover) {
     return true;
   }
 
-  return !!target.querySelectorAll(element).length && !isElementInPopover(element, popover);
+  return (
+    !!target.querySelectorAll(element).length &&
+    !isElementInPopover(element, popover)
+  );
 }
 
 /**
@@ -59,7 +62,11 @@ export function isElementInTargetAndNotInPopover(element, target, popover) {
 
 export function isElementElsewhere(element, target, popover) {
   const isElementOutsidePopover = !isElementInPopover(element, popover);
-  const isElementOutsideTarget = !isElementInTargetAndNotInPopover(element, target, popover);
+  const isElementOutsideTarget = !isElementInTargetAndNotInPopover(
+    element,
+    target,
+    popover
+  );
 
   return isElementOutsideTarget && isElementOutsidePopover;
 }

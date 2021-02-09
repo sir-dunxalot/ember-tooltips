@@ -1,7 +1,7 @@
 {{#if this._awaitingTooltipElementRendered}}
   <div>
     {{#if this._shouldRenderContent}}
-      {{#if (hasBlock)}}
+      {{#if (has-block)}}
         {{yield this}}
       {{else}}
         {{this.text}}
@@ -11,7 +11,7 @@
 {{else}}
   {{#in-element this._renderElement}}
     <div>
-      {{#if (hasBlock)}}
+      {{#if (has-block)}}
         {{yield this}}
       {{else}}
         {{this.text}}

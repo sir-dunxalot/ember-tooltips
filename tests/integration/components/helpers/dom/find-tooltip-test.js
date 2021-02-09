@@ -10,11 +10,15 @@ import {
   assertTooltipRendered,
 } from 'ember-tooltips/test-support/dom/assertions';
 
-module('Integration | Helpers | dom | findTooltip', function(hooks) {
+module('Integration | Helpers | dom | findTooltip', function (hooks) {
   setupRenderingTest(hooks);
 
-  [assertTooltipRendered, assertTooltipNotVisible, assertTooltipVisible].forEach(function(helperInstance) {
-    test(`findTooltip() throws an Error in when a non-tooltip is found`, async function(assert) {
+  [
+    assertTooltipRendered,
+    assertTooltipNotVisible,
+    assertTooltipVisible,
+  ].forEach(function (helperInstance) {
+    test(`findTooltip() throws an Error in when a non-tooltip is found`, async function (assert) {
       assert.expect(1);
 
       await render(hbs`<div class="test-tooltip"></div>`);
@@ -25,46 +29,48 @@ module('Integration | Helpers | dom | findTooltip', function(hooks) {
         });
       };
 
-      assert.throws(funcToError, Error,
-        'helperInstance should throw an Error');
-
+      assert.throws(funcToError, Error, 'helperInstance should throw an Error');
     });
   });
 
-  test('findTooltip() can find a tooltip based on the class passed to the component', async function(assert) {
+  test('findTooltip() can find a tooltip based on the class passed to the component', async function (assert) {
     assert.expect(1);
 
-    await render(hbs`{{ember-tooltip text='hello' class='js-tooltip-component-element' isShown=true}}`);
+    await render(
+      hbs`{{ember-tooltip text='hello' class='js-tooltip-component-element' isShown=true}}`
+    );
 
-    assertTooltipRendered(assert, { selector: '.js-tooltip-component-element' });
+    assertTooltipRendered(assert, {
+      selector: '.js-tooltip-component-element',
+    });
   });
 
-  test('findTooltip() can find a tooltip based on tooltipClassName passed to the component', async function(assert) {
+  test('findTooltip() can find a tooltip based on tooltipClassName passed to the component', async function (assert) {
     assert.expect(1);
 
-    await render(hbs`{{ember-tooltip text='hello' tooltipClassName='ember-tooltip js-class-on-the-popper-element' isShown=true}}`);
+    await render(
+      hbs`{{ember-tooltip text='hello' tooltipClassName='ember-tooltip js-class-on-the-popper-element' isShown=true}}`
+    );
 
-    assertTooltipRendered(assert, { selector: '.js-class-on-the-popper-element' });
+    assertTooltipRendered(assert, {
+      selector: '.js-class-on-the-popper-element',
+    });
   });
 
-  test('findTooltip() will not throw en error with assertTooltipNotRendered', async function(assert) {
+  test('findTooltip() will not throw en error with assertTooltipNotRendered', async function (assert) {
     assert.expect(1);
 
     await render(hbs``);
 
     assertTooltipNotRendered(assert);
-
   });
 
-  [
-    assertTooltipContent,
-    assertTooltipVisible,
-    assertTooltipRendered
-  ].forEach(function (assertFn) {
-    test('findTooltip() can find the correct tooltip among many when given a targetSelector', async function(assert) {
-      assert.expect(3);
+  [assertTooltipContent, assertTooltipVisible, assertTooltipRendered].forEach(
+    function (assertFn) {
+      test('findTooltip() can find the correct tooltip among many when given a targetSelector', async function (assert) {
+        assert.expect(3);
 
-      await render(hbs`
+        await render(hbs`
         <div class="target-a">
           {{ember-tooltip class="common-tooltip" side='top' isShown=true text='Hi' effect='none' spacing=30}}
         </div>
@@ -76,27 +82,28 @@ module('Integration | Helpers | dom | findTooltip', function(hooks) {
         </div>
       `);
 
-      assertFn(assert, {
-        side: 'top',
-        selector: '.common-tooltip',
-        spacing: 30,
-        targetSelector: '.target-a',
-        contentString: 'Hi'
-      });
+        assertFn(assert, {
+          side: 'top',
+          selector: '.common-tooltip',
+          spacing: 30,
+          targetSelector: '.target-a',
+          contentString: 'Hi',
+        });
 
-      assertFn(assert, {
-        side: 'left',
-        selector: '.common-tooltip',
-        targetSelector: '.target-b',
-        contentString: 'Bye'
-      });
+        assertFn(assert, {
+          side: 'left',
+          selector: '.common-tooltip',
+          targetSelector: '.target-b',
+          contentString: 'Bye',
+        });
 
-      assertFn(assert, {
-        side: 'right',
-        selector: '.common-tooltip',
-        targetSelector: '.target-c',
-        contentString: 'Huh'
+        assertFn(assert, {
+          side: 'right',
+          selector: '.common-tooltip',
+          targetSelector: '.target-c',
+          contentString: 'Huh',
+        });
       });
-    });
-  });
+    }
+  );
 });
