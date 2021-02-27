@@ -15,8 +15,6 @@
 #$ browsers:
 #$   - chrome
 #$ emberTryScenarios:
-#$   - scenario: ember-lts-2.18
-#$     allowedToFail: false
 #$   - scenario: ember-lts-3.4
 #$     allowedToFail: false
 #$   - scenario: ember-lts-3.8
@@ -187,7 +185,6 @@ jobs:
       fail-fast: true
       matrix:
         ember-try-scenario: [
-          ember-lts-2.18,
           ember-lts-3.4,
           ember-lts-3.8,
           ember-lts-3.12,
