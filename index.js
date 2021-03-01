@@ -29,10 +29,10 @@ module.exports = {
     }
   },
 
-  included: function (app) {
+  included: function () {
     this._super.included.apply(this, arguments);
 
-    app.import('vendor/ember-tooltips--popper.js', {
+    this.import(`${this.treePaths.vendor}/ember-tooltips--popper.js`, {
       using: [
         {
           transformation: 'amd',
@@ -40,7 +40,7 @@ module.exports = {
         },
       ],
     });
-    app.import('vendor/ember-tooltips--tooltip.js', {
+    this.import(`${this.treePaths.vendor}/ember-tooltips--tooltip.js`, {
       using: [
         {
           transformation: 'amd',
