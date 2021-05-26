@@ -193,7 +193,9 @@ jobs:
           ember-release,
           ember-beta,
           ember-default-with-jquery,
-          ember-classic
+          ember-classic,
+          embroider-safe,
+          embroider-optimized
         ]
         allow-failure: [false]
         include:

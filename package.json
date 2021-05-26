@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
+    "@embroider/test-setup": "^0.41.0",
     "@glimmer/component": "^1.0.3",
     "@glimmer/tracking": "^1.0.3",
     "babel-eslint": "^10.1.0",
