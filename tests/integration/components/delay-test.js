@@ -57,4 +57,32 @@ module('Integration | Option | delay', function (hooks) {
       hbs`{{ember-tooltip delay='300'}}`
     );
   });
+
+  test('ember-tooltip does not call onHide if hidden before delay expires', async function(assert) {
+    assert.expect(3);
+
+    this.set('onHide', function () {
+      assert.ok(false, "Should not have called onHide");
+    });
+
+    await render(hbs`{{ember-tooltip delay=300 onHide=onHide}}`);
+
+    const { element } = this;
+
+    assertTooltipNotRendered(assert);
+
+    // Trigger show
+    triggerEvent(element, 'mouseenter');
+
+    later(() => {
+      assertTooltipNotRendered(assert);
+
+      // Leave part way through delay
+      triggerEvent(element, 'mouseleave');
+    }, 250);
+
+    await settled();
+
+    assertTooltipNotRendered(assert);
+  })
 });

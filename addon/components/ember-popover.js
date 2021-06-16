@@ -124,12 +124,17 @@ export default EmberTooltipBase.extend({
     /* If the tooltip is about to be showed by
     a delay, stop is being shown. */
 
-    cancel(this.get('_showTimer'));
+    this._cleanupTimers();
 
-    later(() => {
+    this._hidePopoverTimer = later(() => {
       if (!this.get('_isMouseInside') || !this.get('isShown')) {
         this._hideTooltip();
       }
     }, +this.get('popoverHideDelay'));
   },
+
+  _cleanupTimers() {
+    this._super(...arguments);
+    cancel(this._hidePopoverTimer);
+  }
 });

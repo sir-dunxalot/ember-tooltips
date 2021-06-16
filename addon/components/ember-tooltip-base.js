@@ -470,7 +470,7 @@ export default Component.extend({
     /* If the tooltip is about to be showed by
     a delay, stop is being shown. */
 
-    run.cancel(this.get('_showTimer'));
+    this._cleanupTimers();
 
     this._hideTooltip();
   },
@@ -480,11 +480,10 @@ export default Component.extend({
       return;
     }
 
+    this._cleanupTimers();
+
     const delay = this.get('delay');
     const duration = this.get('duration');
-
-    run.cancel(this.get('_showTimer'));
-    run.cancel(this.get('_completeHideTimer'));
 
     if (duration) {
       this.setHideTimer(duration);
@@ -500,12 +499,12 @@ export default Component.extend({
   setHideTimer(duration) {
     duration = cleanNumber(duration);
 
-    run.cancel(this.get('_hideTimer'));
-
     if (duration) {
       /* Hide tooltip after specified duration */
 
-      const hideTimer = run.later(this, this.hide, duration);
+      const hideTimer = run.later(this, () => {
+        this._hideTooltip();
+      }, duration);
 
       /* Save timer ID for canceling should an event
       hide the tooltip before the duration */
@@ -555,14 +554,14 @@ export default Component.extend({
     }
 
     const _completeHideTimer = run.later(() => {
-      if (this.get('isDestroying')) {
+
+      if (this.get('isDestroying') || !this.get('isShown')) {
         return;
       }
 
       cancelAnimationFrame(this._spacingRequestId);
       _tooltip.hide();
 
-      this.set('_isHiding', false);
       this.set('isShown', false);
       this._dispatchAction('onHide', this);
     }, this.get('_animationDuration'));
@@ -581,15 +580,9 @@ export default Component.extend({
 
     this.set('isShown', true);
 
-    run(() => {
-      if (this.get('isDestroying')) {
-        return;
-      }
+    _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
 
-      _tooltip.popperInstance.popper.classList.add(ANIMATION_CLASS);
-
-      this._dispatchAction('onShow', this);
-    });
+    this._dispatchAction('onShow', this);
   },
 
   toggle() {
@@ -632,6 +625,8 @@ export default Component.extend({
 
   _cleanupTimers() {
     run.cancel(this.get('_showTimer'));
+    run.cancel(this.get('_hideTimer'));
+    run.cancel(this.get('_completeHideTimer'));
     cancelAnimationFrame(this._spacingRequestId);
   },
 });
