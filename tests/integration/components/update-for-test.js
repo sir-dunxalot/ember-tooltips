@@ -1,7 +1,7 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipContent } from 'ember-tooltips/test-support/dom/assertions';
 
 module('Integration | Option | updateFor', function (hooks) {

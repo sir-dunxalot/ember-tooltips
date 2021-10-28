@@ -32,9 +32,8 @@ import { findTooltipTarget } from './find-tooltip-target';
  */
 
 export function getPositionDifferences(options = {}) {
-  const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(
-    options
-  );
+  const { targetPosition, tooltipPosition } =
+    getTooltipAndTargetPosition(options);
   const { side } = options;
 
   const distanceToTarget = targetPosition[side];

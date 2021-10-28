@@ -1,3 +1,4 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
@@ -5,7 +6,6 @@ import {
   assertTooltipNotRendered,
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
-import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Compatibility | ember-line-clamp', function (hooks) {
   setupRenderingTest(hooks);

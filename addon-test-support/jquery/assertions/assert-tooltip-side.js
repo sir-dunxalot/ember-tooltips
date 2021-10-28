@@ -8,10 +8,8 @@ export default function assertTooltipSide(assert, options = {}) {
 
   validateSide(side);
 
-  const {
-    expectedGreaterDistance,
-    expectedLesserDistance,
-  } = getPositionDifferences(options);
+  const { expectedGreaterDistance, expectedLesserDistance } =
+    getPositionDifferences(options);
 
   /* When the side is top or left, the greater number
   is the target's position. Thus, we check that the

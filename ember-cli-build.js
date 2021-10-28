@@ -9,8 +9,12 @@ module.exports = function (defaults) {
     snippetSearchPaths: ['app', 'tests'],
 
     autoImport: {
-      exclude: ['highlight.js', 'popper.js', 'tooltip.js'],
+      exclude: ['highlight.js'],
       forbidEval: true,
+    },
+
+    'ember-test-selectors': {
+      patchClassicComponent: false,
     },
 
     minifyCSS: {
@@ -39,5 +43,11 @@ module.exports = function (defaults) {
   });
 
   const { maybeEmbroider } = require('@embroider/test-setup');
-  return maybeEmbroider(app);
+  return maybeEmbroider(app, {
+    skipBabel: [
+      {
+        package: 'qunit',
+      },
+    ],
+  });
 };

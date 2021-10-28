@@ -1,7 +1,7 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
 module('Integration | Config | body-element-id', function (hooks) {

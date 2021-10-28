@@ -8,18 +8,11 @@ module.exports = async function () {
     useYarn: true,
     scenarios: [
       {
-        name: 'ember-lts-3.4',
-        npm: {
-          devDependencies: {
-            'ember-source': '~3.4.0',
-          },
-        },
-      },
-      {
         name: 'ember-lts-3.8',
         npm: {
           devDependencies: {
             'ember-source': '~3.8.0',
+            'ember-angle-bracket-invocation-polyfill': '^3.0.1',
           },
         },
       },
@@ -44,6 +37,14 @@ module.exports = async function () {
         npm: {
           devDependencies: {
             'ember-source': '~3.20.5',
+          },
+        },
+      },
+      {
+        name: 'ember-lts-3.24',
+        npm: {
+          devDependencies: {
+            'ember-source': '~3.24.3',
           },
         },
       },
@@ -94,6 +95,9 @@ module.exports = async function () {
           }),
         },
         npm: {
+          devDependencies: {
+            'ember-source': '~3.28.0',
+          },
           ember: {
             edition: 'classic',
           },
