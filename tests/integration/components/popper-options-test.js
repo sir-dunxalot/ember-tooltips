@@ -43,11 +43,11 @@ module('Integration | Option | popper-options', function (hooks) {
     });
 
     await render(hbs`
-      {{ember-tooltip
-        isShown=true
-        popperOptions=popperOptions
-        onRender=(action onRender)
-      }}
+      <EmberTooltip
+        @isShown={{true}}
+        @popperOptions={{this.popperOptions}}
+        @onRender={{action this.onRender}}
+      />
     `);
   });
 });

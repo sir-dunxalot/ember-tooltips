@@ -13,13 +13,13 @@ module('Integration | Option | updateFor', function (hooks) {
     this.set('asyncContent', null);
 
     await render(hbs`
-      {{#ember-tooltip updateFor=asyncContent isShown=true}}
-        {{#if asyncContent}}
-          {{asyncContent}}
+      <EmberTooltip @updateFor={{this.asyncContent}} @isShown={{true}}>
+        {{#if this.asyncContent}}
+          {{this.asyncContent}}
         {{else}}
           ...
         {{/if}}
-      {{/ember-tooltip}}
+      </EmberTooltip>
     `);
 
     assertTooltipContent(assert, {

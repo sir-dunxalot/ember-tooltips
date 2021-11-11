@@ -13,7 +13,9 @@ module('Integration | Component | tooltip on element', function (hooks) {
 
       this.set('effect', effect);
 
-      await render(hbs`{{ember-tooltip effect=effect isShown=true}}`);
+      await render(
+        hbs`<EmberTooltip @effect={{this.effect}} @isShown={{true}} />`
+      );
 
       const tooltip = findTooltip();
 

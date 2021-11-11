@@ -43,7 +43,7 @@ module('Integration | Option | event', function (hooks) {
     assert.expect(5);
 
     await render(hbs`
-      {{#ember-popover event='none' popoverHideDelay=0 isShown=isShown}}
+      {{#ember-popover event='none' popoverHideDelay=0 isShown=this.isShown}}
         <a href class="popover-interior"></a>
       {{/ember-popover}}
     `);
@@ -70,7 +70,7 @@ module('Integration | Option | event', function (hooks) {
     assert.expect(5);
 
     await render(hbs`
-      {{#ember-popover event='none' popoverHideDelay=0 isShown=isShown}}
+      {{#ember-popover event='none' popoverHideDelay=0 isShown=this.isShown}}
         <a href class="popover-interior"></a>
       {{/ember-popover}}
     `);

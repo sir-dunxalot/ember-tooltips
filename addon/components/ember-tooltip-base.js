@@ -76,6 +76,10 @@ export default Component.extend({
   innerClass: 'tooltip-inner',
   tooltipClassName: deprecatingAlias('_tooltipVariantClass', {
     id: 'EmberTooltipBase._tooltipVariantClass',
+    for: 'ember-tooltips',
+    since: {
+      enabled: '3.3.0',
+    },
     until: '4.0.0',
   }),
   isShown: false,
@@ -500,7 +504,7 @@ export default Component.extend({
   setHideTimer(duration) {
     duration = cleanNumber(duration);
 
-    run.cancel(this.get('_hideTimer'));
+    cancel(this.get('_hideTimer'));
 
     if (duration) {
       /* Hide tooltip after specified duration */

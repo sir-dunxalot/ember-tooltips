@@ -37,12 +37,12 @@ module('Integration | Option | actions', function (hooks) {
     /* Now, let's go through the component lifecycle */
 
     await render(hbs`
-      {{#unless destroyTooltip}}
+      {{#unless this.destroyTooltip}}
         {{ember-tooltip
-          onRender=(action onRenderFoo)
-          onShow=(action onShowBar)
-          onHide=(action onHideBaz)
-          onDestroy=(action onDestroyFubar)
+          onRender=(action this.onRenderFoo)
+          onShow=(action this.onShowBar)
+          onHide=(action this.onHideBaz)
+          onDestroy=(action this.onDestroyFubar)
         }}
       {{/unless}}
     `);
@@ -91,13 +91,13 @@ module('Integration | Option | actions', function (hooks) {
 
     let onRenderPassword;
 
-    this.actions.onRenderFoo = (trickPassword, realPassword) => {
+    this.onRenderFoo = (trickPassword, realPassword) => {
       onRenderPassword = realPassword;
     };
 
     await render(hbs`
       {{ember-tooltip
-        onRender=(action 'onRenderFoo' 'trick password' 'real password')
+        onRender=(action this.onRenderFoo 'trick password' 'real password')
       }}
     `);
 
