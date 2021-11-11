@@ -4,6 +4,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
 import {
+  assertTooltipRendered,
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   assertTooltipVisible,
@@ -14,7 +15,7 @@ module('Integration | Option | hover', function (hooks) {
   setupRenderingTest(hooks);
 
   test('Popover: hover target, hover elsewhere', async function (assert) {
-    assert.expect(4);
+    assert.expect(5);
 
     await render(hbs`{{ember-popover event='hover'}}`);
 
@@ -23,6 +24,8 @@ module('Integration | Option | hover', function (hooks) {
     assertTooltipNotRendered(assert);
 
     await triggerEvent(element, 'mouseenter');
+
+    assertTooltipRendered(assert);
 
     assertTooltipVisible(assert);
 
@@ -36,7 +39,7 @@ module('Integration | Option | hover', function (hooks) {
   });
 
   test('Popover: hover target, hover popover (too slow)', async function (assert) {
-    assert.expect(4);
+    assert.expect(5);
 
     await render(hbs`{{ember-popover event='hover'}}`);
 
@@ -45,6 +48,8 @@ module('Integration | Option | hover', function (hooks) {
     assertTooltipNotRendered(assert);
 
     await triggerEvent(element, 'mouseenter');
+
+    assertTooltipRendered(assert);
 
     assertTooltipVisible(assert);
 
@@ -73,7 +78,7 @@ module('Integration | Option | hover', function (hooks) {
     1000 hidden
     */
 
-    assert.expect(7);
+    assert.expect(8);
 
     await render(hbs`{{ember-popover event='hover'}}`);
 
@@ -82,6 +87,8 @@ module('Integration | Option | hover', function (hooks) {
     assertTooltipNotRendered(assert);
 
     await triggerEvent(element, 'mouseenter');
+
+    assertTooltipRendered(assert);
 
     assertTooltipVisible(assert);
 

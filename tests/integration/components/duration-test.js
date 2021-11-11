@@ -4,6 +4,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
 import {
+  assertTooltipRendered,
   assertTooltipNotRendered,
   assertTooltipNotVisible,
   assertTooltipVisible,
@@ -13,7 +14,7 @@ module('Integration | Option | duration', function (hooks) {
   setupRenderingTest(hooks);
 
   test('ember-tooltip hides after the given duration', async function (assert) {
-    assert.expect(3);
+    assert.expect(4);
 
     await render(hbs`{{ember-tooltip duration=300}}`);
 
@@ -24,6 +25,7 @@ module('Integration | Option | duration', function (hooks) {
     /* Check the tooltip is shown before the duration is up */
 
     later(() => {
+      assertTooltipRendered(assert);
       assertTooltipVisible(assert);
     }, 200);
 
@@ -35,7 +37,7 @@ module('Integration | Option | duration', function (hooks) {
   });
 
   test('ember-tooltip hides before the given duration, if requested', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
 
     await render(hbs`{{ember-tooltip duration=300}}`);
 
@@ -46,6 +48,7 @@ module('Integration | Option | duration', function (hooks) {
     /* Once the tooltip is shown but before it auto-hides trigger it to hide */
 
     later(() => {
+      assertTooltipRendered(assert);
       assertTooltipVisible(assert);
 
       triggerEvent(element, 'mouseleave');
@@ -57,7 +60,7 @@ module('Integration | Option | duration', function (hooks) {
   });
 
   test('ember-tooltip uses duration after the first show', async function (assert) {
-    assert.expect(4);
+    assert.expect(5);
 
     await render(hbs`{{ember-tooltip duration=300}}`);
 
@@ -67,6 +70,8 @@ module('Integration | Option | duration', function (hooks) {
 
     await triggerEvent(element, 'mouseenter');
 
+    assertTooltipRendered(assert);
+
     /* Hide the tooltip */
 
     await triggerEvent(element, 'mouseleave');
@@ -75,7 +80,7 @@ module('Integration | Option | duration', function (hooks) {
 
     /* Reshow the tooltip and check it still hides after the duration */
 
-    triggerEvent(element, 'mouseenter');
+    await triggerEvent(element, 'mouseenter');
 
     /* Check the tooltip is shown before the duration is up */
 
