@@ -1,7 +1,7 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { findTooltip } from 'ember-tooltips/test-support/dom';
 
 module('Integration | Component | tooltip on element', function (hooks) {
@@ -13,7 +13,9 @@ module('Integration | Component | tooltip on element', function (hooks) {
 
       this.set('effect', effect);
 
-      await render(hbs`{{ember-tooltip effect=effect isShown=true}}`);
+      await render(
+        hbs`<EmberTooltip @effect={{this.effect}} @isShown={{true}} />`
+      );
 
       const tooltip = findTooltip();
 

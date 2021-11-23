@@ -1,36 +1,40 @@
-import { module, test } from 'qunit';
+import { hbs } from 'ember-cli-htmlbars';
+import { module, skip, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent } from '@ember/test-helpers';
+import { macroCondition, dependencySatisfies } from '@embroider/macros';
 import {
   assertTooltipNotRendered,
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
-import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Compatibility | ember-line-clamp', function (hooks) {
-  setupRenderingTest(hooks);
+// ember-line-clamp doesn't support 4.x (yet)
+(macroCondition(dependencySatisfies('ember-source', '^3.0.0')) ? module : skip)(
+  'Integration | Compatibility | ember-line-clamp',
+  function (hooks) {
+    setupRenderingTest(hooks);
 
-  test('It renders with one tooltip', async function (assert) {
-    assert.expect(2);
+    test('It renders with one tooltip', async function (assert) {
+      assert.expect(2);
 
-    await render(hbs`
+      await render(hbs`
       {{line-clamp text='Some text'}}
       {{ember-tooltip text='Tooltip 1'}}
     `);
 
-    const { element } = this;
+      const { element } = this;
 
-    assertTooltipNotRendered(assert);
+      assertTooltipNotRendered(assert);
 
-    await triggerEvent(element, 'mouseenter');
+      await triggerEvent(element, 'mouseenter');
 
-    assertTooltipVisible(assert);
-  });
+      assertTooltipVisible(assert);
+    });
 
-  test('It renders with two tooltips', async function (assert) {
-    assert.expect(3);
+    test('It renders with two tooltips', async function (assert) {
+      assert.expect(3);
 
-    await render(hbs`
+      await render(hbs`
       {{line-clamp text='Some text'}}
 
       <span class="target-1">
@@ -44,20 +48,19 @@ module('Integration | Compatibility | ember-line-clamp', function (hooks) {
       </span>
     `);
 
-    // const { element } = this;
+      assertTooltipNotRendered(assert);
 
-    assertTooltipNotRendered(assert);
+      await triggerEvent('.target-1', 'mouseenter');
 
-    await triggerEvent('.target-1', 'mouseenter');
+      assertTooltipVisible(assert, {
+        selector: '.tooltip-1',
+      });
 
-    assertTooltipVisible(assert, {
-      selector: '.tooltip-1',
+      await triggerEvent('.target-2', 'mouseenter');
+
+      assertTooltipVisible(assert, {
+        selector: '.tooltip-2',
+      });
     });
-
-    await triggerEvent('.target-2', 'mouseenter');
-
-    assertTooltipVisible(assert, {
-      selector: '.tooltip-2',
-    });
-  });
-});
+  }
+);

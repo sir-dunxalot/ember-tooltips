@@ -1,7 +1,7 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, render, triggerEvent, find } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipVisible,
   assertTooltipNotRendered,
@@ -167,8 +167,10 @@ module('Integration | Option | click', function (hooks) {
 
       await render(hbs`
         <div class="elsewhere">
-          <div class="target" onClick={{action togglePopover}}>
-            {{ember-popover isShown=showingPopover event=event popoverHideDelay=0}}
+          <div class="target" onClick={{action this.togglePopover}}>
+            <EmberPopover @isShown={{this.showingPopover}}
+                          @event={{this.event}}
+                          @popoverHideDelay={{0}} />
           </div>
         </div>
       `);

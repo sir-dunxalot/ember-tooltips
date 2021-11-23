@@ -1,7 +1,7 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { find, render, settled, triggerEvent } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotVisible,
   assertTooltipVisible,
@@ -15,7 +15,7 @@ module('Integration | Option | isShown', function (hooks) {
 
     this.set('showTooltip', true);
 
-    await render(hbs`{{ember-tooltip isShown=showTooltip}}`);
+    await render(hbs`<EmberTooltip @isShown={{this.showTooltip}} />`);
 
     assertTooltipVisible(assert);
 
@@ -37,7 +37,7 @@ module('Integration | Option | isShown', function (hooks) {
 
     this.set('showTooltip', true);
 
-    await render(hbs`{{ember-popover isShown=showTooltip}}`);
+    await render(hbs`<EmberPopover @isShown={{this.showTooltip}} />`);
 
     assertTooltipVisible(assert);
 
@@ -60,7 +60,7 @@ module('Integration | Option | isShown', function (hooks) {
     this.set('showTooltip', true);
 
     await render(
-      hbs`{{ember-popover isShown=showTooltip class="js-test-popover"}}`
+      hbs`<EmberPopover @isShown={{this.showTooltip}} @class="js-test-popover" />`
     );
 
     assertTooltipVisible(assert);

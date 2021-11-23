@@ -1,7 +1,7 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Option | popper-options', function (hooks) {
   setupRenderingTest(hooks);
@@ -26,9 +26,8 @@ module('Integration | Option | popper-options', function (hooks) {
         popperOptions: { modifiers },
       } = options;
 
-      assert.equal(
+      assert.true(
         modifiers.preventOverflow.escapeWithReference,
-        true,
         'expected `preventOverflow` modifier defaults to be preserved'
       );
 
@@ -37,19 +36,18 @@ module('Integration | Option | popper-options', function (hooks) {
         30,
         "expected `offset` modifier to be set even though we don't provide a default"
       );
-      assert.equal(
+      assert.false(
         modifiers.flip.enabled,
-        false,
         'expected `flip.enabled` to be overridden'
       );
     });
 
     await render(hbs`
-      {{ember-tooltip
-        isShown=true
-        popperOptions=popperOptions
-        onRender=(action onRender)
-      }}
+      <EmberTooltip
+        @isShown={{true}}
+        @popperOptions={{this.popperOptions}}
+        @onRender={{action this.onRender}}
+      />
     `);
   });
 });

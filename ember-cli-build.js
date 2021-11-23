@@ -9,17 +9,16 @@ module.exports = function (defaults) {
     snippetSearchPaths: ['app', 'tests'],
 
     autoImport: {
-      exclude: ['highlight.js', 'popper.js', 'tooltip.js'],
+      exclude: ['highlight.js'],
       forbidEval: true,
-    },
-
-    minifyCSS: {
-      enabled: false, // CSS minification w/ @import rules seems to be broken in Ember-CLI 3.3
+      webpack: {
+        // Webpack won't auto-detect, because of "maintained node versions" in config/targets.js
+        target: 'web',
+      },
     },
 
     sourcemaps: {
       enabled: true,
-      extensions: ['js'],
     },
   });
 
@@ -39,5 +38,11 @@ module.exports = function (defaults) {
   });
 
   const { maybeEmbroider } = require('@embroider/test-setup');
-  return maybeEmbroider(app);
+  return maybeEmbroider(app, {
+    skipBabel: [
+      {
+        package: 'qunit',
+      },
+    ],
+  });
 };

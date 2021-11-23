@@ -1,7 +1,7 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipContent } from 'ember-tooltips/test-support/dom/assertions';
 
 module('Integration | Option | updateFor', function (hooks) {
@@ -13,13 +13,13 @@ module('Integration | Option | updateFor', function (hooks) {
     this.set('asyncContent', null);
 
     await render(hbs`
-      {{#ember-tooltip updateFor=asyncContent isShown=true}}
-        {{#if asyncContent}}
-          {{asyncContent}}
+      <EmberTooltip @updateFor={{this.asyncContent}} @isShown={{true}}>
+        {{#if this.asyncContent}}
+          {{this.asyncContent}}
         {{else}}
           ...
         {{/if}}
-      {{/ember-tooltip}}
+      </EmberTooltip>
     `);
 
     assertTooltipContent(assert, {

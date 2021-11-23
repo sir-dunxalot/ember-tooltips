@@ -34,9 +34,8 @@ the target on the given side.
 */
 
 export default function getPositionDifferences(options = {}) {
-  const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(
-    options
-  );
+  const { targetPosition, tooltipPosition } =
+    getTooltipAndTargetPosition(options);
   const { side } = options;
 
   const distanceToTarget = targetPosition[side];

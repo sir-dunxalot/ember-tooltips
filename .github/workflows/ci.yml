@@ -15,15 +15,13 @@
 #$ browsers:
 #$   - chrome
 #$ emberTryScenarios:
-#$   - scenario: ember-lts-3.4
-#$     allowedToFail: false
 #$   - scenario: ember-lts-3.8
-#$     allowedToFail: false
-#$   - scenario: ember-lts-3.12
 #$     allowedToFail: false
 #$   - scenario: ember-lts-3.16
 #$     allowedToFail: false
-#$   - scenario: ember-lts-3.20
+#$   - scenario: ember-lts-3.24
+#$     allowedToFail: false
+#$   - scenario: ember-lts-3.28
 #$     allowedToFail: false
 #$   - scenario: ember-release
 #$     allowedToFail: false
@@ -35,7 +33,11 @@
 #$     allowedToFail: false
 #$   - scenario: ember-classic
 #$     allowedToFail: false
-#$ nodeVersion: 10.x
+#$   - scenario: embroider-safe
+#$     allowedToFail: false
+#$   - scenario: embroider-optimized
+#$     allowedToFail: false
+#$ nodeVersion: 12.x
 #$ packageManager: yarn
 #
 
@@ -48,7 +50,7 @@ on:
   pull_request:
 
 env:
-  NODE_VERSION: '10.x'
+  NODE_VERSION: '12.x'
 
 jobs:
   lint:
@@ -185,11 +187,10 @@ jobs:
       fail-fast: true
       matrix:
         ember-try-scenario: [
-          ember-lts-3.4,
           ember-lts-3.8,
-          ember-lts-3.12,
           ember-lts-3.16,
-          ember-lts-3.20,
+          ember-lts-3.24,
+          ember-lts-3.28,
           ember-release,
           ember-beta,
           ember-default-with-jquery,

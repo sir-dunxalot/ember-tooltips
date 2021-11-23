@@ -64,9 +64,7 @@ function getActualTooltip(tooltip, targetSelector) {
       return null;
     }
 
-    tooltip = document.body.querySelector(
-      `#${target.getAttribute('aria-describedby')}`
-    );
+    tooltip = document.getElementById(target.getAttribute('aria-describedby'));
   }
 
   return tooltip;

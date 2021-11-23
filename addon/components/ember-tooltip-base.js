@@ -4,8 +4,8 @@ import { getOwner } from '@ember/application';
 import { computed } from '@ember/object';
 import { deprecatingAlias } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
-import { run } from '@ember/runloop';
 import { warn } from '@ember/debug';
+import { bind, cancel, run, later, scheduleOnce } from '@ember/runloop';
 import { capitalize, w } from '@ember/string';
 import Component from '@ember/component';
 import layout from '../templates/components/ember-tooltip-base';
@@ -76,6 +76,10 @@ export default Component.extend({
   innerClass: 'tooltip-inner',
   tooltipClassName: deprecatingAlias('_tooltipVariantClass', {
     id: 'EmberTooltipBase._tooltipVariantClass',
+    for: 'ember-tooltips',
+    since: {
+      enabled: '3.3.0',
+    },
     until: '4.0.0',
   }),
   isShown: false,
@@ -402,7 +406,7 @@ export default Component.extend({
             this.addTooltipBaseEventListeners();
 
             /* Once the wormhole has done it's work, we need the tooltip to be positioned again */
-            run.scheduleOnce('afterRender', this, this._updatePopper);
+            scheduleOnce('afterRender', this, this._updatePopper);
 
             target.setAttribute('title', targetTitle);
           });
@@ -470,7 +474,7 @@ export default Component.extend({
     /* If the tooltip is about to be showed by
     a delay, stop is being shown. */
 
-    run.cancel(this.get('_showTimer'));
+    cancel(this.get('_showTimer'));
 
     this._hideTooltip();
   },
@@ -483,8 +487,8 @@ export default Component.extend({
     const delay = this.get('delay');
     const duration = this.get('duration');
 
-    run.cancel(this.get('_showTimer'));
-    run.cancel(this.get('_completeHideTimer'));
+    cancel(this.get('_showTimer'));
+    cancel(this.get('_completeHideTimer'));
 
     if (duration) {
       this.setHideTimer(duration);
@@ -500,12 +504,12 @@ export default Component.extend({
   setHideTimer(duration) {
     duration = cleanNumber(duration);
 
-    run.cancel(this.get('_hideTimer'));
+    cancel(this.get('_hideTimer'));
 
     if (duration) {
       /* Hide tooltip after specified duration */
 
-      const hideTimer = run.later(this, this.hide, duration);
+      const hideTimer = later(this, this.hide, duration);
 
       /* Save timer ID for canceling should an event
       hide the tooltip before the duration */
@@ -532,7 +536,7 @@ export default Component.extend({
       }
     }
 
-    const _showTimer = run.later(
+    const _showTimer = later(
       this,
       () => {
         this._showTooltip();
@@ -554,7 +558,7 @@ export default Component.extend({
       _tooltip.popperInstance.popper.classList.remove(ANIMATION_CLASS);
     }
 
-    const _completeHideTimer = run.later(() => {
+    const _completeHideTimer = later(() => {
       if (this.get('isDestroying')) {
         return;
       }
@@ -609,7 +613,7 @@ export default Component.extend({
 
     /* Remember event listeners so they can removed on teardown */
 
-    const boundCallback = run.bind(this, callback);
+    const boundCallback = bind(this, callback);
 
     this.get('_tooltipEvents').push({
       callback: boundCallback,
@@ -631,7 +635,7 @@ export default Component.extend({
   },
 
   _cleanupTimers() {
-    run.cancel(this.get('_showTimer'));
+    cancel(this.get('_showTimer'));
     cancelAnimationFrame(this._spacingRequestId);
   },
 });

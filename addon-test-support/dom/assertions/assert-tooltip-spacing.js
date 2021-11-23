@@ -13,10 +13,8 @@ export default function assertTooltipSpacing(qunitAssert, options) {
     );
   }
 
-  const {
-    expectedGreaterDistance,
-    expectedLesserDistance,
-  } = getPositionDifferences(options);
+  const { expectedGreaterDistance, expectedLesserDistance } =
+    getPositionDifferences(options);
   const actualSpacing = Math.round(
     expectedGreaterDistance - expectedLesserDistance
   );

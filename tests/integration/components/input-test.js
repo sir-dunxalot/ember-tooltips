@@ -1,3 +1,4 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent, find } from '@ember/test-helpers';
@@ -6,7 +7,6 @@ import {
   assertTooltipNotRendered,
   assertTooltipVisible,
 } from 'ember-tooltips/test-support/dom/assertions';
-import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Option | click', function (hooks) {
   setupRenderingTest(hooks);

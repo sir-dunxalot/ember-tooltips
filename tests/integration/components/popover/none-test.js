@@ -1,7 +1,7 @@
+import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, settled, triggerEvent } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
 import {
   assertTooltipNotRendered,
   assertTooltipVisible,
@@ -43,7 +43,7 @@ module('Integration | Option | event', function (hooks) {
     assert.expect(5);
 
     await render(hbs`
-      {{#ember-popover event='none' popoverHideDelay=0 isShown=isShown}}
+      {{#ember-popover event='none' popoverHideDelay=0 isShown=this.isShown}}
         <a href class="popover-interior"></a>
       {{/ember-popover}}
     `);
@@ -70,7 +70,7 @@ module('Integration | Option | event', function (hooks) {
     assert.expect(5);
 
     await render(hbs`
-      {{#ember-popover event='none' popoverHideDelay=0 isShown=isShown}}
+      {{#ember-popover event='none' popoverHideDelay=0 isShown=this.isShown}}
         <a href class="popover-interior"></a>
       {{/ember-popover}}
     `);
