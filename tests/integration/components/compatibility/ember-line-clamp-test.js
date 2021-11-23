@@ -9,7 +9,7 @@ import {
 } from 'ember-tooltips/test-support/dom/assertions';
 
 // ember-line-clamp doesn't support 4.x (yet)
-(macroCondition(dependencySatisfies('ember-source', '^4.0.0')) ? skip : module)(
+(macroCondition(dependencySatisfies('ember-source', '^3.0.0')) ? module : skip)(
   'Integration | Compatibility | ember-line-clamp',
   function (hooks) {
     setupRenderingTest(hooks);
