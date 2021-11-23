@@ -2,7 +2,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { later } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent } from '@ember/test-helpers';
+import { find, render, settled, triggerEvent } from '@ember/test-helpers';
 import {
   assertTooltipRendered,
   assertTooltipNotRendered,
@@ -15,51 +15,67 @@ module('Integration | Option | hover', function (hooks) {
   setupRenderingTest(hooks);
 
   test('Popover: hover target, hover elsewhere', async function (assert) {
-    assert.expect(5);
+    assert.expect(6);
 
-    await render(hbs`{{ember-popover event='hover'}}`);
+    await render(hbs`
+      <div class="test-hover-target">
+        Hover over me!
+        <EmberPopover @event="hover" @text="hello I am here!" />
+      </div>
+    `);
 
-    const { element } = this;
+    const target = find('.test-hover-target');
 
     assertTooltipNotRendered(assert);
 
-    await triggerEvent(element, 'mouseenter');
+    await triggerEvent(target, 'mouseenter');
 
     assertTooltipRendered(assert);
 
     assertTooltipVisible(assert);
 
-    triggerEvent(element, 'mouseleave');
+    triggerEvent(target, 'mouseleave');
 
     assertTooltipVisible(assert);
 
     later(() => {
+      assertTooltipRendered(assert);
       assertTooltipNotVisible(assert);
     }, 300);
+
+    await settled();
   });
 
   test('Popover: hover target, hover popover (too slow)', async function (assert) {
-    assert.expect(5);
+    assert.expect(6);
 
-    await render(hbs`{{ember-popover event='hover'}}`);
+    await render(hbs`
+      <div class="test-hover-target">
+        Hover over me!
+        <EmberPopover @event="hover" @text="hello I am here!" />
+      </div>
+    `);
 
-    const { element } = this;
+    const target = find('.test-hover-target');
 
     assertTooltipNotRendered(assert);
 
-    await triggerEvent(element, 'mouseenter');
+    await triggerEvent(target, 'mouseenter');
 
     assertTooltipRendered(assert);
 
     assertTooltipVisible(assert);
 
-    triggerEvent(element, 'mouseleave');
+    triggerEvent(target, 'mouseleave');
 
     assertTooltipVisible(assert);
 
     later(() => {
+      assertTooltipRendered(assert);
       assertTooltipNotVisible(assert);
     }, 500);
+
+    await settled();
   });
 
   test('Popover: hover target, hover inbetween, hover popover, hover elsewhere', async function (assert) {
@@ -78,21 +94,26 @@ module('Integration | Option | hover', function (hooks) {
     1000 hidden
     */
 
-    assert.expect(8);
+    assert.expect(9);
 
-    await render(hbs`{{ember-popover event='hover'}}`);
+    await render(hbs`
+      <div class="test-hover-target">
+        Hover over me!
+        <EmberPopover @event="hover" @text="hello I am here!" />
+      </div>
+    `);
 
-    const { element } = this;
+    const target = find('.test-hover-target');
 
     assertTooltipNotRendered(assert);
 
-    await triggerEvent(element, 'mouseenter');
+    await triggerEvent(target, 'mouseenter');
 
     assertTooltipRendered(assert);
 
     assertTooltipVisible(assert);
 
-    triggerEvent(element, 'mouseleave');
+    triggerEvent(target, 'mouseleave');
 
     assertTooltipVisible(assert);
 
@@ -116,11 +137,14 @@ module('Integration | Option | hover', function (hooks) {
     }, 300);
 
     later(() => {
+      assertTooltipRendered(assert);
       assertTooltipVisible(assert);
     }, 400);
 
     later(() => {
       assertTooltipNotVisible(assert);
     }, 1000);
+
+    await settled();
   });
 });
