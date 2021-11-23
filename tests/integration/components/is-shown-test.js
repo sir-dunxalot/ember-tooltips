@@ -60,7 +60,7 @@ module('Integration | Option | isShown', function (hooks) {
     this.set('showTooltip', true);
 
     await render(
-      hbs`<EmberPopover @isShown={{this.showTooltip}} class="js-test-popover" />`
+      hbs`<EmberPopover @isShown={{this.showTooltip}} @class="js-test-popover" />`
     );
 
     assertTooltipVisible(assert);

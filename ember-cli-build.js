@@ -11,19 +11,14 @@ module.exports = function (defaults) {
     autoImport: {
       exclude: ['highlight.js'],
       forbidEval: true,
-    },
-
-    'ember-test-selectors': {
-      patchClassicComponent: false,
-    },
-
-    minifyCSS: {
-      enabled: false, // CSS minification w/ @import rules seems to be broken in Ember-CLI 3.3
+      webpack: {
+        // Webpack won't auto-detect, because of "maintained node versions" in config/targets.js
+        target: 'web',
+      },
     },
 
     sourcemaps: {
       enabled: true,
-      extensions: ['js'],
     },
   });
 
