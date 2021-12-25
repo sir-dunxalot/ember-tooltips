@@ -3,7 +3,6 @@ import Ember from 'ember';
 import { getOwner } from '@ember/application';
 import { computed } from '@ember/object';
 import { deprecatingAlias } from '@ember/object/computed';
-import { assign } from '@ember/polyfills';
 import { warn } from '@ember/debug';
 import { bind, cancel, run, later, scheduleOnce } from '@ember/runloop';
 import { capitalize, w } from '@ember/string';
@@ -647,11 +646,11 @@ function mergeModifiers(defaults, overrides = {}) {
     if (acc.indexOf(key) === -1) acc.push(key);
     return acc;
   }, []);
-  const modifiers = assign({}, defaults);
+  const modifiers = Object.assign({}, defaults);
 
   keys.forEach((key) => {
     if (defaultKeys.indexOf(key) !== -1 && overriddenKeys.indexOf(key) !== -1) {
-      modifiers[key] = assign({}, defaults[key], overrides[key]);
+      modifiers[key] = Object.assign({}, defaults[key], overrides[key]);
     } else if (overriddenKeys.indexOf(key) !== -1) {
       modifiers[key] = overrides[key];
     }
