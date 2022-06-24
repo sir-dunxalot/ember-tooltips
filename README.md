@@ -72,6 +72,15 @@ The tooltip will always be rendered on its parent element unless you specify the
 </EmberTooltip>
 ```
 
+or the `targetElement` attribute:
+
+```hbs
+<EmberTooltip @targetElement={{this.tooltipTargetElement}}>
+  Here is some more info
+</EmberTooltip>
+```
+
+
 Tooltips and popovers are lazy rendered. That means the are only rendered in the DOM once the user interacts with the [target element](#targetid).
 
 Options can be set on the `<EmberTooltip>` as attributes:
@@ -92,7 +101,7 @@ Documentation for supported options is located [here](#options).
 
 Popovers can be created with the `<EmberPopover />` component, which is added to apps just like `<EmberTooltip />`.
 
-Popovers support the same target behavior as tooltips; popovers will render on their parent element unless a `targetId` is supplied.
+Popovers support the same target behavior as tooltips; popovers will render on their parent element unless a `targetId` or `targetElement` is supplied.
 
 All the [options](#options) passed to tooltip components can be passed to popover components:
 
@@ -138,6 +147,7 @@ Options are set as attributes on the tooltip/popover components. Current tooltip
 - [showOn](#showon)
 - [spacing](#spacing)
 - [targetId](#targetid)
+- [targetElement](#targetelement)
 - [text](#text)
 - [tooltipClass](#tooltipclass)
 
@@ -489,6 +499,20 @@ For example, if you want to show a tooltip over a button when the user hovers ov
 <input id="has-info-tooltip" value="" placeholder="Enter first name..." />
 
 <EmberTooltip @targetId="has-info-tooltip">
+  Here is some more info
+</EmberTooltip>
+```
+
+#### `targetElement`
+
+| Type    | Default                              |
+|---------|--------------------------------------|
+| Element | null (parent element of the tooltip) |
+
+This behaves the same as the [target](#target) attribute, except is used to specify the target element itself, rather than a selector for finding the target element. If both `targetElement` and `targetId` are specified, `targetId` will take precedence.
+
+```hbs
+<EmberTooltip @targetElement={{this.tooltipTargetElement}}>
   Here is some more info
 </EmberTooltip>
 ```
