@@ -1,6 +1,6 @@
 {
   "name": "ember-tooltips",
-  "version": "3.5.2",
+  "version": "3.6.0",
   "description": "Easy and extendible tooltips for Ember",
   "keywords": [
     "ember-addon",
