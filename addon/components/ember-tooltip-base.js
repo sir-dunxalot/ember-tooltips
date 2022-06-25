@@ -86,6 +86,7 @@ export default Component.extend({
   side: 'top',
   spacing: 10,
   targetId: null,
+  targetElement: null,
   layout,
   updateFor: null,
   popperOptions: null,
@@ -162,7 +163,7 @@ export default Component.extend({
   }),
 
   // eslint-disable-next-line ember/require-computed-property-dependencies
-  target: computed('targetId', function () {
+  target: computed('targetId', 'targetElement', function () {
     const targetId = this.get('targetId');
 
     let target;
@@ -176,7 +177,7 @@ export default Component.extend({
         });
       }
     } else {
-      target = this.element.parentNode;
+      target = this.get('targetElement') || this.element.parentNode;
     }
 
     return target;

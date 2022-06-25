@@ -1,7 +1,7 @@
 import { hbs } from 'ember-cli-htmlbars';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, triggerEvent, find } from '@ember/test-helpers';
+import { render, triggerEvent, find, settled } from '@ember/test-helpers';
 import {
   findTooltip,
   findTooltipTarget,
@@ -10,7 +10,7 @@ import {
 module('Integration | Component | target', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('ember-tooltip target test', async function (assert) {
+  test('ember-tooltip targetId test', async function (assert) {
     assert.expect(4);
 
     await render(hbs`
@@ -48,6 +48,58 @@ module('Integration | Component | target', function (hooks) {
       targetDescribedby,
       tooltip.getAttribute('id'),
       `The tooltip ID should match the target's aria-describedby attribute`
+    );
+  });
+
+  test('ember-tooltip targetElement test', async function (assert) {
+    assert.expect(1);
+
+    this.set('showTooltip', false);
+
+    await render(hbs`
+      <div id="some-target"></div>
+      {{#if this.showTooltip}}
+        {{ember-tooltip targetElement=this.targetElement}}
+      {{/if}}
+    `);
+
+    const expectedTarget = find('#some-target');
+    this.set('targetElement', expectedTarget);
+
+    this.set('showTooltip', true);
+    await settled();
+
+    const target = findTooltipTarget();
+    assert.equal(
+      expectedTarget,
+      target,
+      'The element with ID equal to targetID should be the tooltip target'
+    );
+  });
+
+  test('ember-tooltip targetId takes precedence over targetElement', async function (assert) {
+    assert.expect(1);
+
+    this.set('showTooltip', false);
+
+    await render(hbs`
+      <div id="some-target"></div>
+      <div id="other-target"></div>
+      {{#if this.showTooltip}}
+        {{ember-tooltip targetId="some-target" targetElement=this.targetElement}}
+      {{/if}}
+    `);
+
+    this.set('targetElement', find('#other-target'));
+    this.set('showTooltip', true);
+    await settled();
+
+    const expectedTarget = find('#some-target');
+    const target = findTooltipTarget();
+    assert.equal(
+      expectedTarget,
+      target,
+      'The element with ID equal to targetID should be the tooltip target'
     );
   });
 });
