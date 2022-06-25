@@ -1,5 +1,4 @@
 import Tooltip from 'tooltip.js';
-import Ember from 'ember';
 import { getOwner } from '@ember/application';
 import { computed } from '@ember/object';
 import { deprecatingAlias } from '@ember/object/computed';
@@ -7,6 +6,7 @@ import { warn } from '@ember/debug';
 import { bind, cancel, run, later, scheduleOnce } from '@ember/runloop';
 import { capitalize, w } from '@ember/string';
 import Component from '@ember/component';
+import { isTesting, macroCondition } from '@embroider/macros';
 import layout from '../templates/components/ember-tooltip-base';
 
 const ANIMATION_CLASS = 'ember-tooltip-show';
@@ -225,7 +225,9 @@ export default Component.extend({
 
   _animationDuration: computed('animationDuration', function () {
     const config = getOwner(this).resolveRegistration('config:environment');
-    const inTestingMode = config.environment === 'test' || Ember.testing;
+    const inTestingMode = macroCondition(isTesting())
+      ? true
+      : config.environment === 'test';
 
     return inTestingMode ? 0 : this.get('animationDuration');
   }),
