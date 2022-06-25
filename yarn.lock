@@ -1025,36 +1025,38 @@
     resolve "^1.8.1"
     semver "^7.3.2"
 
-"@embroider/macros@^0.47.2":
-  version "0.47.2"
-  resolved "https://registry.yarnpkg.com/@embroider/macros/-/macros-0.47.2.tgz#23cbe92cac3c24747f054e1eea2a22538bf7ebd0"
-  integrity sha512-ViNWluJCeM5OPlM3rs8kdOz3RV5rpfXX5D2rDnc/q86xRS0xf4NFEjYRV7W6fBcD0b3v5jSHDTwrjq9Kee4rHg==
+"@embroider/macros@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@embroider/macros/-/macros-1.8.0.tgz#9e947e6292f0d7768a0f743d883c3e794457eaec"
+  integrity sha512-jeRoUMPbZ/ADBU0FsyBGS1UgV5vQmwIPnpbVUsJ0XcZFZq/8ZHV6Ts4yeubvH/lePnUpHaKogs4dDvGk5tpQKw==
   dependencies:
-    "@embroider/shared-internals" "0.47.2"
+    "@embroider/shared-internals" "1.8.0"
     assert-never "^1.2.1"
+    babel-import-util "^1.1.0"
     ember-cli-babel "^7.26.6"
     find-up "^5.0.0"
     lodash "^4.17.21"
     resolve "^1.20.0"
     semver "^7.3.2"
 
-"@embroider/shared-internals@0.47.2":
-  version "0.47.2"
-  resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-0.47.2.tgz#24e9fa0dd9c529d5c996ee1325729ea08d1fa19f"
-  integrity sha512-SxdZYjAE0fiM5zGDz+12euWIsQZ1tsfR1k+NKmiWMyLhA5T3pNgbR2/Djvx/cVIxOtEavGGSllYbzRKBtV4xMg==
+"@embroider/shared-internals@1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@embroider/shared-internals/-/shared-internals-1.8.0.tgz#4c9b563e5f155410d982a30667b027a227be7312"
+  integrity sha512-TsjApG80SDVZ+dxkshO4FtzwzZYupmyl1w3Bnehfbk1429dsv30K+/DhcxDFIlKXPtsvCF9mdQY3mYUs+hoLOg==
   dependencies:
-    babel-import-util "^0.2.0"
+    babel-import-util "^1.1.0"
     ember-rfc176-data "^0.3.17"
     fs-extra "^9.1.0"
+    js-string-escape "^1.0.1"
     lodash "^4.17.21"
     resolve-package-path "^4.0.1"
     semver "^7.3.5"
     typescript-memoize "^1.0.1"
 
-"@embroider/test-setup@^0.47.2":
-  version "0.47.2"
-  resolved "https://registry.yarnpkg.com/@embroider/test-setup/-/test-setup-0.47.2.tgz#acf3fa6a38fa97ff577be49df44d6ab30e2dc054"
-  integrity sha512-zTiNaicOeBJWQ+uAJOEg4Z4plmvF2Ckze+tMZ0sycp2o09UV72WC8s9L3pssWOGgHMV6Kl+eCfFQelWwUOqz1Q==
+"@embroider/test-setup@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@embroider/test-setup/-/test-setup-1.8.0.tgz#e96926f4367f7ae63e824eb8e26dba6c9b27e1e4"
+  integrity sha512-ooD7oDFH7/OMAtRuE4PKqNcjYLZAg/EF/tDaYY1xFGbllELm99bjp1s2Sr5UTsWxH8Pl69C+G4GJN2BJmGGOfA==
   dependencies:
     lodash "^4.17.21"
     resolve "^1.20.0"
@@ -2223,10 +2225,10 @@ babel-helpers@^6.24.1:
     babel-runtime "^6.22.0"
     babel-template "^6.24.1"
 
-babel-import-util@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/babel-import-util/-/babel-import-util-0.2.0.tgz#b468bb679919601a3570f9e317536c54f2862e23"
-  integrity sha512-CtWYYHU/MgK88rxMrLfkD356dApswtR/kWZ/c6JifG1m10e7tBBrs/366dFzWMAoqYmG5/JSh+94tUSpIwh+ag==
+babel-import-util@^1.1.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/babel-import-util/-/babel-import-util-1.2.2.tgz#1027560e143a4a68b1758e71d4fadc661614e495"
+  integrity sha512-8HgkHWt5WawRFukO30TuaL9EiDUOdvyKtDwLma4uBNeUSDbOO0/hiPfavrOWxSS6J6TKXfukWHZ3wiqZhJ8ONQ==
 
 babel-loader@^8.0.6:
   version "8.0.6"
