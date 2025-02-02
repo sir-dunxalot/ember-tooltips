@@ -107,14 +107,14 @@ module.exports = async function () {
       embroiderSafe({
         npm: {
           resolutions: {
-            '**/fastboot': '^3.1.2',
+            '**/fastboot': '^4.1.5',
           },
         },
       }),
       embroiderOptimized({
         npm: {
           resolutions: {
-            '**/fastboot': '^3.1.2',
+            '**/fastboot': '^4.1.5',
           },
         },
       }),
