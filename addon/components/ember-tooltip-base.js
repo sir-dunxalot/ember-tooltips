@@ -1,7 +1,6 @@
 import Tooltip from 'tooltip.js';
 import { getOwner } from '@ember/application';
 import { computed } from '@ember/object';
-import { deprecatingAlias } from '@ember/object/computed';
 import { warn } from '@ember/debug';
 import { bind, cancel, run, later, scheduleOnce } from '@ember/runloop';
 import { capitalize, w } from '@ember/string';
@@ -73,14 +72,6 @@ export default Component.extend({
   tooltipClass: 'tooltip',
   arrowClass: 'tooltip-arrow',
   innerClass: 'tooltip-inner',
-  tooltipClassName: deprecatingAlias('_tooltipVariantClass', {
-    id: 'EmberTooltipBase._tooltipVariantClass',
-    for: 'ember-tooltips',
-    since: {
-      enabled: '3.3.0',
-    },
-    until: '4.0.0',
-  }),
   isShown: false,
   text: null,
   side: 'top',

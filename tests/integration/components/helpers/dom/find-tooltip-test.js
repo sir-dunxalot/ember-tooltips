@@ -45,18 +45,6 @@ module('Integration | Helpers | dom | findTooltip', function (hooks) {
     });
   });
 
-  test('findTooltip() can find a tooltip based on tooltipClassName passed to the component', async function (assert) {
-    assert.expect(1);
-
-    await render(
-      hbs`{{ember-tooltip text='hello' tooltipClassName='ember-tooltip js-class-on-the-popper-element' isShown=true}}`
-    );
-
-    assertTooltipRendered(assert, {
-      selector: '.js-class-on-the-popper-element',
-    });
-  });
-
   test('findTooltip() will not throw en error with assertTooltipNotRendered', async function (assert) {
     assert.expect(1);
 
