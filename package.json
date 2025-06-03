@@ -34,10 +34,11 @@
     "test:ember-compatibility": "ember try:each"
   },
   "dependencies": {
+    "@ember/string": "^4.0.1",
     "@embroider/macros": "^1.8.0",
     "broccoli-file-creator": "^2.1.1",
     "broccoli-merge-trees": "^4.2.0",
-    "ember-auto-import": "^1.11.3",
+    "ember-auto-import": "^2.10.0",
     "ember-cli-babel": "^7.26.6",
     "ember-cli-htmlbars": "^5.7.1",
     "ember-in-element-polyfill": "^1.0.1",
@@ -56,8 +57,8 @@
     "broccoli-asset-rev": "^3.0.0",
     "ember-cli": "~3.28.3",
     "ember-cli-dependency-checker": "^3.2.0",
-    "ember-cli-fastboot": "^3.2.0-beta.4",
-    "ember-cli-fastboot-testing": "^0.5.0",
+    "ember-cli-fastboot": "^4.1.5",
+    "ember-cli-fastboot-testing": "^0.6.2",
     "ember-cli-github-pages": "^0.2.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-sri": "^2.1.1",
@@ -100,7 +101,6 @@
     "demoURL": "http://sir-dunxalot.github.io/ember-tooltips/"
   },
   "resolutions": {
-    "**/browserslist": "^4.0",
     "ember-line-clamp/ember-test-selectors": "^6.0.0"
   }
 }

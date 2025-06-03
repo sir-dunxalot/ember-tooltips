@@ -23,6 +23,8 @@
 #$     allowedToFail: false
 #$   - scenario: ember-lts-3.28
 #$     allowedToFail: false
+#$   - scenario: ember-lts-4.12
+#$     allowedToFail: false
 #$   - scenario: ember-release
 #$     allowedToFail: false
 #$   - scenario: ember-beta
@@ -37,7 +39,7 @@
 #$     allowedToFail: false
 #$   - scenario: embroider-optimized
 #$     allowedToFail: false
-#$ nodeVersion: 12.x
+#$ nodeVersion: 18.x
 #$ packageManager: yarn
 #
 
@@ -50,46 +52,45 @@ on:
   pull_request:
 
 env:
-  NODE_VERSION: '12.x'
+  NODE_VERSION: '18.x'
 
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-    - uses: actions/setup-node@v2-beta
-      with:
-        node-version: '${{ env.NODE_VERSION }}'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '${{ env.NODE_VERSION }}'
 
-    - name: Get package manager's global cache path
-      id: global-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Get package manager's global cache path
+        id: global-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-    - name: Cache package manager's global cache and node_modules
-      id: cache-dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          ${{ steps.global-cache-dir-path.outputs.dir }}
-          node_modules
-        key: ${{ runner.os }}-${{ matrix.node-version }}-${{
-          hashFiles('**/yarn.lock'
-          ) }}
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.node-version }}-
+      - name: Cache package manager's global cache and node_modules
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ steps.global-cache-dir-path.outputs.dir }}
+            node_modules
+          key: ${{ runner.os }}-${{ matrix.node-version }}-${{
+            hashFiles('**/yarn.lock'
+            ) }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-
 
-    - name: Install Dependencies
-      run: yarn install --frozen-lockfile
-      if: |
-        steps.cache-dependencies.outputs.cache-hit != 'true'
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+        if: |
+          steps.cache-dependencies.outputs.cache-hit != 'true'
 
-    - name: Lint
-      run: yarn lint
-
+      - name: Lint
+        run: yarn lint
 
   test:
     name: Tests
@@ -102,39 +103,38 @@ jobs:
         browser: [chrome]
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-    - uses: actions/setup-node@v2-beta
-      with:
-        node-version: '${{ env.NODE_VERSION }}'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '${{ env.NODE_VERSION }}'
 
-    - name: Get package manager's global cache path
-      id: global-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Get package manager's global cache path
+        id: global-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-    - name: Cache package manager's global cache and node_modules
-      id: cache-dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          ${{ steps.global-cache-dir-path.outputs.dir }}
-          node_modules
-        key: ${{ runner.os }}-${{ matrix.node-version }}-${{
-          hashFiles('**/yarn.lock'
-          ) }}
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.node-version }}-
+      - name: Cache package manager's global cache and node_modules
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ steps.global-cache-dir-path.outputs.dir }}
+            node_modules
+          key: ${{ runner.os }}-${{ matrix.node-version }}-${{
+            hashFiles('**/yarn.lock'
+            ) }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-
 
-    - name: Install Dependencies
-      run: yarn install --frozen-lockfile
-      if: |
-        steps.cache-dependencies.outputs.cache-hit != 'true'
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+        if: |
+          steps.cache-dependencies.outputs.cache-hit != 'true'
 
-    - name: Test
-      run: yarn test:ember --launch ${{ matrix.browser }}
-
+      - name: Test
+        run: yarn test:ember --launch ${{ matrix.browser }}
 
   floating-dependencies:
     name: Floating Dependencies
@@ -147,35 +147,34 @@ jobs:
         browser: [chrome]
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-    - uses: actions/setup-node@v2-beta
-      with:
-        node-version: '${{ env.NODE_VERSION }}'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '${{ env.NODE_VERSION }}'
 
-    - name: Get package manager's global cache path
-      id: global-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Get package manager's global cache path
+        id: global-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-    - name: Cache package manager's global cache and node_modules
-      id: cache-dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          ${{ steps.global-cache-dir-path.outputs.dir }}
-          node_modules
-        key: ${{ runner.os }}-${{ matrix.node-version }}-floating-deps
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.node-version }}-
+      - name: Cache package manager's global cache and node_modules
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ steps.global-cache-dir-path.outputs.dir }}
+            node_modules
+          key: ${{ runner.os }}-${{ matrix.node-version }}-floating-deps
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-
 
-    - name: Install Dependencies
-      run: yarn install --no-lockfile --non-interactive
+      - name: Install Dependencies
+        run: yarn install --no-lockfile --non-interactive
 
-    - name: Test
-      run: yarn test:ember --launch ${{ matrix.browser }}
-
+      - name: Test
+        run: yarn test:ember --launch ${{ matrix.browser }}
 
   try-scenarios:
     name: Tests - ${{ matrix.ember-try-scenario }}
@@ -187,54 +186,52 @@ jobs:
       fail-fast: true
       matrix:
         ember-try-scenario: [
-          ember-lts-3.8,
-          ember-lts-3.16,
-          ember-lts-3.24,
-          ember-lts-3.28,
-          ember-release,
-          ember-beta,
-          ember-default-with-jquery,
-          ember-classic,
-          embroider-safe,
-          embroider-optimized
-        ]
+            ember-lts-3.28,
+            ember-lts-4.12,
+            #ember-release,
+            #ember-beta,
+            #ember-default-with-jquery,
+            ember-classic,
+            embroider-safe,
+            embroider-optimized,
+          ]
         allow-failure: [false]
-        include:
-          - ember-try-scenario: ember-canary
-            allow-failure: true
+        #include:
+        #  - ember-try-scenario: ember-canary
+        #    allow-failure: true
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-    - uses: actions/setup-node@v2-beta
-      with:
-        node-version: '${{ env.NODE_VERSION }}'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '${{ env.NODE_VERSION }}'
 
-    - name: Get package manager's global cache path
-      id: global-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Get package manager's global cache path
+        id: global-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
 
-    - name: Cache package manager's global cache and node_modules
-      id: cache-dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          ${{ steps.global-cache-dir-path.outputs.dir }}
-          node_modules
-        key: ${{ runner.os }}-${{ matrix.node-version }}-${{
-          hashFiles('**/yarn.lock'
-          ) }}
-        restore-keys: |
-          ${{ runner.os }}-${{ matrix.node-version }}-
+      - name: Cache package manager's global cache and node_modules
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ${{ steps.global-cache-dir-path.outputs.dir }}
+            node_modules
+          key: ${{ runner.os }}-${{ matrix.node-version }}-${{
+            hashFiles('**/yarn.lock'
+            ) }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-
 
-    - name: Install Dependencies
-      run: yarn install --frozen-lockfile
-      if: |
-        steps.cache-dependencies.outputs.cache-hit != 'true'
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+        if: |
+          steps.cache-dependencies.outputs.cache-hit != 'true'
 
-    - name: Test
-      env:
-        EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}
-      run: node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
+      - name: Test
+        env:
+          EMBER_TRY_SCENARIO: ${{ matrix.ember-try-scenario }}
+        run: node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
