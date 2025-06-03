@@ -6,8 +6,7 @@ tl;dr:
 
 - Issue PRs from a feature branch on your fork, not master ([instructions here](#creating-a-fork))
 - Make sure you create your PR off the correct branch:
-  - `master` for `3.x` improvements and bug fixes
-  - `2.x` for `2.x` improvements and bug fixes
+  - `master` for `4.x` improvements and bug fixes
 - Please include tests and README updates with any new features
 
 Instructions to follow these guidelines are detailed below.
@@ -25,8 +24,7 @@ yarn install # Use yarn, not npm
 
 # Start with the branch for the relevant version of Ember Tooltips:
 
-git checkout master # For 3.x changes
-git checkout 2.x # For 2.x changes
+git checkout master # For 4.x changes
 
 # Create your feature branch from which you will issue a PR to sir-dunxalot/ember-tooltips#master:
 

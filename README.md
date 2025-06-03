@@ -32,7 +32,7 @@ Documentation for usage is below:
 
 ## Usage
 
-This documentation is for the `3.x` version of ember-tooltips. For `2.x` documentation, please refer to the [2.x branch README](https://github.com/sir-dunxalot/ember-tooltips/tree/2.x).
+This documentation is for the `3.x` & `4.x` versions of ember-tooltips. For `2.x` documentation, please refer to the [2.x branch README](https://github.com/sir-dunxalot/ember-tooltips/tree/2.x).
 
 _Note_: The documentation below is up-to-date for Ember Octane Edition
 conventions. However, it is still valid to use earlier curly-bracket syntax too,
@@ -1047,8 +1047,7 @@ This project is maintained by:
 
 All PRs and issues are welcome to the following branches:
 
-- `master` for `3.x` improvements and bug fixes
-- `2.x` for `2.x` improvements and bug fixes
+- `master` for `4.x` improvements and bug fixes
 
 Before starting work on a PR, please read the quick guide, [CONTRIBUTING](https://github.com/sir-dunxalot/ember-tooltips/blob/master/CONTRIBUTING.md), to save you time and energy!
 
