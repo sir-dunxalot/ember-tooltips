@@ -342,7 +342,7 @@ This will create html similar to:
 
 Gives you a programatic way to hide and show a tooltip. Set this value to `true` to manually show the tooltip.
 
-This can be useful alongside `event='none'` when you only want to toolip to show when you specific and not based on an user action.
+This can be useful alongside `event='none'` when you only want tooltip to show when you specific and not based on an user action.
 
 ```hbs
 {{!--Binds the tooltip visibility to the showTooltip property--}}
